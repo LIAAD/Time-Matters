@@ -1,12 +1,12 @@
 # Time_Matters
 
-##Setup Vagrant
+## Setup Vagrant
 ``` bash
 # Use git bash or other command interpreter on the project directory 
 vagrant up # instanciate the machine
 vagrant ssh # ssh into the machine
 ```
-##Install python Libs
+## Install python Libs
 ``` bash
 cd /vagrant
 
