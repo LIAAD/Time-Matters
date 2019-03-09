@@ -1,0 +1,8 @@
+numpy
+datefinder
+date_extractor
+articleDateExtractor
+chronyk
+sutime
+spacy
+dateparser
