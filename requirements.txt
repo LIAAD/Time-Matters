@@ -1,8 +1,7 @@
 numpy
-datefinder
-date_extractor
-articleDateExtractor
-chronyk
-sutime
-spacy
+nltk
 dateparser
+git+http://github.com/LIAAD/yake
+date-extractor
+pytz
+datefinder
