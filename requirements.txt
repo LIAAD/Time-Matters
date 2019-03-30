@@ -5,3 +5,5 @@ git+http://github.com/LIAAD/yake
 date-extractor
 pytz
 datefinder
+pandas
+regex
