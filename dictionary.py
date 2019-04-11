@@ -1,12 +1,12 @@
 from yake import KeywordExtractor as YakeKW
 import numpy as np
-import datefinder
-from nltk.tokenize import sent_tokenize, TweetTokenizer
 import string
 import nltk
-
+import re
+# *****************************************************************
+# words extraction using wake
 def kw_ext(text):
-    sample = YakeKW(n=1, top=3)
+    sample = YakeKW(n=1, top=10)
     keywords = sample.extract_keywords(text)
     np_kw = np.array(keywords)
     relevant_words = []
@@ -16,42 +16,41 @@ def kw_ext(text):
     return main_dict
 
 
+# *********************************************************************
+#  creation of inverted index.
 def word_mapping(relevant_array, text):
     print("======================== Relevant words =========================")
     print("\n")
     print("====================== Relevant words map in text ================")
-
     # Creation on arrays to set sentences and words tokenized.
     sentence_array = sentence_tokenizer(text)
-    dates_array = candidate_years(text)
+    tokens_filtered = word_tokenizer(text)
+    dates_array = candidate_years(text, tokens_filtered)
     myDictObj = {}
-
     for i in range(len(relevant_array)):
-        # sentence_word_info(relevant_array[i], sentence_array)
         # ***************************************************************************************
         # insert on list my dict list values to put json form
-
         myDictObj[relevant_array[i]] = []
-        word_info(relevant_array[i], sentence_array, myDictObj, i)
+        word_info(relevant_array[i], sentence_array, myDictObj)
     for dt_i in range(len(dates_array)):
         myDictObj[dates_array[dt_i]] = []
-        word_info(dates_array[dt_i], sentence_array, myDictObj,len(relevant_array)+dt_i)
+        word_info(dates_array[dt_i], sentence_array, myDictObj)
     print(myDictObj)
     return myDictObj, relevant_array, dates_array
 
 
-
-def word_info(word, sentence_array, myDictObj, index):
+# ***********************************************************************************************
+# text pre-processing
+def word_info(word, sentence_array, myDictObj):
     # ******************************************
     # number of sentences that the word appears.
     word_count_freq = 0
     word_sentence_freq = 0
-    last_value= 0
+    last_value = 0
     normalizer_words_array = []
     positionalList = {}
     for sentence_index in range(len(sentence_array)):
-        tokens = nltk.word_tokenize(sentence_array[sentence_index].lower())
-        tokens_filtered = [token for token in tokens if token not in string.punctuation]
+        tokens_filtered = word_tokenizer(sentence_array[sentence_index])
         words_sentence_array = []
 
         # *******************************************
@@ -59,8 +58,8 @@ def word_info(word, sentence_array, myDictObj, index):
         for words in tokens_filtered:
             if words == word:
                 word_count_freq += 1
-                words_sentence_array.append(words.lower())
-            normalizer_words_array.append(words.lower)
+                words_sentence_array.append(words)
+            normalizer_words_array.append(words)
         # ***************************************************
         # Count how many sentences the word appears.
         if word in words_sentence_array:
@@ -77,6 +76,7 @@ def insert_into_dict(word, word_sentence_freq, word_count_freq, myDictObj,  posi
 
 
 def text_info(sentence_index, word, tokens_filtered, lastvalue, myDictObj,  positionalList):
+    count = 0
     for count, ele in enumerate(tokens_filtered, 1):
         if ele == word:
             if sentence_index in myDictObj[word][2]:
@@ -88,6 +88,7 @@ def text_info(sentence_index, word, tokens_filtered, lastvalue, myDictObj,  posi
                 myDictObj[word][2][sentence_index][1].append(count + lastvalue)
     return positionalList, count+lastvalue
 
+
 # ************************************************************
 # **************** text tokenizer by sentence **************
 def sentence_tokenizer(text):
@@ -98,9 +99,19 @@ def sentence_tokenizer(text):
 
 # *************************************************************************************
 # ********************data referent to data extracted in text**************************
-def candidate_years(text):
-    dates = list(datefinder.find_dates(text))
+def candidate_years(text, tokens_filtered):
     years = []
-    for d in dates:
-        years.append(str(d.year))
+    match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/]\d{4}|\d{4}', text, re.MULTILINE)
+    try:
+        for dt in match:
+            if dt in tokens_filtered:
+                years.append(dt)
+    except ValueError:
+        pass
     return years
+
+
+def word_tokenizer(text):
+    k = nltk.word_tokenize(text)
+    tokens_filtered = [token.lower() for token in k if token not in string.punctuation]
+    return tokens_filtered
