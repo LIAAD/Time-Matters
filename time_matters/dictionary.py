@@ -3,10 +3,12 @@ import numpy as np
 import string
 import nltk
 import re
+
+
 # *****************************************************************
 # words extraction using wake
-def kw_ext(text):
-    sample = YakeKW(n=1, top=10)
+def kw_ext(lang, text):
+    sample = YakeKW(lan=lang, n=1, top=10)
     keywords = sample.extract_keywords(text)
     np_kw = np.array(keywords)
     relevant_words = []

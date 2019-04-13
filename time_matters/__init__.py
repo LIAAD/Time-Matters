@@ -1,3 +1,4 @@
-from time_matters import time_matters
-
+from time_matters.time_matters import timeMatters
+from time_matters.dictionary import *
+from time_matters.dataframes import *
 

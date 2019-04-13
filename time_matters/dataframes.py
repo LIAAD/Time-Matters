@@ -1,7 +1,7 @@
-from dictionary import kw_ext
 import pandas as pd
 import statistics
 import operator
+
 
 # *************************************************
 # remove duplicates from words and dates array
