@@ -15,7 +15,7 @@ def dt_frames(dictionary, words_array, dates_array,  window, threshold, max_arra
     print('*************** DataFrame *************************')
     words_list = remove_duplicates(words_array)
     dates_list = remove_duplicates(dates_array)
-    unic_array = words_array + dates_array
+    unic_array = dates_list + words_list
     clean_unic_array = remove_duplicates(unic_array)
     # dataframe
     dt = pd.DataFrame(index=clean_unic_array, columns=clean_unic_array)
