@@ -12,6 +12,7 @@ def kw_ext(lang, text):
     keywords = sample.extract_keywords(text)
     np_kw = np.array(keywords)
     relevant_words = []
+    # insert only the relevant words to the array.
     for w in np_kw[:, :1]:
         relevant_words.append(w[0])
     main_dict = word_mapping(relevant_words, text)
@@ -115,5 +116,6 @@ def candidate_years(text, tokens_filtered):
 
 def word_tokenizer(text):
     k = nltk.word_tokenize(text)
+    # removed the punctuation in text
     tokens_filtered = [token.lower() for token in k if token not in string.punctuation]
     return tokens_filtered

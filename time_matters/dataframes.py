@@ -9,7 +9,7 @@ def remove_duplicates(string_list):
     return list(dict.fromkeys(string_list))
 
 
-def dt_frames(dictionary, words_array, dates_array,  window, threshold, max_array_len):
+def dt_frames(dictionary, words_array, dates_array,  limit_distance, threshold, max_array_len):
     print("\n")
     print("***************************************************")
     print('*************** DataFrame *************************')
@@ -26,7 +26,7 @@ def dt_frames(dictionary, words_array, dates_array,  window, threshold, max_arra
                 # set 1 on dataframe in words that are the same in 2 axis
                 dt.at[x_axis, y_axis] = 1
             else:
-                px_y, px, py = find_axis_data(dictionary, x_axis, y_axis, window)
+                px_y, px, py = find_axis_data(dictionary, x_axis, y_axis, limit_distance)
                 result = dice_calc(px_y, px, py, x_axis, y_axis)
                 dt.at[x_axis, y_axis] = result
     print("\n")
@@ -38,7 +38,7 @@ def dt_frames(dictionary, words_array, dates_array,  window, threshold, max_arra
 
 # **********************************************************************
 # find the position and the frequency of words
-def find_axis_data(dictionary, x_axis, y_axis, window):
+def find_axis_data(dictionary, x_axis, y_axis, limit_distance):
     list_x = dictionary[x_axis]
     list_y = dictionary[y_axis]
     count = 0
@@ -46,17 +46,17 @@ def find_axis_data(dictionary, x_axis, y_axis, window):
         if key in list_y[2]:
             x_offset = list_x[2][key][1]
             y_offset = list_y[2][key][1]
-            cc = find_distance_of_words(x_offset, y_offset, window)
+            cc = find_distance_of_words(x_offset, y_offset, limit_distance)
             count += cc
     return count, list_x[0], list_y[0]
 
 
 # **********************************************************
-# verifica se na mesma sentence as palavras estão á distancia defenido pela window
-def find_distance_of_words(x_offset, y_offset, window):
+# verifica se na mesma sentence as palavras estão á distancia defenido pela limit_distance
+def find_distance_of_words(x_offset, y_offset, limit_distance):
     for x in x_offset:
         for y in y_offset:
-            if -window <= x - y <= window:
+            if -limit_distance <= x - y <= limit_distance:
                 return 1
     return 0
 
@@ -100,7 +100,7 @@ def calc_info_simba(dates_array, words_array, dt, thrahold, max_array_len):
     print('************** GTE: Temporal simularity module ****************************')
     sorted_dict = sorted(gte_dict.items(), key=operator.itemgetter(1), reverse=True)
     print(sorted_dict)
-
+    return sorted_dict
 
 # *******************************************************************************************
 # calc the som of dice for the same vector.

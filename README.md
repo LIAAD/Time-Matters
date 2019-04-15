@@ -1,6 +1,21 @@
 
 # Time_Matters
 
+
+This project consists on a extractor of relevants dates from texts.
+
+the module are composed by 2 parts
+
+    - Creation of a inverted indext to organize the following data:
+        - Frequency the word or date that occour on text,
+        - how many sentences that word or date appears.
+        - Exact position on sentence that the word or date appears.
+        
+    - Calculate the similarity of the relevante words and the canditate to relevante date.
+    
+    
+    
+ 
 ### Install Time_Matters
 ``` bash
 pip install git+https://github.com/JMendes1995/Time_Matters.git
@@ -17,5 +32,13 @@ Einstein developed general relativity between 1907 and 1915, with contributions 
 timeMatters(text)
 
 #with all parameters
-timeMatters(text, window=5, threshold=0.05, max_array_len=0)
+timeMatters(text, max_distance=5, threshold=0.05, max_array_len=0)
 ```
+
+###External modiules used:
+    - YAKE
+    - numpy
+    - nltk
+    - Pandas
+    - regex
+    - langdetext
