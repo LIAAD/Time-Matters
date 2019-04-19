@@ -19,6 +19,8 @@ the module are composed by 2 parts
 ### Install Time_Matters
 ``` bash
 pip install git+https://github.com/JMendes1995/Time_Matters.git
+# install requirements.txt
+pip install -r requirements.txt
 ```
 
 ### How to use Time_Matters

@@ -6,10 +6,7 @@ setup(name='time_matters',
       author_email='mendesjorge49@gmail.com',
       url='https://github.com/JMendes1995/Time_Matters.git',
       packages=find_packages(include=['time_matters']),
-      install_requires=["numpy", "nltk", "pandas", "regex", "langdetect"],
-      dependency_links=["http://github.com/LIAAD/yake"],
-      py_modules=['time_matters'],
-
+      py_modules=['time_matters']
 )
 
 
