@@ -33,7 +33,8 @@ def dt_frames(dictionary, words_array, dates_array,  limit_distance, threshold, 
     print('*********************************************************************')
     print('************************** Dice Matrix ******************************')
     print(dt.to_string())
-    calc_info_simba(dates_list, words_list, dt, threshold, max_array_len)
+    sorted_dict = calc_info_simba(dates_list, words_list, dt, threshold, max_array_len)
+    return sorted_dict
 
 
 # **********************************************************************
