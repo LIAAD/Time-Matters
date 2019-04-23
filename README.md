@@ -37,7 +37,7 @@ timeMatters(text)
 timeMatters(text, max_distance=5, threshold=0.05, max_array_len=0)
 ```
 
-### External modiules used:
+### External modules used:
     - YAKE
     - numpy
     - nltk
