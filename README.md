@@ -11,7 +11,7 @@ the module are composed by 2 parts
         - how many sentences that word or date appears.
         - Exact position on sentence that the word or date appears.
         
-    - Calculate the similarity of the relevante words and the canditate to relevante date.
+    - Calculate the similarity of the relevante words with the canditate to relevante date.
     
     
     
