@@ -50,7 +50,7 @@ def find_axis_data(dictionary, x_axis, y_axis, limit_distance, analisys_sentence
             if key in list_y[2]:
                 x_offset = list_x[2][key][1]
                 y_offset = list_y[2][key][1]
-                if limit_distance == False:
+                if not limit_distance:
                     count += 1
                 else:
                     cc = find_distance_of_words(x_offset, y_offset, limit_distance)
@@ -74,13 +74,21 @@ def find_distance_of_words(x_offset, y_offset, limit_distance):
     value = 0
     for x in range(len(x_offset)):
         for y in range(len(y_offset)):
-            try:
-                print(x_offset[x], y_offset[value],  x_offset[x] - y_offset[value])
-                if -limit_distance <= x_offset[x] - y_offset[value] <= limit_distance:
-                    value += 1
-                pass
-            except:
-                return value
+            if len(x_offset) > len(y_offset):
+                try:
+                    if -limit_distance <= x_offset[x] - y_offset[value] <= limit_distance:
+                        value += 1
+                    pass
+                except:
+                    return value
+            else:
+                try:
+                    if -limit_distance <= x_offset[value] - y_offset[y] <= limit_distance:
+                        value += 1
+                    pass
+                except:
+                    return value
+
     return value
 
 
