@@ -18,8 +18,9 @@ the module are composed by 2 parts
  
 ### Install Time_Matters
 ``` bash
-pip install git+https://github.com/JMendes1995/Time_Matters.git
-# install requirements.txt
+Git clone https://github.com/JMendes1995/Time_Matters.git
+cd Time_Matters
+python setup.py install
 pip install -r requirements.txt
 ```
 
@@ -34,13 +35,15 @@ Einstein developed general relativity between 1907 and 1915, with contributions 
 timeMatters(text)
 
 #with all parameters
-timeMatters(text, max_distance=5, threshold=0.05, max_array_len=0)
+timeMatters(txt, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True)
 ```
 
-###External modiules used:
+###External modules used:
     - YAKE
     - numpy
     - nltk
     - Pandas
     - regex
     - langdetext
+    
+#
