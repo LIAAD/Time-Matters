@@ -7,8 +7,8 @@ import re
 
 # *****************************************************************
 # words extraction using wake
-def kw_ext(lang, text):
-    sample = YakeKW(lan=lang, n=1, top=10)
+def kw_ext(lang, text, max_keywords):
+    sample = YakeKW(lan=lang, n=1, top=max_keywords)
     keywords = sample.extract_keywords(text)
     np_kw = np.array(keywords)
     relevant_words = []
@@ -22,9 +22,7 @@ def kw_ext(lang, text):
 # *********************************************************************
 #  creation of inverted index.
 def word_mapping(relevant_array, text):
-    print("======================== Relevant words =========================")
-    print("\n")
-    print("====================== Relevant words map in text ================")
+    print("====================== Inverted index ================")
     # Creation on arrays to set sentences and words tokenized.
     sentence_array = sentence_tokenizer(text)
     tokens_filtered = word_tokenizer(text)
