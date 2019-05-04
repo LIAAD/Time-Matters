@@ -25,6 +25,7 @@ pip install -r requirements.txt
 ```
 
 ### How to use Time_Matters
+### Python
 ``` bash
 from time_matters import timeMatters
 text = '''
@@ -57,6 +58,28 @@ print(output)
 #output
 [{'Sentence 1': {'Date': '1905', 'Score': 1.0}}, {'Sentence 3': {'Date': '1907', 'Score': 1.0}}, {'Sentence 3': {'Date': '1915', 'Score': 0.8908296943231436}}, {'Sentence 4': {'Date': '1916', 'Score': 1.0}}]
 ```
+### API
+https://time-matters-api.herokuapp.com/
+
+### Python CLI -  Command Line Interface
+``` bash
+python cli.py --help
+
+Options:
+  -t, --text TEXT                 insert text
+  -dps, --date_per_sentence TEXT  select if want to analyze per sentence
+  -cwd, --context_window_distance INTEGER
+                                  max distance between words
+  -th, --threshold FLOAT          minimum DICE threshold similarity values
+  -n, --max_array_len INTEGER     size of the context vector
+  -ky, --max_keywords INTEGER     max keywords
+  -icwd, --ignore_contextual_window_distance TEXT
+                                  ignore contextual window distance
+  -aps, --analysis_sentence TEXT  DICE Calculation per sentence
+  -i, --input_file TEXT           input text file
+  --help                          Show this message and exit.
+```
+
 ### External modules used:
     - YAKE
     - numpy

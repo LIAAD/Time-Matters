@@ -1,7 +1,6 @@
 import pandas as pd
 import statistics
 import operator
-import math
 
 
 # *************************************************
@@ -59,8 +58,8 @@ def find_axis_data(dictionary, x_axis, y_axis, limit_distance, analisys_sentence
 
         for key_y in list_y[2]:
             y_offset += list_y[2][key_y][1]
-        print('x_offset ', x_offset)
-        print('y_offset ', y_offset)
+        # print('x_offset ', x_offset)
+        # print('y_offset ', y_offset)
         cc = find_distance_of_words(x_offset, y_offset, limit_distance)
         count += cc
     return count, list_x[1], list_y[1]
@@ -97,15 +96,15 @@ def dice_calc(px_y, px, py, x_axis, y_axis):
         result = (2 * px_y) / (px + py)
     except ValueError:
         result = 0
-    print(x_axis, y_axis, 'px=', px, 'py=', py, 'px_y=', px_y, 'result =', result)
+    # print(x_axis, y_axis, 'px=', px, 'py=', py, 'px_y=', px_y, 'result =', result)
     return result
 
 
 # ******************************************************************************************
 # calculation of dice.
 def calc_info_simba(dates_array, words_array, dt, thrahold, max_array_len):
-    print('***************************************************************************')
-    print('*********************** Info simba ****************************************')
+    # print('***************************************************************************')
+    # print('*********************** Info simba ****************************************')
     is_vector = {}
     gte_dict = {}
 
@@ -124,12 +123,11 @@ def calc_info_simba(dates_array, words_array, dt, thrahold, max_array_len):
                 gte_dict[dat] = 0
         except ValueError:
             pass
-    print(is_vector)
+    #print(is_vector)
     print('\n')
     print('***************************************************************************')
     print('************** GTE: Temporal simularity module ****************************')
     sorted_dict = sorted(gte_dict.items(), key=operator.itemgetter(1), reverse=True)
-    print(sorted_dict)
     return sorted_dict
 
 
@@ -201,14 +199,14 @@ def sim_calc(word, date, word_vector_result, date_vector_result):
     # sim for date word array
     sim_date_word = sum([x * y for x in date_vector_result for y in word_vector_result])
 
-    print(word, '=>', word_vector_result, 'Result= ', sim_word_word)
-    print(date, '=>', date_vector_result, 'Result= ', sim_date_date)
-    print('result= ', sim_date_word)
+    #print(word, '=>', word_vector_result, 'Result= ', sim_word_word)
+    #print(date, '=>', date_vector_result, 'Result= ', sim_date_date)
+    #print('result= ', sim_date_word)
 
     if sim_date_word <= 0:
         result = 0
     else:
         result = sim_date_word / (sim_date_date + sim_word_word - sim_date_word)
-        print(result)
+     # print(result)
     return result
 

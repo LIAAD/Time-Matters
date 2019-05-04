@@ -4,3 +4,5 @@ git+http://github.com/LIAAD/yake
 pandas
 regex
 langdetect
+tabulate
+click
