@@ -24,6 +24,7 @@ def timeMattersPerSentence(txt, contextual_window_distance=10, threshold=0.05, m
     for i in range(len(sentences)):
         dictionary, words_array, dates_array = kw_ext(lang, sentences[i], max_keywords)
         relevant_dates = dt_frames(dictionary, words_array, dates_array, contextual_window_distance, threshold, max_array_len, True, ignore_contextual_window_distance)
+        dates_array_score = {'Sentence '+str(i+1): {}}
         for k in range(len(relevant_dates)):
-            dates_array_score.append({'Sentence '+str(i+1): {'Date': relevant_dates[k][0], 'Score': relevant_dates[k][1]}})
+            dates_array_score['Sentence '+str(i+1)][k] = ({'Date': relevant_dates[k][0], 'Score': relevant_dates[k][1]})
     return dates_array_score
