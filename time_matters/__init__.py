@@ -1,4 +1,4 @@
-from time_matters.time_matters import timeMatters
-from time_matters.dictionary import *
-from time_matters.dataframes import *
+from time_matters.time_matters import timeMatters, timeMattersPerSentence
+from time_matters.InvertedIndex import *
+from time_matters.GetDateScores import *
 
