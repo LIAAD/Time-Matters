@@ -22,9 +22,7 @@ def kw_ext(lang, text, max_keywords):
 # *********************************************************************
 #  creation of inverted index.
 def word_mapping(relevant_array, text):
-    print("======================== Relevant words =========================")
-    print("\n")
-    print("====================== Relevant words map in text ================")
+    print("====================== Inverted index ================")
     # Creation on arrays to set sentences and words tokenized.
     sentence_array = sentence_tokenizer(text)
     tokens_filtered = word_tokenizer(text)
