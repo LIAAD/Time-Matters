@@ -51,7 +51,7 @@ print(output)
 timeMattersPerSentence(text)
 
 # with all paramiters
-output = timeMattersPerSentence(txt, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True)
+output = timeMattersPerSentence(txt, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10)
 
 print(output)
 #output
