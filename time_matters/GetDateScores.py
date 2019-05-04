@@ -3,6 +3,7 @@ import statistics
 import operator
 import math
 
+
 # *************************************************
 # remove duplicates from words and dates array
 def remove_duplicates(string_list):
@@ -10,9 +11,6 @@ def remove_duplicates(string_list):
 
 
 def dt_frames(dictionary, words_array, dates_array, limit_distance, threshold, max_array_len, analisys_sentence):
-    print("\n")
-    print("***************************************************")
-    print('*************** DataFrame *************************')
     words_list = remove_duplicates(words_array)
     dates_list = remove_duplicates(dates_array)
     unic_array = words_list + dates_list
@@ -115,13 +113,10 @@ def calc_info_simba(dates_array, words_array, dt, thrahold, max_array_len):
         dd_vector = relevant_array(dat, dt, thrahold)
         is_vector[dat] = []
         for wor in words_array:
-            if dt.loc[dat, wor] > 0:
+            if dt.loc[dat, wor] > thrahold:
                 ww_vector = relevant_array(wor, dt, thrahold)
-                dates_result, words_result, dates_words_result = find_max_length(dat, wor, dd_vector, ww_vector, dt,
-                                                                                 max_array_len)
-                calc = calc_is(dates_result, words_result, dates_words_result)
-
-                is_vector[dat].append(calc)
+                info_simba_result = find_max_length(dat, wor, dd_vector, ww_vector, dt, max_array_len)
+                is_vector[dat].append(info_simba_result)
         try:
             if is_vector[dat] != []:
                 gte_dict[dat] = statistics.median(is_vector[dat])
@@ -136,7 +131,6 @@ def calc_info_simba(dates_array, words_array, dt, thrahold, max_array_len):
     sorted_dict = sorted(gte_dict.items(), key=operator.itemgetter(1), reverse=True)
     print(sorted_dict)
     return sorted_dict
-
 
 # *******************************************************************************************
 # calc the som of dice for the same vector.
@@ -160,77 +154,60 @@ def find_max_length(date, word, date_relevant_array, word_relevant_array, dt, ma
     if max_array_length > 0 and (len(date_relevant_array) >= max_array_length <= len(word_relevant_array)):
         # sin in dates_array
         max_length = max_array_length
-        dates_result, words_result = calc_sim_vector(date_relevant_array[:max_length], word_relevant_array[:max_length],
-                                                     dt)
-        dates_words_result = sim_word_date_vector(date, word, dates_result, words_result,
-                                                  date_relevant_array[:max_length], word_relevant_array[:max_length],
-                                                  dt)
+        result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
 
     elif max_array_length <= 0 and (len(date_relevant_array) >= len(word_relevant_array)):
         max_length = len(word_relevant_array)
-        dates_result, words_result = calc_sim_vector(date_relevant_array[:max_length], word_relevant_array[:max_length],
-                                                     dt)
-        dates_words_result = sim_word_date_vector(date, word, dates_result, words_result,
-                                                  date_relevant_array[:max_length], word_relevant_array[:max_length],
-                                                  dt)
+        result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
 
     else:
         if len(date_relevant_array) < len(word_relevant_array):
             max_length = len(date_relevant_array)
-            dates_result, words_result = calc_sim_vector(date_relevant_array[:max_length],
-                                                         word_relevant_array[:max_length], dt)
-            dates_words_result = sim_word_date_vector(date, word, dates_result, words_result,
-                                                      date_relevant_array[:max_length],
-                                                      word_relevant_array[:max_length], dt)
+            result = calc_sim_vector(word, date, date_relevant_array[:max_length],word_relevant_array[:max_length], dt)
+
         else:
             max_length = len(word_relevant_array)
-            dates_result, words_result = calc_sim_vector(date_relevant_array[:max_length],
-                                                         word_relevant_array[:max_length], dt)
-            dates_words_result = sim_word_date_vector(date, word, dates_result, words_result,
-                                                      date_relevant_array[:max_length],
-                                                      word_relevant_array[:max_length], dt)
+            result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
 
-    return dates_result, words_result, dates_words_result
+    return result
 
 
 # *******************************************************************************************
 # calc the sim of dates and word vectors
-def calc_sim_vector(date_ultimate_array, word_ultimate_array, dataframe):
+def calc_sim_vector(word, date, date_ultimate_array, word_ultimate_array, dataframe):
     # calc dates sim vector
-    date_vector_result = 0
-    word_vector_result = 0
+    date_vector_result = []
+    word_vector_result = []
+
     for dt_x in date_ultimate_array:
-        for dt_y in date_ultimate_array:
-            value = dataframe.loc[dt_x, dt_y]
-            date_vector_result += value
+        value = dataframe.loc[date, dt_x]
+        date_vector_result.append(value)
 
     # calc words sim vector
     for word_x in word_ultimate_array:
-        for word_y in word_ultimate_array:
-            value = dataframe.loc[word_x, word_y]
-            word_vector_result += value
-    return date_vector_result, word_vector_result
+        value = dataframe.loc[word, word_x]
+        word_vector_result.append(value)
+
+    result = sim_calc(word, date, word_vector_result, date_vector_result)
+    return result
 
 
-# *******************************************************************************************
-# calc the sim of dates with word vectors
-def sim_word_date_vector(date, word, date_result, word_result, date_ultimate_array, word_ultimate_array, dataframe):
-    date_word_result = 0
-    print(date, '=>', date_ultimate_array, 'result= ', date_result)
-    print(word, '=>', word_ultimate_array, 'result= ', word_result)
-    for dt in date_ultimate_array:
-        for word in word_ultimate_array:
-            value = dataframe.loc[dt, word]
-            date_word_result += value
-    print('total= ', date_word_result)
-    return date_word_result
+def sim_calc(word, date, word_vector_result, date_vector_result):
+    # sim for dates array
+    sim_date_date = sum([x * y for x in date_vector_result for y in date_vector_result])
+    # sim for words array
+    sim_word_word = sum([x * y for x in word_vector_result for y in word_vector_result])
+    # sim for date word array
+    sim_date_word = sum([x * y for x in date_vector_result for y in word_vector_result])
 
+    print(word, '=>', word_vector_result, 'Result= ', sim_word_word)
+    print(date, '=>', date_vector_result, 'Result= ', sim_date_date)
+    print('result= ', sim_date_word)
 
-# *******************************************************************************************
-# calc the similarity of dates with relevant words
-def calc_is(dates_result, words_result, dates_words_result):
-    if dates_words_result <= 0:
+    if sim_date_word <= 0:
         result = 0
     else:
-        result = dates_words_result / (dates_result + words_result - dates_words_result)
+        result = sim_date_word / (sim_date_date + sim_word_word - sim_date_word)
+        print(result)
     return result
+
