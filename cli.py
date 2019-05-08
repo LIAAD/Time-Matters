@@ -1,5 +1,3 @@
-"""Console script for yake."""
-
 import click
 from time_matters import timeMatters, timeMattersPerSentence
 @click.command()
