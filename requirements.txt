@@ -6,3 +6,4 @@ regex
 langdetect
 tabulate
 click
+git+https://github.com/JMendes1995/py_heideltime.git
