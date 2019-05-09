@@ -94,7 +94,7 @@ def find_distance_of_words(x_offset, y_offset, limit_distance):
 def dice_calc(px_y, px, py, x_axis, y_axis):
     try:
         result = (2 * px_y) / (px + py)
-    except ValueError:
+    except:
         result = 0
     # print(x_axis, y_axis, 'px=', px, 'py=', py, 'px_y=', px_y, 'result =', result)
     return result
