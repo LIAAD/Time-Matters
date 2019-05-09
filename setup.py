@@ -5,8 +5,10 @@ setup(name='time_matters',
       author='Jorge Alexandre Rocha Mendes',
       author_email='mendesjorge49@gmail.com',
       url='https://github.com/JMendes1995/Time_Matters.git',
-      packages=find_packages(include=['time_matters']),
-      py_modules=['time_matters']
+      packages=find_packages(include=['time_matters', 'nltk', 'pandas', 'langdetect', 'tabulate', 'click']),
+      py_modules=['time_matters'],
+      install_requires=["yake"],
+      dependency_links=['https://github.com/LIAAD/yake.git#egg=yake']
 )
 
 

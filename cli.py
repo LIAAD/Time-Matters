@@ -1,5 +1,3 @@
-"""Console script for yake."""
-
 import click
 from time_matters import timeMatters, timeMattersPerSentence
 @click.command()
@@ -12,7 +10,7 @@ from time_matters import timeMatters, timeMattersPerSentence
 @click.option("-icwd", '--ignore_contextual_window_distance', help='ignore contextual window distance',default=False ,required=False)
 @click.option("-aps", '--analysis_sentence', help='DICE Calculation per sentence',default=True ,required=False)
 @click.option("-i", '--input_file', help='input text file', required=False)
-def keywords(text, date_per_sentence, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, analysis_sentence, input_file):
+def Dates(text, date_per_sentence, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, analysis_sentence, input_file):
     def run_time_matters(text_content):
         if date_per_sentence:
             output = timeMattersPerSentence(text_content, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance)
@@ -36,4 +34,4 @@ def keywords(text, date_per_sentence, context_window_distance, threshold, max_ar
 
 
 if __name__ == "__main__":
-    keywords()
+    Dates()
