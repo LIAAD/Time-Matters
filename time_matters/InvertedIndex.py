@@ -3,30 +3,28 @@ import numpy as np
 import string
 import nltk
 import re
-
-
+from py_heideltime import heideltime
 # *****************************************************************
 # words extraction using wake
 def kw_ext(lang, text, max_keywords):
     sample = YakeKW(lan=lang, n=1, top=max_keywords)
-    keywords = sample.extract_keywords(text)
+    dates, new_text = candidate_years(text)
+    keywords = sample.extract_keywords(new_text)
     np_kw = np.array(keywords)
     relevant_words = []
     # insert only the relevant words to the array.
     for w in np_kw[:, :1]:
         relevant_words.append(w[0])
-    main_dict = word_mapping(relevant_words, text)
+    main_dict = word_mapping(relevant_words, new_text, dates)
     return main_dict
 
 
 # *********************************************************************
 #  creation of inverted index.
-def word_mapping(relevant_array, text):
+def word_mapping(relevant_array, text, dates_array):
     print("====================== Inverted index ================")
     # Creation on arrays to set sentences and words tokenized.
     sentence_array = sentence_tokenizer(text)
-    tokens_filtered = word_tokenizer(text)
-    dates_array = candidate_years(text, tokens_filtered)
     myDictObj = {}
     for i in range(len(relevant_array)):
         # ***************************************************************************************
@@ -100,16 +98,18 @@ def sentence_tokenizer(text):
 
 # *************************************************************************************
 # ********************data referent to data extracted in text**************************
-def candidate_years(text, tokens_filtered):
+def candidate_years(text):
     years = []
-    match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/]\d{4}|\d{4}', text, re.MULTILINE)
-    try:
-        for dt in match:
-            if dt in tokens_filtered:
-                years.append(dt)
-    except ValueError:
-        pass
-    return years
+    list_dates = heideltime(text)
+    print(list_dates)
+    new_text = text
+    for ct in range(len(list_dates)):
+        if list_dates[ct][0]['Date'] not in years:
+            years.append(list_dates[ct][0]['Date'])
+        new_text = new_text.replace(list_dates[ct][0]['Expression'], list_dates[ct][0]['Date'])
+        print(list_dates[ct][0]['Date'])
+
+    return years, new_text
 
 
 def word_tokenizer(text):
