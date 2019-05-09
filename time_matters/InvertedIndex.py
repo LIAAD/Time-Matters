@@ -101,7 +101,6 @@ def sentence_tokenizer(text):
 def candidate_years(text):
     years = []
     list_dates = heideltime(text)
-    print(list_dates)
     new_text = text
     for ct in range(len(list_dates)):
         if list_dates[ct][0]['Date'] not in years:
