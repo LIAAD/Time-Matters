@@ -10,11 +10,10 @@ def kw_ext(lang, text, max_keywords):
     sample = YakeKW(lan=lang, n=1, top=max_keywords)
     dates, new_text = candidate_years(text)
     keywords = sample.extract_keywords(new_text)
-    np_kw = np.array(keywords)
     relevant_words = []
     # insert only the relevant words to the array.
-    for w in np_kw[:, :1]:
-        relevant_words.append(w[0])
+    for ki in range(len(keywords)):
+        relevant_words.append(keywords[ki][1])
     main_dict = word_mapping(relevant_words, new_text, dates)
     return main_dict
 
@@ -106,8 +105,6 @@ def candidate_years(text):
         if list_dates[ct][0]['Date'] not in years:
             years.append(list_dates[ct][0]['Date'])
         new_text = new_text.replace(list_dates[ct][0]['Expression'], list_dates[ct][0]['Date'])
-        print(list_dates[ct][0]['Date'])
-
     return years, new_text
 
 
