@@ -7,8 +7,8 @@ setup(name='time_matters',
       url='https://github.com/JMendes1995/Time_Matters.git',
       packages=find_packages(include=['time_matters', 'nltk', 'pandas', 'langdetect', 'tabulate', 'click']),
       py_modules=['time_matters'],
-      install_requires=["yake"],
-      dependency_links=['https://github.com/LIAAD/yake.git#egg=yake']
+      install_requires=["yake==0.4.1", "py_"],
+      dependency_links=['https://github.com/LIAAD/yake.git#egg=yake-0.4.1']
 )
 
 
