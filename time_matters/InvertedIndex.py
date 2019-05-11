@@ -13,7 +13,8 @@ def kw_ext(lang, text, max_keywords):
     relevant_words = []
     # insert only the relevant words to the array.
     for ki in range(len(keywords)):
-        relevant_words.append(keywords[ki][1])
+        relevant_words.append(keywords[ki][0])
+    print('Keywords =', relevant_words)
     main_dict = word_mapping(relevant_words, new_text, dates)
     return main_dict
 
@@ -105,6 +106,7 @@ def candidate_years(text):
         if list_dates[ct][0]['Date'] not in years:
             years.append(list_dates[ct][0]['Date'])
         new_text = new_text.replace(list_dates[ct][0]['Expression'], list_dates[ct][0]['Date'])
+    print('Candidate_Dates = ', years)
     return years, new_text
 
 
