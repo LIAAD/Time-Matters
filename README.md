@@ -4,15 +4,18 @@
 
 This project consists on a extractor of relevants dates from texts.
 
-the module are composed by 2 parts
-
+the module are composed by:
+    
+    - Date extraction with Heideltime and replace in text the date expression for date format (yyyy-mm--dd).
+    
+    - Keyword extraction with YAKE.
+    
     - Creation of a inverted indext to organize the following data:
-        - Frequency the word or date that occour on text,
-        - how many sentences that word or date appears.
-        - Exact position on sentence that the word or date appears.
+        - Frequency the keyword or date that occour on text.,
+        - how many sentences that keyword or date appears.
+        - Exact position on sentence that the keyword or date appears.
 
     - Calculate the similarity of the relevant words with the canditate to relevant date.
-
 
 
 
@@ -23,7 +26,11 @@ cd Time_Matters
 python setup.py install
 pip install -r requirements.txt
 ```
-
+##### Recomendations
+    In order to use time_matters you must have installed java jdk and perl in your machine for heideltime dependencies. 
+    
+    (Linux) if your user had not root permitions on python lib folder, you should execute the following command:
+    sudo chmod +x /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
 ### How to use Time_Matters
 ### Python
 ``` bash
@@ -87,6 +94,11 @@ Options:
     - Pandas
     - regex
     - langdetext
+    - py_heideltime/Heideltime
 
 ### Please cite the following work when using Time-Matters:
-Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398
+ 1. Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398
+ 2. Strötgen, Gertz: Multilingual and Cross-domain Temporal Tagging. Language Resources and Evaluation, 2013
+ 3. Strötgen, Gertz: A Baseline Temporal Tagger for All Languages. EMNLP'15. pdf bibtex
+ 4. Kuzey, Strötgen, Setty, Weikum: Temponym Tagging: Temporal Scopes for Textual Phrases. TempWeb'16. 
+

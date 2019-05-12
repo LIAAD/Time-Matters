@@ -1,8 +1,10 @@
 from setuptools import setup, find_packages
 
+
 def exexnltk():
       import nltk
       nltk.download('punkt')
+
 
 if __name__ == '__main__':
       exexnltk()
@@ -15,5 +17,6 @@ if __name__ == '__main__':
             packages=find_packages(include=['time_matters', 'nltk', 'pandas', 'langdetect', 'tabulate', 'click']),
             py_modules=['time_matters']
       )
+
 
 
