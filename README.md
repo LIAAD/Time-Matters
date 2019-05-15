@@ -29,8 +29,9 @@ pip install -r requirements.txt
 ##### Recomendations
     In order to use time_matters you must have installed java jdk and perl in your machine for heideltime dependencies. 
     
-    (Linux) if your user had not root permitions on python lib folder, you should execute the following command:
-    sudo chmod +x /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
+    (Linux) if your user had not execution permitions on python lib folder, you should execute the following command:
+    sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
+    
 ### How to use Time_Matters
 ### Python
 ``` bash
