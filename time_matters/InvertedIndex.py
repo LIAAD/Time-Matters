@@ -1,9 +1,9 @@
 from yake import KeywordExtractor as YakeKW
-import numpy as np
 import string
 import nltk
-import re
 from py_heideltime import heideltime
+
+
 # *****************************************************************
 # words extraction using wake
 def kw_ext(lang, text, max_keywords):
@@ -104,7 +104,7 @@ def candidate_years(text):
     new_text = text
     for ct in range(len(list_dates)):
         if list_dates[ct][0]['Date'] not in years:
-            years.append(list_dates[ct][0]['Date'])
+            years.append(list_dates[ct][0]['Date'].lower())
         new_text = new_text.replace(list_dates[ct][0]['Expression'], list_dates[ct][0]['Date'])
     print('Candidate_Dates = ', years)
     return years, new_text
