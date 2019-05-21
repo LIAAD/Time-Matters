@@ -103,9 +103,12 @@ def candidate_years(text):
     list_dates = heideltime(text)
     new_text = text
     for ct in range(len(list_dates)):
-        if list_dates[ct][0]['Date'] not in years:
-            years.append(list_dates[ct][0]['Date'].lower())
-        new_text = new_text.replace(list_dates[ct][0]['Expression'], list_dates[ct][0]['Date'])
+        if list_dates[ct][0] not in years:
+            years.append(list_dates[ct][0].lower())
+        try:
+            new_text = new_text.replace(list_dates[ct][1], list_dates[ct][0])
+        except:
+            pass
     print('Candidate_Dates = ', years)
     return years, new_text
 
