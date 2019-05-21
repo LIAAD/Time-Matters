@@ -1,5 +1,4 @@
 numpy
-nltk
 git+http://github.com/LIAAD/yake
 pandas
 regex
