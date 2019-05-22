@@ -15,8 +15,6 @@ setup(name='time_matters',
       author='Jorge Alexandre Rocha Mendes',
       author_email='mendesjorge49@gmail.com',
       url='https://github.com/JMendes1995/Time_Matters.git',
-      packages=find_packages(),
       cmdclass={'install': Install},
-      install_requires=['nltk'],
-      setup_requires=['nltk']
-   )
+      zip_safe=False,
+      )
