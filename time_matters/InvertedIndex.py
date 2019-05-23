@@ -6,9 +6,9 @@ from py_heideltime import heideltime
 
 # *****************************************************************
 # words extraction using wake
-def kw_ext(lang, text, max_keywords):
+def kw_ext(lang, text, max_keywords,  heideltime_document_type, heideltime_document_creation_time):
     sample = YakeKW(lan=lang, n=1, top=max_keywords)
-    dates, new_text = candidate_years(text)
+    dates, new_text = candidate_years(text,  heideltime_document_type, heideltime_document_creation_time)
     keywords = sample.extract_keywords(new_text)
     relevant_words = []
     # insert only the relevant words to the array.
@@ -98,9 +98,9 @@ def sentence_tokenizer(text):
 
 # *************************************************************************************
 # ********************data referent to data extracted in text**************************
-def candidate_years(text):
+def candidate_years(text, heideltime_document_type, heideltime_document_creation_time):
     years = []
-    list_dates = heideltime(text)
+    list_dates = heideltime(text, heideltime_document_type, heideltime_document_creation_time)
     new_text = text
     for ct in range(len(list_dates)):
         if list_dates[ct][0] not in years:

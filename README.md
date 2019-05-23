@@ -1,35 +1,37 @@
 
 # Time_Matters
 
+Time matters is a extractor of relevant dates from text.
 
-This project consists on a extractor of relevants dates from texts.
+This Project has been developed by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
-the module are composed by:
+The module are composed by:
     
-    - Date extraction with Heideltime and replace in text the date expression for date format (yyyy-mm--dd).
+   - Date extraction with [py_heideltime](https://github.com/JMendes1995/py_heideltime.git) / [java heideltime](https://github.com/HeidelTime/heideltime).
     
-    - Keyword extraction with YAKE.
+   - Keyword extraction with [YAKE](https://github.com/LIAAD/yake).
     
-    - Creation of a inverted indext to organize the following data:
-        - Frequency the keyword or date that occour on text.,
+   - Creation of a inverted index to organize the following data:
+        - Frequency the keyword or date that occur on text.
         - how many sentences that keyword or date appears.
-        - Exact position on sentence that the keyword or date appears.
+        - offset of date and keyword.
 
-    - Calculate the similarity of the relevant words with the canditate to relevant date.
+   - Calculate the similarity of the relevant words with the canditate to relevant date.
 
 
 
 ### Install Time_Matters
+
+In order to use Time_Matters you must have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies.
+
 ``` bash
 Git clone https://github.com/JMendes1995/Time_Matters.git
 cd Time_Matters
 python setup.py install
 pip install -r requirements.txt
 ```
-##### Recomendations
-    In order to use time_matters you must have installed java jdk and perl in your machine for heideltime dependencies. 
-    
-    (Linux) if your user had not execution permitions on python lib folder, you should execute the following command:
+##### Linux users
+    If your user had not execution permitions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
 ### How to use Time_Matters
@@ -41,37 +43,41 @@ Albert Einstein published the theory of special relativity in 1905, building on 
 Einstein developed general relativity between 1907 and 1915, with contributions by many others after 1915. The final form of general relativity was published in 1916.
 '''
 ```
+
 ##### Analyze all dates from entire text
 ``` bash
 # assuming default parameters
 timeMatters(text)
 
 # with all paramiters
-output = timeMatters(txt, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True)
+timeMatters(text, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='')
 
 print(output)
-#output
-[{'Date': '1905', 'Score': 0.9980984799637649}, {'Date': '1907', 'Score': 0.9885848306283148}, {'Date': '1915', 'Score': 0.9467018487599099}, {'Date': '1916', 'Score': 0.8163265306122448}]
 ```
-
+##### output
+```` bash
+[{'Date': '1905', 'Score': 0.9980984799637649}, {'Date': '1907', 'Score': 0.9885848306283148}, {'Date': '1915', 'Score': 0.9467018487599099}, {'Date': '1916', 'Score': 0.8163265306122448}]
+````
 ##### Analyze dates per text sentence
 ``` bash
 # assuming default parameters
 timeMattersPerSentence(text)
 
 # with all paramiters
-output = timeMattersPerSentence(txt, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10)
+timeMattersPerSentence(text, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, heideltime_document_type='news', heideltime_document_creation_time='')
 
 print(output)
-#output
-[{'Sentence 1': {'Date': '1905', 'Score': 1.0}}, {'Sentence 3': {'Date': '1907', 'Score': 1.0}}, {'Sentence 3': {'Date': '1915', 'Score': 0.8908296943231436}}, {'Sentence 4': {'Date': '1916', 'Score': 1.0}}]
 ```
+##### output
+```` bash
+[{'Sentence 1': {'Date': '1905', 'Score': 1.0}}, {'Sentence 3': {'Date': '1907', 'Score': 1.0}}, {'Sentence 3': {'Date': '1915', 'Score': 0.8908296943231436}}, {'Sentence 4': {'Date': '1916', 'Score': 1.0}}]
+````
 ### API
 https://time-matters-api.herokuapp.com/
 
 ### Python CLI -  Command Line Interface
 ``` bash
-python cli.py --help
+$ time_matters --help
 
 Options:
   -t, --text TEXT                 insert text
@@ -84,6 +90,14 @@ Options:
   -icwd, --ignore_contextual_window_distance TEXT
                                   ignore contextual window distance
   -aps, --analysis_sentence TEXT  DICE Calculation per sentence
+  -t, --heideltime_document_type TEXT
+                                  Type of the document specified by <file>
+                                  (options: News, Narrative, Colloquial,
+                                  Scientific).
+  -dct, --heideltime_document_creation_time TEXT
+                                  Creation date of document only valid format
+                                  (YYYY-MM-DD).only will be considered if
+                                  document type are News or colloquial.
   -i, --input_file TEXT           input text file
   --help                          Show this message and exit.
 ```
@@ -98,8 +112,9 @@ Options:
     - py_heideltime/Heideltime
 
 ### Please cite the following work when using Time-Matters:
- 1. Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398
- 2. Strötgen, Gertz: Multilingual and Cross-domain Temporal Tagging. Language Resources and Evaluation, 2013
- 3. Strötgen, Gertz: A Baseline Temporal Tagger for All Languages. EMNLP'15. pdf bibtex
- 4. Kuzey, Strötgen, Setty, Weikum: Temponym Tagging: Temporal Scopes for Textual Phrases. TempWeb'16. 
+
+ Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398
+ 
+ Strötgen, Gertz: Multilingual and Cross-domain Temporal Tagging. Language Resources and Evaluation, 2013. [pdf](https://link.springer.com/article/10.1007%2Fs10579-012-9179-y) [bibtex](https://dbs.ifi.uni-heidelberg.de/files/Team/jannik/publications/stroetgen_bib.html#LREjournal2013)
+
 

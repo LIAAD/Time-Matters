@@ -16,5 +16,11 @@ setup(name='time_matters',
       author_email='mendesjorge49@gmail.com',
       url='https://github.com/JMendes1995/Time_Matters.git',
       cmdclass={'install': Install},
+      packages=find_packages(include=['time_matters']),
       zip_safe=False,
+      entry_points={
+          'console_scripts': [
+              'time_matters=time_matters.cli:Dates'
+          ]
+      }
       )
