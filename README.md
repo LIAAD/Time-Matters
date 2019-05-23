@@ -90,7 +90,7 @@ Options:
   -icwd, --ignore_contextual_window_distance TEXT
                                   ignore contextual window distance
   -aps, --analysis_sentence TEXT  DICE Calculation per sentence
-  -t, --heideltime_document_type TEXT
+  -td, --heideltime_document_type TEXT
                                   Type of the document specified by <file>
                                   (options: News, Narrative, Colloquial,
                                   Scientific).
