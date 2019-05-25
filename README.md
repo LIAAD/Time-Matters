@@ -108,7 +108,6 @@ Options:
     - nltk
     - Pandas
     - regex
-    - langdetext
     - py_heideltime/Heideltime
 
 ### Please cite the following work when using Time-Matters:
