@@ -4,4 +4,4 @@ pandas
 regex
 tabulate
 click
-https://github.com/JMendes1995/py_heideltime.git
+http://github.com/JMendes1995/py_heideltime.git
