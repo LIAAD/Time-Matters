@@ -9,8 +9,8 @@ if os.path.isfile(requirementPath):
     with open('requirements.txt') as f:
         requires = f.readlines()
 
-install_requires = [item.strip() for item in requires if not "https" in item]
-dependency_links = [item.strip() for item in requires if "https" in item]
+install_requires = [item.strip() for item in requires if not "http" in item]
+dependency_links = [item.strip() for item in requires if "http" in item]
 
 
 setup(name='time_matters',
