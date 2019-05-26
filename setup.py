@@ -17,8 +17,6 @@ setup(name='time_matters',
       packages=find_packages(),
       include_package_data=True,
       cmdclass={'install': Install},
-      dependency_links=['git+https://github.com/LIAAD/yake',
-                        'git+https://github.com/JMendes1995/py_heideltime'],
       entry_points={
           'console_scripts': [
               'time_matters=time_matters.cli:Dates'
