@@ -16,6 +16,7 @@ setup(name='time_matters',
       author_email='mendesjorge49@gmail.com',
       url='https://github.com/JMendes1995/Time_Matters.git',
       include_package_data=True,
+      packages=find_packages(),
       install_requires=install_requires,
       entry_points={
           'console_scripts': [
