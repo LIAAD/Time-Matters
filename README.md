@@ -20,7 +20,7 @@ The latter aims to determine the relevance of temporal expressions within multip
 ## How to Install Time-Matters
 
 ``` bash
-pip install git+https://github.com/LIAAD/Time_Matters.git
+pip install git+https://github.com/LIAAD/Time-Matters.git
 ```
 ### Install External Dependencies
 ``` bash
