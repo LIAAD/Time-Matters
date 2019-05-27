@@ -22,16 +22,18 @@ The module are composed by:
 
 ### Install Time_Matters
 
-In order to use Time_Matters you must have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies.
-
 ``` bash
-Git clone https://github.com/JMendes1995/Time_Matters.git
-cd Time_Matters
-python setup.py install
-pip install -r requirements.txt
+pip install git+https://github.com/JMendes1995/Time_Matters.git
 ```
+#### Install External Dependencies
+``` bash
+pip install git+https://github.com/LIAAD/yake
+
+pip install git+https://github.com/JMendes1995/py_heideltime
+```
+You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies.
 ##### Linux users
-    If your user had not execution permitions on python lib folder, you should execute the following command:
+    If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
 ### How to use Time_Matters
