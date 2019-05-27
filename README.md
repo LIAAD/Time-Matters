@@ -52,9 +52,6 @@ Einstein developed general relativity between 1907 and 1915, with contributions 
 ##### With default parameters.
 ``` bash
 timeMatters(text, 'English')
-
-# with all paramiters
-timeMatters(text, language='English' ,contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='')
 ```
 ##### With all the parameters.
 ``` bash
