@@ -22,14 +22,12 @@ The module are composed by:
 
    - Calculate the similarity of the relevant words with the canditate to relevant date.
 
-
-
-### Install Time_Matters
+## Install Time_Matters
 
 ``` bash
 pip install git+https://github.com/JMendes1995/Time_Matters.git
 ```
-#### Install External Dependencies
+### Install External Dependencies
 ``` bash
 pip install git+https://github.com/LIAAD/yake
 
@@ -40,7 +38,7 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
-### How to use Time_Matters
+## How to use Time_Matters
 ### Python
 ``` bash
 from time_matters import timeMatters
@@ -50,35 +48,36 @@ Einstein developed general relativity between 1907 and 1915, with contributions 
 '''
 ```
 
-##### Analyze all dates from entire text
+#### Analyze all dates from entire text
+##### With default parameters.
 ``` bash
-# assuming default parameters
-timeMatters(text)
+timeMatters(text, 'English')
 
 # with all paramiters
-timeMatters(text, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='')
-
-print(output)
+timeMatters(text, language='English' ,contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='')
+```
+##### With all the parameters.
+``` bash
+timeMatters(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='')
 ```
 ##### output
 ```` bash
 [{'Date': '1905', 'Score': 0.9980984799637649}, {'Date': '1907', 'Score': 0.9885848306283148}, {'Date': '1915', 'Score': 0.9467018487599099}, {'Date': '1916', 'Score': 0.8163265306122448}]
 ````
-##### Analyze dates per text sentence
+#### Analyze dates per text sentence
+##### With default parameters.
 ``` bash
-# assuming default parameters
-timeMattersPerSentence(text)
-
-# with all paramiters
-timeMattersPerSentence(text, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, heideltime_document_type='news', heideltime_document_creation_time='')
-
-print(output)
+timeMattersPerSentence(text, 'English')
+```
+##### With all the parameters.
+``` bash
+timeMattersPerSentence(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, heideltime_document_type='news', heideltime_document_creation_time='')
 ```
 ##### output
 ```` bash
 [{'Sentence 1': {'Date': '1905', 'Score': 1.0}}, {'Sentence 3': {'Date': '1907', 'Score': 1.0}}, {'Sentence 3': {'Date': '1915', 'Score': 0.8908296943231436}}, {'Sentence 4': {'Date': '1916', 'Score': 1.0}}]
 ````
-### API
+## API
 https://time-matters-api.herokuapp.com/
 
 ### Python CLI -  Command Line Interface
@@ -86,7 +85,13 @@ https://time-matters-api.herokuapp.com/
 $ time_matters --help
 
 Options:
-  -t, --text TEXT                 insert text
+  -t, --text TEXT                 insert text, text should be surrounded by
+                                  quotes “” (e.g., “Thurs August 31st”)
+  -l, --language TEXT             [required] Language text is required and
+                                  should be surrounded by quotes “”. Options:
+                                  English, Portuguese, Spanish, Germany,
+                                  Dutch, Italian, French (e.g., “English”).
+                                  [required]
   -dps, --date_per_sentence TEXT  select if want to analyze per sentence
   -cwd, --context_window_distance INTEGER
                                   max distance between words
@@ -96,15 +101,19 @@ Options:
   -icwd, --ignore_contextual_window_distance TEXT
                                   ignore contextual window distance
   -aps, --analysis_sentence TEXT  DICE Calculation per sentence
-  -td, --heideltime_document_type TEXT
-                                  Type of the document specified by <file>
-                                  (options: News, Narrative, Colloquial,
-                                  Scientific).
+  -dt, --heideltime_document_type TEXT
+                                  Type of the document text should be
+                                  surrounded by quotes “”. Options: News,
+                                  Narrative, Colloquial, Scientific (e.g.,
+                                  “News”).
   -dct, --heideltime_document_creation_time TEXT
-                                  Creation date of document only valid format
-                                  (YYYY-MM-DD).only will be considered if
-                                  document type are News or colloquial.
-  -i, --input_file TEXT           input text file
+                                  Document creation date in the format YYYY-
+                                  MM-DD should be surrounded by quotes (e.g.,
+                                  “2019-05-30”). Note that this date will only
+                                  be taken into account when News or
+                                  Colloquial texts are specified.
+  -i, --input_file TEXT           text path should be surrounded by quotes
+                                  (e.g., “text.txt”)
   --help                          Show this message and exit.
 ```
 
