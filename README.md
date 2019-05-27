@@ -1,9 +1,13 @@
 
-# Time_Matters
+# Time-Matters
 
-Time matters is a extractor of relevant dates from text.
+Time matters is a python package that aims to score the relevance of temporal expressions found within a piece of text. Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from document content.
 
-This Project has been developed by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
+Towards this goal, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor [system](http://yake.inesctec.pt)) and temporal expressions (extracted by means of [Heideltime](https://github.com/JMendes1995/py_heideltime) temporal tagger) based on corpus statistics.
+
+This python package has been developed by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
+
+
 
 The module are composed by:
     
