@@ -43,8 +43,7 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
 ``` bash
 from time_matters import timeMatters
 text = '''
-Albert Einstein published the theory of special relativity in 1905, building on many theoretical results and empirical findings obtained by Albert A. Michelson, Hendrik Lorentz, Henri Poincaré and others. Max Planck, Hermann Minkowski and others did subsequent work.
-Einstein developed general relativity between 1907 and 1915, with contributions by many others after 1915. The final form of general relativity was published in 1916.
+Thurs August 31st - News today that they are beginning to evacuate the London children tomorrow. Percy is a billeting officer. I can't see that they will be much safer here.
 '''
 ```
 
@@ -53,26 +52,34 @@ Einstein developed general relativity between 1907 and 1915, with contributions 
 ``` bash
 timeMatters(text, 'English')
 ```
+##### Output
+``` bash
+[{'Date': 'xxxx-08-31', 'Score': 1.0}, {'Date': 'present_ref', 'Score': 1.0}, {'Date': 'xxxx-xx-xx', 'Score': 1.0}]
+```
 ##### With all the parameters.
 ``` bash
-timeMatters(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='')
+timeMatters(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31')
 ```
 ##### output
 ```` bash
-[{'Date': '1905', 'Score': 0.9980984799637649}, {'Date': '1907', 'Score': 0.9885848306283148}, {'Date': '1915', 'Score': 0.9467018487599099}, {'Date': '1916', 'Score': 0.8163265306122448}]
+[{'Date': '1939-09-01', 'Score': 0.9976303317535546}, {'Date': '1939-08-31', 'Score': 0.8974358974358964}]
 ````
 #### Analyze dates per text sentence
 ##### With default parameters.
 ``` bash
 timeMattersPerSentence(text, 'English')
 ```
+##### output
+``` bash
+[{'sentence1': {0: {'Date': 'xxxx-08-31', 'Score': 1.0}, 1: {'Date': 'present_ref', 'Score': 1.0}, 2: {'Date': 'xxxx-xx-xx', 'Score': 1.0}}}, {'sentence2': {}}, {'sentence3': {}}]
+```
 ##### With all the parameters.
 ``` bash
-timeMattersPerSentence(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, heideltime_document_type='news', heideltime_document_creation_time='')
+timeMattersPerSentence(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31')
 ```
 ##### output
 ```` bash
-[{'Sentence 1': {'Date': '1905', 'Score': 1.0}}, {'Sentence 3': {'Date': '1907', 'Score': 1.0}}, {'Sentence 3': {'Date': '1915', 'Score': 0.8908296943231436}}, {'Sentence 4': {'Date': '1916', 'Score': 1.0}}]
+[{'sentence1': {0: {'Date': '1939-09-01', 'Score': 0.9976303317535546}, 1: {'Date': '1939-08-31', 'Score': 0.8974358974358964}}}, {'sentence2': {}}, {'sentence3': {}}]
 ````
 ## API
 https://time-matters-api.herokuapp.com/
