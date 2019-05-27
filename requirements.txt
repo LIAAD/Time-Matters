@@ -1,7 +1,5 @@
 numpy
-http://github.com/LIAAD/yake
 pandas
 regex
 tabulate
 click
-http://github.com/JMendes1995/py_heideltime.git

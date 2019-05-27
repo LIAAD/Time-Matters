@@ -1,6 +1,13 @@
 from setuptools import setup, find_packages
-from setuptools.command.install import install as _install
 
+import os
+requirementPath = 'requirements.txt'
+
+if os.path.isfile(requirementPath):
+    with open('requirements.txt') as f:
+        requires = f.readlines()
+
+install_requires = [item.strip() for item in requires]
 
 setup(name='time_matters',
       version='1.2',
@@ -8,8 +15,9 @@ setup(name='time_matters',
       author='Jorge Alexandre Rocha Mendes',
       author_email='mendesjorge49@gmail.com',
       url='https://github.com/JMendes1995/Time_Matters.git',
-      packages=find_packages(),
       include_package_data=True,
+      packages=find_packages(),
+      install_requires=install_requires,
       entry_points={
           'console_scripts': [
               'time_matters=time_matters.cli:Dates'
