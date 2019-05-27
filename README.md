@@ -1,31 +1,26 @@
 
 # Time-Matters
 
-Time matters is a python package that aims to score the relevance of temporal expressions found within a piece of text. Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from document content.
+Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from document content. 
 
-Towards this goal, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor [system](http://yake.inesctec.pt)) and temporal expressions (extracted by means of [Heideltime](https://github.com/JMendes1995/py_heideltime) temporal tagger) based on corpus statistics.
+Towards this goal, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor [system](http://yake.inesctec.pt)) and temporal expressions (extracted by means of [Heideltime](https://github.com/JMendes1995/py_heideltime) temporal [tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) ) based on corpus statistics.
+
+Our assumption is that the relevance of a candidate date (retrieved by heideltime) may be determined with regards to the relevant words (retrieved by YAKE!) that it co-occurs with, within a context window to be defined. That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
 
 This python package has been developed by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
+This package consists of two modules that may be executed independently:
+- Time-Matters-SingleDoc
+- Time-Matters-MultipleDocs
 
+The first aims to determine the relevance of temporal expressions within a single document. 
 
-The module are composed by:
+The latter aims to determine the relevance of temporal expressions within multiple documents. 
     
-   - Date extraction with [py_heideltime](https://github.com/JMendes1995/py_heideltime.git) / [java heideltime](https://github.com/HeidelTime/heideltime).
-    
-   - Keyword extraction with [YAKE](https://github.com/LIAAD/yake).
-    
-   - Creation of a inverted index to organize the following data:
-        - Frequency the keyword or date that occur on text.
-        - how many sentences that keyword or date appears.
-        - offset of date and keyword.
-
-   - Calculate the similarity of the relevant words with the canditate to relevant date.
-
-## Install Time_Matters
+## How to Install Time-Matters
 
 ``` bash
-pip install git+https://github.com/JMendes1995/Time_Matters.git
+pip install git+https://github.com/LIAAD/Time_Matters.git
 ```
 ### Install External Dependencies
 ``` bash
@@ -34,11 +29,27 @@ pip install git+https://github.com/LIAAD/yake
 pip install git+https://github.com/JMendes1995/py_heideltime
 ```
 You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies.
+
+### External modules used (only for informative purposes):
+    - YAKE
+    - numpy
+    - nltk
+    - Pandas
+    - regex
+    - py_heideltime/Heideltime
+    
 ##### Linux users
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
-## How to use Time_Matters
+## How to use Time-Matters
+
+### Time-Matters-SingleDoc
+.......to do
+
+### Time-Matters-MultipleDocs
+.......to do
+
 ### Python
 ``` bash
 from time_matters import timeMatters
@@ -121,18 +132,14 @@ Options:
   --help                          Show this message and exit.
 ```
 
-### External modules used:
-    - YAKE
-    - numpy
-    - nltk
-    - Pandas
-    - regex
-    - py_heideltime/Heideltime
+### Publications
+If you use Time-Matters please cite the appropriate paper. In general, this would be:
 
-### Please cite the following work when using Time-Matters:
+Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398 [pdf](https://link.springer.com/article/10.1007/s10791-017-9302-1)
 
- Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398
- 
- Strötgen, Gertz: Multilingual and Cross-domain Temporal Tagging. Language Resources and Evaluation, 2013. [pdf](https://link.springer.com/article/10.1007%2Fs10579-012-9179-y) [bibtex](https://dbs.ifi.uni-heidelberg.de/files/Team/jannik/publications/stroetgen_bib.html#LREjournal2013)
+Other related papers may be found here:
+Campos, R., Dias, G., Jorge, A., and Nunes, C. (2014). GTE-Cluster: A Temporal Search Interface for Implicit Temporal Queries. In M. de Rijke et al. (Eds.), Lecture Notes in Computer Science - Advances in Information Retrieval - 36th European Conference on Information Retrieval (ECIR2014). Amesterdam, Netherlands, 13 - 16 April. (Vol. 8416-2014, pp. 775 - 779) [pdf](https://link.springer.com/chapter/10.1007/978-3-319-06028-6_94#page-1)
+
+Campos, R., Jorge, A., Dias, G. and Nunes, C. (2012). Disambiguating Implicit Temporal Queries by Clustering Top Relevant Dates in Web Snippets. In Proceedings of The 2012 IEEE/WIC/ACM International Joint Conferences on Web Intelligence and Intelligent Agent Technologies Macau, China, 04 - 07 December, Vol. 1, pp 1 - 8. IEEE Computer Society Press. [pdf](https://ieeexplore.ieee.org/document/6511858?tp=&arnumber=6511858&url=http:%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6511858)
 
 
