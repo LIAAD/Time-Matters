@@ -45,53 +45,57 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
 ## How to use Time-Matters
 
 ### Time-Matters-SingleDoc
-.......to do
+#### Python
+```` bash
+from Time_Matters_SingleDoc import Time_Matters_SingleDoc, Time_Matters_SingleDoc_PerSentence
 
-### Time-Matters-MultipleDocs
-.......to do
-
-### Python
-``` bash
-from time_matters import timeMatters
-text = '''
-Thurs August 31st - News today that they are beginning to evacuate the London children tomorrow. Percy is a billeting officer. I can't see that they will be much safer here.
+text= '''
+The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April (Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in Portugal, and Portugal's withdrawal from its African colonies.
 '''
-```
-
+````
 #### Analyze all dates from entire text
 ##### With default parameters.
+```` bash
+Time_Matters_SingleDoc(text, language="English")
+````
+##### Output
 ``` bash
-timeMatters(text, 'English')
+[('xxxx-04-25', 0.986, [11]), ('1974-04-25', 0.962, [19]), ('p48y', 0.952, [83])]
+```
+##### With all the parameters.
+``` bash
+Time_Matters_SingleDoc(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31', heideltime_date_granularity='year')
 ```
 ##### Output
 ``` bash
-[{'Date': 'xxxx-08-31', 'Score': 1.0}, {'Date': 'present_ref', 'Score': 1.0}, {'Date': 'xxxx-xx-xx', 'Score': 1.0}]
+[('xxxx', 0.986, [11]), ('1974', 0.939, [19])]
 ```
-##### With all the parameters.
-``` bash
-timeMatters(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31')
-```
-##### output
-```` bash
-[{'Date': '1939-09-01', 'Score': 0.9976303317535546}, {'Date': '1939-08-31', 'Score': 0.8974358974358964}]
-````
 #### Analyze dates per text sentence
 ##### With default parameters.
 ``` bash
-timeMattersPerSentence(text, 'English')
+dates, sentences = Time_Matters_SingleDoc_PerSentence(text, 'English')
+print(dates)
+print(sentences[1])
 ```
-##### output
+##### Output
 ``` bash
-[{'sentence1': {0: {'Date': 'xxxx-08-31', 'Score': 1.0}, 1: {'Date': 'present_ref', 'Score': 1.0}, 2: {'Date': 'xxxx-xx-xx', 'Score': 1.0}}}, {'sentence2': {}}, {'sentence3': {}}]
+[[('1974-04-25', [(0, 1.0, [19])]), ('xxxx-04-25', [(0, 0.997, [11])])], [('p48y', [(2, 0.997, [14])])]]
+[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
 ```
 ##### With all the parameters.
 ``` bash
-timeMattersPerSentence(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31')
+dates, sentences = Time_Matters_SingleDoc_PerSentence(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31', heideltime_date_granularity='year')
+print(dates)
+print(sentences[1])
 ```
-##### output
-```` bash
-[{'sentence1': {0: {'Date': '1939-09-01', 'Score': 0.9976303317535546}, 1: {'Date': '1939-08-31', 'Score': 0.8974358974358964}}}, {'sentence2': {}}, {'sentence3': {}}]
-````
+##### Output
+``` bash
+[[('1974', [(0, 1.0, [19])]), ('xxxx', [(0, 0.997, [11])])]]
+[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
+```
+### Time-Matters-MultipleDocs
+.......to do
+
 ## API
 https://time-matters-api.herokuapp.com/
 

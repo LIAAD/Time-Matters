@@ -115,7 +115,8 @@ def calc_info_simba(dates_array, words_array, dt, thrahold, max_array_len):
             if dt.loc[dat, wor] > thrahold:
                 ww_vector = relevant_array(wor, dt, thrahold)
                 info_simba_result = find_max_length(dat, wor, dd_vector, ww_vector, dt, max_array_len)
-                is_vector[dat].append(info_simba_result)
+                is_vector[dat].append(float("%.3f" % info_simba_result))
+
         try:
             if is_vector[dat] != []:
                 gte_dict[dat] = statistics.median(is_vector[dat])

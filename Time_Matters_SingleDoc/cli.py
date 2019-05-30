@@ -1,5 +1,5 @@
 import click
-from time_matters import timeMatters, timeMattersPerSentence
+from Time_Matters_SingleDoc import Time_Matters_SingleDoc_PerSentence, Time_Matters_SingleDoc
 @click.command()
 @click.option("-t", '--text', help='insert text, text should be surrounded by quotes “” (e.g., “Thurs August 31st”)', required=False)
 @click.option("-l", '--language', help='[required] Language text is required and should be surrounded by quotes “”. Options: English, Portuguese, Spanish, Germany, Dutch, Italian, French (e.g., “English”).', required=True)
@@ -17,10 +17,10 @@ from time_matters import timeMatters, timeMattersPerSentence
 def Dates(text, language, date_per_sentence, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, analysis_sentence, input_file, heideltime_document_type, heideltime_document_creation_time, date_granularity):
     def run_time_matters(text_content):
         if date_per_sentence:
-            output = timeMattersPerSentence(text_content, language, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, heideltime_document_type, heideltime_document_creation_time, date_granularity)
+            output = Time_Matters_SingleDoc_PerSentence(text_content, language, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, heideltime_document_type, heideltime_document_creation_time, date_granularity)
             print(output)
         else:
-            output = timeMatters(text_content, language, context_window_distance, threshold, max_array_len, max_keywords, analysis_sentence, ignore_contextual_window_distance, heideltime_document_type, heideltime_document_creation_time, date_granularity)
+            output = Time_Matters_SingleDoc(text_content, language, context_window_distance, threshold, max_array_len, max_keywords, analysis_sentence, ignore_contextual_window_distance, heideltime_document_type, heideltime_document_creation_time, date_granularity)
             print(output)
     if text and input_file:
         print('Select only text or file to be analysed')
