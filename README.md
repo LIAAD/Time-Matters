@@ -43,9 +43,8 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
 ## How to use Time-Matters
-
-### Time-Matters-SingleDoc
-#### Python
+### Python
+#### Time-Matters-SingleDoc
 ```` bash
 from Time_Matters_SingleDoc import Time_Matters_SingleDoc, Time_Matters_SingleDoc_PerSentence
 
@@ -93,15 +92,41 @@ print(sentences[1])
 [[('1974', [(0, 1.0, [19])]), ('xxxx', [(0, 0.997, [11])])]]
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
 ```
-### Time-Matters-MultipleDocs
-.......to do
+#### Time-Matters-MultipleDocs
+```` bash
+from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
 
+list_of_docs = ['''Born and raised on the Portuguese island of Madeira, Ronaldo was diagnosed with a racing heart at age 15. He underwent an operation to treat his condition, and began his senior club career playing for Sporting CP, before signing with Manchester United at age 18 in 2003.''',
+                '''As a child, Ronaldo played for amateur team Andorinha from 1992 to 1995,[14] where his father was the kit man,[15] and later spent two years with Nacional. In 1997, aged 12, he went on a three-day trial with Sporting CP, who signed him for a fee of £1,500.[16][17] He subsequently moved from Madeira to Alcochete, near Lisbon, to join Sporting's other youth players at the club's football academy.''',
+                '''Ronaldo made his official debut for Juventus in their opening Serie A match on 18 August, a 3–2 away win over Chievo.[289] On 16 September, his fourth appearance for Juventus, he scored his first goal, which was immediately followed by a second, in a 2–1 home win over Sassuolo; the latter was the 400th league goal of his career.[290][291] On 19 September, in his first Champions League match for Juventus, he was sent off in the 29th minute for "violent conduct"—the first time in 154 Champions League appearances—in an eventual 2–0 away win over Valencia''']
+````
+##### With default parameters.
+```` bash
+dates, docs = Time_Matters_MultipleDoc(list_of_docs, language='English')
+
+print(dates)
+print(docs)
+````
+##### With all the parameters.
+``` bash
+Time_Matters_MultipleDoc, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31', heideltime_date_granularity='year')
+print(dates)
+print(docs)
+```
+##### Output
+``` bash
+[[('2003', [(0, 1.0, [47])])], [('1992', [(1, 1.0, [11])]), ('1995', [(1, 1.0, [13])]), ('p2y', [(1, 1.0, [26])]), ('1997', [(1, 0.952, [30])]), ('p3d', [(1, 0.952, [37])])], [('xxxx-09-19', [(2, 0.9915, [62])]), ('xxxx-08-18', [(2, 0.9884999999999999, [15])]), ('xxxx-09-16', [(2, 0.985, [24])])]]
+['Born and raised on the Portuguese island of Madeira, Ronaldo was diagnosed with a racing heart at age 15. He underwent an operation to treat his condition, and began his senior club career playing for Sporting CP, before signing with Manchester United at age 18 in 2003.', 
+"As a child, Ronaldo played for amateur team Andorinha from 1992 to 1995,[14] where his father was the kit man,[15] and later spent two years with Nacional. In 1997, aged 12, he went on a three-day trial with Sporting CP, who signed him for a fee of £1,500.[16][17] He subsequently moved from Madeira to Alcochete, near Lisbon, to join Sporting's other youth players at the club's football academy.", 
+'Ronaldo made his official debut for Juventus in their opening Serie A match on 18 August, a 3–2 away win over Chievo.[289] On 16 September, his fourth appearance for Juventus, he scored his first goal, which was immediately followed by a second, in a 2–1 home win over Sassuolo; the latter was the 400th league goal of his career.[290][291] On 19 September, in his first Champions League match for Juventus, he was sent off in the 29th minute for "violent conduct"—the first time in 154 Champions League appearances—in an eventual 2–0 away win over Valencia']
+
+```
 ## API
 https://time-matters-api.herokuapp.com/
 
 ### Python CLI -  Command Line Interface
 ``` bash
-$ time_matters --help
+$ Time_Matters_SingleDoc --help
 
 Options:
   -t, --text TEXT                 insert text, text should be surrounded by
@@ -131,6 +156,9 @@ Options:
                                   “2019-05-30”). Note that this date will only
                                   be taken into account when News or
                                   Colloquial texts are specified.
+  -dg, --date_granularity TEXT    Value of granularity should be surrounded by
+                                  quotes “”. Options: Year, Month, day (e.g.,
+                                  “Year”).
   -i, --input_file TEXT           text path should be surrounded by quotes
                                   (e.g., “text.txt”)
   --help                          Show this message and exit.
