@@ -9,7 +9,7 @@ if os.path.isfile(requirementPath):
 
 install_requires = [item.strip() for item in requires]
 
-setup(name='Time_Matters_SingleDoc',
+setup(name='Time-Matters',
       version='1.2',
       description='module that discover the relevant dates from a text',
       author='Jorge Alexandre Rocha Mendes',
@@ -21,6 +21,7 @@ setup(name='Time_Matters_SingleDoc',
       entry_points={
           'console_scripts': [
               'Time_Matters_SingleDoc=Time_Matters_SingleDoc.cli:Dates'
+              'Time_Matters_MultipleDoc = Time_Matters_MultipleDoc.cli.Dates'
           ]
       }
       )
