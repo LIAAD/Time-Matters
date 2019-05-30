@@ -13,7 +13,7 @@ from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
 @click.option("-dct", '--heideltime_document_creation_time', help=' Document creation date in the format YYYY-MM-DD should be surrounded by quotes (e.g., “2019-05-30”). Note that this date will only be taken into account when News or Colloquial texts are specified.', default="", required=False)
 @click.option("-dg", '--date_granularity', help='Value of granularity should be surrounded by quotes “”. Options: Year, Month, day (e.g., “Year”).', default='', required=False)
 @click.option("-i", '--input_file', help=' text path should be surrounded by quotes (e.g., “text.txt”)', required=False)
-def Dates(text, language, date_per_sentence, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, analysis_sentence, input_file, heideltime_document_type, heideltime_document_creation_time, date_granularity):
+def Dates(text, language, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, analysis_sentence, input_file, heideltime_document_type, heideltime_document_creation_time, date_granularity):
     def run_time_matters(text_content):
         output = Time_Matters_MultipleDoc(text_content, language, context_window_distance, threshold, max_array_len, max_keywords, analysis_sentence, ignore_contextual_window_distance, heideltime_document_type, heideltime_document_creation_time, date_granularity)
         print(output)
