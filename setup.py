@@ -20,7 +20,7 @@ setup(name='Time-Matters',
       install_requires=install_requires,
       entry_points={
           'console_scripts': [
-              'Time_Matters_SingleDoc=Time_Matters_SingleDoc.cli:Dates'
+              'Time_Matters_SingleDoc=Time_Matters_SingleDoc.cli:Dates',
               'Time_Matters_MultipleDoc = Time_Matters_MultipleDoc.cli.Dates'
           ]
       }
