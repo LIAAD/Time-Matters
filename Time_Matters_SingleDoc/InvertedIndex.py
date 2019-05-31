@@ -6,8 +6,8 @@ from py_heideltime import heideltime
 
 # *****************************************************************
 # words extraction using wake
-def kw_ext(lang, text,max_keywords,  heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
-    sample = YakeKW(lan=lang, n=1, top=max_keywords)
+def kw_ext(yake_ln, lang, text,max_keywords,  heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
+    sample = YakeKW(lan=yake_ln, n=1, top=max_keywords)
     dates, new_text = candidate_years(text, lang, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity)
     keywords = sample.extract_keywords(new_text)
     relevant_words = []
