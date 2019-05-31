@@ -1,12 +1,12 @@
 from Time_Matters_SingleDoc.InvertedIndex import kw_ext
 from Time_Matters_SingleDoc.GetDateScores import dt_frames
 import nltk
-
+from langdetect import detect
 
 def Time_Matters_SingleDoc(txt, language, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analysis_sentence=True,
                 ignore_contextual_window_distance=False, heideltime_document_type='news', heideltime_document_creation_time='', heideltime_date_granularity=''):
-
-    dictionary, words_array, dates_array = kw_ext(language, txt, max_keywords, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity)
+    yake_lang = detect(txt)
+    dictionary, words_array, dates_array = kw_ext(yake_lang,language, txt, max_keywords, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity)
     relevant_dates = dt_frames(dictionary, words_array, dates_array, contextual_window_distance, threshold, max_array_len, analysis_sentence,  ignore_contextual_window_distance)
 
     dates_array_score = []
@@ -18,10 +18,11 @@ def Time_Matters_SingleDoc(txt, language, contextual_window_distance=10, thresho
 
 def Time_Matters_SingleDoc_PerSentence(txt, language, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10,
                            ignore_contextual_window_distance=False, heideltime_document_type='news', heideltime_document_creation_time='', heideltime_date_granularity=''):
+    yake_lang = detect(txt)
     sentences = nltk.sent_tokenize(txt)
     final_score_output = []
     for i in range(len(sentences)):
-        dictionary, words_array, dates_array = kw_ext(language, sentences[i], max_keywords, heideltime_document_type , heideltime_document_creation_time, heideltime_date_granularity)
+        dictionary, words_array, dates_array = kw_ext(yake_lang, language, sentences[i], max_keywords, heideltime_document_type , heideltime_document_creation_time, heideltime_date_granularity)
         relevant_dates = dt_frames(dictionary, words_array, dates_array, contextual_window_distance, threshold, max_array_len, True, ignore_contextual_window_distance)
 
         dates_array_score = get_final_output_sentence(dictionary, relevant_dates, i)
