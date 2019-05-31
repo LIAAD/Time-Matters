@@ -6,7 +6,8 @@ def Time_Matters_MultipleDoc(list_of_docs, language, contextual_window_distance=
                            ignore_contextual_window_distance=False, heideltime_document_type='news', heideltime_document_creation_time='', heideltime_date_granularity=''):
     final_score_output = []
     for i in range(len(list_of_docs)):
-        dictionary, words_array, dates_array = kw_ext(language, list_of_docs[i], max_keywords, heideltime_document_type , heideltime_document_creation_time, heideltime_date_granularity)
+        yake_lang = detect(list_of_docs[i])
+        dictionary, words_array, dates_array = kw_ext(yake_lang, language, list_of_docs[i], max_keywords, heideltime_document_type , heideltime_document_creation_time, heideltime_date_granularity)
         relevant_dates = dt_frames(dictionary, words_array, dates_array, contextual_window_distance, threshold, max_array_len, True, ignore_contextual_window_distance)
 
         dates_array_score = get_final_output_doc(dictionary, relevant_dates, i)
