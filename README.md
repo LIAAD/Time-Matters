@@ -54,9 +54,9 @@ The second makes use of a rule-based approach which is able to detect the follow
 ### Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
 
-(1) to retrieve a unique score for each temporal expression found, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will always return the same score (e.g., 0.92);
+(1) to retrieve a unique score for each temporal expression found, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
-(2) to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will return multiple scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
+(2) to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
 
 How to work with each one will be explained next. But before, both the libraries as well as the text need to be imported.
 
@@ -68,7 +68,7 @@ The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the
 '''
 ````
 #### Option 1: Get (a unique) score for each temporal expression found within the text
-Output: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will always return the same score (e.g., 0.92);
+Output: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
 ##### With default parameters.
 ```` bash
@@ -87,7 +87,7 @@ Time_Matters_SingleDoc(text, language='English', contextual_window_distance=10, 
 [('xxxx', 0.986, [11]), ('1974', 0.939, [19])]
 ```
 #### Option 2: Get (multiple) scores for each temporal expression found within the text
-Output: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will return multiple scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
+Output: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
 
 ##### With default parameters.
 ``` bash
