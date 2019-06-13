@@ -47,7 +47,7 @@ Temporal expressions in Time-Matters can be identified through:
 - [Heideltime Temporal Tagger](https://github.com/JMendes1995/py_heideltime)
 - Rule-based approach
 
-The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of (linear) time to execute (approximately 4.5s for 600 tokens; 6s for 1,200 tokens; 15s for 2,600 tokens; 30s for 5k tokens; 60s para 10k tokens; 120s for 20k tokens.
+The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of (linear) time to execute (approximately 4.5s for 600 tokens; 6s for 1,200 tokens; 15s for 2,600 tokens; 30s for 5k tokens; 60s para 10k tokens; 120s for 20k tokens).
 
 The second makes use of a rule-based approach which is able to detect the following patterns:..... While not as good as Heideltime it can be used when efficiency is a requirement.
 
