@@ -11,10 +11,10 @@ install_requires = [item.strip() for item in requires]
 
 setup(name='Time-Matters',
       version='1.2',
-      description='module that discover the relevant dates from a text',
+      description='get the relevance score of temporal expressions found within a text (single document) or a set of texts (multiple documents)',
       author='Jorge Alexandre Rocha Mendes',
       author_email='mendesjorge49@gmail.com',
-      url='https://github.com/JMendes1995/Time_Matters.git',
+      url='https://github.com/LIAAD/Time-Matters',
       include_package_data=True,
       packages=find_packages(),
       install_requires=install_requires,
