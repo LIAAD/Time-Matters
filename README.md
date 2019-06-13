@@ -7,15 +7,15 @@ Towards this goal, we define a Generic Temporal Similarity measure (GTE) that ma
 
 Our assumption is that the relevance of a candidate date (retrieved by heideltime) may be determined with regards to the relevant words (retrieved by YAKE!) that it co-occurs with (within a context window of n terms, where n is to be defined). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
 
-This package is the result of research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm was initially implemented in C#, and has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
+This package is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm was initially implemented in C#, and has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
-It consists of two modules that may be executed independently:
+Time-Matters consists of two modules that may be executed independently:
 - Time-Matters-SingleDoc
 - Time-Matters-MultipleDocs
 
-The first aims to determine the relevance of temporal expressions within a single document. 
+The first, aims to determine the relevance of temporal expressions within a single document. 
 
-The latter aims to determine the relevance of temporal expressions within multiple documents. 
+The latter, aims to determine the relevance of temporal expressions within multiple documents. 
     
 ## How to Install Time-Matters
 
