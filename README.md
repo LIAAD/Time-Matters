@@ -43,19 +43,7 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
 ## How to use Time-Matters
-### Python
-#### Time-Matters-SingleDoc
-Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: (1) to retrieve a unique score, regardless the referred temporal expression can occur multiple times in different parts of the text, that is multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will always return the same score (e.g., 0.92); (2) to retrieve as many scores as the number of times it occurs in different parts of the text, that is, multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will return multiple scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
-```` bash
-from Time_Matters_SingleDoc import Time_Matters_SingleDoc, Time_Matters_SingleDoc_PerSentence
-
-text= '''
-The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April (Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in Portugal, and Portugal's withdrawal from its African colonies.
-'''
-````
-#### Get the scores of temporal expressions found within the text
-
-Temporal expressions can be identified through:
+Temporal expressions in Time-Matters can be identified through:
 - [Heideltime Temporal Tagger](https://github.com/JMendes1995/py_heideltime)
 - Rule-based approach
 
@@ -63,6 +51,23 @@ The first uses a Python wrapper of Heideltime Temporal Tagger, state-of-the-art 
 
 The second makes use of a rule-based approach which is able to detect the following patterns:..... While not as good as Heideltime it can be used when efficiency is a requirement.
 
+### Time-Matters-SingleDoc
+Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
+(1) to retrieve a unique score for each temporal expression found, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will always return the same score (e.g., 0.92);
+
+(2) to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will return multiple scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
+
+How to work with each one will be explained next. But before, both the libraries as well as the text need to be imported.
+
+```` bash
+from Time_Matters_SingleDoc import Time_Matters_SingleDoc, Time_Matters_SingleDoc_PerSentence
+
+text= '''
+The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April (Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in Portugal, and Portugal's withdrawal from its African colonies.
+'''
+````
+#### Option 1: Get (a unique) score for each temporal expression found within the text
+Output: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will always return the same score (e.g., 0.92);
 
 ##### With default parameters.
 ```` bash
@@ -80,7 +85,9 @@ Time_Matters_SingleDoc(text, language='English', contextual_window_distance=10, 
 ``` bash
 [('xxxx', 0.986, [11]), ('1974', 0.939, [19])]
 ```
-#### Analyze dates per text sentence
+#### Option 2: Get (multiple) scores for each temporal expression found within the text
+Output: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will return multiple scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
+
 ##### With default parameters.
 ``` bash
 dates, sentences = Time_Matters_SingleDoc_PerSentence(text, 'English')
@@ -143,7 +150,7 @@ Options:
   --help                          Show this message and exit.
 ```
 
-#### Time-Matters-MultipleDoc
+### Time-Matters-MultipleDoc
 ```` bash
 from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
 
