@@ -47,12 +47,13 @@ Temporal expressions in Time-Matters can be identified through:
 - [Heideltime Temporal Tagger](https://github.com/JMendes1995/py_heideltime)
 - Rule-based approach
 
-The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of (linear) time to execute (approximately 4.5s for 600 tokens; 6s for 1200 tokens; 15s for 2600 tokens; 30s for 5000 tokens; 60s para 10000 tokens; 120s for 20000 tokens.
+The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of (linear) time to execute (approximately 4.5s for 600 tokens; 6s for 1,200 tokens; 15s for 2,600 tokens; 30s for 5k tokens; 60s para 10k tokens; 120s for 20k tokens.
 
 The second makes use of a rule-based approach which is able to detect the following patterns:..... While not as good as Heideltime it can be used when efficiency is a requirement.
 
 ### Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
+
 (1) to retrieve a unique score for each temporal expression found, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will always return the same score (e.g., 0.92);
 
 (2) to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will return multiple scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
