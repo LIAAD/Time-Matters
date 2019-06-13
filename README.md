@@ -5,11 +5,11 @@ Time matters is a python package that aims to score the relevance of temporal ex
 
 Towards this goal, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor [system](http://yake.inesctec.pt)) and temporal expressions (extracted by means of [Heideltime](https://github.com/JMendes1995/py_heideltime) temporal [tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) ) based on corpus statistics.
 
-Our assumption is that the relevance of a candidate date (retrieved by heideltime) may be determined with regards to the relevant words (retrieved by YAKE!) that it co-occurs with, within a context window to be defined. That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
+Our assumption is that the relevance of a candidate date (retrieved by heideltime) may be determined with regards to the relevant words (retrieved by YAKE!) that it co-occurs with (within a context window of n terms, where n is to be defined). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
 
-This python package has been developed by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
+This package is the result of research conducted by Ricardo Campos during his [PhD] (http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm was initially implemented in C#, and has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
-This package consists of two modules that may be executed independently:
+It consists of two modules that may be executed independently:
 - Time-Matters-SingleDoc
 - Time-Matters-MultipleDocs
 
@@ -45,6 +45,7 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
 ## How to use Time-Matters
 ### Python
 #### Time-Matters-SingleDoc
+Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: (1) to retrieve a unique score, regardless the referred temporal expression can occur multiple times in different parts of the text, that is multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will always return the same score (e.g., 0.92); (2) to retrieve as many scores as the number of times it occurs in different parts of the text, that is, multiple occurrences of a date (e.g., 2019....... 2019) in different sentences, will return multiple scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
 ```` bash
 from Time_Matters_SingleDoc import Time_Matters_SingleDoc, Time_Matters_SingleDoc_PerSentence
 
@@ -52,7 +53,17 @@ text= '''
 The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April (Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in Portugal, and Portugal's withdrawal from its African colonies.
 '''
 ````
-#### Analyze all dates from entire text
+#### Get the scores of temporal expressions found within the text
+
+Temporal expressions can be identified through:
+- [Heideltime Temporal Tagger](https://github.com/JMendes1995/py_heideltime)
+- Rule-based approach
+
+The first uses a Python wrapper of Heideltime Temporal Tagger, state-of-the-art in this kind of task. It is able to detect a huge number of different types of temporal expressions, yet it requires a few seconds since it needs to execute the JAR of Heideltime. 
+
+The second makes use of a rule-based approach which is able to detect the following patterns:..... While not as good as Heideltime it can be used when efficiency is a requirement.
+
+
 ##### With default parameters.
 ```` bash
 Time_Matters_SingleDoc(text, language="English")
@@ -202,7 +213,7 @@ Options:
 https://time-matters-api.herokuapp.com/
 
 ### Publications
-If you use Time-Matters please cite the appropriate paper. In general, this would be:
+If you use Time-Matters please cite the appropriate paper. In general, this will be:
 
 - Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398 [pdf](https://link.springer.com/article/10.1007/s10791-017-9302-1)
 
@@ -212,4 +223,6 @@ Other related papers may be found here:
 
 - Campos, R., Jorge, A., Dias, G. and Nunes, C. (2012). Disambiguating Implicit Temporal Queries by Clustering Top Relevant Dates in Web Snippets. In Proceedings of The 2012 IEEE/WIC/ACM International Joint Conferences on Web Intelligence and Intelligent Agent Technologies Macau, China, 04 - 07 December, Vol. 1, pp 1 - 8. IEEE Computer Society Press. [pdf](https://ieeexplore.ieee.org/document/6511858?tp=&arnumber=6511858&url=http:%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6511858)
 
+### Awards
+Winner of the [Fraunhofer Portugal Challenge 2013 PhD Contest](https://www.aicos.fraunhofer.pt/en/news_and_events_aicos/news_archive/older_archive/fraunhofer-portugal-challenge-2013-winners.html)
 
