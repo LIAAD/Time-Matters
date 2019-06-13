@@ -3,17 +3,21 @@ from Time_Matters_SingleDoc.GetDateScores import dt_frames
 import nltk
 from langdetect import detect
 
+
 def Time_Matters_SingleDoc(txt, language, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analysis_sentence=True,
-                ignore_contextual_window_distance=False, heideltime_document_type='news', heideltime_document_creation_time='', heideltime_date_granularity=''):
+                ignore_contextual_window_distance=False, heideltime_document_type='news', heideltime_document_creation_time='', heideltime_date_granularity='', debug=False):
     yake_lang = detect(txt)
-    dictionary, words_array, dates_array = kw_ext(yake_lang,language, txt, max_keywords, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity)
-    relevant_dates = dt_frames(dictionary, words_array, dates_array, contextual_window_distance, threshold, max_array_len, analysis_sentence,  ignore_contextual_window_distance)
+    inverted_index, words_array, dates_array = kw_ext(yake_lang,language, txt, max_keywords, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity)
+    relevant_dates, DiceMatrix  = dt_frames(inverted_index, words_array, dates_array, contextual_window_distance, threshold, max_array_len, analysis_sentence,  ignore_contextual_window_distance)
 
     dates_array_score = []
     for k in range(len(relevant_dates)):
         dates_array_score.append((relevant_dates[k][0], relevant_dates[k][1]))
-    final_score_output = get_final_output(dictionary, dates_array_score)
-    return final_score_output
+    final_score_output = get_final_output(inverted_index, dates_array_score)
+    if debug:
+        return final_score_output, dates_array, words_array, inverted_index, DiceMatrix
+    else:
+        return final_score_output
 
 
 def Time_Matters_SingleDoc_PerSentence(txt, language, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10,
