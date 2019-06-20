@@ -1,5 +1,6 @@
-from InvertedIndex import kw_ext
-from GetDateScores import dt_frames
+from Time_Matters_SingleDoc.InvertedIndex import kw_ext
+from Time_Matters_SingleDoc.GetDateScores import dt_frames
+
 from langdetect import detect
 
 
