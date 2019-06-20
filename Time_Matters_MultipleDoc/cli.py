@@ -11,10 +11,11 @@ from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
 @click.option("-dt", '--heideltime_document_type', help='Type of the document text should be surrounded by quotes “”. Options: News, Narrative, Colloquial, Scientific (e.g., “News”).', default='News', required=False)
 @click.option("-dct", '--heideltime_document_creation_time', help=' Document creation date in the format YYYY-MM-DD should be surrounded by quotes (e.g., “2019-05-30”). Note that this date will only be taken into account when News or Colloquial texts are specified.', default="", required=False)
 @click.option("-dg", '--heideltime_date_granularity', help='Value of granularity should be surrounded by quotes “”. Options: Year, Month, day (e.g., “Year”).', default='', required=False)
-def Dates(language, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, dir, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
+@click.option("-de", '--date_extractor', help='Type of the date extractor should be surrounded by quotes “”. Options: py_heideltime, rule_based (e.g., “py_heideltime”).', default='rule_based', required=False)
+def Dates(language, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, dir, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity, date_extractor):
     def run_time_matters(text_content):
         output = Time_Matters_MultipleDoc(text_content, language, context_window_distance, threshold, max_array_len,
-                                          max_keywords, ignore_contextual_window_distance, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity)
+                                          max_keywords, ignore_contextual_window_distance, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity, date_extractor)
         print(output)
     if not dir:
         print('Pelase enter a directory with docs to be analysed')
@@ -30,6 +31,7 @@ def Dates(language, context_window_distance, threshold, max_array_len, max_keywo
             docs.append(contents)
         print(docs)
         run_time_matters(docs)
+
 
 if __name__ == "__main__":
     Dates()

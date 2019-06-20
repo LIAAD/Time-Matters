@@ -4,7 +4,7 @@ from langdetect import detect
 
 
 def Time_Matters_MultipleDoc(list_of_docs, language, contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10,
-                           ignore_contextual_window_distance=False, heideltime_document_type='news', heideltime_document_creation_time='', heideltime_date_granularity=''):
+                           ignore_contextual_window_distance=False, heideltime_document_type='news', heideltime_document_creation_time='', heideltime_date_granularity='', date_extractor='rule_based'):
     final_score_output = []
     for i in range(len(list_of_docs)):
         yake_lang = detect(list_of_docs[i])

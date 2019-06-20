@@ -72,11 +72,11 @@ Output: to retrieve a unique score for each temporal expression, regardless it o
 
 ##### With default parameters.
 ```` bash
-Time_Matters_SingleDoc(text, language="English")
+Time_Matters_SingleDoc(text, temporal_tager=['py_heideltime'], score_type='single')
 ````
 ##### Output
 ``` bash
-[('xxxx-04-25', 0.986, [11]), ('1974-04-25', 0.962, [19]), ('p48y', 0.952, [83])]
+[('xxxx-04-25', 0.9935, [11]), ('1974-04-25', 0.9935, [19]), ('p48y', 0.919, [83])]
 ```
 ##### With all the parameters.
 ``` bash
@@ -97,58 +97,129 @@ print(sentences[1])
 ```
 ##### Output
 ``` bash
-[[('1974-04-25', [(0, 1.0, [19])]), ('xxxx-04-25', [(0, 0.997, [11])])], [('p48y', [(2, 0.997, [14])])]]
+[('2019-04-25', [(1, 0.99)], [11]), ('1974-04-25', [(1, 0.99)], [19])]
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
 ```
 ##### With all the parameters.
 ``` bash
-dates, sentences = Time_Matters_SingleDoc_PerSentence(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31', heideltime_date_granularity='year')
+dates, sentences = Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'day', 'news', '1974-04-26'], time_matters_parameters=[10, 'none', 'max', 0.05], score_type='multiple', debug_mode=False)
 print(dates)
 print(sentences[1])
 ```
 ##### Output
 ``` bash
-[[('1974', [(0, 1.0, [19])]), ('xxxx', [(0, 0.997, [11])])]]
+[('1974-04-25', [(1, 0.99)], [11, 19])]
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
 ```
 #### Python CLI -  Command Line Interface Time-Matters-SingleDoc
 ``` bash
 $ Time_Matters_SingleDoc --help
 
+ Usage_examples (make sure that the input parameters should be within quotes):
+  Default Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English']"
+  All the Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st single -dm False
+
 Options:
-  -t, --text TEXT                 insert text, text should be surrounded by
-                                  quotes “” (e.g., “Thurs August 31st”)
-  -l, --language TEXT             [required] Language text is required and
-                                  should be surrounded by quotes “”. Options:
-                                  English, Portuguese, Spanish, Germany,
-                                  Dutch, Italian, French (e.g., “English”).
-                                  [required]
-  -dps, --date_per_sentence TEXT  select if want to analyze per sentence
-  -cwd, --context_window_distance INTEGER
-                                  max distance between words
-  -th, --threshold FLOAT          minimum DICE threshold similarity values
-  -n, --max_array_len INTEGER     size of the context vector
-  -ky, --max_keywords INTEGER     max keywords
-  -icwd, --ignore_contextual_window_distance TEXT
-                                  ignore contextual window distance
-  -aps, --analysis_sentence TEXT  DICE Calculation per sentence
-  -dt, --heideltime_document_type TEXT
-                                  Type of the document text should be
-                                  surrounded by quotes “”. Options: News,
-                                  Narrative, Colloquial, Scientific (e.g.,
-                                  “News”).
-  -dct, --heideltime_document_creation_time TEXT
-                                  Document creation date in the format YYYY-
-                                  MM-DD should be surrounded by quotes (e.g.,
-                                  “2019-05-30”). Note that this date will only
-                                  be taken into account when News or
-                                  Colloquial texts are specified.
-  -dg, --date_granularity TEXT    Value of granularity should be surrounded by
-                                  quotes “”. Options: Year, Month, day (e.g.,
-                                  “Year”).
-  -i, --input_file TEXT           text path should be surrounded by quotes
-                                  (e.g., “text.txt”)
-  --help                          Show this message and exit.
+  [required]: that is, need to specify one of the two options (text or path).
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  -i, --input LIST                      A list that specifies the type of input: a text or path
+                                        Example:
+                                                "['text', 'August 31st']"
+                                                "['path', 'text.txt']"
+
+
+
+  [not required]
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  -tt, --temporal_tagger LIST           Specifies the temporal tagger (“heideltime”, “rule-based”) and the corresponding parameters.
+                                        py_heideltime
+                                            parameters:
+
+                                                temporal_tagger_name
+                                                    options:
+                                                            "py_heideltime"
+                                                language
+                                                    options:
+                                                            "English";
+                                                            "Portuguese";
+                                                            "Spanish";
+                                                            "Germany";
+                                                            "Dutch";
+                                                            "Italian";
+                                                            "French".
+
+                                                date_granularity
+                                                    options:
+                                                            "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
+                                                            "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
+                                                            "day" - (default param. Means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
+
+                                                document_type
+                                                    options:
+                                                            "News" for news-style documents - default param;
+                                                            "Narrative" for narrative-style documents (e.g., Wikipedia articles);
+                                                            "Colloquial" for English colloquial (e.g., Tweets and SMS);
+                                                            "Scientific" for scientific articles (e.g., clinical trails).
+
+                                                document_creation_time
+                                                     Document creation date in the format YYYY-MM-DD. Taken into account when "News" or "Colloquial"
+                                                     texts are specified.
+                                                     Example: "2019-05-30".
+
+                                            Example:
+                                                "['py_heideltime','English', 'days', 'news', '2019-05-05']"
+
+                                        Rule_Based
+                                            parameters:
+
+                                                temporal_tagger_name
+                                                    options:
+                                                            "rule_based"
+
+                                                date_granularity
+                                                    options:
+                                                            "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
+                                                            "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
+                                                            "day" - (default param. Means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
+
+                                            Example:
+                                                "['rule_based','days']"
+
+  [not required]
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  -tm, --time_matters LIST              specifies information about the Time-Matters
+                                            the number of YAKE! keywords to extract from the text (num_of_keywords),
+                                            information regarding the construction of the vocabulary context vector (context_vector_size,
+                                            threshold_sim_value), and information concerning the scope of search (context_window_distance)
+				
+                                            context_vector_size
+                                            	Option:
+                                               	 	"max"; Means that will be considered the maximun number of words in context vector
+                                                    Intiger
+                                            context_window_distance:
+                                            	Option:
+                                                	"none"; Means that doesen't matter the distence between words
+                                                     Intiger (default= 10)
+                                            Example:
+                                                "[num_of_keywords=10, context_window_distance=10, context_vector_size='max', threshold_sim_value=0.05]"
+
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  -st, --score_type TEXT                Specifies the type of score
+                                        Options:
+                                                "single" Single score per date;
+                                                "Multiple" Multiple score depending which sentence that the date appears;
+
+
+  -dm, --debug_mode BOOLEAN             Return the following data:
+                                                "Candidates dates list";
+                                                "Relevante words list, extracted by YAKE!";
+                                                "Inverted Index"
+                                                "Dice Matrix"
+                                                "Relevant dates list with the score and offset"
+
+
+
+  --help                                Show this message and exit.
 ```
 
 ### Time-Matters-MultipleDoc
