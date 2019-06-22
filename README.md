@@ -99,7 +99,7 @@ The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the
 '''
 ````
 #### Option 1 
-<b>Get (a unique) score for each temporal expression found within the text</b>
+<b>Get (a unique) score for each temporal expression found within the text</b><br>
 Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
 ##### With default parameters.
@@ -119,7 +119,7 @@ Time_Matters_SingleDoc(text, language='English', contextual_window_distance=10, 
 [('xxxx', 0.986, [11]), ('1974', 0.939, [19])]
 ```
 #### Option 2
-<b>Get (multiple) scores for each temporal expression found within the text</b>
+<b>Get (multiple) scores for each temporal expression found within the text</b><br>
 Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
 
 ##### With default parameters.
