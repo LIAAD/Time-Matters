@@ -87,7 +87,7 @@ Time-Matters-SingleDoc aims to score temporal expressions found within a single 
 
 - to retrieve a <b>unique</b> score for each temporal expression found, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
-- to retrieve a <b>multiple<b> (eventually different) score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
+- to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
 
 How to work with each one will be explained next. But before, both the libraries as well as the text need to be imported.
 
