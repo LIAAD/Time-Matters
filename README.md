@@ -172,80 +172,93 @@ Options:
 
  [not required]
   ----------------------------------------------------------------------------------------------------------------------------------------
-  -tt, --temporal_tagger LIST    Specifies the temporal tagger ("heideltime", "sutime", "rule-based") and the corresponding parameters.
-                                 
-				 heideltime (parameters):
+  -tt, --temporal_tagger LIST    Specifies the temporal tagger ("py_heideltime", "py_sutime", "rule-based") and the corresponding parameters.
+                                 default is "py_heideltime"
+				 
+				 py_heideltime (parameters):
 				 ____________________________
-					temporal_tagger_name
-					    options:
-						    "py_heideltime"
-					
-					Language of the text
-					    options:
-						    "English";
-						    "Portuguese";
-						    "Spanish";
-						    "Germany";
-						    "Dutch";
-						    "Italian";
-						    "French".
+				 - temporal_tagger_name
+				   options:
+					   "py_heideltime"
 
-					date_granularity
-					    options:
-						    "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
-						    "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
-						    "day" (means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
+				 - Language of the text
+				   options:
+					   "English";
+					   "Portuguese";
+					   "Spanish";
+					   "Germany";
+					   "Dutch";
+					   "Italian";
+					   "French".
 
-					document_type
-					    options:
-						    "News" for news-style documents - default param;
-						    "Narrative" for narrative-style documents (e.g., Wikipedia articles);
-						    "Colloquial" for English colloquial (e.g., Tweets and SMS);
-						    "Scientific" for scientific articles (e.g., clinical trails).
+				 - date_granularity
+				   options:
+					   "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
+					   "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
+					   "day" (means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
 
-					document_creation_time
-					     Document creation date in the format YYYY-MM-DD. Taken into account when "News" or 
-					     "Colloquial" texts are specified.
-					     Example: "2019-05-30".
+				 - document_type
+				   options:
+					   "News" for news-style documents - default param;
+					   "Narrative" for narrative-style documents (e.g., Wikipedia articles);
+					   "Colloquial" for English colloquial (e.g., Tweets and SMS);
+					   "Scientific" for scientific articles (e.g., clinical trails).
 
-					Example: "['py_heideltime','English', 'days', 'news', '2019-05-05']"
+				 - document_creation_time
+				   Document creation date in the format YYYY-MM-DD. Taken into account when "News" or 
+				   "Colloquial" texts are specified.
+				   Example: "2019-05-30".
+
+				 - Example: "['py_heideltime','English', 'days', 'news', '2019-05-05']"
 
 				
-				 Sutime (parameters):
+				 py_sutime (parameters):
 				 ____________________________
 				 
 				 
 				 
 				 Rule_Based (parameters):
 				 ____________________________
-					temporal_tagger_name
-					    options:
-						    "rule_based"
+				 - temporal_tagger_name
+				   options:
+					   "rule_based"
 
-					date_granularity
-					    options:
-						    "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
-						    "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
-						    "day" (means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
+				 - date_granularity
+				   options:
+					   "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
+					   "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
+					   "day" (means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
 
-				        Example: "['rule_based','days']"
+				 - Example: "['rule_based','days']"
 
   [not required]
   ----------------------------------------------------------------------------------------------------------------------------------------
   -tm, --time_matters LIST        Specifies information about Time-Matters, namely:
-                                        - num_of_keywords: number of YAKE! keywords to extract from the text;
-					- 
-                                        - information regarding the construction of the vocabulary context vector (context_vector_size,
-                                            threshold_sim_value), and information concerning the scope of search (context_window_distance)
+				  - num_of_keywords: number of YAKE! keywords to extract from the text
+				    options:
+					    - default is 10, meaning it will extract 10 relevant keywords from the text
+					    - other values can be used (e.g., 5, 15, etc)
+
+				  - context_window_distance: co-occurrences between terms (where a term may be a relevant keyword or a 
+				    temporal expression) are computed with regards to the distance here defined.
+				    options:
+                                            - default is "none", meaning that it will not consider a specified distance between terms, 
+					      instead  it will consider as a co-occurrence, all the terms that co-occur within the
+					      sentence being analyzed
+					    - other values can be used. For instance, using a value of 10, means it will look for 
+					      co-ocurrences within a window of 10 tokens (10 to the left and 10 to the right),
+					      guaruanteeing that it will not go other sentences besides the one being analyzed. 
+					    
+				 Fazer DAQUI PARA A FRENTE
+				 
+					- information regarding the construction of the vocabulary context vector (context_vector_size,
+                                            threshold_sim_value), and information concerning the scope of search ()
 				
                                             context_vector_size
                                             	Option:
                                                	 	"max"; Means that will be considered the maximun number of words in context vector
                                                     Intiger
-                                            context_window_distance:
-                                            	Option:
-                                                	"none"; Means that doesen't matter the distence between words
-                                                     Intiger (default= 10)
+
                                          Example: "[num_of_keywords=10, context_window_distance=10, context_vector_size='max', threshold_sim_value=0.05]"
 
   ----------------------------------------------------------------------------------------------------------------------------------------
