@@ -256,7 +256,6 @@ Options:
 
   --help                                Show this message and exit.
 ```
-<br>
 ## How to use Time-Matters-MultipleDoc
 ```` bash
 from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
