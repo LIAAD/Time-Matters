@@ -105,7 +105,7 @@ Output objetive: to retrieve a unique score for each temporal expression, regard
 ```` bash
 Time_Matters_SingleDoc(text, temporal_tager=['py_heideltime'], score_type='single')
 ````
-##### Output
+###### Output
 ``` bash
 [('xxxx-04-25', 0.9935, [11]), ('1974-04-25', 0.9935, [19]), ('p48y', 0.919, [83])]
 ```
@@ -113,7 +113,7 @@ Time_Matters_SingleDoc(text, temporal_tager=['py_heideltime'], score_type='singl
 ``` bash
 Time_Matters_SingleDoc(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31', heideltime_date_granularity='year')
 ```
-##### Output
+###### Output
 ``` bash
 [('xxxx', 0.986, [11]), ('1974', 0.939, [19])]
 ```
