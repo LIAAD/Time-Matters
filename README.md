@@ -98,7 +98,8 @@ text= '''
 The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April (Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in Portugal, and Portugal's withdrawal from its African colonies.
 '''
 ````
-#### Option 1: Get (a unique) score for each temporal expression found within the text
+#### Option 1 
+<b>Get (a unique) score for each temporal expression found within the text</b>
 Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
 ##### With default parameters.
@@ -117,7 +118,8 @@ Time_Matters_SingleDoc(text, language='English', contextual_window_distance=10, 
 ``` bash
 [('xxxx', 0.986, [11]), ('1974', 0.939, [19])]
 ```
-#### Option 2: Get (multiple) scores for each temporal expression found within the text
+#### Option 2
+<b>Get (multiple) scores for each temporal expression found within the text</b>
 Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
 
 ##### With default parameters.
