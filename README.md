@@ -92,7 +92,7 @@ Time-Matters-SingleDoc aims to score temporal expressions found within a single 
 How to work with each one will be explained next. But before, both the libraries as well as the text need to be imported.
 
 ```` bash
-from Time_Matters_SingleDoc import Time_Matters_SingleDoc, Time_Matters_SingleDoc_PerSentence
+from Time_Matters_SingleDoc import Time_Matters_SingleDoc
 
 text= '''
 The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April (Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in Portugal, and Portugal's withdrawal from its African colonies.
