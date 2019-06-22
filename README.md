@@ -22,7 +22,7 @@ The latter, aims to determine the relevance of temporal expressions within multi
 ``` bash
 pip install git+https://github.com/LIAAD/Time-Matters.git
 ```
-### Install External Dependencies
+#### Install External Dependencies
 Time-Matters rests on the extraction of relevant keywords and temporal expressions found in the text.
 
 For the first (that is, the extraction of relevant keywords), we resort to YAKE! keyword extractor. More about the extraction of relevant keywords below.
@@ -45,7 +45,7 @@ pip install git+https://github.com/FraBle/python-sutime
 
 You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies.
 
-### External modules used (only for informative purposes):
+#### External modules used (only for informative purposes):
     - YAKE
     - numpy
     - nltk
@@ -57,11 +57,12 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
-## How to use Time-Matters
-<b>Relevant keywords</b> in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
+## What do we use to detect relevant keywords and temporal expressions in Time-Matters?
+#### Relevant keywords
+Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
-
-<b>Temporal expressions</b> in Time-Matters can be identified through:
+#### Temporal expressions
+Temporal expressions in Time-Matters can be identified through:
 - [Heideltime Temporal Tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) by means of a [Python wrapper package](https://github.com/JMendes1995/py_heideltime)
 - [Sutime Temporal Tagger](https://nlp.stanford.edu/software/sutime.shtml) by means of a [Python wrapper package](https://github.com/FraBle/python-sutime)
 - Rule-based approach
@@ -79,7 +80,7 @@ Finally, we also make use of a self-defined rule-based approach which is able to
 
 While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
 
-### Time-Matters-SingleDoc
+## How to use Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
 
 (1) to retrieve a unique score for each temporal expression found, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
@@ -250,7 +251,7 @@ Options:
   --help                                Show this message and exit.
 ```
 
-### Time-Matters-MultipleDoc
+## How to use Time-Matters-MultipleDoc
 ```` bash
 from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
 
