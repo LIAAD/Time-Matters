@@ -150,59 +150,60 @@ print(sentences[1])
 ``` bash
 $ Time_Matters_SingleDoc --help
 
- Usage_examples (make sure that the input parameters should be within quotes):
+Usage_examples (make sure that the input parameters are within quotes):
+
   Default Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English']"
   All the Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st single -dm False
 
 Options:
-  [required]: that is, need to specify one of the two options (text or path).
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  -i, --input LIST                      A list that specifies the type of input: a text or path
-                                        Example:
-                                                "['text', 'August 31st']"
-                                                "['path', 'text.txt']"
+  [required]: either specify a text or an input_file path.
+  ----------------------------------------------------------------------------------------------------------------------------------------
+  -i, --input LIST               A list that specifies the type of input: a text or a file path
+                                 Example:
+                                         "['text', 'August 31st']"
+                                         "['path', 'c:\text.txt']"
 
 
 
-  [not required]
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  -tt, --temporal_tagger LIST           Specifies the temporal tagger (“heideltime”, “rule-based”) and the corresponding parameters.
-                                        py_heideltime
-                                            parameters:
+ [not required]
+  ----------------------------------------------------------------------------------------------------------------------------------------
+  -tt, --temporal_tagger LIST    Specifies the temporal tagger ("heideltime", "sutime", "rule-based") and the corresponding parameters.
+                                 
+				 <b>py_heideltime (parameters):</b>
+					temporal_tagger_name
+					    options:
+						    "py_heideltime"
+					
+					Language of the text
+					    options:
+						    "English";
+						    "Portuguese";
+						    "Spanish";
+						    "Germany";
+						    "Dutch";
+						    "Italian";
+						    "French".
 
-                                                temporal_tagger_name
-                                                    options:
-                                                            "py_heideltime"
-                                                language
-                                                    options:
-                                                            "English";
-                                                            "Portuguese";
-                                                            "Spanish";
-                                                            "Germany";
-                                                            "Dutch";
-                                                            "Italian";
-                                                            "French".
+					date_granularity
+					    options:
+						    "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
+						    "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
+						    "day" (means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
 
-                                                date_granularity
-                                                    options:
-                                                            "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
-                                                            "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
-                                                            "day" - (default param. Means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
+					document_type
+					    options:
+						    "News" for news-style documents - default param;
+						    "Narrative" for narrative-style documents (e.g., Wikipedia articles);
+						    "Colloquial" for English colloquial (e.g., Tweets and SMS);
+						    "Scientific" for scientific articles (e.g., clinical trails).
 
-                                                document_type
-                                                    options:
-                                                            "News" for news-style documents - default param;
-                                                            "Narrative" for narrative-style documents (e.g., Wikipedia articles);
-                                                            "Colloquial" for English colloquial (e.g., Tweets and SMS);
-                                                            "Scientific" for scientific articles (e.g., clinical trails).
+					document_creation_time
+					     Document creation date in the format YYYY-MM-DD. Taken into account when "News" or 
+					     "Colloquial" texts are specified.
+					     Example: "2019-05-30".
 
-                                                document_creation_time
-                                                     Document creation date in the format YYYY-MM-DD. Taken into account when "News" or "Colloquial"
-                                                     texts are specified.
-                                                     Example: "2019-05-30".
-
-                                            Example:
-                                                "['py_heideltime','English', 'days', 'news', '2019-05-05']"
+				    Example:
+					"['py_heideltime','English', 'days', 'news', '2019-05-05']"
 
                                         Rule_Based
                                             parameters:
