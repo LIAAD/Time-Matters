@@ -106,18 +106,22 @@ Output objetive: to retrieve a unique score for each temporal expression, regard
 ##### With default parameters.
 ```` bash
 Time_Matters_SingleDoc(text, temporal_tager=['py_heideltime'], score_type='single')
+
 ````
 ###### Output
 ``` bash
 [('xxxx-04-25', 0.9935, [11]), ('1974-04-25', 0.9935, [19]), ('p48y', 0.919, [83])]
 ```
 ##### With all the parameters.
+Having heideltime as a basis (but other options such as "sutime", or "rule-based" can also be used)
 ``` bash
-Time_Matters_SingleDoc(text, language='English', contextual_window_distance=10, threshold=0.05, max_array_len=0, max_keywords=10, analisys_sentence=True, heideltime_document_type='news', heideltime_document_creation_time='1939-05-31', heideltime_date_granularity='year')
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters_parameters=[10, 'none', 'max', 0.05], score_type='single', debug_mode=False)
 ```
 ###### Output
 ``` bash
-[('xxxx', 0.986, [11]), ('1974', 0.939, [19])]
+[('xxxx-04-25', 0.9935, [11]),
+ ('1974-04-25', 0.9935, [19]),
+ ('p48y', 0.919, [83])]
 ```
 #### Option 2
 <hr>
@@ -169,7 +173,8 @@ Options:
   ----------------------------------------------------------------------------------------------------------------------------------------
   -tt, --temporal_tagger LIST    Specifies the temporal tagger ("heideltime", "sutime", "rule-based") and the corresponding parameters.
                                  
-				 <b>py_heideltime (parameters):</b>
+				 heideltime (parameters):
+				 ____________________________
 					temporal_tagger_name
 					    options:
 						    "py_heideltime"
@@ -202,30 +207,34 @@ Options:
 					     "Colloquial" texts are specified.
 					     Example: "2019-05-30".
 
-				    Example:
-					"['py_heideltime','English', 'days', 'news', '2019-05-05']"
+					Example: "['py_heideltime','English', 'days', 'news', '2019-05-05']"
 
-                                        Rule_Based
-                                            parameters:
+				
+				 Sutime (parameters):
+				 ____________________________
+				 
+				 
+				 
+				 Rule_Based (parameters):
+				 ____________________________
+					temporal_tagger_name
+					    options:
+						    "rule_based"
 
-                                                temporal_tagger_name
-                                                    options:
-                                                            "rule_based"
+					date_granularity
+					    options:
+						    "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
+						    "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
+						    "day" (means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
 
-                                                date_granularity
-                                                    options:
-                                                            "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
-                                                            "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
-                                                            "day" - (default param. Means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
-
-                                            Example:
-                                                "['rule_based','days']"
+				        Example: "['rule_based','days']"
 
   [not required]
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  -tm, --time_matters LIST              specifies information about the Time-Matters
-                                            the number of YAKE! keywords to extract from the text (num_of_keywords),
-                                            information regarding the construction of the vocabulary context vector (context_vector_size,
+  ----------------------------------------------------------------------------------------------------------------------------------------
+  -tm, --time_matters LIST        Specifies information about Time-Matters, namely:
+                                        - num_of_keywords: number of YAKE! keywords to extract from the text;
+					- 
+                                        - information regarding the construction of the vocabulary context vector (context_vector_size,
                                             threshold_sim_value), and information concerning the scope of search (context_window_distance)
 				
                                             context_vector_size
@@ -236,10 +245,9 @@ Options:
                                             	Option:
                                                 	"none"; Means that doesen't matter the distence between words
                                                      Intiger (default= 10)
-                                            Example:
-                                                "[num_of_keywords=10, context_window_distance=10, context_vector_size='max', threshold_sim_value=0.05]"
+                                         Example: "[num_of_keywords=10, context_window_distance=10, context_vector_size='max', threshold_sim_value=0.05]"
 
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------------------------------------------
   -st, --score_type TEXT                Specifies the type of score
                                         Options:
                                                 "single" Single score per date;
