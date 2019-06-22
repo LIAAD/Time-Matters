@@ -57,7 +57,7 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
-## What do we use to detect relevant keywords and temporal expressions in Time-Matters?
+## What do we use for relevant keywords detection and temporal expressions identification in Time-Matters?
 #### Relevant keywords
 Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
