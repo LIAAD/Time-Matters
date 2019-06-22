@@ -105,7 +105,7 @@ Output objetive: to retrieve a unique score for each temporal expression, regard
 
 ##### With default parameters.
 ```` bash
-Time_Matters_SingleDoc(text, temporal_tager=['py_heideltime'], score_type='single')
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single')
 
 ````
 ###### Output
