@@ -37,7 +37,7 @@ For the latter (that is, the extraction of temporal expressions), we resort to t
 - sutime python wrapper
 - rule-based approach
 
-The first two, need to be installed (see below). The latter, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any procedure. More about the extraction of temporal expressions below.
+The first two need to be installed in order to work(see below). The latter, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. More about the extraction of temporal expressions below.
 ``` bash
 pip install git+https://github.com/JMendes1995/py_heideltime
 pip install git+https://github.com/FraBle/python-sutime
@@ -58,9 +58,10 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
 ## How to use Time-Matters
-<u>Relevant keywords</u> in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
+<b>Relevant keywords</b> in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
-<u>Temporal expressions</u> in Time-Matters can be identified through:
+
+<b>Temporal expressions</b> in Time-Matters can be identified through:
 - [Heideltime Temporal Tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) by means of a [Python wrapper package](https://github.com/JMendes1995/py_heideltime)
 - [Sutime Temporal Tagger](https://nlp.stanford.edu/software/sutime.shtml) by means of a [Python wrapper package](https://github.com/FraBle/python-sutime)
 - Rule-based approach
@@ -76,7 +77,7 @@ Finally, we also make use of a self-defined rule-based approach which is able to
 - yyyys
 - yyyy
 
-While not as good (i.e., effective) as Heideltime or Sutime it can be used when efficiency (time-performance) is a requirement.
+While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
 
 ### Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
@@ -318,8 +319,8 @@ Options:
 ## API
 https://time-matters-api.herokuapp.com/
 
-### Publications
-#### Time-Matters
+## Publications
+### Time-Matters
 If you use Time-Matters please cite the appropriate paper. In general, this will be:
 
 - Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398 [pdf](https://link.springer.com/article/10.1007/s10791-017-9302-1)
@@ -330,29 +331,27 @@ Other Time-Matters related papers may be found here:
 
 - Campos, R., Jorge, A., Dias, G. and Nunes, C. (2012). Disambiguating Implicit Temporal Queries by Clustering Top Relevant Dates in Web Snippets. In Proceedings of The 2012 IEEE/WIC/ACM International Joint Conferences on Web Intelligence and Intelligent Agent Technologies Macau, China, 04 - 07 December, Vol. 1, pp 1 - 8. IEEE Computer Society Press. [pdf](https://ieeexplore.ieee.org/document/6511858?tp=&arnumber=6511858&url=http:%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6511858)
 
-#### YAKE!
+### YAKE!
 YAKE! papers may be found here:
 
-<b>ECIR'18 Best Short Paper</b>
-
-- Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). A Text Feature Based Automatic Keyword Extraction Method for Single Documents. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 684 - 691. [pdf](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_63)
+- Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). A Text Feature Based Automatic Keyword Extraction Method for Single Documents. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 684 - 691. [pdf](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_63). [<b>ECIR'18 Best Short Paper</b>]
 
 - Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). YAKE! Collection-independent Automatic Keyword Extractor. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 806 - 810. [pdf](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_80)
 
-#### Heideltime
+### Heideltime
 Heideltime papers may be found here:
 
 - Strötgen, J., and Gertz, M. (2013). Multilingual and Cross-domain Temporal Tagging. In: Language Resources and Evaluation, 47(3), pp. 269-298. [pdf](https://link.springer.com/article/10.1007%2Fs10579-012-9179-y)
 
 or [here](https://github.com/HeidelTime/heideltime#Publications)
 
-#### Sutime
+### Sutime
 Sutime papers may be found here:
 
-- Chang, A., Manning, C.D. (2012). SUTIME: A Library for Recognizing and Normalizing Time Expressions. In: 8th International Conference on Language Resources and Evaluation (LREC'12). Istanbul, Turkey, May 23-25. pp 3735–3740
+- Chang, A., Manning, C.D. (2012). SUTIME: A Library for Recognizing and Normalizing Time Expressions. In: 8th International Conference on Language Resources and Evaluation (LREC'12). Istanbul, Turkey, May 23-25. pp 3735–3740. [pdf](https://nlp.stanford.edu/pubs/lrec2012-sutime.pdf)
 
-### Awards
+## Awards
 Winner of the [Fraunhofer Portugal Challenge 2013 PhD Contest](https://www.aicos.fraunhofer.pt/en/news_and_events_aicos/news_archive/older_archive/fraunhofer-portugal-challenge-2013-winners.html)
 
-### Contact
+## Contact
 For any inquires about Time-Matters please contact [Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/): ricardo.campos@ipt.pt
