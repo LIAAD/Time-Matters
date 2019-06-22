@@ -33,17 +33,18 @@ pip install git+https://github.com/LIAAD/yake
 
 
 For the latter (that is, the extraction of temporal expressions), we resort to three possibilities:
+- rule-based approach
 - heideltime python wrapper
 - sutime python wrapper
-- rule-based approach
 
-The first two need to be installed in order to work(see below). The latter, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. More about the extraction of temporal expressions below.
+
+The first, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. However, if your plan is to use Heideltime or Sutime (or even both) you need to install the following packages. More about the extraction of temporal expressions below.
 ``` bash
 pip install git+https://github.com/JMendes1995/py_heideltime
 pip install git+https://github.com/FraBle/python-sutime
 ```
 
-You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies.
+You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime and sutime dependencies (note that none of this is needed should your plan is to only use a rule-based approach).
 
 #### External modules used (only for informative purposes):
     - YAKE
@@ -51,7 +52,8 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     - nltk
     - Pandas
     - regex
-    - py_heideltime/Heideltime
+    - py_heideltime
+    - python-sutime
     
 ##### Linux users
     If your user does not have permission executions on python lib folder, you should execute the following command:
