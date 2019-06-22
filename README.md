@@ -147,7 +147,6 @@ print(sentences[1])
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
 ```
 #### Python CLI -  Command Line Interface Time-Matters-SingleDoc
-<hr>
 ``` bash
 $ Time_Matters_SingleDoc --help
 
@@ -257,6 +256,7 @@ Options:
 
   --help                                Show this message and exit.
 ```
+
 ## How to use Time-Matters-MultipleDoc
 ```` bash
 from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
@@ -287,7 +287,6 @@ print(docs)
 
 ```
 #### Python CLI -  Command Line Interface Time_Matters_MultipleDoc
-<hr>
 ``` bash
 $ Time_Matters_MultipleDoc --help
 
