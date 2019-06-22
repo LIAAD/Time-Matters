@@ -126,7 +126,7 @@ dates, sentences = Time_Matters_SingleDoc_PerSentence(text, 'English')
 print(dates)
 print(sentences[1])
 ```
-##### Output
+###### Output
 ``` bash
 [('2019-04-25', [(1, 0.99)], [11]), ('1974-04-25', [(1, 0.99)], [19])]
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
@@ -137,7 +137,7 @@ dates, sentences = Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'
 print(dates)
 print(sentences[1])
 ```
-##### Output
+###### Output
 ``` bash
 [('1974-04-25', [(1, 0.99)], [11, 19])]
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
@@ -274,7 +274,7 @@ Time_Matters_MultipleDoc, language='English', contextual_window_distance=10, thr
 print(dates)
 print(docs)
 ```
-##### Output
+###### Output
 ``` bash
 [[('2003', [(0, 1.0, [47])])], [('1992', [(1, 1.0, [11])]), ('1995', [(1, 1.0, [13])]), ('p2y', [(1, 1.0, [26])]), ('1997', [(1, 0.952, [30])]), ('p3d', [(1, 0.952, [37])])], [('xxxx-09-19', [(2, 0.9915, [62])]), ('xxxx-08-18', [(2, 0.9884999999999999, [15])]), ('xxxx-09-16', [(2, 0.985, [24])])]]
 ['Born and raised on the Portuguese island of Madeira, Ronaldo was diagnosed with a racing heart at age 15. He underwent an operation to treat his condition, and began his senior club career playing for Sporting CP, before signing with Manchester United at age 18 in 2003.', 
