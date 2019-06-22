@@ -3,11 +3,11 @@
 
 Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from document content. 
 
-In order to accomplish this objetive, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor [system](http://yake.inesctec.pt)) and temporal expressions (extracted by means of [Heideltime](https://github.com/JMendes1995/py_heideltime) temporal [tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/)) based on corpus statistics.
+In order to accomplish this objetive, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [sutime](https://nlp.stanford.edu/software/sutime.shtml)) based on corpus statistics.
 
-Our assumption is that the relevance of a candidate date (retrieved by heideltime) may be determined with regards to the relevant words (retrieved by YAKE!) that it co-occurs with (within a context window of n terms, where n is to be defined). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
+Our assumption is that the relevance of a candidate date may be determined with regards to the relevant words that it co-occurs with (within a context window of n terms, where n is to be defined). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
 
-This package is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm was initially implemented in C#, and has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
+This package is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
 Time-Matters consists of two modules that may be executed independently:
 - Time-Matters-SingleDoc
@@ -23,11 +23,25 @@ The latter, aims to determine the relevance of temporal expressions within multi
 pip install git+https://github.com/LIAAD/Time-Matters.git
 ```
 ### Install External Dependencies
+Time-Matters rests on the extraction of relevant keywords and temporal expressions found in the text.
+
+For the first (that is, extraction of relevant keywords), we resort to [YAKE!](https://github.com/LIAAD/yake) keyword extractor.
+
 ``` bash
 pip install git+https://github.com/LIAAD/yake
-
-pip install git+https://github.com/JMendes1995/py_heideltime
 ```
+
+For the latter (that is, extraction of temporal expressions), we resort to three possibilities:
+- heideltime python wrapper
+- sutime python wrapper
+- rule-based approach
+
+The first two, need to be installed (see below). The latter, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any procedure.
+``` bash
+pip install git+https://github.com/JMendes1995/py_heideltime
+pip install git+https://github.com/FraBle/python-sutime
+```
+
 You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies.
 
 ### External modules used (only for informative purposes):
@@ -43,13 +57,25 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
 ## How to use Time-Matters
-Temporal expressions in Time-Matters can be identified through:
-- [Heideltime Temporal Tagger](https://github.com/JMendes1995/py_heideltime)
+<u>Relevant keywords</u> in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the Publications section where you can find a few papers about YAKE!
+
+<u>Temporal expressions</u> in Time-Matters can be identified through:
+- [Heideltime Temporal Tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) by means of a [Python wrapper package](https://github.com/JMendes1995/py_heideltime)
+- [Sutime Temporal Tagger](https://nlp.stanford.edu/software/sutime.shtml) by means of a [Python wrapper package](https://github.com/FraBle/python-sutime)
 - Rule-based approach
 
 The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of (linear) time to execute (approximately 4.5s for 600 tokens; 6s for 1,200 tokens; 15s for 2,600 tokens; 30s for 5k tokens; 60s para 10k tokens; 120s for 20k tokens).
 
-The second makes use of a rule-based approach which is able to detect the following patterns:..... While not as good as Heideltime it can be used when efficiency is a requirement.
+The second uses a Python wrapper of Sutime Temporal Tagger (also state-of-the-art in this kind of task). Likewise Heideltime, it is able to detect a huge number of different types of temporal expressions. However, while it is more efficient (time-performance) than Heideltime, [currently](https://github.com/FraBle/python-sutime#Supported-Languages) it only works for English.
+
+Finally, we also make use of a self-defined rule-based approach which is able to detect the following patterns:
+- yyyy(./-)mm(./-)dd
+- dd(./-)mm(-/-)yyyy
+- yyyy(./-)yyyy
+- yyyys
+- yyyy
+
+While not as good/effective as Heideltime or Sutime it can be used when efficiency (time-performance) is a requirement.
 
 ### Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
@@ -301,6 +327,14 @@ Other related papers may be found here:
 - Campos, R., Dias, G., Jorge, A., and Nunes, C. (2014). GTE-Cluster: A Temporal Search Interface for Implicit Temporal Queries. In M. de Rijke et al. (Eds.), Lecture Notes in Computer Science - Advances in Information Retrieval - 36th European Conference on Information Retrieval (ECIR2014). Amesterdam, Netherlands, 13 - 16 April. (Vol. 8416-2014, pp. 775 - 779) [pdf](https://link.springer.com/chapter/10.1007/978-3-319-06028-6_94#page-1)
 
 - Campos, R., Jorge, A., Dias, G. and Nunes, C. (2012). Disambiguating Implicit Temporal Queries by Clustering Top Relevant Dates in Web Snippets. In Proceedings of The 2012 IEEE/WIC/ACM International Joint Conferences on Web Intelligence and Intelligent Agent Technologies Macau, China, 04 - 07 December, Vol. 1, pp 1 - 8. IEEE Computer Society Press. [pdf](https://ieeexplore.ieee.org/document/6511858?tp=&arnumber=6511858&url=http:%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6511858)
+
+YAKE! papers may be found here:
+
+<b>ECIR'18 Best Short Paper</b>
+
+- Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). A Text Feature Based Automatic Keyword Extraction Method for Single Documents. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 684 - 691. [pdf](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_63)
+
+- Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). YAKE! Collection-independent Automatic Keyword Extractor. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 806 - 810. [pdf](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_80)
 
 ### Awards
 Winner of the [Fraunhofer Portugal Challenge 2013 PhD Contest](https://www.aicos.fraunhofer.pt/en/news_and_events_aicos/news_archive/older_archive/fraunhofer-portugal-challenge-2013-winners.html)
