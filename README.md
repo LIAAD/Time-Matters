@@ -107,7 +107,7 @@ text= "The Carnation Revolution (Portuguese: Revolução dos Cravos), also known
 <b>Get (a unique) score for each temporal expression found within the text</b><br>
 Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
-##### With default parameters.
+##### _With default parameters_
 Default temporal tagger is "py_heideltime", which means that having:
 ```` bash
 Time_Matters_SingleDoc(text, score_type='single')
@@ -145,7 +145,8 @@ print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='s
 
 By looking at the results, one can observe that each element at the list is a set with the following information 
 <br>
-##### With all the parameters.
+<br>
+##### _With all the parameters_
 Having "py_heideltime" as a basis (but other options such as "py_sutime", or "rule-based" can also be used):
 ``` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters_parameters=[10, 'none', 'max', 0.05], score_type='single', debug_mode=False)
