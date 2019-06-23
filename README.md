@@ -138,7 +138,7 @@ print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='s
 #rule_based results
 [('1974', 0.99, [24])]
 ```
-
+<br><br>
 ##### With all the parameters.
 Having "py_heideltime" as a basis (but other options such as "py_sutime", or "rule-based" can also be used):
 ``` bash
