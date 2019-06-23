@@ -11,7 +11,9 @@ The first, aims to determine the relevance of temporal expressions within a sing
 The latter, aims to determine the relevance of temporal expressions within multiple documents. 
 
 ## How does it works?
-Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from the document's contents. Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant words (W<sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of n terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
+Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from the document's contents. 
+
+Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant words (W<sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of n terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
 
 To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)), as a means to identify relevant d<sub>j</sub> dates within a document (doc).
 
@@ -20,7 +22,7 @@ GTE is defined as follows:<br>
   <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE.jpg" width="350">
 </p>
 
-
+In the equation, `median` is the median function, `IS` is the [InfoSimba similarity measure](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535), `W`<sub>j</sub> represents one of the several terms of `W`<sup>\*</sup>, and `d`<sub>j</sub> is the candidate date.
 
 
 
@@ -412,6 +414,11 @@ YAKE! papers may be found here:
 - Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). A Text Feature Based Automatic Keyword Extraction Method for Single Documents. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 684 - 691. [pdf](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_63). [<b>ECIR'18 Best Short Paper</b>]
 
 - Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). YAKE! Collection-independent Automatic Keyword Extractor. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 806 - 810. [pdf](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_80)
+
+### InfoSimba
+InfoSimba similarity measure papers may be found here:
+- Dias, G., Alves, E., & Lopes, J. (2007). Topic Segmentation Algorithms for Text Summarization and Passage Retrieval: An Exhaustive Evaluation. In AAAI 2007: Proceedings of the 22nd Conference on Artificial Intelligence (pp. 1334 - 1340). Vancouver, Canada. July 22 – 26.: AAAI Press.
+[pdf](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535)
 
 ### Heideltime
 Heideltime papers may be found here:
