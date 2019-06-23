@@ -5,7 +5,7 @@ Time matters is a python package that aims to score the relevance of temporal ex
 
 In order to accomplish this objetive, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)) based on corpus statistics.
 
-Our assumption is that the relevance of a candidate date may be determined with regards to the relevant words that it co-occurs with in a window of terms (where a window can be a full sentence, a context window of n terms in a sentence, where even a document in case we are talking about multiple documents). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
+Our assumption is that the relevance of a candidate date may be determined with regards to the relevant words that it co-occurs with in a window of terms (where a window can be a full sentence, a context window of n terms in a sentence, or even a document in case we are talking about multiple documents). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
 
 This package is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
@@ -94,9 +94,13 @@ How to work with each one will be explained next. But before, both the libraries
 ```` bash
 from Time_Matters_SingleDoc import Time_Matters_SingleDoc
 
-text= '''
-The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April (Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in Portugal, and Portugal's withdrawal from its African colonies.
-'''
+text= "The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April "\
+    "(Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew "\
+    "the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the "\
+    "Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers "\
+    "who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. "\
+    "The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in "\
+    "Portugal, and Portugal's withdrawal from its African colonies."
 ````
 #### Option 1 
 <hr>
@@ -138,7 +142,9 @@ print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='s
 #rule_based results
 [('1974', 0.99, [24])]
 ```
-<br><br>
+
+By looking at the results, one can observe that each element at the list is a set with the following information 
+<br>
 ##### With all the parameters.
 Having "py_heideltime" as a basis (but other options such as "py_sutime", or "rule-based" can also be used):
 ``` bash
