@@ -55,11 +55,11 @@ Finally, we also make use of a self-defined rule-based approach which is able to
 While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
 
 ### Temporal Similarity Measure
-To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of keywords and temporal expressions as a means to identify relevant d<sub>j</sub> dates within a text or a set of texts _T<sub>i</sub>_.
+To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of keywords and temporal expressions as a means to identify relevant d<sub>j</sub> dates within a text _T<sub>i</sub>_.
 
 GTE ranges between 0 and 1, and is defined as follows:<br>
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE.jpg" width="350">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE1.jpg" width="350">
 </p>
 
 In the equation, `median` is the median function, `IS` is the [InfoSimba similarity measure](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535), `W`<sub>l, j</sub> represents one of the several terms of `W`<sub>j<sup>*</sup></sub>, and `d`<sub>j</sub> is the candidate date found within a text `t`<sub>i</sub>. A more detailed description of each one will be given next.
