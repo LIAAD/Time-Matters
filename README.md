@@ -1,11 +1,14 @@
 
 # Time-Matters
 
-Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from document content. 
+Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from document content.
 
-In order to accomplish this objetive, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)) based on corpus statistics.
+Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant words (W<sup>*</sup>) that it co-occurs with in a given context (where a context can be a window of n terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sup>*</sup>) of a document (or documents), the more relevant the candidate date is.
 
-Our assumption is that the relevance of a candidate date may be determined with regards to the relevant words that it co-occurs with in a window of terms (where a window can be a full sentence, a context window of n terms in a sentence, or even a document in case we are talking about multiple documents). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
+To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)), as a means to identify relevant d<sub>j</sub> dates within a document.
+
+GTE is defined as follows:
+GTE(d<sub>j</sub>) = Median(IS(W<sup>*</sup>,d<sub>j</sub>))
 
 This package is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
@@ -16,7 +19,33 @@ Time-Matters consists of two modules that may be executed independently:
 The first, aims to determine the relevance of temporal expressions within a single document. 
 
 The latter, aims to determine the relevance of temporal expressions within multiple documents. 
-    
+
+## What do we use for relevant keywords detection and temporal expressions identification in Time-Matters?
+#### Relevant keywords
+Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
+
+#### Temporal expressions
+Temporal expressions in Time-Matters can be identified through:
+- [Heideltime Temporal Tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) by means of a [Python wrapper package](https://github.com/JMendes1995/py_heideltime)
+- [Sutime Temporal Tagger](https://nlp.stanford.edu/software/sutime.shtml) by means of a [Python wrapper package](https://github.com/FraBle/python-sutime)
+- Rule-based approach
+
+The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of (linear) time to execute (approximately 4.5s for 600 tokens; 6s for 1,200 tokens; 15s for 2,600 tokens; 30s for 5k tokens; 60s para 10k tokens; 120s for 20k tokens). If you are interested in knowing more about Heideltime please refer to the [Publications](#Publications) section where you can find a few papers about it.
+
+The second uses a Python wrapper of Sutime Temporal Tagger (also state-of-the-art in this kind of task). Likewise Heideltime, it is able to detect a huge number of different types of temporal expressions. However, while it is more efficient (time-performance) than Heideltime, [currently](https://github.com/FraBle/python-sutime#Supported-Languages) it only works for English. If you are interested in knowing more about Sutime please refer to the [Publications](#Publications) section where you can find a few papers about it.
+
+Finally, we also make use of a self-defined rule-based approach which is able to detect the following patterns:
+- yyyy(./-)mm(./-)dd
+- dd(./-)mm(-/-)yyyy
+- yyyy(./-)yyyy
+- yyyys
+- yyyy
+
+While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
+
+## What type of window do we use to search for co-occurrences between terms (where a term is a relevant keyword or an identified temporal expression)?
+#### Relevant keywords
+
 ## How to Install Time-Matters
 
 ``` bash
@@ -59,29 +88,6 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
-## What do we use for relevant keywords detection and temporal expressions identification in Time-Matters?
-#### Relevant keywords
-Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
-
-#### Temporal expressions
-Temporal expressions in Time-Matters can be identified through:
-- [Heideltime Temporal Tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) by means of a [Python wrapper package](https://github.com/JMendes1995/py_heideltime)
-- [Sutime Temporal Tagger](https://nlp.stanford.edu/software/sutime.shtml) by means of a [Python wrapper package](https://github.com/FraBle/python-sutime)
-- Rule-based approach
-
-The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of (linear) time to execute (approximately 4.5s for 600 tokens; 6s for 1,200 tokens; 15s for 2,600 tokens; 30s for 5k tokens; 60s para 10k tokens; 120s for 20k tokens). If you are interested in knowing more about Heideltime please refer to the [Publications](#Publications) section where you can find a few papers about it.
-
-The second uses a Python wrapper of Sutime Temporal Tagger (also state-of-the-art in this kind of task). Likewise Heideltime, it is able to detect a huge number of different types of temporal expressions. However, while it is more efficient (time-performance) than Heideltime, [currently](https://github.com/FraBle/python-sutime#Supported-Languages) it only works for English. If you are interested in knowing more about Sutime please refer to the [Publications](#Publications) section where you can find a few papers about it.
-
-Finally, we also make use of a self-defined rule-based approach which is able to detect the following patterns:
-- yyyy(./-)mm(./-)dd
-- dd(./-)mm(-/-)yyyy
-- yyyy(./-)yyyy
-- yyyys
-- yyyy
-
-While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
-
 ## How to use Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
 
@@ -143,7 +149,7 @@ print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='s
 [('1974', 0.99, [24])]
 ```
 
-By looking at the results, one can observe that each element at the list is a set with the following information 
+By looking at the results, one can observe that each element at the list is a set with the following information:
 <br>
 <br>
 ##### _With all the parameters_
@@ -157,6 +163,7 @@ Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters_par
  ('1974-04-25', 0.9935, [19]),
  ('p48y', 0.919, [83])]
 ```
+<br>
 #### Option 2
 <hr>
 <b>Get (multiple) scores for each temporal expression found within the text</b><br>
