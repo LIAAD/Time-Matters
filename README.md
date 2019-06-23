@@ -5,7 +5,7 @@ Time matters is a python package that aims to score the relevance of temporal ex
 
 In order to accomplish this objetive, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)) based on corpus statistics.
 
-Our assumption is that the relevance of a candidate date may be determined with regards to the relevant words that it co-occurs with (within a context window of n terms, where n is to be defined). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
+Our assumption is that the relevance of a candidate date may be determined with regards to the relevant words that it co-occurs with in a window of terms (where a window can be a full sentence, a context window of n terms in a sentence, where even a document in case we are talking about multiple documents). That is: the more a given candidate date is correlated with the most relevant keywords of a document (or documents), the more relevant the candidate date is.
 
 This package is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
@@ -89,7 +89,7 @@ Time-Matters-SingleDoc aims to score temporal expressions found within a single 
 
 - to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
 
-How to work with each one will be explained next. But before, both the libraries as well as the text need to be imported.
+How to work with each one will be explained next. But before, both the libraries, as well as the text, need to be imported.
 
 ```` bash
 from Time_Matters_SingleDoc import Time_Matters_SingleDoc
@@ -104,15 +104,41 @@ The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the
 Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
 ##### With default parameters.
-Having "py_heideltime" as a basis (but other options such as "py_sutime", or "rule-based" can also be used):
+Default temporal tagger is "py_heideltime", which means that having:
+```` bash
+Time_Matters_SingleDoc(text, score_type='single')
+````
+or
 ```` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single')
-
 ````
+is exactly the same thing and produces the same results.
+
+While 'py_heideltime' is the default temporal tagger, other taggers such as 'py_sutime' or a 'rule_based' approach can be used instead.
+```` bash
+Time_Matters_SingleDoc(text, temporal_tagger=['py_sutime'], score_type='single')
+Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='single')
+````
+
+The following code is an attempt to print the results of Time-Matters for temporal expressions identified with 'py_heideltime', 'su_time' and 'rule_based'
+```` bash
+print(Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single'))
+print(Time_Matters_SingleDoc(text, temporal_tagger=['py_sutime'], score_type='single'))
+print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='single'))
+````
+
 ###### Output
 ``` bash
+#py_heideltime results
 [('xxxx-04-25', 0.9935, [11]), ('1974-04-25', 0.9935, [19]), ('p48y', 0.919, [83])]
+
+#py_sutime results
+#TODO
+
+#rule_based results
+[('1974', 0.99, [24])]
 ```
+
 ##### With all the parameters.
 Having "py_heideltime" as a basis (but other options such as "py_sutime", or "rule-based" can also be used):
 ``` bash
