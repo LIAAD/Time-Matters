@@ -1,6 +1,8 @@
 from yake import KeywordExtractor as YakeKW
 import string
 import nltk
+import time
+
 
 # *****************************************************************
 # words extraction using wake
@@ -9,79 +11,52 @@ def kw_ext(yake_ln, lang, text,num_of_keywords,  document_type, document_creatio
     dates, new_text = candidate_years(text, lang, document_type, document_creation_time, date_granularity, date_extractor)
     keywords = sample.extract_keywords(new_text)
     relevant_words = []
-    # insert only the relevant words to the array.
+
     for ki in range(len(keywords)):
         relevant_words.append(keywords[ki][0])
-    inverted_index, words_array, dates_array, sentence_array = word_mapping(relevant_words, new_text, dates)
+    inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words, dates, new_text)
     return inverted_index, words_array, dates_array, sentence_array
 
 
-# *********************************************************************
-#  creation of inverted index.
-def word_mapping(relevant_array, text, dates_array):
-    # Creation on arrays to set sentences and words tokenized.
+def test_trans(text):
+    return text.translate(str.maketrans('', '', '!"#$%&\'()*+,:.;<=>?@[\\]^_`{|}~'))
+
+
+def create_inverted_index(relevant_words_list, candidate_dates_list, text):
     sentence_array = sentence_tokenizer(text)
-    myDictObj = {}
-    for i in range(len(relevant_array)):
-        # ***************************************************************************************
-        # insert on list my dict list values to put json form
-        myDictObj[relevant_array[i]] = []
-        word_info(relevant_array[i], sentence_array, myDictObj)
-    for dt_i in range(len(dates_array)):
-        myDictObj[dates_array[dt_i]] = []
-        word_info(dates_array[dt_i], sentence_array, myDictObj)
-    return myDictObj, relevant_array, dates_array, sentence_array
+    words_dates_list = relevant_words_list + candidate_dates_list
+    dictionary = {}
 
+    for dt in words_dates_list:
+        last_pos = 0
+        totalfreq = 0
+        search_str = dt
+        dictionary[dt] = [0,0,{}]
 
-# ***********************************************************************************************
-# text pre-processing
-def word_info(word, sentence_array, myDictObj):
-    # ******************************************
-    # number of sentences that the word appears.
-    word_count_freq = 0
-    word_sentence_freq = 0
-    last_value = 0
-    normalizer_words_array = []
-    positionalList = {}
-    for sentence_index in range(len(sentence_array)):
-        tokens_filtered = word_tokenizer(sentence_array[sentence_index])
+        for n in range(len(sentence_array)):
+            strip_text = test_trans(sentence_array[n]).split()
 
-        words_sentence_array = []
+            for i, w in enumerate(strip_text):
+                if w.lower() == search_str:
+                    if n not in dictionary[dt][2]:
+                        pos =i+last_pos
+                        dictionary[dt][2][n] = [0, [pos]]
 
-        # *******************************************
-        # Count number of times that the word appears
-        for words in tokens_filtered:
-            if words == word:
-                word_count_freq += 1
-                words_sentence_array.append(words)
-            normalizer_words_array.append(words)
-        # ***************************************************
-        # Count how many sentences the word appears.
-        if word in words_sentence_array:
-            word_sentence_freq += 1
-    # ***********************************************************
-    # returnable information about relevant words in text
+                    else:
+                        pos = i + last_pos
 
-        insert_into_dict(word, word_sentence_freq, word_count_freq, myDictObj,  positionalList)
-        positionalList, last_value = text_info(sentence_index+1, word, tokens_filtered, last_value, myDictObj,  positionalList)
+                        dictionary[dt][2][n][1].append(pos)
+            try:
+                ct = len(dictionary[dt][2][n][1])
+                totalfreq += ct
+                dictionary[dt][2][n][0] = ct
 
-
-def insert_into_dict(word, word_sentence_freq, word_count_freq, myDictObj,  positionalList):
-    myDictObj[word] = [word_sentence_freq, word_count_freq,  positionalList]
-
-
-def text_info(sentence_index, word, tokens_filtered, lastvalue, myDictObj,  positionalList):
-    count = 0
-    for count, ele in enumerate(tokens_filtered, 1):
-        if ele == word:
-            if sentence_index in myDictObj[word][2]:
-                myDictObj[word][2][sentence_index][0] += 1
-                myDictObj[word][2][sentence_index][1].append(count + lastvalue)
-            else:
-                myDictObj[word][2][sentence_index] = [0, []]
-                myDictObj[word][2][sentence_index][0] += 1
-                myDictObj[word][2][sentence_index][1].append(count + lastvalue)
-    return positionalList, count+lastvalue
+            except:
+                pass
+            last_pos += len(strip_text)
+        dictionary[dt][0] = len(dictionary[dt][2])
+        dictionary[dt][1] = totalfreq
+    return dictionary, relevant_words_list, candidate_dates_list, sentence_array
 
 
 # ************************************************************
@@ -91,9 +66,12 @@ def sentence_tokenizer(text):
     sentences = nltk.sent_tokenize(text)
     return sentences
 
+# ************************************************************************************************************************************************
 
 # *************************************************************************************
-# ********************data referent to data extracted in text**************************
+# **************************** Date extraction from text ******************************
+# *************************************************************************************
+
 def candidate_years(text, language, document_type, document_creation_time, date_granularity, date_extractor):
     if date_extractor == 'py_heideltime':
         candidate_dates_array, new_text = py_heideltime(text, language, document_type, document_creation_time,
@@ -123,8 +101,11 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
 def rule_based(text, date_granularity):
     dates_list = []
     import re
-    striped_text = text.replace('(', '').replace(')', '').replace('–', '-')
-    match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{2,4}[-/.]\d{2,4}|\d{4}', striped_text, re.MULTILINE)
+    try:
+        striped_text = text.replace('(', '').replace(')', '').replace('–', '-')
+    except:
+        striped_text = text
+    match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}s|\d{4}', striped_text, re.MULTILINE)
     try:
         for dt in match:
             provisional_list = []
@@ -140,7 +121,6 @@ def rule_based(text, date_granularity):
                         months = re.findall('\w{2}[-/.]\w{4}|\w{4}[-/.]\w{2}', str(dt))
                         dates_list.append((months[0]))
                         provisional_list.append((dt, months[0]))
-                        print(provisional_list)
                     elif date_granularity.lower() == 'day':
                         days = re.findall('\w{2,4}[-/.]\w{2}[-/.]\w{2,4}', str(dt))
                         dates_list.append((days[0]))
@@ -150,13 +130,6 @@ def rule_based(text, date_granularity):
                 pass
     except ValueError:
         pass
-    #striped_text = striped_text.replace(list_dates[ct][1], list_dates[ct][0])
     #print('date_list = ' +str(dates_list))
     return dates_list, striped_text
 
-
-def word_tokenizer(text):
-    k = nltk.word_tokenize(text)
-    # removed the punctuation in text
-    tokens_filtered = [token.lower() for token in k if token not in string.punctuation]
-    return tokens_filtered
