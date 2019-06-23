@@ -59,7 +59,7 @@ To model this relevance, we define a Generic Temporal Similarity measure (GTE) t
 
 GTE ranges between 0 and 1, and is defined as follows:<br>
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE.jpg" width="350">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE1.jpg" width="350">
 </p>
 
 In the equation, `median` is the median function, `IS` is the [InfoSimba similarity measure](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535), `W`<sub>j</sub> represents one of the several terms of `W`<sup>\*</sup>, and `d`<sub>j</sub> is the candidate date. A more detailed description of each one will be given next.
