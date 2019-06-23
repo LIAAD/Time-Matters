@@ -22,12 +22,20 @@ Each _T<sub>i</sub>_, for _i = 1,...,n_, that is, each text, is represented by a
 T<sub>i</sub> = (W<sub>T<sub>i</sub></sub>, D<sub>T<sub>i</sub></sub>)	
 </p>
 
-where _W<sub>T<sub>i</sub></sub>_ = {_w<sub>1,i</sub>, w<sub>2,i</sub>, ..., w<sub>k,i</sub></sub>_} is the set of the _k_ most relevant terms associated with a text _T<sub>i</sub>_ and _D<sub>T<sub>i</sub></sub>_ = {_d<sub>1,i</sub>, d<sub>2,i</sub>, ..., d<sub>t,i</sub></sub>_} is the set of the _t_ candidate temporal expressions associated with a text _T<sub>i</sub>_.
+where _W<sub>T<sub>i</sub></sub>_ = {_w<sub>1,i</sub>, w<sub>2,i</sub>, ..., w<sub>k,i</sub></sub>_} is the set of the _k_ most relevant terms associated with a text _T<sub>i</sub>_ and _D<sub>T<sub>i</sub></sub>_ = {_d<sub>1,i</sub>, d<sub>2,i</sub>, ..., d<sub>t,i</sub></sub>_} is the set of the _t_ candidate temporal expressions associated with a text _T<sub>i</sub>_. Moreover, <br>
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/Wt.jpg" width="100">
+</p>
+is the set of distinct relevant keywords extracted, within a text or a set of texts T, i.e., the relevant vocabulary. Similarly, <br>
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/Dt.jpg" width="100">
+</p>
+is defined as the set of distinct candidate temporal expressions extracted from a text or a set of texts T.
 
-#### Relevant keywords
+##### Relevant keywords
 Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
-#### Temporal expressions
+##### Temporal expressions
 Temporal expressions in Time-Matters can be identified through:
 - [Heideltime Temporal Tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) by means of a [Python wrapper package](https://github.com/JMendes1995/py_heideltime)
 - [Sutime Temporal Tagger](https://nlp.stanford.edu/software/sutime.shtml) by means of a [Python wrapper package](https://github.com/FraBle/python-sutime)
@@ -46,10 +54,10 @@ Finally, we also make use of a self-defined rule-based approach which is able to
 
 While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
 
+### Temporal Similarity Measure
+To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of keywords and temporal expressions as a means to identify relevant d<sub>j</sub> dates within a text or a set of texts _T<sub>i</sub>_.
 
-To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)), as a means to identify relevant d<sub>j</sub> dates within a document (doc).
-
-GTE is defined as follows:<br>
+GTE ranges between 0 and 1, and is defined as follows:<br>
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE.jpg" width="350">
 </p>
