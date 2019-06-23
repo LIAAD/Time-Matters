@@ -10,24 +10,20 @@ The first, aims to determine the relevance of temporal expressions within a sing
 
 The latter, aims to determine the relevance of temporal expressions within multiple documents. 
 
+## Rationale
+Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant words (W<sub>j</sub><sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of _n_ terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sub>j</sub><sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
+
 ## How does it works?
 Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from the document's contents. 
 
-Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant words (W<sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of n terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
-
-To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)), as a means to identify relevant d<sub>j</sub> dates within a document (doc).
-
-GTE is defined as follows:<br>
-<p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE.jpg" width="350">
+### Text Representation
+Each _T<sub>i</sub>_, for _i = 1,...,n_, that is, each text, is represented by a number of relevant keywords and a number of candidate temporal expressions. In what follows, we assume that each text _T<sub>i</sub>_ is composed by two different sets denoted _W<sub>T<sub>i</sub></sub>_ and _D<sub>T<sub>i</sub></sub>_:<br>
+<p align="center"> 
+T<sub>i</sub> = (W<sub>T<sub>i</sub></sub>, D<sub>T<sub>i</sub></sub>)	
 </p>
 
-In the equation, `median` is the median function, `IS` is the [InfoSimba similarity measure](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535), `W`<sub>j</sub> represents one of the several terms of `W`<sup>\*</sup>, and `d`<sub>j</sub> is the candidate date.
+where _W<sub>T<sub>i</sub></sub>_ = {_w<sub>1,i</sub>, w<sub>2,i</sub>, ..., w<sub>k,i</sub></sub>_} is the set of the _k_ most relevant terms associated with a text _T<sub>i</sub>_ and _D<sub>T<sub>i</sub></sub>_ = {_d<sub>1,i</sub>, d<sub>2,i</sub>, ..., d<sub>t,i</sub></sub>_} is the set of the _t_ candidate temporal expressions associated with a text _T<sub>i</sub>_.
 
-
-
-
-## What do we use for relevant keywords detection and temporal expressions identification in Time-Matters?
 #### Relevant keywords
 Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
@@ -49,6 +45,19 @@ Finally, we also make use of a self-defined rule-based approach which is able to
 - yyyy
 
 While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
+
+
+To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)), as a means to identify relevant d<sub>j</sub> dates within a document (doc).
+
+GTE is defined as follows:<br>
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE.jpg" width="350">
+</p>
+
+In the equation, `median` is the median function, `IS` is the [InfoSimba similarity measure](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535), `W`<sub>j</sub> represents one of the several terms of `W`<sup>\*</sup>, and `d`<sub>j</sub> is the candidate date. A more detailed description of each one will be given next.
+
+### IS
+
 
 ## What type of window do we use to search for co-occurrences between terms (where a term is a relevant keyword or an identified temporal expression)?
 #### Relevant keywords
