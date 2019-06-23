@@ -55,17 +55,22 @@ Finally, we also make use of a self-defined rule-based approach which is able to
 While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
 
 ### Temporal Similarity Measure
-To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of keywords and temporal expressions as a means to identify relevant d<sub>j</sub> dates within a text _T<sub>i</sub>_.
+To model this temporal relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of keywords and temporal expressions as a means to identify relevant d<sub>j</sub> dates within a text _T<sub>i</sub>_.
 
 GTE ranges between 0 and 1, and is defined as follows:<br>
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE1.jpg" width="350">
 </p>
 
-In the equation, `median` is the median function, `IS` is the [InfoSimba similarity measure](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535), `W`<sub>l, j</sub> represents one of the several terms of `W`<sub>j<sup>*</sup></sub>, and `d`<sub>j</sub> is the candidate date found within a text `t`<sub>i</sub>. A more detailed description of each one will be given next.
+In the equation, `median` is the median function, `IS` is the InfoSimba similarity measure, and `W`<sub>l, j</sub> represents one of the several terms of (`W`<sub>j</sub><sup>\*</sup>), that co-occur with the candidate date `d`<sub>j</sub> within a text `t`<sub>i</sub>. A more detailed description of each one will be given next.
 
-### IS
+##### IS
+In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., ngram, sentence, paragraph, corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. The intuition behind second order similarity measures is that two terms having many co-occurring words often carry the same sense in such a way that the information content of both words is likely to share similar terms. For instance, the similarity between the terms ‘‘professor’’ and ‘‘teacher’’ is expected to rest on a number of common cooccurring words such as student, school, etc. Adopting one such solution, will enable to overcome the problem of data sparseness in cases when two terms, despite being similar, do not co-occur frequently in a corpus.
 
+GTE ranges between 0 and 1, and is defined as follows:<br>
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS.jpg" width="350">
+</p>
 
 ## What type of window do we use to search for co-occurrences between terms (where a term is a relevant keyword or an identified temporal expression)?
 #### Relevant keywords
