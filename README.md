@@ -3,12 +3,15 @@
 
 Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from document content.
 
-Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant words (W<sup>*</sup>) that it co-occurs with in a given context (where a context can be a window of n terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sup>*</sup>) of a document (or documents), the more relevant the candidate date is.
+Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant words (W<sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of n terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
 
 To model this relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of words (extracted through [YAKE!](https://github.com/LIAAD/yake) keyword extractor system) and temporal expressions (extracted by means of a self-defined rule-based solution or a temporal tagger such as [Heideltime](https://heideltime.ifi.uni-heidelberg.de/heideltime/) or [Sutime](https://nlp.stanford.edu/software/sutime.shtml)), as a means to identify relevant d<sub>j</sub> dates within a document.
 
-GTE is defined as follows:
+GTE is defined as follows:<br>
+<p align="center">
 GTE(d<sub>j</sub>) = Median(IS(W<sup>*</sup>,d<sub>j</sub>))
+</p>
+
 
 This package is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by Jorge Mendes under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
