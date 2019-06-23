@@ -11,7 +11,7 @@ The first, aims to determine the relevance of temporal expressions within a sing
 The latter, aims to determine the relevance of temporal expressions within multiple documents. 
 
 ## Rationale
-Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant words (W<sub>j</sub><sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of _n_ terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sub>j</sub><sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
+Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant terms (W<sub>j</sub><sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of _n_ terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sub>j</sub><sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
 
 ## How does it works?
 Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from the document's contents. 
