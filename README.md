@@ -32,9 +32,11 @@ is the set of distinct relevant keywords extracted, within a text or a set of te
 </p>
 is defined as the set of distinct candidate temporal expressions extracted from a text or a set of texts T.
 <br>
+
 To illustrate our algorithm we present the following running example:
-Let _W<sub>T</sub>_ = {_w<sub>1</sub>_; _w<sub>2</sub>_; _w<sub>3</sub>_; _w<sub>4</sub>_; _w<sub>5</sub>_; _w<sub>6</sub>_} be the set of distinct relevant keywords, _D<sub>T</sub>_ = {_d<sub>1</sub>_; _d<sub>2</sub>_; _d<sub>3</sub>_; _d<sub>4</sub>_;} the set of candidate dates and (W<sub>j</sub><sup>\*</sup>) as the set of relevant words _W<sub>T</sub>_ that co-occur with each of the four candidate dates _D<sub>T</sub>_ in the search space (to be defined).
-The following picture shows the list of six keywords _W<sub>T</sub>_ that co-occur with the four candidate dates _D<sub>T</sub>_. In each column, the "X" indicate the keywords belonging to the (W<sub>j</sub><sup>\*</sup>).
+Let W<sub>T</sub> = {w<sub>1</sub>; w<sub>2</sub>; w<sub>3</sub>; w<sub>4</sub>; w<sub>5</sub>; w<sub>6</sub>} be the set of distinct relevant keywords, D<sub>T</sub> = {d<sub>1</sub>; d<sub>2</sub>; d<sub>3</sub>; d<sub>4</sub>;} the set of candidate dates and (W<sub>j</sub><sup>\*</sup>) as the set of relevant words W<sub>T</sub> that co-occur with each of the four candidate dates D<sub>T</sub> in the search space (to be defined).
+
+The following picture shows the list of six keywords W<sub>T</sub> that co-occur with the four candidate dates D<sub>T</sub>. In each column, the "X" indicate the keywords belonging to the (W<sub>j</sub><sup>\*</sup>).
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences.jpg" width="200">
 </p>
