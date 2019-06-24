@@ -71,7 +71,12 @@ GTE ranges between 0 and 1, and is defined as follows:<br>
 In the equation, `median` is the median function, `IS` is the InfoSimba similarity measure, and `W`<sub>l, j</sub> represents one of the several terms of (`W`<sub>j</sub><sup>\*</sup>), that co-occur with the candidate date `d`<sub>j</sub> within a text `t`<sub>i</sub>. A more detailed description of the median function and of the IS similarity measure will be given next.
 
 ##### InfoSimba
-In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., a sentence, a paragraph, a corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. The intuition behind second order similarity measures is that two terms having many co-occurring words often carry the same sense in such a way that the information content of both words is likely to share similar terms. For instance, the similarity between the terms ‘‘professor’’ and ‘‘teacher’’ is expected to rest on a number of common cooccurring words such as student, school, etc. Adopting one such solution, will enable to overcome the problem of data sparseness in cases when two terms, despite being similar, do not co-occur frequently in a corpus.
+In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., a sentence, a paragraph, a corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. 
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/First_vs_Second.jpg" width="250">
+</p>
+
+The intuition behind second order similarity measures is that two terms having many co-occurring words often carry the same sense in such a way that the information content of both words is likely to share similar terms. For instance, the similarity between the terms ‘‘professor’’ and ‘‘teacher’’ is expected to rest on a number of common co-occurring words such as student, school, etc. Likewise, the similarity between the terms '2010' and 'haiti' is expected to be related with terms about the earthquake. Adopting one such solution, will enable to overcome the problem of data sparseness in cases when two terms, despite being similar, do not co-occur frequently in a corpus.
 
 InfoSimba is defined as follows:<br>
 <p align="center">
@@ -84,7 +89,7 @@ IS calculates the correlation between all pairs of two context vectors X and Y, 
 ###### Context Vectors
 Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>j</sub>) consists of N terms with a DICE similarity greater than a given threshold (TH). For instance, to determine the context vector of a candidate date `d`<sub>j</sub>. only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector.
 
-A representation of the context vectors is given in the following figure:<br>
+A representation of the context vectors is given in the following figure. Again for sake of understanding we consider d<sub>j</sub> to be "2010" and w<sub>l, j</sub> to be "haiti":<br>
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation2.jpg" width="250">
 </p>
@@ -100,9 +105,9 @@ In order to better understand this process, we consider the following figure:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow1.jpg" width="250">
 </p>
-By looking at the picture, we can observe three segments (for instance, three sentences, in case we are working with a single document, or three documents should we be working with multiple documents). In the picture, `x` and `y` represent two different terms, and `n` represent the n-contextual window distance between them.
+By looking at the picture, we can observe three segments (for instance, three sentences, in case we are working with a single document, or three documents should we be working with multiple documents). In the picture, x and y represent two different terms, and n represent the n-contextual window distance between them.
 
-In our work, similarities between terms are computed using [Dice coefficient](https://www.jstor.org/stable/1932409?seq=1#page_scan_tab_contents) as follows:
+<br>In our work, similarities between terms are computed using [Dice coefficient](https://www.jstor.org/stable/1932409?seq=1#page_scan_tab_contents) as follows:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE1.jpg" width="200">
 </p>
@@ -119,10 +124,16 @@ For the second case, we consider to count co-occurrences within a <b>window of n
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE3.jpg" width="200">
 </p>
 
-The calculated DICE similarities will then be stored in a matrix that keeps all the similarities between all the terms (keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` (see the figure bellow). In this example, we opt to only show the similarities hyphotetically calcuted to the keyword `w`<sub>k</sub> and to the candidate date `d`<sub>t</sub> under the search space defined.
+The calculated DICE similarities will then be stored in a matrix that keeps all the similarities between all the terms (keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` (see the figure bellow) under the search space defined.
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE_Matrix1.jpg" width="400">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE_matrix2.jpg" width="400">
 </p>
+
+By looking at the similarities stored on the matrix we can then compute the final IS score 
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation3.jpg" width="250">
+</p>
+
 ##### Median Function
 
 ## How to Install Time-Matters
