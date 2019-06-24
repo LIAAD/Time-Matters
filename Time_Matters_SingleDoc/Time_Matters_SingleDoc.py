@@ -20,15 +20,18 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters_parameters=[], 
     dates_array_score = []
     for k in range(len(relevant_dates)):
         dates_array_score.append((relevant_dates[k][0], relevant_dates[k][1]))
-    final_score_output = get_final_output(inverted_index, dates_array_score, debug_mode, date_dictionary)
+    if temporal_tagger[0] == 'py_heideltime':
+        final_score_output = get_final_output(inverted_index, dates_array_score, debug_mode, date_dictionary)
+    else:
+        final_score_output = get_final_output_rule_based(inverted_index, dates_array_score)
 
     if score_type == 'multiple' and debug_mode:
-        n_txt = text_refactor(new_text, final_score_output)
+        n_txt = text_refactor(new_text, final_score_output, temporal_tagger)
         return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
     elif score_type == 'multiple' and not debug_mode:
         return final_score_output, sentence_array
     elif score_type == 'single' and debug_mode:
-        n_txt = text_refactor(new_text, final_score_output)
+        n_txt = text_refactor(new_text, final_score_output, temporal_tagger)
         return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
     elif score_type == 'single' and not debug_mode:
         return final_score_output
@@ -75,6 +78,7 @@ def verify_input_data(temporal_tagger, time_matters_parameters):
 
 
 def get_final_output(dictionary, list_dates_score, debug_mode, date_dictionary):
+
     final_output= {}
     if debug_mode:
         for n_lt in range(len(list_dates_score)):
@@ -109,14 +113,28 @@ def get_final_output(dictionary, list_dates_score, debug_mode, date_dictionary):
 
         return final_output
 
-def text_refactor(new_text, final_score_output):
 
-    tokenize_text = new_text.split()
-    for i in final_score_output:
-        offset = final_score_output[i][1]
-        new_word = i.replace(' ', '_')
-        for n_ofset in offset:
-            tokenize_text[n_ofset] = new_word
-    n_txt = " ".join(tokenize_text)
+def text_refactor(new_text, final_score_output, temporal_tagger):
+    if temporal_tagger[0] == 'rule_based':
+        return new_text
+    else:
+        tokenize_text = new_text.split()
+        for i in final_score_output:
+            offset = final_score_output[i][1]
+            new_word = i.replace(' ', '_')
+            for n_ofset in offset:
+                tokenize_text[n_ofset] = new_word
+        n_txt = " ".join(tokenize_text)
 
-    return n_txt
+        return n_txt
+
+def get_final_output_rule_based(dictionary, list_dates_score):
+    final_output= []
+    for lt in list_dates_score:
+        dict_date_info = (dictionary[lt[0]][2])
+        total_offset=[]
+        for offset in dict_date_info:
+            total_offset += dict_date_info[offset][1]
+
+        final_output.append((lt[0],lt[1],total_offset))
+    return final_output
