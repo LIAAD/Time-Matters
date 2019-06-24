@@ -87,18 +87,20 @@ In order to compute the similarity between terms, we begin by defining a n-conte
 - co-occurrences between the full sentence itself;
 - co-occurrences between a window of n tokens;
 
-In order to better understand this process, we consider the following picture:
+In order to better understand this process, we consider the following figure:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow1.jpg" width="250">
 </p>
-
-By looking at the picture, we can observe three segments (for instance, three sentences in case we working with a single document, or three documents should we be working with multiple documents). In the picture, `x` and `y` represent two different terms, and `n` represent the n-contextual window distance between them.
+By looking at the picture, we can observe three segments (for instance, three sentences, in case we are working with a single document, or three documents should we be working with multiple documents). In the picture, `x` and `y` represent two different terms, and `n` represent the n-contextual window distance between them.
 
 In our work, similarities between terms are computed using [Dice coefficient](https://www.jstor.org/stable/1932409?seq=1#page_scan_tab_contents) as follows:
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE.jpg" width="250">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE1.jpg" width="200">
 </p>
 
+where |x| counts the number of distinct segments where x appears, |y| counts the number of distinct segments where y occurs, and |x| intersected with |y| counts the number of distinct segments where both terms occur together within the defined context window.
+
+For the first case, that is the full sentence, this means a |x| of 3 (as x occurs in 3 distinct segments), a |y| of 2 (as y occurs in 2 distinct segments), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space sentence - in two distinct sentences).
 
 
 
