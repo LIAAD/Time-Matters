@@ -6,14 +6,14 @@ import nltk
 # words extraction using wake
 def kw_ext(yake_ln, lang, text,num_of_keywords,  document_type, document_creation_time, date_granularity, date_extractor):
     sample = YakeKW(lan=yake_ln, n=1, top=num_of_keywords)
-    dates, new_text = candidate_years(text, lang, document_type, document_creation_time, date_granularity, date_extractor)
+    dates, new_text, date_dictionary = candidate_years(text, lang, document_type, document_creation_time, date_granularity, date_extractor)
     keywords = sample.extract_keywords(new_text)
     relevant_words = []
 
     for ki in range(len(keywords)):
         relevant_words.append(keywords[ki][0])
     inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words, dates, new_text)
-    return inverted_index, words_array, dates_array, sentence_array
+    return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text
 
 
 def test_trans(text):
@@ -72,12 +72,13 @@ def sentence_tokenizer(text):
 
 def candidate_years(text, language, document_type, document_creation_time, date_granularity, date_extractor):
     if date_extractor == 'py_heideltime':
-        candidate_dates_array, new_text = py_heideltime(text, language, document_type, document_creation_time,
+        candidate_dates_array, new_text, date_dictionary = py_heideltime(text, language, document_type, document_creation_time,
                       date_granularity)
-        return candidate_dates_array, new_text
+        return candidate_dates_array, new_text, date_dictionary
     elif date_extractor == 'rule_based':
+        date_dictionary = {}
         candidate_dates_array, new_text = rule_based(text, date_granularity)
-        return candidate_dates_array, new_text
+        return candidate_dates_array, new_text, date_dictionary
     else:
         print('You must select a valid time tagger.\n'
               'options:\n'
@@ -85,20 +86,24 @@ def candidate_years(text, language, document_type, document_creation_time, date_
               '     rule_based')
 
 
+
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
-    years = []
     list_dates = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type, heideltime_document_creation_time)
-
+    date_dictionary = {}
+    dates = []
     new_text = text
     for ct in range(len(list_dates)):
-        if list_dates[ct][0] not in years:
-            years.append(list_dates[ct][0].lower())
+        if list_dates[ct][0].lower() not in date_dictionary:
+            date_dictionary[list_dates[ct][0].lower()] = [list_dates[ct][1]]
+            dates.append(list_dates[ct][0].lower())
+        elif list_dates[ct][0].lower() in date_dictionary:
+            date_dictionary[list_dates[ct][0].lower()].append(list_dates[ct][1])
         try:
             new_text = new_text.replace(list_dates[ct][1], list_dates[ct][0])
         except:
             pass
-    return years, new_text
+    return dates, new_text, date_dictionary
 
 
 def rule_based(text, date_granularity):

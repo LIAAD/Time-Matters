@@ -75,11 +75,11 @@ Options:
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   -tm, --time_matters LIST              specifies information about the Time-Matters
                                             the number of YAKE! keywords to extract from the text (num_of_keywords),
-                                            information regarding the construction of the vocabulary context vector (context_vector_size,
-                                            threshold_sim_value), and information concerning the scope of search (context_window_distance)
+                                            information regarding the construction of the vocabulary context vector (N,
+                                            TH), and information concerning the scope of search (n_contextual_window)
                                             
                                             Example:
-                                                "[num_of_keywords=10, context_window_distance=10, context_vector_size='max', threshold_sim_value=0.05]"
+                                                "[num_of_keywords=10, context_window_distance=10, N='max', TH=0.05]"
                                                 
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   -st, --score_type TEXT                Specifies the type of score
