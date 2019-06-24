@@ -73,7 +73,12 @@ IS calculates the correlation between all pairs of two context vectors X and Y, 
 
 
 ###### Context Vectors
-Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>j</sub>) consists of N terms with a DICE similarity greater than a given threshold (TH). For instance, to determine the context vector of a candidate date `d`<sub>j</sub>. only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub> and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub> having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector.
+Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>j</sub>) consists of N terms with a DICE similarity greater than a given threshold (TH). For instance, to determine the context vector of a candidate date `d`<sub>j</sub>. only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector.
+
+A representation of the context vectors is given in the following figure:<br>
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation.jpg" width="300">
+</p>
 
 ## What type of window do we use to search for co-occurrences between terms (where a term is a relevant keyword or an identified temporal expression)?
 #### Relevant keywords
