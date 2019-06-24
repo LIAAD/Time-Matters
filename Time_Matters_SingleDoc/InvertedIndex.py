@@ -13,6 +13,7 @@ def kw_ext(yake_ln, lang, text,num_of_keywords,  document_type, document_creatio
     for ki in range(len(keywords)):
         relevant_words.append(keywords[ki][0])
     inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words, dates, new_text)
+
     return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text
 
 

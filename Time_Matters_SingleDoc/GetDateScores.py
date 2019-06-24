@@ -1,7 +1,6 @@
 import pandas as pd
 import statistics
 import operator
-import time
 
 
 # *************************************************
@@ -25,7 +24,7 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
                 # set 1 on dataframe in words that are the same in 2 axis
                 dt.at[x_axis, y_axis] = 1
             else:
-                px_y, px, py = find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window, score_type)
+                px_y, px, py = find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window)
                 result = dice_calc(px_y, px, py, x_axis, y_axis)
                 dt.at[x_axis, y_axis] = result
 
@@ -33,17 +32,18 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
     #print('*********************************************************************')
     #print('************************** Dice Matrix ******************************')
     #print(dt.to_string())
+    #print('\n')
     if score_type.lower() == 'multiple':
-       date_sentence_score =  calc_info_simba_per_sentence(dates_list, dt, TH, N, inverted_index)
+       date_sentence_score =  calc_info_simba_per_sentence(dates_list, dt, TH, N, inverted_index, n_contextual_window)
        return date_sentence_score, dt
     else:
-        sorted_dict = calc_info_simba(dates_list, words_list, dt, TH, N)
+        sorted_dict = calc_info_simba(dates_list, dt, TH, N)
         return sorted_dict, dt
 
 
 # **********************************************************************
 # find the position and the frequency of words
-def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window, score_by_sentence):
+def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window ):
     list_x = inverted_index[x_axis]
     list_y = inverted_index[y_axis]
     count = 0
@@ -61,20 +61,20 @@ def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window, score_by
 
 # **********************************************************
 # verifica se na mesma sentence as palavras estão á distancia defenido pela limit_distance
-def find_distance_of_words(x_offset, y_offset, limit_distance):
+def find_distance_of_words(x_offset, y_offset, n_contextual_window):
     value = 0
     for x in range(len(x_offset)):
         for y in range(len(y_offset)):
             if len(x_offset) > len(y_offset):
                 try:
-                    if -limit_distance <= x_offset[x] - y_offset[value] <= limit_distance:
+                    if -n_contextual_window <= x_offset[x] - y_offset[value] <= n_contextual_window:
                         value += 1
                     pass
                 except:
                     return value
             else:
                 try:
-                    if -limit_distance <= x_offset[value] - y_offset[y] <= limit_distance:
+                    if -n_contextual_window <= x_offset[value] - y_offset[y] <= n_contextual_window:
                         value += 1
                     pass
                 except:
@@ -96,7 +96,7 @@ def dice_calc(px_y, px, py, x_axis, y_axis):
 
 # ******************************************************************************************
 # calculation of info simba.
-def calc_info_simba(dates_array, words_array, dt, TH, N):
+def calc_info_simba(dates_array, dt, TH, N):
     #print('***************************************************************************')
     #print('*********************** Info simba ****************************************')
     is_vector = {}
@@ -136,7 +136,7 @@ def get_max_len(len_array, N):
 
 # ******************************************************************************************
 # calculation of info simba per sentence .
-def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index):
+def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_contextual_window):
     dict_result = []
 
     for dat in dates_array:
@@ -147,10 +147,10 @@ def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index):
         for index in index_array:
             info_simba_array = []
             #print('sentence '+str(index))
-            relevant_date_array_by_sentence = define_vector_by_sentence(inverted_index, dd_vector, index)
+            relevant_date_array_by_sentence = define_vector_by_sentence(inverted_index, dd_vector, index, dat, n_contextual_window)
             for wor in relevant_date_array_by_sentence:
                 relevant_word_array_by_sentence = define_word_vector_by_sentence(wor, inverted_index, index, dt,
-                                                                                 TH)
+                                                                                 TH, dat, n_contextual_window)
                 info_simba_result = find_max_length(dat, wor, relevant_date_array_by_sentence, relevant_word_array_by_sentence,
                                              dt, N)
                 info_simba_array.append(info_simba_result)
@@ -231,20 +231,41 @@ def sentence_index(date, inverted_index):
     return sentence_index_array
 
 
-def define_vector_by_sentence(inverted_index, all_sentences_context_vector, index):
+def define_vector_by_sentence(inverted_index, all_sentences_context_vector, index, date, n_contextual_window):
     relevant_array_by_sentence = []
-    for n in all_sentences_context_vector:
-        word_sim = inverted_index[n][2].keys()
+    #print(date+' '+str(inverted_index[date][2][index][1]))
+    #print('\n')
+    date_offset = inverted_index[date][2][index][1]
+    for word in all_sentences_context_vector:
+        word_sim = inverted_index[word][2].keys()
         for n_sentence_word in word_sim:
-            if index == n_sentence_word:
-                relevant_array_by_sentence.append(n)
+            if index == n_sentence_word and n_contextual_window == 'none':
+                relevant_array_by_sentence.append(word)
+            elif index == n_sentence_word and n_contextual_window != 'none':
+                #print(word+' '+str(inverted_index[word][2][index][1]))
+                word_offset = inverted_index[word][2][index][1]
+                verified_word = get_ocorrency(date_offset, word, word_offset ,n_contextual_window)
+                if verified_word != '':
+                    relevant_array_by_sentence.append(verified_word)
+
+    #print('\n')
     return relevant_array_by_sentence
 
 
-def define_word_vector_by_sentence(word, inverted_index, index, dataframe, TH):
+def get_ocorrency(date_offset, word, word_offset, n_contextual_window):
+    for d in date_offset:
+        for w in word_offset:
+            if -n_contextual_window <= d - w <= n_contextual_window:
+                return word
+            else:
+                pass
+    return ''
+
+
+def define_word_vector_by_sentence(word, inverted_index, index, dataframe, TH, date, n_contextual_window):
     ww_vector = relevant_array(word, dataframe, TH)
     #print(word + ' original relevant array ' + str(ww_vector))
-    relevant_word_array_by_sentence = define_vector_by_sentence(inverted_index, ww_vector, index)
+    relevant_word_array_by_sentence = define_vector_by_sentence(inverted_index, ww_vector, index, date, n_contextual_window)
     return relevant_word_array_by_sentence
 
 

@@ -104,7 +104,6 @@ def get_final_output(dictionary, list_dates_score, debug_mode, date_dictionary):
                 total_offset += dict_date_info[offset][1]
 
             for n_expression in range(len(total_offset)):
-               # print(n_expression)
                 if date_dictionary[list_dates_score[n_lt][0]][n_expression] not in final_output:
                     final_output[date_dictionary[list_dates_score[n_lt][0]][n_expression]] = list_dates_score[n_lt][1]
 
@@ -120,6 +119,4 @@ def text_refactor(new_text, final_score_output):
             tokenize_text[n_ofset] = new_word
     n_txt = " ".join(tokenize_text)
 
-    print(n_txt)
-    #print(final_score_output)
     return n_txt
