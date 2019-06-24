@@ -31,7 +31,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters_parameters=[], 
     elif score_type == 'single' and not debug_mode:
         return final_score_output
     else:
-        print('You must choose one type of score.\n'
+        print('You must select a valid type of score.\n'
               'options:\n'
               '     single;\n'
               '     multiple')

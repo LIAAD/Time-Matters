@@ -145,7 +145,7 @@ def calc_info_simba_per_sentence(dates_array, dt, threshold_sim_value, context_v
         dict_result.append((dat, []))
         for index in index_array:
             info_simba_array = []
-         #   print('sentence '+str(index))
+            #print('sentence '+str(index))
             relevant_date_array_by_sentence = define_vector_by_sentence(inverted_index, dd_vector, index)
             for wor in relevant_date_array_by_sentence:
                 relevant_word_array_by_sentence = define_word_vector_by_sentence(wor, inverted_index, index, dt,
@@ -160,7 +160,7 @@ def calc_info_simba_per_sentence(dates_array, dt, threshold_sim_value, context_v
                     except:
                         dict_result[i][1].append((index, 0))
             #print(dict_result)
-          #  print('\n')
+            #print('\n')
     return dict_result
 
 

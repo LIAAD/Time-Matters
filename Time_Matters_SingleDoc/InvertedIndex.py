@@ -78,9 +78,12 @@ def candidate_years(text, language, document_type, document_creation_time, date_
     elif date_extractor == 'rule_based':
         candidate_dates_array, new_text = rule_based(text, date_granularity)
         return candidate_dates_array, new_text
-    elif date_extractor == 'sutime':
-        candidate_dates_array, new_text = sutime(text)
-        return candidate_dates_array, new_text
+    else:
+        print('You must select a valid time tagger.\n'
+              'options:\n'
+              '     py_heideltime;\n'
+              '     rule_based')
+
 
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
@@ -132,24 +135,3 @@ def rule_based(text, date_granularity):
         pass
     #print('date_list = ' +str(dates_list))
     return dates_list, striped_text
-
-
-def sutime(text):
-    import os
-    import json
-    from sutime import SUTime
-    import jpype
-    jpype.getDefaultJVMPath()
-    jar_files = os.path.join(os.path.dirname(__file__), 'jars')
-    ss = SUTime(jars=jar_files, mark_time_ranges=True)
-    striped_text = text
-    js_sutime = json.dumps(ss.parse(text))
-    loaded_json = json.loads(js_sutime)
-    dates_array = []
-    for data in loaded_json:
-        if data['value'] not in dates_array:
-            dates_array.append(data['value'].lower())
-            striped_text = striped_text.replace(data['text'], data['value'].lower())
-    return dates_array, striped_text
-
-
