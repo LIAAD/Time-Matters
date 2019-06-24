@@ -31,9 +31,13 @@ is the set of distinct relevant keywords extracted, within a text or a set of te
   <img src="http://www.ccc.ipt.pt/~ricardo/images/Dt.jpg" width="100">
 </p>
 is defined as the set of distinct candidate temporal expressions extracted from a text or a set of texts T.
-
+<br>
 To illustrate our algorithm we present the following running example:
-Let _W<sub>T</sub>_ = {_W<sub>1</sub>_; _W<sub>2</sub>_; _W<sub>3</sub>_; _W<sub>4</sub>_; _W<sub>5</sub>_; _W<sub>6</sub>_} be the set of distinct relevant keywords,
+Let _W<sub>T</sub>_ = {_w<sub>1</sub>_; _w<sub>2</sub>_; _w<sub>3</sub>_; _w<sub>4</sub>_; _w<sub>5</sub>_; _w<sub>6</sub>_} be the set of distinct relevant keywords, _D<sub>T</sub>_ = {_d<sub>1</sub>_; _d<sub>2</sub>_; _d<sub>3</sub>_; _d<sub>4</sub>_;} the set of candidate dates and (W<sub>j</sub><sup>\*</sup>) as the set of relevant words _W<sub>T</sub>_ that co-occur with each of the four candidate dates _D<sub>T</sub>_ in the search space (to be defined).
+The following picture shows the list of six keywords _W<sub>T</sub>_ that co-occur with the four candidate dates _D<sub>T</sub>_. In each column, the "X" indicate the keywords belonging to the (W<sub>j</sub><sup>\*</sup>).
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences.jpg" width="200">
+</p>
 
 ##### Relevant keywords
 Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
