@@ -89,7 +89,7 @@ In order to compute the similarity between terms, we begin by defining a n-conte
 
 In order to better understand this process, we consider the following picture:
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/NB.jpg" width="300">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow.jpg" width="300">
 </p>
 
 In our work, the similarity between terms is computed based on DICE similarity measure:
