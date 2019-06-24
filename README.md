@@ -42,7 +42,7 @@ Temporal expressions in Time-Matters can be identified through:
 
 The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of time to execute. If you are interested in knowing more about Heideltime please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
-Finally, we also make use of a self-defined rule-based approach which is able to detect the following patterns:
+The second makes use of a self-defined rule-based approach which is able to detect the following patterns:
 - yyyy(./-)mm(./-)dd
 - dd(./-)mm(-/-)yyyy
 - yyyy(./-)yyyy
