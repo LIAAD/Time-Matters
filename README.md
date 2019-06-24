@@ -38,21 +38,18 @@ Relevant keywords in Time-Matters can be identified through YAKE!, a keyword ext
 ##### Temporal expressions
 Temporal expressions in Time-Matters can be identified through:
 - [Heideltime Temporal Tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) by means of a [Python wrapper package](https://github.com/JMendes1995/py_heideltime)
-- [Sutime Temporal Tagger](https://nlp.stanford.edu/software/sutime.shtml) by means of a [Python wrapper package](https://github.com/FraBle/python-sutime)
 - Rule-based approach
 
-The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of (linear) time to execute (approximately 4.5s for 600 tokens; 6s for 1,200 tokens; 15s for 2,600 tokens; 30s for 5k tokens; 60s para 10k tokens; 120s for 20k tokens). If you are interested in knowing more about Heideltime please refer to the [Publications](#Publications) section where you can find a few papers about it.
+The first uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of time to execute. If you are interested in knowing more about Heideltime please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
-The second uses a Python wrapper of Sutime Temporal Tagger (also state-of-the-art in this kind of task). Likewise Heideltime, it is able to detect a huge number of different types of temporal expressions. However, while it is more efficient (time-performance) than Heideltime, [currently](https://github.com/FraBle/python-sutime#Supported-Languages) it only works for English. If you are interested in knowing more about Sutime please refer to the [Publications](#Publications) section where you can find a few papers about it.
-
-Finally, we also make use of a self-defined rule-based approach which is able to detect the following patterns:
+The second makes use of a self-defined rule-based approach which is able to detect the following patterns:
 - yyyy(./-)mm(./-)dd
 - dd(./-)mm(-/-)yyyy
 - yyyy(./-)yyyy
 - yyyys
 - yyyy
 
-While not as good (i.e., effective) as Heideltime or Sutime, it can be used when efficiency (time-performance) is a requirement.
+While not as good (i.e., effective) as Heideltime, it can be used when efficiency (time-performance) is a requirement.
 
 ### Temporal Similarity Measure
 To model this temporal relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of keywords and temporal expressions as a means to identify relevant d<sub>j</sub> dates within a text _T<sub>i</sub>_.
@@ -62,18 +59,58 @@ GTE ranges between 0 and 1, and is defined as follows:<br>
   <img src="http://www.ccc.ipt.pt/~ricardo/images/GTE1.jpg" width="350">
 </p>
 
-In the equation, `median` is the median function, `IS` is the InfoSimba similarity measure, and `W`<sub>l, j</sub> represents one of the several terms of (`W`<sub>j</sub><sup>\*</sup>), that co-occur with the candidate date `d`<sub>j</sub> within a text `t`<sub>i</sub>. A more detailed description of each one will be given next.
+In the equation, `median` is the median function, `IS` is the InfoSimba similarity measure, and `W`<sub>l, j</sub> represents one of the several terms of (`W`<sub>j</sub><sup>\*</sup>), that co-occur with the candidate date `d`<sub>j</sub> within a text `t`<sub>i</sub>. A more detailed description of the median function and of the IS similarity measure will be given next.
 
 ##### InfoSimba
-In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., ngram, sentence, paragraph, corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. The intuition behind second order similarity measures is that two terms having many co-occurring words often carry the same sense in such a way that the information content of both words is likely to share similar terms. For instance, the similarity between the terms ‘‘professor’’ and ‘‘teacher’’ is expected to rest on a number of common cooccurring words such as student, school, etc. Adopting one such solution, will enable to overcome the problem of data sparseness in cases when two terms, despite being similar, do not co-occur frequently in a corpus.
+In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., a sentence, a paragraph, a corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. The intuition behind second order similarity measures is that two terms having many co-occurring words often carry the same sense in such a way that the information content of both words is likely to share similar terms. For instance, the similarity between the terms ‘‘professor’’ and ‘‘teacher’’ is expected to rest on a number of common cooccurring words such as student, school, etc. Adopting one such solution, will enable to overcome the problem of data sparseness in cases when two terms, despite being similar, do not co-occur frequently in a corpus.
 
 InfoSimba is defined as follows:<br>
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS.jpg" width="350">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS1.jpg" width="300">
 </p>
 
-## What type of window do we use to search for co-occurrences between terms (where a term is a relevant keyword or an identified temporal expression)?
-#### Relevant keywords
+IS calculates the correlation between all pairs of two context vectors X and Y, where X is the context vector representation of `W`<sub>l, j</sub>, Y is the context vector representation of `d`<sub>j</sub> and DICE is the DICE similarity measure.
+
+
+###### Context Vectors
+Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>j</sub>) consists of N terms with a DICE similarity greater than a given threshold (TH). For instance, to determine the context vector of a candidate date `d`<sub>j</sub>. only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector.
+
+A representation of the context vectors is given in the following figure:<br>
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation.jpg" width="250">
+</p>
+
+By looking at the picture we can observe that both vectors X (that is, `W`<sub>l, j</sub>) and Y (that is, `d`<sub>j</sub>) are represented by `N` terms (keywords such as `w`<sub>1</sub> and candidate dates such as `d`<sub>1</sub>) with a `DICE similarity value > TH`.
+
+###### Computing DICE
+In order to compute the similarity between terms, we begin by defining a n-contextual window distance (n_contextual_window) to look for co-occurrences between terms. To this regard, we consider two possible search spaces:
+- co-occurrences between the <b>full sentence</b> itself;
+- co-occurrences between a <b>window of n tokens</b>;
+
+In order to better understand this process, we consider the following figure:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow1.jpg" width="250">
+</p>
+By looking at the picture, we can observe three segments (for instance, three sentences, in case we are working with a single document, or three documents should we be working with multiple documents). In the picture, `x` and `y` represent two different terms, and `n` represent the n-contextual window distance between them.
+
+In our work, similarities between terms are computed using [Dice coefficient](https://www.jstor.org/stable/1932409?seq=1#page_scan_tab_contents) as follows:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE1.jpg" width="200">
+</p>
+
+where |x| counts the number of distinct segments where x appears, |y| counts the number of distinct segments where y occurs, and |x| intersected with |y| counts the number of distinct segments where both terms occur together within the defined context window.
+
+For the first case, we consider to count co-occurrences within the <b>full sentence</b>, meaning that the n-contextual window distance will simply not be taken into account, that is, co-occurrences between terms will be counted regardless the distance between them, and as long as they appear in the same sentence. Thus, we will have a |x| of 3 (as x occurs in 3 distinct segments), a |y| of 2 (as y occurs in 2 distinct segments), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space sentence - in two distinct sentences). This would result in the following DICE similarity value:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE2.jpg" width="200">
+</p>
+
+For the second case, we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct segments), a |y| of 2 (as y occurs in 2 distinct segments), and a |x| intersected with |y| of 1 (as both terms only occur together - within the search space of 10 tokens - in the second segment. Indeed, if look carefully at segment 1 we will observe that x and y dist 12 tokens which is greater than 10). This would result in the following DICE similarity value:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE3.jpg" width="200">
+</p>
+
+##### Median Function
 
 ## How to Install Time-Matters
 
@@ -93,16 +130,13 @@ pip install git+https://github.com/LIAAD/yake
 For the latter (that is, the extraction of temporal expressions), we resort to three possibilities:
 - rule-based approach
 - heideltime python wrapper
-- sutime python wrapper
 
-
-The first, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. However, if your plan is to use Heideltime or Sutime (or even both) you need to install the following packages. More about the extraction of temporal expressions below.
+The first, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. However, if your plan is to use Heideltime you need to install the following packages. More about the extraction of temporal expressions below.
 ``` bash
 pip install git+https://github.com/JMendes1995/py_heideltime
-pip install git+https://github.com/FraBle/python-sutime
 ```
 
-You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime and sutime dependencies (note that none of this is needed should your plan is to only use a rule-based approach).
+You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies (note that none of this is needed should your plan is to only use a rule-based approach).
 
 #### External modules used (only for informative purposes):
     - YAKE
@@ -111,7 +145,6 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     - Pandas
     - regex
     - py_heideltime
-    - python-sutime
     
 ##### Linux users
     If your user does not have permission executions on python lib folder, you should execute the following command:
@@ -153,16 +186,14 @@ Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='sing
 ````
 is exactly the same thing and produces the same results.
 
-While 'py_heideltime' is the default temporal tagger, other taggers such as 'py_sutime' or a 'rule_based' approach can be used instead.
+While 'py_heideltime' is the default temporal tagger, a 'rule_based' approach can be used instead.
 ```` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_sutime'], score_type='single')
 Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='single')
 ````
 
-The following code is an attempt to print the results of Time-Matters for temporal expressions identified with 'py_heideltime', 'su_time' and 'rule_based'
+The following code is an attempt to print the results of Time-Matters for temporal expressions identified with 'py_heideltime' and 'rule_based'
 ```` bash
 print(Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single'))
-print(Time_Matters_SingleDoc(text, temporal_tagger=['py_sutime'], score_type='single'))
 print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='single'))
 ````
 
@@ -182,7 +213,7 @@ By looking at the results, one can observe that each element at the list is a se
 <br>
 <br>
 ##### _With all the parameters_
-Having "py_heideltime" as a basis (but other options such as "py_sutime", or "rule-based" can also be used):
+Having "py_heideltime" as a basis (but other options such "rule-based" can also be used):
 ``` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters_parameters=[10, 'none', 'max', 0.05], score_type='single', debug_mode=False)
 ```
@@ -241,7 +272,7 @@ Options:
 
  [not required]
   ----------------------------------------------------------------------------------------------------------------------------------------
-  -tt, --temporal_tagger LIST    Specifies the temporal tagger ("py_heideltime", "py_sutime", "rule-based") and the corresponding parameters.
+  -tt, --temporal_tagger LIST    Specifies the temporal tagger ("py_heideltime", "rule-based") and the corresponding parameters.
                                  default is "py_heideltime"
 				 
 				 py_heideltime (parameters):
@@ -278,13 +309,7 @@ Options:
 				   "Colloquial" texts are specified.
 				   Example: "2019-05-30".
 
-				 - Example: "['py_heideltime','English', 'days', 'news', '2019-05-05']"
-
-				
-				 py_sutime (parameters):
-				 ____________________________
-				 
-				 
+				 - Example: "['py_heideltime','English', 'days', 'news', '2019-05-05']"	 
 				 
 				 Rule_Based (parameters):
 				 ____________________________
