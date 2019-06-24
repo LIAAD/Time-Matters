@@ -69,7 +69,7 @@ InfoSimba is defined as follows:<br>
   <img src="http://www.ccc.ipt.pt/~ricardo/images/IS1.jpg" width="300">
 </p>
 
-IS calculates the correlation between all pairs of two context vectors X and Y, where X is the context vector representation of `W`<sub>l, j</sub> and Y is the context vector representation of `d`<sub>j</sub>.
+IS calculates the correlation between all pairs of two context vectors X and Y, where X is the context vector representation of `W`<sub>l, j</sub>, Y is the context vector representation of `d`<sub>j</sub> and DICE is the DICE similarity measure.
 
 
 ###### Context Vectors
@@ -82,8 +82,22 @@ A representation of the context vectors is given in the following figure:<br>
 
 By looking at the picture we can observe that both vectors X (that is, `W`<sub>l, j</sub>) and Y (that is, `d`<sub>j</sub>) are represented by `N` terms (keywords such as `w`<sub>1</sub> and candidate dates such as `d`<sub>1</sub>) with a `DICE similarity value > TH`.
 
-## What type of window do we use to search for co-occurrences between terms (where a term is a relevant keyword or an identified temporal expression)?
-#### Relevant keywords
+###### Computing DICE
+In order to compute the similarity between terms, we begin by defining a n-contextual window distance (n_contextual_window) to look for co-occurrences between terms. To this regard, we consider two possible search spaces:
+- co-occurrences between the full sentence itself;
+- co-occurrences between a window of n tokens;
+
+In order to better understand this process, we consider the following picture:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow.jpg" width="300">
+</p>
+
+In our work, the similarity between terms is computed based on DICE similarity measure:
+
+
+order to compute the DICE similarity we consider two 
+
+##### Median Function
 
 ## How to Install Time-Matters
 
