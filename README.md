@@ -84,8 +84,8 @@ By looking at the picture we can observe that both vectors X (that is, `W`<sub>l
 
 ###### Computing DICE
 In order to compute the similarity between terms, we begin by defining a n-contextual window distance (n_contextual_window) to look for co-occurrences between terms. To this regard, we consider two possible search spaces:
-- co-occurrences between the full sentence itself;
-- co-occurrences between a window of n tokens;
+- co-occurrences between the <b>full sentence</b> itself;
+- co-occurrences between a <b>window of n tokens</b>;
 
 In order to better understand this process, we consider the following figure:
 <p align="center">
@@ -100,11 +100,15 @@ In our work, similarities between terms are computed using [Dice coefficient](ht
 
 where |x| counts the number of distinct segments where x appears, |y| counts the number of distinct segments where y occurs, and |x| intersected with |y| counts the number of distinct segments where both terms occur together within the defined context window.
 
-For the first case, that is the full sentence, this means a |x| of 3 (as x occurs in 3 distinct segments), a |y| of 2 (as y occurs in 2 distinct segments), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space sentence - in two distinct sentences).
+For the first case, we consider to count co-occurrences within the <b>full sentence</b>, meaning that the n-contextual window distance will simply not be taken into account, that is, co-occurrences between terms will be counted regardless the distance between them, and as long as they appear in the same sentence. Thus, we will have a |x| of 3 (as x occurs in 3 distinct segments), a |y| of 2 (as y occurs in 2 distinct segments), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space sentence - in two distinct sentences). This would result in the following DICE similarity value:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE2.jpg" width="200">
+</p>
 
-
-
-order to compute the DICE similarity we consider two 
+For the second case, we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct segments), a |y| of 2 (as y occurs in 2 distinct segments), and a |x| intersected with |y| of 1 (as both terms only occur together - within the search space of 10 tokens - in the second segment. Indeed, if look carefully at segment 1 we will observe that x and y dist 12 tokens which is greater than 10). This would result in the following DICE similarity value:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE3.jpg" width="200">
+</p>
 
 ##### Median Function
 
