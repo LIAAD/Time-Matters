@@ -73,7 +73,7 @@ In the equation, `median` is the median function, `IS` is the InfoSimba similari
 ##### InfoSimba
 In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., a sentence, a paragraph, a corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. 
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/First_vs_Second.jpg" width="250">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/First_vs_Second.jpg" width="300">
 </p>
 
 The intuition behind second order similarity measures is that two terms having many co-occurring words often carry the same sense in such a way that the information content of both words is likely to share similar terms. For instance, the similarity between the terms ‘‘professor’’ and ‘‘teacher’’ is expected to rest on a number of common co-occurring words such as student, school, etc. Likewise, the similarity between the terms '2010' and 'haiti' is expected to be related with terms about the earthquake. Adopting one such solution, will enable to overcome the problem of data sparseness in cases when two terms, despite being similar, do not co-occur frequently in a corpus.
@@ -126,13 +126,44 @@ For the second case, we consider to count co-occurrences within a <b>window of n
 
 The calculated DICE similarities will then be stored in a matrix that keeps all the similarities between all the terms (keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` (see the figure bellow) under the search space defined.
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE_matrix2.jpg" width="400">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE_matrix3.jpg" width="400">
 </p>
 
-By looking at the similarities stored on the matrix we can then compute the final IS score 
+By looking at the similarities stored on the matrix we can then compute the final IS score for each candidate date. For instance, for d<sub>1</sub> = 2010, this means we will have to compute the similarities between (d<sub>1</sub>,w<sub>1</sub>), (d<sub>1</sub>,w<sub>2</sub>) and (d<sub>1</sub>,w<sub>3</sub>), as according to our example, d<sub>1</sub> co-occurs with each of this relevant keywords in a given search space.
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation3.jpg" width="250">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences1.jpg" width="300">
 </p>
+
+<br>In this example, we will only consider the calculation between d<sub>1</sub> = 2010 and w<sub>1</sub> = haiti. In order to construct each corresponding vector we will consider all the terms (thus N = maximum number) that co-occur the candidate vector (likewise with the keyword vector) having a DICE similarity > 0. This means that the vector representation of w<sub>1</sub> would consist of 9 elements (all but the w<sub>1</sub> itself will be selected) and the vector representation of d<sub>1</sub> would be made of 5 elements (that is all the terms with DICE similarities > 0, but itself will be selected). 
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation4.jpg" width="250">
+</p>
+
+<br>Given that the vectors have to have the same N size, we need to reduce the size of the w<sub>1</sub> vector, such that it ends with the same size of the d<sub>1</sub> vector. IS can now be computed as the corresponding similarity between each pairs of terms present in the N-size context vectors as depicted in following figure. Specifically, it will compute the level of relatedness between w<sub>3</sub> from the context vector of w<sub>1</sub> and the two other context terms of d<sub>1</sub>, i.e., w<sub>2</sub>, d<sub>4</sub>, d<sub>2</sub>, d<sub>3</sub> and w<sub>3</sub>, and then between d<sub>2</sub> and from the context vector of w<sub>1</sub> and the two other context terms of d<sub>1</sub>, and so on and so forth.
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation5.jpg" width="250">
+</p>
+
+<br>Instead, if we consider a size of N = 2 (for a matter of simplicity) we would have the following vector representation:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation6.jpg" width="250">
+</p>
+
+<br> The final score of (d<sub>1</sub>,w<sub>1</sub>) which stems from applying the IS equation will be:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS2.jpg" width="250">
+</p>
+
+<br>By looking at the similarities stored on the matrix we can then compute the final value as follows:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS3.jpg" width="250">
+</p>
+
+<br>Similarly we should process the similarities between d<sub>1</sub> and the remaining words of (W<sub>d<sub>j</sub></sub><sup>\*</sup>), i.e., w<sub>2</sub> and w<sub>3</sub>. The final score of each computation is given as follows:
+- IS(d<sub>1</sub>,w<sub>2</sub>) = TODO BY JORGE. INCLUIR AQUI OS VALORES, ASSIM QUE O IS estiver feito
+- IS(d<sub>1</sub>,w<sub>3</sub>)) = TODO BY JORGE. INCLUIR AQUI OS VALORES, ASSIM QUE O IS estiver feito
+
+Next, we describe the F aggregation function which is used to combine the several smilarity values sim(w<sub>l,j</sub>,d<sub>j</sub>), computed by IS.
 
 ##### Median Function
 
