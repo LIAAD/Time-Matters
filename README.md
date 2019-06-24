@@ -32,6 +32,9 @@ is the set of distinct relevant keywords extracted, within a text or a set of te
 </p>
 is defined as the set of distinct candidate temporal expressions extracted from a text or a set of texts T.
 
+To illustrate our algorithm we present the following running example:
+Let _W<sub>T</sub>_ = {_W<sub>1</sub>_; _W<sub>2</sub>_; _W<sub>3</sub>_; _W<sub>4</sub>_; _W<sub>5</sub>_; _W<sub>6</sub>_} be the set of distinct relevant keywords,
+
 ##### Relevant keywords
 Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
@@ -105,11 +108,15 @@ For the first case, we consider to count co-occurrences within the <b>full sente
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE2.jpg" width="200">
 </p>
 
-For the second case, we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct segments), a |y| of 2 (as y occurs in 2 distinct segments), and a |x| intersected with |y| of 1 (as both terms only occur together - within the search space of 10 tokens - in the second segment. Indeed, if look carefully at segment 1 we will observe that x and y dist 12 tokens which is greater than 10). This would result in the following DICE similarity value:
+For the second case, we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct segments), a |y| of 2 (as y occurs in 2 distinct segments), and a |x| intersected with |y| of 1 (as both terms only occur together - within the search space of 10 tokens - in the second segment. Indeed, if look carefully at segment 1 we will observe that x and y dist 12 tokens between them, which is greater than 10). This would result in the following DICE similarity value:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE3.jpg" width="200">
 </p>
 
+The calculated DICE similarities will then be stored in a matrix that keeps all the similarities between all the terms (keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` (see the figure bellow). In this example, we opt to only show the similarities hyphotetically calcuted to the keyword `w`<sub>k</sub> and to the candidate date `d`<sub>t</sub> under the search space defined.
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE_Matrix.jpg" width="200">
+</p>
 ##### Median Function
 
 ## How to Install Time-Matters
