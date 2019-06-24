@@ -89,10 +89,17 @@ In order to compute the similarity between terms, we begin by defining a n-conte
 
 In order to better understand this process, we consider the following picture:
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow.jpg" width="300">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow1.jpg" width="250">
 </p>
 
-In our work, the similarity between terms is computed based on DICE similarity measure:
+By looking at the picture, we can observe three segments (for instance, three sentences in case we working with a single document, or three documents should we be working with multiple documents). In the picture, `x` and `y` represent two different terms, and `n` represent the n-contextual window distance between them.
+
+In our work, similarities between terms are computed using [Dice coefficient](https://www.jstor.org/stable/1932409?seq=1#page_scan_tab_contents) as follows:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE.jpg" width="250">
+</p>
+
+
 
 
 order to compute the DICE similarity we consider two 
