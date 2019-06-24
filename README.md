@@ -80,6 +80,8 @@ A representation of the context vectors is given in the following figure:<br>
   <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation.jpg" width="300">
 </p>
 
+By looking at the picture we can observe that both vectors X (that is, `W`<sub>l, j</sub>) and Y (that is, `d`<sub>j</sub>) are represented by `N` terms (keywords such as `w`<sub>1</sub> and candidate dates such as `d`<sub>1</sub>) with a `DICE similarity value > TH`.
+
 ## What type of window do we use to search for co-occurrences between terms (where a term is a relevant keyword or an identified temporal expression)?
 #### Relevant keywords
 
