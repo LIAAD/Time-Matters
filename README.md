@@ -77,7 +77,7 @@ Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>
 
 A representation of the context vectors is given in the following figure:<br>
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation.jpg" width="300">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation.jpg" width="250">
 </p>
 
 By looking at the picture we can observe that both vectors X (that is, `W`<sub>l, j</sub>) and Y (that is, `d`<sub>j</sub>) are represented by `N` terms (keywords such as `w`<sub>1</sub> and candidate dates such as `d`<sub>1</sub>) with a `DICE similarity value > TH`.
@@ -89,7 +89,7 @@ In order to compute the similarity between terms, we begin by defining a n-conte
 
 In order to better understand this process, we consider the following picture:
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow.jpg" width="300">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/NB.jpg" width="300">
 </p>
 
 In our work, the similarity between terms is computed based on DICE similarity measure:
