@@ -156,7 +156,7 @@ By looking at the similarities stored on the matrix we can then compute the fina
 
 <br>By looking at the similarities stored on the matrix we can then compute the final value as follows:
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS4.jpg" width="350">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS5.jpg" width="350">
 </p>
 
 <br>Similarly we should process the similarities between d<sub>1</sub> and the remaining words of (W<sub>d<sub>j</sub></sub><sup>\*</sup>), i.e., w<sub>2</sub> and w<sub>3</sub>. The final score of each computation is given as follows:
