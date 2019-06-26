@@ -26,12 +26,12 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters_parameters=[], 
         final_score_output = get_final_output_rule_based(inverted_index, dates_array_score)
 
     if score_type == 'multiple' and debug_mode:
-        n_txt = text_refactor(new_text, final_score_output, temporal_tagger)
+        n_txt = text_refactor(new_text, final_score_output, tt_name)
         return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
     elif score_type == 'multiple' and not debug_mode:
         return final_score_output, sentence_array
     elif score_type == 'single' and debug_mode:
-        n_txt = text_refactor(new_text, final_score_output, temporal_tagger)
+        n_txt = text_refactor(new_text, final_score_output, tt_name)
         return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
     elif score_type == 'single' and not debug_mode:
         return final_score_output
@@ -131,8 +131,9 @@ def create_final_output_debug(final_output, list_dates_score, date_dictionary, t
             return final_output
     return final_output
 
-def text_refactor(new_text, final_score_output, temporal_tagger):
-    if temporal_tagger[0] == 'rule_based':
+
+def text_refactor(new_text, final_score_output, tt_name):
+    if tt_name == 'rule_based':
         return new_text
     else:
         tokenize_text = new_text.split()
