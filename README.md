@@ -5,14 +5,23 @@ Time matters is the result of a research conducted by Ricardo Campos during his 
 
 ## Table of Contents
 [What is Time-Matters?](#What-is-Time-Matters?)
+<br>
 [Rationale](#Rationale)
+<br>
 [How does it works?](#How-does-it-works?)
+<br>
 [How to Install Time-Matters](#How-to-Install-Time-Matters)
+<br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
+<br>
 [How to use Time-Matters-MultipleDoc](#How to use Time-Matters-MultipleDocs)
+<br>
 [API](#API)
+<br>
 [Publications](#Publications)
+<br>
 [Awards](#Awards)
+<br>
 [Contact](#Contact)
 
 ## What is Time-Matters?
@@ -282,7 +291,6 @@ The output is a dictionary where the key is the temporal expression (as it was f
 {'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
 ```
 
-<br>
 ##### _With all the parameters_: <br>
 Besides the temporal_tagger and the score_type, two other parameters can be used. The first, is a list of all the time matters parameters. The second, is the debug mode.
 <br>
