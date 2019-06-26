@@ -160,12 +160,13 @@ By looking at the similarities stored on the matrix we can then compute the fina
 </p>
 
 <br>Similarly we should process the similarities between d<sub>1</sub> and the remaining words of (W<sub>d<sub>j</sub></sub><sup>\*</sup>), i.e., w<sub>2</sub> and w<sub>3</sub>. The final score of each computation is given as follows:
-- IS(d<sub>1</sub>,w<sub>2</sub>) = TODO BY JORGE. INCLUIR AQUI OS VALORES, ASSIM QUE O IS estiver feito
-- IS(d<sub>1</sub>,w<sub>3</sub>)) = TODO BY JORGE. INCLUIR AQUI OS VALORES, ASSIM QUE O IS estiver feito
+- IS(d<sub>1</sub>,w<sub>2</sub>) = 0.606
+- IS(d<sub>1</sub>,w<sub>3</sub>)) = 0.439
 
 Next, we describe the F aggregation function which is used to combine the several smilarity values sim(w<sub>l,j</sub>,d<sub>j</sub>), computed by IS.
 
 ##### Median Function
+All these similarity values are then combined through the median measure (a measure of central tendency). In our running example this would represent a final score of `median[0.439, 0.606, 0.439] = 0.439`.
 
 ## How to Install Time-Matters
 
