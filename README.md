@@ -4,11 +4,11 @@
 Time matters is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by [Jorge Mendes](https://github.com/JMendes1995) under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
 ## What is Time-Matters?
-Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document: Time-Matters-SingleDoc) or a set of texts (multiple documents: Time-Matters-MultipleDocs). 
+Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). 
 
-The first, aims to determine the relevance of temporal expressions within a single document. 
+The first (Time-Matters-SingleDoc) aims to determine the relevance of temporal expressions within a single document. 
 
-The latter, aims to determine the relevance of temporal expressions within multiple documents. 
+The latter (Time-Matters-MultipleDocs), aims to determine the relevance of temporal expressions within multiple documents. 
 
 ## Rationale
 Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant terms (W<sub>j</sub><sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of _n_ terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sub>j</sub><sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
@@ -33,7 +33,7 @@ is the set of distinct relevant keywords extracted, within a text or a set of te
 is defined as the set of distinct candidate temporal expressions extracted from a text or a set of texts T.<br>
 <br>
 To illustrate our algorithm we present the following running example:
-Let W<sub>T</sub> = {w<sub>1</sub>; w<sub>2</sub>; w<sub>3</sub>; w<sub>4</sub>; w<sub>5</sub>; w<sub>6</sub>} be the set of distinct relevant keywords, D<sub>T</sub> = {d<sub>1</sub>; d<sub>2</sub>; d<sub>3</sub>; d<sub>4</sub>;} the set of candidate dates and (W<sub>j</sub><sup>\*</sup>) as the set of relevant words W<sub>T</sub> that co-occur with each of the four candidate dates D<sub>T</sub> in the search space (to be defined).
+Let W<sub>T</sub> = {w<sub>1</sub>; w<sub>2</sub>; w<sub>3</sub>; w<sub>4</sub>; w<sub>5</sub>; w<sub>6</sub>} be the set of distinct relevant keywords, D<sub>T</sub> = {d<sub>1</sub>; d<sub>2</sub>; d<sub>3</sub>; d<sub>4</sub>;} the set of candidate dates and (W<sub>j</sub><sup>*</sup>) as the set of relevant words W<sub>T</sub> that co-occur with each of the four candidate dates D<sub>T</sub> in the search space (to be defined).
 <br>
 <br>
 The following picture shows the list of six keywords W<sub>T</sub> that co-occur with the four candidate dates D<sub>T</sub>. In each column, the "X" indicate the keywords belonging to the (W<sub>j</sub><sup>*</sup>). For the sake of understanding we consider d<sub>1</sub> to be "2010", and w<sub>1</sub> to be "Haiti".
@@ -73,7 +73,7 @@ In the equation, `median` is the median function, `IS` is the InfoSimba similari
 ##### InfoSimba
 In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., a sentence, a paragraph, a corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. 
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/First_vs_Second.jpg" width="350">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/First_vs_Second1.jpg" width="350">
 </p>
 
 The intuition behind second order similarity measures is that two terms having many co-occurring words often carry the same sense in such a way that the information content of both words is likely to share similar terms. For instance, the similarity between the terms ‘‘professor’’ and ‘‘teacher’’ is expected to rest on a number of common co-occurring words such as student, school, etc. Likewise, the similarity between the terms '2010' and 'haiti' is expected to be related with terms about the earthquake. Adopting one such solution, will enable to overcome the problem of data sparseness in cases when two terms, despite being similar, do not co-occur frequently in a corpus.
@@ -176,7 +176,7 @@ pip install git+https://github.com/LIAAD/Time-Matters.git
 #### Install External Dependencies
 Time-Matters rests on the extraction of relevant keywords and temporal expressions found in the text.
 
-For the first (that is, the extraction of relevant keywords), we resort to YAKE! keyword extractor. More about the extraction of relevant keywords below.
+For the first (that is, the extraction of relevant keywords), we resort to [YAKE!](https://github.com/LIAAD/yake) keyword extractor. More about the extraction of relevant keywords below.
 
 ``` bash
 pip install git+https://github.com/LIAAD/yake
@@ -185,7 +185,7 @@ pip install git+https://github.com/LIAAD/yake
 
 For the latter (that is, the extraction of temporal expressions), we resort to two possibilities:
 - rule-based approach
-- heideltime python wrapper
+- [heideltime python wrapper](https://github.com/JMendes1995/py_heideltime)
 
 The first, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. However, if your plan is to use Heideltime you need to install the following packages. More about the extraction of temporal expressions below.
 ``` bash
@@ -209,9 +209,9 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
 ## How to use Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
 
-- to retrieve a <b>unique</b> score for each temporal expression found, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
+- to retrieve a unique <b>single</b> score for each temporal expression found regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
-- to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
+- to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
 
 How to work with each one will be explained next. But before, both the libraries, as well as the text, need to be imported.
 
@@ -226,10 +226,9 @@ text= "The Carnation Revolution (Portuguese: Revolução dos Cravos), also known
     "The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in "\
     "Portugal, and Portugal's withdrawal from its African colonies."
 ````
-#### Option 1 
+#### Option 1: Single Score
 <hr>
-<b>Get (a unique) score for each temporal expression found within the text</b><br>
-Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
+Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
 ##### _With default parameters_
 Default temporal tagger is "py_heideltime", which means that having:
@@ -280,10 +279,10 @@ Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters_par
  ('p48y', 0.919, [83])]
 ```
 <br>
-#### Option 2
+
+#### Option 2: Multiple Scores
 <hr>
-<b>Get (multiple) scores for each temporal expression found within the text</b><br>
-Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a date in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
+Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
 
 ##### With default parameters.
 ``` bash
