@@ -2,7 +2,4 @@ numpy
 pandas
 regex
 tabulate
-click
 langdetect
-JPype1==0.6.2
-sutime==1.0.0rc2
