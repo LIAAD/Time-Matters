@@ -1,7 +1,7 @@
 import pandas as pd
 import statistics
 import operator
-
+from itertools import product
 
 # *************************************************
 # remove duplicates from words and dates array
@@ -63,25 +63,13 @@ def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window ):
 # verifica se na mesma sentence as palavras estão á distancia defenido pela limit_distance
 def find_distance_of_words(x_offset, y_offset, n_contextual_window):
     value = 0
-    for x in range(len(x_offset)):
-        for y in range(len(y_offset)):
-            if len(x_offset) > len(y_offset):
-                try:
-                    if -n_contextual_window <= x_offset[x] - y_offset[value] <= n_contextual_window:
-                        value += 1
-                    pass
-                except:
-                    return value
-            else:
-                try:
-                    if -n_contextual_window <= x_offset[value] - y_offset[y] <= n_contextual_window:
-                        value += 1
-                    pass
-                except:
-                    return value
-
+    for x, y in product(range(len(x_offset)), range(len(y_offset))):
+        try:
+            if -n_contextual_window <= x_offset[x] - y_offset[y] <= n_contextual_window:
+                return 1
+        except:
+            return value
     return value
-
 
 # ******************************************************************************************
 # calculation of dice.
@@ -160,8 +148,6 @@ def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_conte
                         dict_result[i][1].append((index, float("%.3f" % statistics.median(info_simba_array))))
                     except:
                         dict_result[i][1].append((index, 0))
-            #print(dict_result)
-            #print('\n')
     return dict_result
 
 
@@ -253,12 +239,11 @@ def define_vector_by_sentence(inverted_index, all_sentences_context_vector, inde
 
 
 def get_ocorrency(date_offset, word, word_offset, n_contextual_window):
-    for d in date_offset:
-        for w in word_offset:
-            if -n_contextual_window <= d - w <= n_contextual_window:
-                return word
-            else:
-                pass
+    for d, w in product(date_offset, word_offset):
+        if -n_contextual_window <= d - w <= n_contextual_window:
+            return word
+        else:
+            pass
     return ''
 
 
@@ -273,40 +258,48 @@ def define_word_vector_by_sentence(word, inverted_index, index, dataframe, TH, d
 # calc the sim of dates and word vectors
 def calc_sim_vector(word, date, date_ultimate_array, word_ultimate_array, dataframe):
     # calc dates sim vector
-    date_vector_result = []
-    word_vector_result = []
+    date_vector_result = 0
+    word_vector_result = 0
+    # calc date sim context vector
+    for dt_x, dt_y in product(date_ultimate_array, date_ultimate_array):
+        value = dataframe.loc[dt_x, dt_y]
+        date_vector_result += value
 
-    #print(date + ' ' + str(date_ultimate_array))
-    for dt_x in date_ultimate_array:
-        value = dataframe.loc[date, dt_x]
-        date_vector_result.append(value)
+    # calc words sim context vector
+    for word_x, word_y in product(word_ultimate_array, word_ultimate_array):
+        value = dataframe.loc[word_x, word_y]
+        word_vector_result += value
 
-    #print(date_vector_result)
-    # calc words sim vector
-    for word_x in word_ultimate_array:
-        value = dataframe.loc[word, word_x]
-        word_vector_result.append(value)
 
-    #print(word + ' ' + str(word_ultimate_array))
-    #print(word_vector_result)
-    result = sim_calc(word_vector_result, date_vector_result)
+    date_word_vector_result =  sim_word_date_vector(word, date, date_vector_result, word_vector_result, date_ultimate_array, word_ultimate_array, dataframe)
+    result = sim_calc(date_vector_result, word_vector_result , date_word_vector_result)
     return result
 
 
-# ***************************************************************************************
-# calc of info-simba
-def sim_calc(word_vector_result, date_vector_result):
-    # sim for dates array
-    sim_date_date = sum([x * y for x in date_vector_result for y in date_vector_result])
-    # sim for words array
-    sim_word_word = sum([x * y for x in word_vector_result for y in word_vector_result])
-    # sim for date word array
-    sim_date_word = sum([x * y for x in date_vector_result for y in word_vector_result])
+# *******************************************************************************************
+# calc the sim of dates with word vectors
+def sim_word_date_vector(word, date, date_result, word_result, date_ultimate_array, word_ultimate_array, dataframe):
+    date_word_result = 0
+    #print(date, '=>', date_ultimate_array, 'result= ', date_result)
+    #print(word, '=>', word_ultimate_array, 'result= ', word_result)
+    for dt , word in product(date_ultimate_array, word_ultimate_array):
+        value = dataframe.loc[dt, word]
+        date_word_result += value
+    #print('('+date+', '+word+')'+' result' , date_word_result)
+    return date_word_result
 
-    if sim_date_word <= 0:
+
+# ***************************************************************************************
+# calc of GTE
+def sim_calc(date_vector_result, word_vector_result , date_word_vector_result ):
+
+    if date_word_vector_result <= 0:
         result = 0
     else:
-        result = sim_date_word / (sim_date_date + sim_word_word - sim_date_word)
+        try:
+            result = date_word_vector_result / (date_vector_result + word_vector_result - date_word_vector_result)
+        except:
+            result = 0
     #print(result)
     #print('\n')
     return result

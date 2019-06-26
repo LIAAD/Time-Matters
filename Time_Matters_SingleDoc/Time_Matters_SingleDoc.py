@@ -78,24 +78,19 @@ def verify_input_data(temporal_tagger, time_matters_parameters):
 
 
 def get_final_output(dictionary, list_dates_score, debug_mode, date_dictionary):
-
     final_output= {}
     if debug_mode:
         for n_lt in range(len(list_dates_score)):
             dict_date_info = (dictionary[list_dates_score[n_lt][0]][2])
-            total_offset = []
 
+            total_offset = []
+            #print(date_dictionary[list_dates_score[n_lt][0]])
+            #print(dict_date_info)
             # get all offset from dates
             for offset in dict_date_info:
                 total_offset += dict_date_info[offset][1]
-
-
-            for n_expression in range(len(total_offset)):
-                new_word = date_dictionary[list_dates_score[n_lt][0]][n_expression].replace(' ', '_')
-                if new_word not in final_output:
-                    final_output[new_word] = [list_dates_score[n_lt][1], [total_offset[n_expression]]]
-                else:
-                    final_output[new_word][1].append(total_offset[n_expression])
+            #print(total_offset)
+            final_output = create_final_output_debug(final_output, list_dates_score, date_dictionary, total_offset, n_lt)
 
         return final_output
     else:
@@ -106,13 +101,35 @@ def get_final_output(dictionary, list_dates_score, debug_mode, date_dictionary):
             # get all offset from dates
             for offset in dict_date_info:
                 total_offset += dict_date_info[offset][1]
-
-            for n_expression in range(len(total_offset)):
-                if date_dictionary[list_dates_score[n_lt][0]][n_expression] not in final_output:
-                    final_output[date_dictionary[list_dates_score[n_lt][0]][n_expression]] = list_dates_score[n_lt][1]
+            #print(total_offset)
+            final_output = create_final_output(final_output, list_dates_score, date_dictionary, total_offset, n_lt)
 
         return final_output
 
+
+def create_final_output(final_output, list_dates_score, date_dictionary, total_offset, n_lt):
+    for n_expression in range(len(total_offset)):
+        try:
+            if date_dictionary[list_dates_score[n_lt][0]][n_expression] not in final_output:
+                final_output[date_dictionary[list_dates_score[n_lt][0]][n_expression]] = list_dates_score[n_lt][1]
+        except:
+            return final_output
+    return final_output
+
+
+def create_final_output_debug(final_output, list_dates_score, date_dictionary, total_offset, n_lt):
+    for n_expression in range(len(total_offset)):
+        # print('mm'+str(n_expression))
+        # print(date_dictionary[list_dates_score[n_lt][0]][n_expression])
+        try:
+            new_word = date_dictionary[list_dates_score[n_lt][0]][n_expression].replace(' ', '_')
+            if new_word not in final_output:
+                final_output[new_word] = [list_dates_score[n_lt][1], [total_offset[n_expression]]]
+            else:
+                final_output[new_word][1].append(total_offset[n_expression])
+        except:
+            return final_output
+    return final_output
 
 def text_refactor(new_text, final_score_output, temporal_tagger):
     if temporal_tagger[0] == 'rule_based':
