@@ -23,7 +23,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters_parameters=[], 
     if tt_name == 'py_heideltime':
         final_score_output = get_final_output(inverted_index, dates_array_score, debug_mode, date_dictionary)
     else:
-        final_score_output = get_final_output_rule_based(inverted_index, dates_array_score)
+        final_score_output = get_final_output_rule_based(inverted_index, dates_array_score, debug_mode)
 
     if score_type == 'multiple' and debug_mode:
         n_txt = text_refactor(new_text, final_score_output, tt_name)
@@ -79,32 +79,21 @@ def verify_input_data(temporal_tagger, time_matters_parameters):
 
 def get_final_output(dictionary, list_dates_score, debug_mode, date_dictionary):
     final_output= {}
-    if debug_mode:
-        for n_lt in range(len(list_dates_score)):
-            dict_date_info = (dictionary[list_dates_score[n_lt][0]][2])
+    for n_lt in range(len(list_dates_score)):
+        dict_date_info = (dictionary[list_dates_score[n_lt][0]][2])
 
-            total_offset = []
-            #print(date_dictionary[list_dates_score[n_lt][0]])
-            #print(dict_date_info)
-            # get all offset from dates
-            for offset in dict_date_info:
-                total_offset += dict_date_info[offset][1]
+        total_offset = []
+        #print(date_dictionary[list_dates_score[n_lt][0]])
+        #print(dict_date_info)
+        # get all offset from dates
+        for offset in dict_date_info:
+            total_offset += dict_date_info[offset][1]
+        if debug_mode:
             #print(total_offset)
             final_output = create_final_output_debug(final_output, list_dates_score, date_dictionary, total_offset, n_lt)
-
-        return final_output
-    else:
-        for n_lt in range(len(list_dates_score)):
-            dict_date_info = (dictionary[list_dates_score[n_lt][0]][2])
-            total_offset=[]
-
-            # get all offset from dates
-            for offset in dict_date_info:
-                total_offset += dict_date_info[offset][1]
-            #print(total_offset)
+        else:
             final_output = create_final_output(final_output, list_dates_score, date_dictionary, total_offset, n_lt)
-
-        return final_output
+    return final_output
 
 
 def create_final_output(final_output, list_dates_score, date_dictionary, total_offset, n_lt):
@@ -146,13 +135,18 @@ def text_refactor(new_text, final_score_output, tt_name):
 
         return n_txt
 
-def get_final_output_rule_based(dictionary, list_dates_score):
-    final_output= []
+
+def get_final_output_rule_based(dictionary, list_dates_score, debug_mode):
+    final_output= {}
+
     for lt in list_dates_score:
         dict_date_info = (dictionary[lt[0]][2])
         total_offset=[]
         for offset in dict_date_info:
             total_offset += dict_date_info[offset][1]
-
-        final_output.append((lt[0],lt[1],total_offset))
+        if not debug_mode:
+            final_output[lt[0]] = lt[1]
+        else:
+            final_output[lt[0]] = [lt[1], total_offset]
     return final_output
+
