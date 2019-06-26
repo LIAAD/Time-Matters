@@ -3,6 +3,18 @@
 
 Time matters is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by [Jorge Mendes](https://github.com/JMendes1995) under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
+## Table of Contents
+[What is Time-Matters?](#What-is-Time-Matters?)
+[Rationale](#Rationale)
+[How does it works?](#How-does-it-works?)
+[How to Install Time-Matters](#How-to-Install-Time-Matters)
+[How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
+[How to use Time-Matters-MultipleDoc](#How to use Time-Matters-MultipleDocs)
+[API](#API)
+[Publications](#Publications)
+[Awards](#Awards)
+[Contact](#Contact)
+
 ## What is Time-Matters?
 Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). 
 
@@ -440,7 +452,7 @@ Options:
   --help                                Show this message and exit.
 ```
 
-## How to use Time-Matters-MultipleDoc
+## How to use Time-Matters-MultipleDocs
 ```` bash
 from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
 
