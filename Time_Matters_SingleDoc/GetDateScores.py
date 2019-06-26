@@ -51,7 +51,7 @@ def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window ):
         if key in list_y[2]:
             x_offset = list_x[2][key][1]
             y_offset = list_y[2][key][1]
-            if n_contextual_window == 'none':
+            if n_contextual_window == 'full_sentence':
                 count += 1
             else:
                 cc = find_distance_of_words(x_offset, y_offset, n_contextual_window)
@@ -225,9 +225,9 @@ def define_vector_by_sentence(inverted_index, all_sentences_context_vector, inde
     for word in all_sentences_context_vector:
         word_sim = inverted_index[word][2].keys()
         for n_sentence_word in word_sim:
-            if index == n_sentence_word and n_contextual_window == 'none':
+            if index == n_sentence_word and n_contextual_window == 'full_sentence':
                 relevant_array_by_sentence.append(word)
-            elif index == n_sentence_word and n_contextual_window != 'none':
+            elif index == n_sentence_word and n_contextual_window != 'full_sentence':
                 #print(word+' '+str(inverted_index[word][2][index][1]))
                 word_offset = inverted_index[word][2][index][1]
                 verified_word = get_ocorrency(date_offset, word, word_offset ,n_contextual_window)
