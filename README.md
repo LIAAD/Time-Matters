@@ -89,7 +89,7 @@ IS calculates the correlation between all pairs of two context vectors X and Y, 
 
 
 ###### Context Vectors
-Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>j</sub>) consists of N terms with a DICE similarity greater than a given threshold (TH, where TH is any value > 0, thus guaranteeing that the terms co-occur between them). For instance, to determine the context vector of a candidate date `d`<sub>j</sub> only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector (where n is any value > 0, or the word 'max' if instead, we want to consider all the terms having a simiilarity value threshold > TH).
+Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>j</sub>) consists of N terms (where n is any value > 0, or the word 'max' if, instead, we want to consider all the terms) with a DICE similarity greater than a given threshold (TH, where TH is any value > 0, thus guaranteeing that the terms co-occur between them). For instance, to determine the context vector of a candidate date `d`<sub>j</sub> only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector.
 
 A representation of the context vectors is given in the following figure. Again for sake of understanding we consider d<sub>j</sub> to be "2010" and w<sub>l, j</sub> to be "haiti":<br>
 <p align="center">
@@ -271,15 +271,14 @@ The output is a dictionary where the key is the temporal expression (as it was f
 ```
 
 <br>
-<br>
 ##### _With all the parameters_: <br>
-Besides the temporal_tagger and the score_type, two other parameters can be used. The first is a list of all the time_matters_parameters. The second is the debug mode.
-
+Besides the temporal_tagger and the score_type, two other parameters can be used. The first, is a list of all the time matters parameters. The second, is the debug mode.
+<br>
 For the first (time_matters), a list of four elements is considered:
-- num_of_keywords: number of YAKE! keywords to extract from the text. Default value is 10 (but any value > 0 is considered). More about this [here](#Text-Representation) and [here](#Relevant-Keywords) 
-- n_contextual_window: defines the n-contextual window distance. Default value is "full_sentence" (but a n-window where n > 0 is also considered as alternative), that is, the system will look for co-occurrences between terms that occur within the search space of a sentence; More about this [here](#Computing-Dice).
-- N: size of the context vector for X and Y at InfoSimba. Default value is 'max' (but any value > 0 is considered) meaning that the context vector should have the maximum number of n-terms co-occurring with X (likewise with Y). More about this [here](Context-Vectors).
-- TH: minimum threshold value from which terms are eligible to the context vector X and Y at InfoSimba. Default value is *0.05* (but any value > 0 is considered). More about this [here](Context-Vectors).
+- *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
+- *n_contextual_window*: defines the n-contextual window distance. Default value is "*full_sentence*" (but a n-window where n > 0 can be considered as alternative), that is, the system will look for co-occurrences between terms that occur within the search space of a sentence; More about this [here](#Computing-Dice).
+- *N*: size of the context vector for X and Y at InfoSimba. Default value is '*max*' (but any value > 0 is considered) meaning that the context vector should have the maximum number of n-terms co-occurring with X (likewise with Y). More about this [here](Context-Vectors).
+- *TH*: minimum threshold value from which terms are eligible to the context vector X and Y at InfoSimba. Default value is *0.05* (but any value > 0 is considered) meaning that any terms co-occuring between them with a DICE similarity value > 0.05 are eligible for the n-size vector. More about this [here](Context-Vectors).
 
 ``` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single', debug_mode=False)
