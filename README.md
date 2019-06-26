@@ -293,10 +293,10 @@ The output is a dictionary where the key is the temporal expression (as it was f
 {'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
 ```
 
-##### _With all the parameters_: <br>
+##### _With all the parameters_:
+
 Besides the *temporal_tagger* and the *score_type*, two other parameters can be used. The first, is a list of all the time matters parameters. The second, is the debug mode.
 
-<br>
 For the first (time_matters), a list of four elements is considered:
 - *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
 - *n_contextual_window*: defines the n-contextual window distance. Default value is "*full_sentence*" (but a n-window where n > 0 can be considered as alternative), that is, the system will look for co-occurrences between terms that occur within the search space of a sentence; More about this [here](#Computing-Dice).
