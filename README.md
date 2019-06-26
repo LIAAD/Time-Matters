@@ -8,13 +8,13 @@ Time matters is the result of a research conducted by Ricardo Campos during his 
 <br>
 [Rationale](#Rationale)
 <br>
-[How does it works?](#How-does-it-works?)
+[How does it works?](# How-does-it-works?)
 <br>
 [How to Install Time-Matters](#How-to-Install-Time-Matters)
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
 <br>
-[How to use Time-Matters-MultipleDocs](#How to use Time-Matters-MultipleDocs)
+[How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
 [API](#API)
 <br>
