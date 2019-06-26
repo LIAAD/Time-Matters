@@ -3,13 +3,13 @@ from Time_Matters_SingleDoc.GetDateScores import dt_frames
 from langdetect import detect
 
 
-def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters_parameters=[], score_type='single', debug_mode=False):
+def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type='single', debug_mode=False):
     try:
         yake_lang = detect(txt)
     except:
         yake_lang = 'en'
     tt_name, language, document_type, document_creation_time, date_granularity, \
-    num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters_parameters)
+    num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters)
 
     inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text = kw_ext(yake_lang,language, txt, num_of_keywords, document_type,
                                                                         document_creation_time, date_granularity, tt_name)
@@ -63,7 +63,7 @@ def verify_input_data(temporal_tagger, time_matters_parameters):
     except:
         pass
     num_of_keywords = 10
-    n_contextual_window = 'none'
+    n_contextual_window = 'full_sentence'
     N = 'max'
     TH = 0.05
     try:
