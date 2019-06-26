@@ -8,7 +8,7 @@ Time matters is the result of a research conducted by Ricardo Campos during his 
 <br>
 [Rationale](#Rationale)
 <br>
-[How does it works?](# How-does-it-works?)
+[How does it works?](#How-does-it-works?)
 <br>
 [How to Install Time-Matters](#How-to-Install-Time-Matters)
 <br>
