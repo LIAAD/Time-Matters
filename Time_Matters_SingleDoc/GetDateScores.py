@@ -63,6 +63,7 @@ def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window ):
 # verifica se na mesma sentence as palavras estão á distancia defenido pela limit_distance
 def find_distance_of_words(x_offset, y_offset, n_contextual_window):
     value = 0
+
     for x, y in product(range(len(x_offset)), range(len(y_offset))):
         try:
             if -n_contextual_window <= x_offset[x] - y_offset[y] <= n_contextual_window:
