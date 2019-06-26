@@ -20,7 +20,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters_parameters=[], 
     dates_array_score = []
     for k in range(len(relevant_dates)):
         dates_array_score.append((relevant_dates[k][0], relevant_dates[k][1]))
-    if temporal_tagger[0] == 'py_heideltime':
+    if tt_name == 'py_heideltime':
         final_score_output = get_final_output(inverted_index, dates_array_score, debug_mode, date_dictionary)
     else:
         final_score_output = get_final_output_rule_based(inverted_index, dates_array_score)
