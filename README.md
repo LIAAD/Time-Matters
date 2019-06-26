@@ -183,7 +183,7 @@ pip install git+https://github.com/LIAAD/yake
 ```
 
 
-For the latter (that is, the extraction of temporal expressions), we resort to three possibilities:
+For the latter (that is, the extraction of temporal expressions), we resort to two possibilities:
 - rule-based approach
 - heideltime python wrapper
 
