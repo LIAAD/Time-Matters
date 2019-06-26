@@ -294,7 +294,8 @@ The output is a dictionary where the key is the temporal expression (as it was f
 ```
 
 ##### _With all the parameters_: <br>
-Besides the temporal_tagger and the score_type, two other parameters can be used. The first, is a list of all the time matters parameters. The second, is the debug mode.
+Besides the *temporal_tagger* and the *score_type*, two other parameters can be used. The first, is a list of all the time matters parameters. The second, is the debug mode.
+
 <br>
 For the first (time_matters), a list of four elements is considered:
 - *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
@@ -305,6 +306,8 @@ For the first (time_matters), a list of four elements is considered:
 ``` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single', debug_mode=False)
 ```
+<br>
+For the second (debug_mode)
 ###### Output
 ``` bash
 [('xxxx-04-25', 0.9935, [11]),
