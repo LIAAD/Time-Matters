@@ -23,27 +23,27 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     if tt_name == 'py_heideltime':
         final_score_output = get_final_output(inverted_index, dates_array_score, debug_mode, date_dictionary)
     else:
-        final_score_output = get_final_output_rule_based(inverted_index, dates_array_score, debug_mode)
+        final_score_output = get_final_output_rule_based(inverted_index,    dates_array_score, debug_mode)
 
     if score_type == 'multiple' and debug_mode:
         n_txt = text_refactor(new_text, final_score_output, tt_name)
         return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
     elif score_type == 'multiple' and not debug_mode:
-        return final_score_output, sentence_array
+        return final_score_output
     elif score_type == 'single' and debug_mode:
         n_txt = text_refactor(new_text, final_score_output, tt_name)
         return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
     elif score_type == 'single' and not debug_mode:
         return final_score_output
     else:
-        print('You must select a valid type of score.\n'
+        print('You must select a valid score_type.\n'
               'options:\n'
               '     single;\n'
               '     multiple;')
         return []
 
 
-def verify_input_data(temporal_tagger, time_matters_parameters):
+def verify_input_data(temporal_tagger, time_matters):
 
     tt_name = 'py_heideltime'
     language = 'English'
@@ -67,10 +67,10 @@ def verify_input_data(temporal_tagger, time_matters_parameters):
     N = 'max'
     TH = 0.05
     try:
-        num_of_keywords = time_matters_parameters[0]
-        n_contextual_window = time_matters_parameters[1]
-        N = time_matters_parameters[2]
-        TH = time_matters_parameters[3]
+        num_of_keywords = time_matters[0]
+        n_contextual_window = time_matters[1]
+        N = time_matters[2]
+        TH = time_matters[3]
     except:
         pass
     return tt_name, language, document_type, document_creation_time, date_granularity, \
