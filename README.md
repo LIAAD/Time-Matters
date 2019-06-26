@@ -97,9 +97,9 @@ A representation of the context vectors is given in the following figure. Again 
 By looking at the picture we can observe that both vectors X (that is, `W`<sub>l, j</sub>) and Y (that is, `d`<sub>j</sub>) are represented by `N` terms (keywords such as `w`<sub>1</sub> and candidate dates such as `d`<sub>1</sub>) with a `DICE similarity value > TH`.
 
 ###### Computing DICE
-In order to compute the similarity between terms, we begin by defining a n-contextual window distance (n_contextual_window) to look for co-occurrences between terms. To this regard, we consider two possible search spaces:
-- co-occurrences between the <b>full sentence</b> itself;
-- co-occurrences between a <b>window of n tokens</b>;
+In order to compute the similarity between terms, we begin by setting a n-contextual window distance (n_contextual_window) which defines the search space where co-occurrences between terms may be counted. To this regard, we consider two possible search spaces:
+- the <b>full sentence</b> itself (n_contextual_window = "full_sentence"), that is, the system will look for co-occurrences between terms that occur within the search space of a sentence;
+- a <b>window of n terms</b> (n_contextual_window = n, where n is any value > 0), that is, the system will look for co-occurrences between terms that occur within a window of n terms;
 
 In order to better understand this process, we consider the following figure:
 <p align="center">
@@ -176,7 +176,7 @@ pip install git+https://github.com/LIAAD/Time-Matters.git
 #### Install External Dependencies
 Time-Matters rests on the extraction of relevant keywords and temporal expressions found in the text.
 
-For the first (that is, the extraction of relevant keywords), we resort to [YAKE!](https://github.com/LIAAD/yake) keyword extractor. More about the extraction of relevant keywords below.
+For the first (that is, the extraction of relevant keywords), we resort to [YAKE!](https://github.com/LIAAD/yake) keyword extractor.
 
 ``` bash
 pip install git+https://github.com/LIAAD/yake
@@ -187,7 +187,7 @@ For the latter (that is, the extraction of temporal expressions), we resort to t
 - rule-based approach
 - [heideltime python wrapper](https://github.com/JMendes1995/py_heideltime)
 
-The first, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. However, if your plan is to use Heideltime you need to install the following packages. More about the extraction of temporal expressions below.
+The first, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. However, if your plan is to use Heideltime you need to install the following packages.
 ``` bash
 pip install git+https://github.com/JMendes1995/py_heideltime
 ```
@@ -218,24 +218,25 @@ How to work with each one will be explained next. But before, both the libraries
 ```` bash
 from Time_Matters_SingleDoc import Time_Matters_SingleDoc
 
-text= "The Carnation Revolution (Portuguese: Revolução dos Cravos), also known as the 25th of April "\
-    "(Portuguese: 25 de Abril), was initially a 25 April 1974 military coup in Lisbon which overthrew "\
-    "the authoritarian Estado Novo regime.[1] The revolution began as a coup organised by the "\
-    "Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers "\
-    "who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign. "\
-    "The revolution led to the fall of the Estado Novo, the end of 48 years of authoritarian rule in "\
-    "Portugal, and Portugal's withdrawal from its African colonies."
+text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the following major earthquakes "\
+    "have been recorded in Haiti. The first great earthquake mentioned in histories of Haiti occurred in "\
+    "1564 in what was still the Spanish colony. It destroyed Concepción de la Vega. On January 12, 2010, "\
+    "a massive earthquake struck the nation of Haiti, causing catastrophic damage inside and around the "\
+    "capital city of Port-au-Prince. On the first anniversary of the earthquake, 12 January 2011, "\
+    "Haitian Prime Minister Jean-Max Bellerive said the death toll from the quake in 2010 was more "\
+    "than 316,000, raising the figures from previous estimates. I immediately flashed back to the afternoon "\
+    "of February 11, 1975 when, on my car radio, I first heard the news."
 ````
 #### Option 1: Single Score
 <hr>
 Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
-##### _With default parameters_
-Default temporal tagger is "py_heideltime", which means that having:
+##### _With default parameters_:
+Default temporal tagger is "py_heideltime", and the score type is "single" which means that having:
 ```` bash
-Time_Matters_SingleDoc(text, score_type='single')
+Time_Matters_SingleDoc(text)
 ````
-or
+or:
 ```` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single')
 ````
@@ -253,24 +254,32 @@ print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='s
 ````
 
 ###### Output
+The output is a dictionary where the key is the temporal expression (as it was found on the document) and value is the score given by GTE.
 ``` bash
 #py_heideltime results
-[('xxxx-04-25', 0.9935, [11]), ('1974-04-25', 0.9935, [19]), ('p48y', 0.919, [83])]
-
-#py_sutime results
-#TODO
+{'12 January 2011': 1.0,
+ '2010': 0.99,
+ '1564': 0.881,
+ 'January 12, 2010': 0.7425,
+ '2011': 0.73,
+ 'the afternoon of February 11, 1975': 0}
 
 #rule_based results
-[('1974', 0.99, [24])]
+{'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
 ```
 
-By looking at the results, one can observe that each element at the list is a set with the following information:
 <br>
 <br>
-##### _With all the parameters_
-Having "py_heideltime" as a basis (but other options such "rule-based" can also be used):
+##### _With all the parameters_:
+Besides the temporal_tagger and the score_type, two other parameters can be used. The first is a list of all the time_matters_parameters. The second is the debug mode.
+
+For the first (time_matters), a list of four elements is considered:
+- num_of_keywords: number of YAKE! keywords to extract from the text. Default value is 10 (but any value > 0 is considered). More about this [here](#Text-Representation) 
+- n_contextual_window: defines the n-contextual window distance. Default value is "full_sentence", that is, the system will look for co-occurrences between terms that occur within the search space of a sentence; More about this [here](#Computing-Dice).
+- N: 
+
 ``` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters_parameters=[10, 'none', 'max', 0.05], score_type='single', debug_mode=False)
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single', debug_mode=False)
 ```
 ###### Output
 ``` bash
@@ -528,11 +537,6 @@ Heideltime papers may be found here:
 - Strötgen, J., and Gertz, M. (2013). Multilingual and Cross-domain Temporal Tagging. In: Language Resources and Evaluation, 47(3), pp. 269-298. [pdf](https://link.springer.com/article/10.1007%2Fs10579-012-9179-y)
 
 or [here](https://github.com/HeidelTime/heideltime#Publications)
-
-### Sutime
-Sutime papers may be found here:
-
-- Chang, A., Manning, C.D. (2012). SUTIME: A Library for Recognizing and Normalizing Time Expressions. In: 8th International Conference on Language Resources and Evaluation (LREC'12). Istanbul, Turkey, May 23-25. pp 3735–3740. [pdf](https://nlp.stanford.edu/pubs/lrec2012-sutime.pdf)
 
 ## Awards
 Winner of the [Fraunhofer Portugal Challenge 2013 PhD Contest](https://www.aicos.fraunhofer.pt/en/news_and_events_aicos/news_archive/older_archive/fraunhofer-portugal-challenge-2013-winners.html)
