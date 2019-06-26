@@ -14,7 +14,7 @@ Time matters is the result of a research conducted by Ricardo Campos during his 
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
 <br>
-[How to use Time-Matters-MultipleDoc](#How to use Time-Matters-MultipleDocs)
+[How to use Time-Matters-MultipleDocs](#How to use Time-Matters-MultipleDocs)
 <br>
 [API](#API)
 <br>
