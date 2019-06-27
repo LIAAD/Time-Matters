@@ -60,7 +60,7 @@
 
 Time matters is the result of a research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by [Jorge Mendes](https://github.com/JMendes1995) under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
--[[Table of Contents]](#Table-of-Contents)-
+[[Table of Contents]](#Table-of-Contents)
 
 ## What is Time-Matters
 Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). 
@@ -69,11 +69,17 @@ The first (Time-Matters-SingleDoc) aims to determine the relevance of temporal e
 
 The latter (Time-Matters-MultipleDocs), aims to determine the relevance of temporal expressions within multiple documents. 
 
+[[Table of Contents]](#Table-of-Contents)
+
 ## Rationale
 Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant terms (W<sub>j</sub><sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of _n_ terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sub>j</sub><sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
 
+[[Table of Contents]](#Table-of-Contents)
+
 ## How does it works?
 Unlike previous metadata and query log-based approaches, we achieve this goal based on information extracted from the document's contents. 
+
+[[Table of Contents]](#Table-of-Contents)
 
 ### Text Representation
 Each _T<sub>i</sub>_, for _i = 1,...,n_, that is, each text, is represented by a number of relevant keywords and a number of candidate temporal expressions. In what follows, we assume that each text _T<sub>i</sub>_ is composed by two different sets denoted _W<sub>T<sub>i</sub></sub>_ and _D<sub>T<sub>i</sub></sub>_:<br>
@@ -100,10 +106,14 @@ The following picture shows the list of six keywords W<sub>T</sub> that co-occur
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences.jpg" width="350">
 </p>
 
+[[Table of Contents]](#Table-of-Contents)
+
 ##### Relevant Keywords
 Relevant keywords in Time-Matters can be identified through YAKE!, a keyword extractor system ([ECIR'18](http://www.ecir2018.org) Best Short Paper) which is available not only on a [demo-based](http://yake.inesctec.pt) purpose, but also through a [Python package](https://github.com/LIAAD/yake). In this work, relevant keywords (num_of_keywords) equals to *n*, where *n* is any number > 0.
 
 If you are interested in knowing more about YAKE! please refer to the [Publications](#Publications) section where you can find a few papers about it.
+
+[[Table of Contents]](#Table-of-Contents)
 
 ##### Temporal Expressions
 Temporal expressions in Time-Matters can be identified through:
@@ -121,6 +131,8 @@ The second (temporal_tagger = "rule_based") makes use of a self-defined rule-bas
 
 While not as good (i.e., effective) as Heideltime, it can be used when efficiency (time-performance) is a requirement.
 
+[[Table of Contents]](#Table-of-Contents)
+
 ### Temporal Similarity Measure
 To model this temporal relevance, we define a Generic Temporal Similarity measure (GTE) that makes use of co-occurrences of keywords and temporal expressions as a means to identify relevant d<sub>j</sub> dates within a text _T<sub>i</sub>_.
 
@@ -130,6 +142,8 @@ GTE ranges between 0 and 1, and is defined as follows:<br>
 </p>
 
 In the equation, `median` is the median function, `IS` is the InfoSimba similarity measure, and `W`<sub>l, j</sub> represents one of the several terms of (`W`<sub>j</sub><sup>\*</sup>), that co-occur with the candidate date `d`<sub>j</sub> within a text `t`<sub>i</sub>. A more detailed description of the median function and of the IS similarity measure will be given next.
+
+[[Table of Contents]](#Table-of-Contents)
 
 ##### InfoSimba
 In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., a sentence, a paragraph, a corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. 
@@ -146,6 +160,7 @@ InfoSimba is defined as follows:<br>
 
 IS calculates the correlation between all pairs of two context vectors X and Y, where X is the context vector representation of `W`<sub>l, j</sub>, Y is the context vector representation of `d`<sub>j</sub> and DICE is the DICE similarity measure.
 
+[[Table of Contents]](#Table-of-Contents)
 
 ###### Context Vectors
 Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>j</sub>) consists of N terms (where n is any value > 0, or the word 'max' if, instead, we want to consider all the terms) with a DICE similarity greater than a given threshold (TH, where TH is any value > 0, thus guaranteeing that the terms co-occur between them). For instance, to determine the context vector of a candidate date `d`<sub>j</sub> only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector.
@@ -156,6 +171,8 @@ A representation of the context vectors is given in the following figure. Again 
 </p>
 
 By looking at the picture we can observe that both vectors X (that is, `W`<sub>l, j</sub>) and Y (that is, `d`<sub>j</sub>) are represented by `N` terms (keywords such as `w`<sub>1</sub> and candidate dates such as `d`<sub>1</sub>) with a `DICE similarity value > TH`.
+
+[[Table of Contents]](#Table-of-Contents)
 
 ###### Computing DICE
 In order to compute the similarity between terms, we begin by setting a n-contextual window distance (n_contextual_window) which defines the search space where co-occurrences between terms may be counted. To this regard, we consider two possible search spaces:
@@ -226,8 +243,12 @@ By looking at the similarities stored on the matrix we can then compute the fina
 
 Next, we describe the F aggregation function which is used to combine the several smilarity values sim(w<sub>l,j</sub>,d<sub>j</sub>), computed by IS.
 
+[[Table of Contents]](#Table-of-Contents)
+
 ##### Median Function
 All these similarity values are then combined through the median measure (a measure of central tendency). In our running example this would represent a final score of `median[0.439, 0.606, 0.439] = 0.439`.
+
+[[Table of Contents]](#Table-of-Contents)
 
 ## How to Install Time-Matters
 
@@ -254,6 +275,8 @@ pip install git+https://github.com/JMendes1995/py_heideltime
 ```
 
 You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies (note that none of this is needed should your plan is to only use a rule-based approach).
+
+[[Table of Contents]](#Table-of-Contents)
 
 #### External modules used (only for informative purposes):
     - YAKE
@@ -288,9 +311,14 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
     "than 316,000, raising the figures from previous estimates. I immediately flashed back to the afternoon "\
     "of February 11, 1975 when, on my car radio, I first heard the news. Yesterday..."
 ````
+
+[[Table of Contents]](#Table-of-Contents)
+
 #### Single Score
 <hr>
 Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
+
+[[Table of Contents]](#Table-of-Contents)
 
 ##### _SS Default Parameters_
 Default temporal tagger is "py_heideltime" (More about this [here](#Text-Representation) and [here](#Temporal-Expressions)), and the score type is "single" (More about this [here](#How-to-use-Time-Matters-SingleDoc)) which means that having:
@@ -330,6 +358,8 @@ The output is a dictionary where the key is the temporal expression (as it was f
 {'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
 ```
 
+[[Table of Contents]](#Table-of-Contents)
+
 ##### _SS All the Parameters_
 
 Besides the *temporal_tagger* and the *score_type* we can also specify the time matters parameters, which consists of a list of four elements:
@@ -347,12 +377,17 @@ Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', '', 'n
 ###### Output
 The output is the same as above (as the parameters specified here are exactly the same as the default above ones).
 
+[[Table of Contents]](#Table-of-Contents)
 
 ##### _SS Debug_
+
+[[Table of Contents]](#Table-of-Contents)
 
 #### Multiple Scores
 <hr>
 Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
+
+[[Table of Contents]](#Table-of-Contents)
 
 ##### MS Default parameters
 ``` bash
@@ -360,6 +395,8 @@ dates, sentences = Time_Matters_SingleDoc_PerSentence(text, 'English')
 print(dates)
 print(sentences[1])
 ```
+[[Table of Contents]](#Table-of-Contents)
+
 ###### Output
 ``` bash
 [('2019-04-25', [(1, 0.99)], [11]), ('1974-04-25', [(1, 0.99)], [19])]
@@ -371,12 +408,17 @@ dates, sentences = Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'
 print(dates)
 print(sentences[1])
 ```
+
+[[Table of Contents]](#Table-of-Contents)
+
 ###### Output
 ``` bash
 [('1974-04-25', [(1, 0.99)], [11, 19])]
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
 ```
 ##### _MS Debug_
+
+[[Table of Contents]](#Table-of-Contents)
 
 #### Python CLI -  Command Line Interface Time-Matters-SingleDoc
 ``` bash
