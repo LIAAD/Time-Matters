@@ -311,7 +311,7 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 
 [[Table of Contents]](#Table-of-Contents)
 
-### _SD Default Parameters_
+#### _SD Default Parameters_
 <hr>
 Default temporal tagger is "py_heideltime" (More about this [here](#Text-Representation) and [here](#Temporal-Expressions)), and the score type is "single" (More about this [here](#How-to-use-Time-Matters-SingleDoc)) which means that having:
 ```` bash
@@ -371,7 +371,7 @@ The output is a dictionary where the key is the temporal expression (as it was f
 
 [[Table of Contents]](#Table-of-Contents)
 
-### _SD All the Parameters_
+#### _SD All the Parameters_
 <hr>
 
 Besides the *temporal_tagger* and the *score_type* we can also specify the time matters parameters, which consists of a list of four elements:
@@ -395,7 +395,7 @@ The output is the same as above (as the parameters specified here are exactly th
 
 [[Table of Contents]](#Table-of-Contents)
 
-##### _SD Debug_
+#### _SD Debug_
 We also offer the user a debug mode where users can access a more detailed version of the results, namely access to the `Text`, `TextNormalized`, `Score`, `CandidateDates`, `NormalizedCandidateDates`, `RelevantKWs`, `IIndex`, `Dice_Matrix`.
 
 - <b>Text</b>: a slightly normalized version of the input text, where temporal expressions with more than one token are joined with an underscore. By doing this, we guarantee that temporal expressions are easily identified in the text by means of its offset. This may be used for example to highlight or underline a given temporal expression in the context of some GUI.
