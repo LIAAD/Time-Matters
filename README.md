@@ -66,6 +66,7 @@ Time matters is the result of a research conducted by Ricardo Campos during his 
 If you don't need to understand in detail the algorithm behind Time-Matters, i.e., if you want to play with this package without getting into details, I suggest you to do one of two things:
 
 (1) If you want to extract scores for temporal expressions found within a single text (assuming the default parameters, and a single score for each temporal expression found (regardless it occurs in differente sentences)) go [here](#SD-SS-Default-Parameters).
+
 (2) If you want to extract scores for temporal expressions found within multiples texts (assuming the default parameters, and a single score for each temporal expression found (regardless it occurs in differente documents)) go [here](#MD-SS-Default-Parameters).
 
 ## What is Time-Matters
