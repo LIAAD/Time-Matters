@@ -12,7 +12,7 @@
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Option 1: Single Score](Option-1:-Single-Score)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Option 1: Single Score](#Option-1:-Single-Score)
 <br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
