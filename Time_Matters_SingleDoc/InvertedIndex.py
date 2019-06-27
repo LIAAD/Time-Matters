@@ -82,6 +82,21 @@ def sentence_tokenizer(text):
 # *************************************************************************************
 
 def candidate_years(text, language, document_type, document_creation_time, date_granularity, date_extractor):
+    if date_granularity != 'day'and date_granularity != 'month' and date_granularity != 'year' and date_granularity != '':
+        print('You must select a valid date_granularity.\n'
+              'options:\n'
+              '     year;\n'
+              '     month:\n'
+              '     day;')
+        return exit(1)
+    elif document_type.lower() != 'news'and document_type.lower() != 'narrative' and document_type.lower() != 'colloquial' and document_type.lower() != 'scientific' and document_type.lower() != '':
+        print('You must select a valid document_type.\n'
+              'options:\n'
+              '     news;\n'
+              '     narrative;\n'
+              '     colloquial;\n'
+              '     scientific;')
+
     if date_extractor == 'py_heideltime':
         candidate_dates_array, new_text, date_dictionary = py_heideltime(text, language, document_type, document_creation_time,
                       date_granularity)
@@ -100,21 +115,6 @@ def candidate_years(text, language, document_type, document_creation_time, date_
 
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
-    if heideltime_date_granularity.lower() != 'day'and heideltime_date_granularity.lower() != 'month' and heideltime_date_granularity.lower() != 'year' and heideltime_date_granularity.lower() != '':
-        print('You must select a valid date_granularity.\n'
-              'options:\n'
-              '     year;\n'
-              '     month:\n'
-              '     day;')
-        return exit(1)
-    elif heideltime_document_type.lower() != 'news'and heideltime_document_type.lower() != 'narrative' and heideltime_document_type.lower() != 'colloquial' and heideltime_document_type.lower() != 'Scientific':
-        print('You must select a valid document_type.\n'
-              'options:\n'
-              '     news;\n'
-              '     narrative;\n'
-              '     colloquial;\n'
-              '     scientific;')
-        return exit(1)
 
     list_dates = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type, heideltime_document_creation_time)
     date_dictionary = {}
@@ -136,13 +136,6 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
 def rule_based(text, date_granularity):
     dates_list = []
     import re
-    if date_granularity != 'day'and date_granularity != 'month' and date_granularity != 'year' and date_granularity != '':
-        print('You must select a valid date_granularity.\n'
-              'options:\n'
-              '     year;\n'
-              '     month:\n'
-              '     day;')
-        return exit(1)
 
     try:
         striped_text = text.replace('(', '').replace(')', '').replace('–', '-')
