@@ -3,6 +3,7 @@ import statistics
 import operator
 from itertools import product
 
+
 # *************************************************
 # remove duplicates from words and dates array
 def remove_duplicates(string_list):
@@ -71,6 +72,7 @@ def find_distance_of_words(x_offset, y_offset, n_contextual_window):
         except:
             return value
     return value
+
 
 # ******************************************************************************************
 # calculation of dice.
@@ -281,12 +283,16 @@ def calc_sim_vector(word, date, date_ultimate_array, word_ultimate_array, datafr
 # calc the sim of dates with word vectors
 def sim_word_date_vector(word, date, date_result, word_result, date_ultimate_array, word_ultimate_array, dataframe):
     date_word_result = 0
+    #print(date_ultimate_array)
+    #print(word_ultimate_array)
     #print(date, '=>', date_ultimate_array, 'result= ', date_result)
     #print(word, '=>', word_ultimate_array, 'result= ', word_result)
-    for dt , word in product(date_ultimate_array, word_ultimate_array):
-        value = dataframe.loc[dt, word]
+    for dt , wd in product(date_ultimate_array, word_ultimate_array):
+
+        value = dataframe.loc[dt, wd]
         date_word_result += value
-    #print('('+date+', '+word+')'+' result' , date_word_result)
+
+    #print('('+date+', '+word+')'+' result', date_word_result)
     return date_word_result
 
 

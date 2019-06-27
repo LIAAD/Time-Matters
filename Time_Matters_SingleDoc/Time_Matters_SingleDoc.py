@@ -1,4 +1,4 @@
-from Time_Matters_SingleDoc.InvertedIndex import kw_ext
+from Time_Matters_SingleDoc.InvertedIndex import main_inverted_index
 from Time_Matters_SingleDoc.GetDateScores import dt_frames
 from langdetect import detect
 from Time_Matters_SingleDoc.validate_input import verify_input_data
@@ -13,12 +13,11 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     tt_name, language, document_type, document_creation_time, date_granularity, \
     num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters)
 
-    inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text = kw_ext(yake_lang,language, txt, num_of_keywords, document_type,
+    inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text = main_inverted_index(yake_lang,language, txt, num_of_keywords, document_type,
                                                                         document_creation_time, date_granularity, tt_name)
 
     relevant_dates, DiceMatrix = dt_frames(inverted_index, words_array, dates_array, n_contextual_window,
                                          TH, N, score_type)
-
     dates_array_score = []
     for k in range(len(relevant_dates)):
         dates_array_score.append((relevant_dates[k][0], relevant_dates[k][1]))
