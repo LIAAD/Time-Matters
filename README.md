@@ -98,7 +98,7 @@ To illustrate our algorithm we present the following running example:
 Let W<sub>T</sub> = {w<sub>1</sub>; w<sub>2</sub>; w<sub>3</sub>; w<sub>4</sub>; w<sub>5</sub>; w<sub>6</sub>} be the set of distinct relevant keywords, D<sub>T</sub> = {d<sub>1</sub>; d<sub>2</sub>; d<sub>3</sub>; d<sub>4</sub>;} the set of candidate dates and (W<sub>j</sub><sup>*</sup>) as the set of relevant words W<sub>T</sub> that co-occur (within a given search space - to be defined) with each of the four candidate dates D<sub>T</sub> found in the text (or texts, in case we are talking about multiple documents).
 <br>
 <br>
-The following picture shows the list of six keywords W<sub>T</sub> that co-occur with the four candidate dates D<sub>T</sub>. In each column, the "X" indicate the keywords belonging to the (W<sub>j</sub><sup>*</sup>). For the sake of understanding we consider d<sub>1</sub> to be "2010", and w<sub>1</sub> to be "Haiti". By looking at the picture we can understand that the candidate date 2010, occurs (within a given search space, for instance a sentence) with the relevant keywords w<sub>1</sub>, w<sub>2</sub> and w<sub>3</sub>. For instance, it could have occurred (hyphotetically) with w<sub>1</sub> on sentence one, with w<sub>2</sub> on sentence five, and with w<sub>3</sub> on sentence six.
+The following picture shows the list of six keywords W<sub>T</sub> that co-occur with the four candidate dates D<sub>T</sub>. In each column, the "X" indicate the keywords belonging to the (W<sub>j</sub><sup>*</sup>). For the sake of understanding we consider d<sub>1</sub> to be "2010", and w<sub>1</sub> to be "Haiti". By looking at the picture we can understand that the candidate date 2010, occurs (within a given search space, for instance a sentence) with the relevant keywords w<sub>1</sub>, w<sub>2</sub> and w<sub>3</sub>. For instance, it could have occurred (hyphotetically) with w<sub>1</sub> on sentence one, with w<sub>2</sub> and w<sub>3</sub> on sentence two.
 
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences.jpg" width="350">
@@ -295,13 +295,12 @@ Time-Matters-SingleDoc aims to score temporal expressions found within a single 
 
 - to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
 
-While the first one evaluates the score of a given candidate date in the context of a text (or texts, if we are talking about multiple documents), with regards to all the relevant keywords that it co-occurs with (regardless if it's on sentence 1, 5 or 6, or doc 1, 5 or 6, if we are talking about multiple documents): 
+While the first one evaluates the score of a given candidate date in the context of a text (or texts, if we are talking about multiple documents), with regards to all the relevant keywords that it co-occurs with (regardless if it's on sentence 1 or 2, or doc 1 or 2, if we are talking about multiple documents): 
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences1.jpg" width="300">
 </p>
 
-The second, evaluates the score of a given candidate date with regards to the sentences (or text, if we are talking about multiple documents) where it occurs (thus taking into account only the relevant keywords of each sentence (within the search space defined), or the relevant keywords of each text, if we are talking about multiple documents). This means that, if 2010 co-occurs with w<sub>1</sub> in sentence 1, only this relevant keywords will be considered to compute the score of 2010 for this particular sentence. 
-
+The second, evaluates the score of a given candidate date with regards to the sentences (or text, if we are talking about multiple documents) where it occurs (thus taking into account only the relevant keywords of each sentence (within the search space defined), or the relevant keywords of each text, if we are talking about multiple documents). This means that, if 2010 co-occurs with w<sub>1</sub> in sentence 1, only this relevant keywords will be considered to compute the score of 2010 for this particular sentence. Likewise, if 2010 co-occurs with w<sub>2</sub> and with w<sub>3</sub> in sentence 2, only these relevant keywords will be considered to compute the score of 2010 for this particular sentence.
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences2.jpg" width="300">
 </p>
