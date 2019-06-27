@@ -36,7 +36,7 @@
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Debug](#SD-Debug)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Python Cli](#SD-Python-CLI-(Command-Line-Interface))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Python Cli](#SD-Python-CLI)
 <br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
@@ -416,7 +416,7 @@ Text, TextNormalized, Score, CandidateDates, NormalizedCandidateDates, RelevantK
 [[Table of Contents]](#Table-of-Contents)
 
 
-#### SD Python CLI (Command Line Interface)
+#### SD Python CLI
 ##### Help
 ``` bash
 $ Time_Matters_SingleDoc --help
@@ -579,6 +579,7 @@ All the Parameters: Time_Matters_SingleDoc -i "['text', '2019-12-31']" -tt "['py
 
   --help                 Show this message and exit.
 ```
+[[Table of Contents]](#Table-of-Contents)
 
 ## How to use Time-Matters-MultipleDocs
 ```` bash
