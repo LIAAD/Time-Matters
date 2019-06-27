@@ -52,9 +52,16 @@ def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window ):
         if key in list_y[2]:
             x_offset = list_x[2][key][1]
             y_offset = list_y[2][key][1]
-            if n_contextual_window == 'full_sentence':
+            if n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int):
+                print('The value of n_contextual_window are not valid\n'
+                      'options:\n'
+                      '     full_sentence;\n'
+                      '     number(integer);')
+
+                return exit(1)
+            elif n_contextual_window == 'full_sentence':
                 count += 1
-            else:
+            else :
                 cc = find_distance_of_words(x_offset, y_offset, n_contextual_window)
                 count += cc
     return count, list_x[0], list_y[0]
@@ -121,9 +128,14 @@ def calc_info_simba(dates_array, dt, TH, N):
 def get_max_len(len_array, N):
     if N == 'max':
         return len_array
-    else:
+    elif isinstance(N, int):
         return N
-
+    else:
+        print('The value of N are not valid\n'
+              'options:\n'
+              '     max;\n'
+              '     number(integer);')
+        return exit(1)
 
 # ******************************************************************************************
 # calculation of info simba per sentence .
@@ -208,7 +220,6 @@ def find_max_length(date, word, date_relevant_array, word_relevant_array, dt, N)
                 result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length],
                                          dt)
                 return result
-
 
 # ****************************************************************************************************
 # define a array with sentence index for words and dates. according inverted index
