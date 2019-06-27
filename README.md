@@ -30,21 +30,11 @@
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Single Score](#Single-Score)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#SD-Default-Parameters)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#SD-SS-Default-Parameters)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SD-All-the-Parameters)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SD-SS-All-the-Parameters)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Debug](#SD-SS-Debug)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Multiple Scores](#Multiple-Scores)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#SD-MS-Default-parameters)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SD-MS-All-the-parameters)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Debug](#SD-MS-Debug)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Debug](#SD-Debug)
 <br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
@@ -321,11 +311,8 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 
 [[Table of Contents]](#Table-of-Contents)
 
-#### Single Score
+### _SD Default Parameters_
 <hr>
-Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
-
-##### _SD SS Default Parameters_
 Default temporal tagger is "py_heideltime" (More about this [here](#Text-Representation) and [here](#Temporal-Expressions)), and the score type is "single" (More about this [here](#How-to-use-Time-Matters-SingleDoc)) which means that having:
 ```` bash
 Time_Matters_SingleDoc(text)
@@ -338,7 +325,7 @@ is exactly the same thing and produces the same results.
 
 While 'py_heideltime' is the default temporal tagger, a 'rule_based' approach can be used instead.
 ```` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='single')
+Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'])
 ````
 
 The following code is an attempt to print the results of Time-Matters for temporal expressions identified with 'py_heideltime' and 'rule_based'
@@ -357,15 +344,35 @@ The output is a dictionary where the key is the temporal expression (as it was f
  'January 12, 2010': 0.7425,
  '2011': 0.73,
  'the afternoon of February 11, 1975': 0,
- 'yesterday': 0}
+ 'Yesterday': 0}
 
 #rule_based results
 {'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
 ```
 
+In addition, one can also specify multiple scores instead of single scores, that is, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence in the other sentence). 
+
+```` bash
+Time_Matters_SingleDoc(text, score_type='multiple')
+````
+
+###### Output
+The output is a dictionary where the key is the temporal expression (as it was found on the document) and the value is a list of tuples with two elements (the first returns the sentence ID, the second returns the score of the temporal expression in that particular sentence).
+``` bash
+#py_heideltime results
+{'2011': [(0, 0.831)],
+ '2010': [(1, 0.2), (5, 0.982)],
+ '1564': [(2, 0.827)],
+ 'January 12, 2010': [(4, 0.68)],
+ '12 January 2011': [(5, 1.0)],
+ 'the afternoon of February 11, 1975': [(6, 0)],
+ 'Yesterday': [(7, 0)]}
+ ```
+
 [[Table of Contents]](#Table-of-Contents)
 
-##### _SD SS All the Parameters_
+### _SD All the Parameters_
+<hr>
 
 Besides the *temporal_tagger* and the *score_type* we can also specify the time matters parameters, which consists of a list of four elements:
 - *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
@@ -378,13 +385,17 @@ In addition, one can also specify additional parameters for the temporal_tagger.
 ``` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single')
 ```
+Obviously, we can also specify a multiple value for the score_type as seen before:
+``` bash
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='multiple')
+```
 
 ###### Output
 The output is the same as above (as the parameters specified here are exactly the same as the default above ones).
 
 [[Table of Contents]](#Table-of-Contents)
 
-##### _SD SS Debug_
+##### _SD Debug_
 We also offer the user a debug mode where users can access a more detailed version of the results, namely access to the `Text`, `TextNormalized`, `Score`, `CandidateDates`, `NormalizedCandidateDates`, `RelevantKWs`, `IIndex`, `Dice_Matrix`.
 
 - <b>Text</b>: a slightly normalized version of the input text, where temporal expressions with more than one token are joined with an underscore. By doing this, we guarantee that temporal expressions are easily identified in the text by means of its offset. This may be used for example to highlight or underline a given temporal expression in the context of some GUI.
@@ -403,40 +414,6 @@ Text, TextNormalized, Score, CandidateDates, NormalizedCandidateDates, RelevantK
 
 [[Table of Contents]](#Table-of-Contents)
 
-#### Multiple Scores
-<hr>
-Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
-
-##### SD MS Default parameters
-``` bash
-dates, sentences = Time_Matters_SingleDoc_PerSentence(text, 'English')
-print(dates)
-print(sentences[1])
-```
-[[Table of Contents]](#Table-of-Contents)
-
-###### Output
-``` bash
-[('2019-04-25', [(1, 0.99)], [11]), ('1974-04-25', [(1, 0.99)], [19])]
-[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
-```
-##### SD MS All the parameters
-``` bash
-dates, sentences = Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'day', 'news', '1974-04-26'], time_matters_parameters=[10, 'none', 'max', 0.05], score_type='multiple', debug_mode=False)
-print(dates)
-print(sentences[1])
-```
-
-[[Table of Contents]](#Table-of-Contents)
-
-###### Output
-``` bash
-[('1974-04-25', [(1, 0.99)], [11, 19])]
-[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
-```
-##### _SD MS Debug_
-
-[[Table of Contents]](#Table-of-Contents)
 
 #### Python CLI -  Command Line Interface Time-Matters-SingleDoc
 ``` bash
