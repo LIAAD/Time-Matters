@@ -28,12 +28,12 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     if score_type == 'multiple' and debug_mode:
         n_txt = text_refactor(new_text, final_score_output, tt_name)
-        return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
+        return n_txt, final_score_output, dates_array, words_array, inverted_index, DiceMatrix
     elif score_type == 'multiple' and not debug_mode:
         return final_score_output
     elif score_type == 'single' and debug_mode:
         n_txt = text_refactor(new_text, final_score_output, tt_name)
-        return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
+        return n_txt, final_score_output, dates_array, words_array, inverted_index, DiceMatrix
     elif score_type == 'single' and not debug_mode:
         return final_score_output
     else:
