@@ -14,6 +14,8 @@
 <br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
+[Debug](#Debug)
+<br>
 [API](#API)
 <br>
 [Publications](#Publications)
@@ -74,11 +76,11 @@ Temporal expressions in Time-Matters can be identified through:
 - [Heideltime Temporal Tagger](https://heideltime.ifi.uni-heidelberg.de/heideltime/) by means of a [Python wrapper package](https://github.com/JMendes1995/py_heideltime)
 - Rule-based approach
 
-The first (temporal_tagger = "py_heideltime") uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of time to execute. If you are interested in knowing more about Heideltime please refer to the [Publications](#Publications) section where you can find a few papers about it.
+The first (temporal_tagger = "py_heideltime") uses a Python wrapper of Heideltime Temporal Tagger (state-of-the-art in this kind of task). It is able to detect a huge number of different types of temporal expressions, yet, depending on the size of the text it may require a considerable amount of time to execute. In this work, we set py_heideltime to its default parameters (that is, Language='English' and document_type='news'). If you are interested in knowing more about Heideltime please refer to the [Publications](#Publications) section where you can find a few papers about it.
 
 The second (temporal_tagger = "rule_based") makes use of a self-defined rule-based approach which is able to detect the following patterns:
 - yyyy(./-)mm(./-)dd
-- dd(./-)mm(-/-)yyyy
+- dd(./-)mm(./-)yyyy
 - yyyy(./-)yyyy
 - yyyys
 - yyyy
@@ -295,19 +297,16 @@ The output is a dictionary where the key is the temporal expression (as it was f
 
 ##### _With all the parameters_:
 
-Besides the *temporal_tagger* and the *score_type*, two other parameters can be used. The first, is a list of all the time matters parameters. The second, is the debug mode.
-
-For the first (time_matters), a list of four elements is considered:
+Besides the *temporal_tagger* and the *score_type* we can also specify the time matters parameters, which consists of a list of four elements:
 - *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
 - *n_contextual_window*: defines the n-contextual window distance. Default value is "*full_sentence*" (but a n-window where n > 0 can be considered as alternative), that is, the system will look for co-occurrences between terms that occur within the search space of a sentence; More about this [here](#Computing-Dice).
-- *N*: size of the context vector for X and Y at InfoSimba. Default value is '*max*' (but any value > 0 is considered) meaning that the context vector should have the maximum number of n-terms co-occurring with X (likewise with Y). More about this [here](Context-Vectors).
-- *TH*: minimum threshold value from which terms are eligible to the context vector X and Y at InfoSimba. Default value is *0.05* (but any value > 0 is considered) meaning that any terms co-occuring between them with a DICE similarity value > 0.05 are eligible for the n-size vector. More about this [here](Context-Vectors).
+- *N*: size of the context vector for X and Y at InfoSimba. Default value is '*max*' (but any value > 0 is considered) meaning that the context vector should have the maximum number of n-terms co-occurring with X (likewise with Y). More about this [here](#Context-Vectors).
+- *TH*: minimum threshold value from which terms are eligible to the context vector X and Y at InfoSimba. Default value is *0.05* (but any value > 0 is considered) meaning that any terms co-occuring between them with a DICE similarity value > 0.05 are eligible for the n-size vector. More about this [here](#Context-Vectors).
 
 ``` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single', debug_mode=False)
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single')
 ```
-<br>
-For the second (debug_mode)
+
 ###### Output
 ``` bash
 [('xxxx-04-25', 0.9935, [11]),
@@ -530,6 +529,8 @@ Options:
                                   “Year”).
   --help                          Show this message and exit.
 ```
+
+## Debug
 
 ## API
 https://time-matters-api.herokuapp.com/
