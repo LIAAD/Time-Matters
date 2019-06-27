@@ -252,7 +252,7 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
     "capital city of Port-au-Prince. On the first anniversary of the earthquake, 12 January 2011, "\
     "Haitian Prime Minister Jean-Max Bellerive said the death toll from the quake in 2010 was more "\
     "than 316,000, raising the figures from previous estimates. I immediately flashed back to the afternoon "\
-    "of February 11, 1975 when, on my car radio, I first heard the news."
+    "of February 11, 1975 when, on my car radio, I first heard the news. Yesterday..."
 ````
 #### Option 1: Single Score
 <hr>
@@ -285,11 +285,12 @@ The output is a dictionary where the key is the temporal expression (as it was f
 ``` bash
 #py_heideltime results
 {'12 January 2011': 1.0,
- '2010': 0.99,
- '1564': 0.881,
+ '2010': 0.982,
+ '1564': 0.798,
  'January 12, 2010': 0.7425,
  '2011': 0.73,
- 'the afternoon of February 11, 1975': 0}
+ 'the afternoon of February 11, 1975': 0,
+ 'yesterday': 0}
 
 #rule_based results
 {'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
@@ -303,17 +304,14 @@ Besides the *temporal_tagger* and the *score_type* we can also specify the time 
 - *N*: size of the context vector for X and Y at InfoSimba. Default value is '*max*' (but any value > 0 is considered) meaning that the context vector should have the maximum number of n-terms co-occurring with X (likewise with Y). More about this [here](#Context-Vectors).
 - *TH*: minimum threshold value from which terms are eligible to the context vector X and Y at InfoSimba. Default value is *0.05* (but any value > 0 is considered) meaning that any terms co-occuring between them with a DICE similarity value > 0.05 are eligible for the n-size vector. More about this [here](#Context-Vectors).
 
+In addition, one can also specify additional parameters for the temporal_tagger. This is particularly evident when the temporal_tagger is py_heideltime, for which we can specify the 'language', the 'date_granularity', the 'document_type' and the 'document_creation_time'. More about py_heideltime parameters [here](https://github.com/JMendes1995/py_heideltime/#How-to-use-py_heideltime).
+
 ``` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single')
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', '', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single')
 ```
 
 ###### Output
-``` bash
-[('xxxx-04-25', 0.9935, [11]),
- ('1974-04-25', 0.9935, [19]),
- ('p48y', 0.919, [83])]
-```
-<br>
+The output is the same as above (as the parameters specified here are exactly the same as the default above ones).
 
 #### Option 2: Multiple Scores
 <hr>
