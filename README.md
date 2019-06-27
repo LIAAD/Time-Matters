@@ -12,9 +12,9 @@
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Option 1: Single Score](#Option-1:-Single-Score)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Single Score](#Single-Score)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Rationale](#Rationale)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Multiple Scores](#Multiple-Scores)
 <br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
@@ -258,11 +258,11 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
     "than 316,000, raising the figures from previous estimates. I immediately flashed back to the afternoon "\
     "of February 11, 1975 when, on my car radio, I first heard the news. Yesterday..."
 ````
-#### Option 1: Single Score
+#### Single Score
 <hr>
 Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
-##### _With default parameters_:
+##### _Default Parameters_:
 Default temporal tagger is "py_heideltime" (More about this [here](#Text-Representation) and [here](#Temporal-Expressions)), and the score type is "single" (More about this [here](#How-to-use-Time-Matters-SingleDoc)) which means that having:
 ```` bash
 Time_Matters_SingleDoc(text)
@@ -300,7 +300,7 @@ The output is a dictionary where the key is the temporal expression (as it was f
 {'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
 ```
 
-##### _With all the parameters_:
+##### _All the Parameters_:
 
 Besides the *temporal_tagger* and the *score_type* we can also specify the time matters parameters, which consists of a list of four elements:
 - *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
@@ -317,7 +317,7 @@ Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', '', 'n
 ###### Output
 The output is the same as above (as the parameters specified here are exactly the same as the default above ones).
 
-#### Option 2: Multiple Scores
+#### Multiple Scores
 <hr>
 Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
 
