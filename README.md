@@ -30,15 +30,19 @@
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Single Score](#Single-Score)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#Default-Parameters)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#SS-Default-Parameters)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#All-the-Parameters)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SS-All-the-Parameters)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SS-Debug)
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Multiple Scores](#Multiple-Scores)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#Default-parameters)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#MS-Default-parameters)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#All-the-parameters)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#MS-All-the-parameters)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#MS-Debug)
 <br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
@@ -286,7 +290,7 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 <hr>
 Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
-##### _Default Parameters_
+##### _SS Default Parameters_
 Default temporal tagger is "py_heideltime" (More about this [here](#Text-Representation) and [here](#Temporal-Expressions)), and the score type is "single" (More about this [here](#How-to-use-Time-Matters-SingleDoc)) which means that having:
 ```` bash
 Time_Matters_SingleDoc(text)
@@ -324,7 +328,7 @@ The output is a dictionary where the key is the temporal expression (as it was f
 {'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
 ```
 
-##### _All the Parameters_
+##### _SS All the Parameters_
 
 Besides the *temporal_tagger* and the *score_type* we can also specify the time matters parameters, which consists of a list of four elements:
 - *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
@@ -341,11 +345,14 @@ Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', '', 'n
 ###### Output
 The output is the same as above (as the parameters specified here are exactly the same as the default above ones).
 
+
+##### _SS Debug_
+
 #### Multiple Scores
 <hr>
 Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
 
-##### Default parameters
+##### MS Default parameters
 ``` bash
 dates, sentences = Time_Matters_SingleDoc_PerSentence(text, 'English')
 print(dates)
@@ -356,7 +363,7 @@ print(sentences[1])
 [('2019-04-25', [(1, 0.99)], [11]), ('1974-04-25', [(1, 0.99)], [19])]
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
 ```
-##### All the parameters
+##### MS All the parameters
 ``` bash
 dates, sentences = Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'day', 'news', '1974-04-26'], time_matters_parameters=[10, 'none', 'max', 0.05], score_type='multiple', debug_mode=False)
 print(dates)
@@ -367,6 +374,8 @@ print(sentences[1])
 [('1974-04-25', [(1, 0.99)], [11, 19])]
 [1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
 ```
+##### _MS Debug_
+
 #### Python CLI -  Command Line Interface Time-Matters-SingleDoc
 ``` bash
 $ Time_Matters_SingleDoc --help
