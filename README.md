@@ -2,6 +2,8 @@
 ## Table of Contents
 [Time-Matters](#Time-Matters)
 <br>
+[Quick Start](#Quick-Start)
+<br>
 [What is Time-Matters](#What-is-Time-Matters)
 <br>
 [Rationale](#Rationale)
