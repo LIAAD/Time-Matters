@@ -8,6 +8,22 @@
 <br>
 [How does it works](#How-does-it-works)
 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Text Representation](#Text-Representation)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Relevant Keywords](#Relevant-Keywords)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Temporal Expressions](#Temporal-Expressions)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Temporal Similarity Measure](#Temporal-Similarity-Measure)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[InfoSimba](#InfoSimba)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Context Vectors](#Context-Vectors)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Computing DICE](#Computing-DICE)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Median Function](#Median-Function)
+<br>
 [How to Install Time-Matters](#How-to-Install-Time-Matters)
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
