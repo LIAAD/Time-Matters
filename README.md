@@ -14,6 +14,8 @@
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Option 1: Single Score](#Option-1:-Single-Score)
 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Rationale](#Rationale)
+<br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
 [Debug](#Debug)
