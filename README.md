@@ -324,25 +324,15 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 
 #### _SD Default Parameters_
 <hr>
-Default temporal tagger is "py_heideltime" (More about this [here](#Text-Representation) and [here](#Temporal-Expressions)), and the score type is "single" (More about this [here](#How-to-use-Time-Matters-SingleDoc)) which means that having:
+This configuration assumes "py_heideltime" as default temporal tagger (more about this [here](#Text-Representation) and [here](#Temporal-Expressions)), "single" as the default score_type(more about this [here](#How-to-use-Time-Matters-SingleDoc)) and the default parameters of time_matters.
 ```` bash
 Time_Matters_SingleDoc(text)
 ````
-or:
-```` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single')
-````
-is exactly the same thing and produces the same results.
+The output is a dictionary where the key is the temporal expression (as it was found on the document) and value is the score given by GTE.
 
 While 'py_heideltime' is the default temporal tagger, a 'rule_based' approach can be used instead.
 ```` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'])
-````
-
-The following code is an attempt to print the results of Time-Matters for temporal expressions identified with 'py_heideltime' and 'rule_based'
-```` bash
-print(Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single'))
-print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='single'))
 ````
 
 ###### Output
@@ -421,138 +411,171 @@ We also offer the user a debug mode where users can access a more detailed versi
 ``` bash
 Text, TextNormalized, Score, CandidateDates, NormalizedCandidateDates, RelevantKWs, IIndex, Dice_Matrix = Time_Matters_SingleDoc(text, debug_mode=True)
 ```
-
-
 [[Table of Contents]](#Table-of-Contents)
 
 
-#### Python CLI -  Command Line Interface Time-Matters-SingleDoc
+#### SD Python CLI (Command Line Interface)
+##### Help
 ``` bash
 $ Time_Matters_SingleDoc --help
+```
 
+##### Usage Examples
 Usage_examples (make sure that the input parameters are within quotes):
 
-  Default Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English']"
-  All the Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st single -dm False
+Default Parameters:
+This configuration assumes "py_heideltime" as default temporal tagger, "single" as the default score_type and the default parameters of time_matters.
 
-Options:
+``` bash
+Time_Matters_SingleDoc -i "['text', 'August 31st']"
+```
+
+All the Parameters:
+``` bash
+All the Parameters: Time_Matters_SingleDoc -i "['text', '2019-12-31']" -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']" -tm "[10,'full_sentence', 'max', 0.05]" -st single -dm False
+```
+
+##### Options
+``` bash
   [required]: either specify a text or an input_file path.
-  ----------------------------------------------------------------------------------------------------------------------------------------
-  -i, --input LIST               A list that specifies the type of input: a text or a file path
-                                 Example:
-                                         "['text', 'August 31st']"
-                                         "['path', 'c:\text.txt']"
+  ----------------------------------------------------------------------------------------------------------------------------------
+  -i, --input               A list that specifies the type of input: a text or a file path
+                            Example:
+                                    "['text', 'August 31st']"
+                                    "['path', 'c:\text.txt']"
 
+```
 
-
+``` bash
  [not required]
-  ----------------------------------------------------------------------------------------------------------------------------------------
-  -tt, --temporal_tagger LIST    Specifies the temporal tagger ("py_heideltime", "rule-based") and the corresponding parameters.
-                                 default is "py_heideltime"
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -tt, --temporal_tagger   Specifies the temporal tagger and the corresponding parameters.
+                           Default: "py_heideltime"
+			   Options:
+			   	    "py_heideltime"
+				    "rule_based"
 				 
-				 py_heideltime (parameters):
-				 ____________________________
-				 - temporal_tagger_name
-				   options:
-					   "py_heideltime"
+			   py_heideltime (parameters):
+			   ____________________________
+			   - temporal_tagger_name
+			     Options:
+				     "py_heideltime"
 
-				 - Language of the text
-				   Default: "English"
-				   options:
-					   "English";
-					   "Portuguese";
-					   "Spanish";
-					   "Germany";
-					   "Dutch";
-					   "Italian";
-					   "French".
+			   - language
+			     Default: "English"
+			     Options:
+			   	      "English";
+				      "Portuguese";
+				      "Spanish";
+				      "Germany";
+				      "Dutch";
+				      "Italian";
+				      "French".
 
-				 - date_granularity
-				   Default: "full"
-				   options:
-                                            "full" (means that all types of granularity will be retrieved, from the coarsest to the 
-					           finest-granularity).
-                                            "day" (means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD);
-                                            "month" (means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved);
-                                            "year" (means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved);
+		          - date_granularity
+			    Default: "full"
+			    Options:
+			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
+					   finest-granularity.
+			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
 
+			  - document_type
+			    Default: "News"
+			    Options:
+			  	    "News": for news-style documents - default param;
+				    "Narrative": for narrative-style documents (e.g., Wikipedia articles);
+				    "Colloquial": for English colloquial (e.g., Tweets and SMS);
+				    "Scientific": for scientific articles (e.g., clinical trails).
 
-				 - document_type
-				   Default: "News"
-				   options:
-					   "News" for news-style documents - default param;
-					   "Narrative" for narrative-style documents (e.g., Wikipedia articles);
-					   "Colloquial" for English colloquial (e.g., Tweets and SMS);
-					   "Scientific" for scientific articles (e.g., clinical trails).
+			  - document_creation_time
+			    Document creation date in the format YYYY-MM-DD. Taken into account when "News" or "Colloquial" texts
+		            are specified.
+		            Example: "2019-05-30".
 
-				 - document_creation_time
-				   Document creation date in the format YYYY-MM-DD. Taken into account when "News" or 
-				   "Colloquial" texts are specified.
-				   Example: "2019-05-30".
+			  - Example: "['py_heideltime','English', 'full', 'news', '2019-05-05']"	 
 
-				 - Example: "['py_heideltime','English', 'days', 'news', '2019-05-05']"	 
-				 
-				 Rule_Based (parameters):
-				 ____________________________
-				 - temporal_tagger_name
-				   options:
-					   "rule_based"
+		          
+			  Rule_Based (parameters):
+		          ____________________________
+			  - temporal_tagger_name
+			    Options:
+			  	    "rule_based"
 
-				 - date_granularity
-				   options:
-					   "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
-					   "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
-					   "day" (means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
+			  - date_granularity
+			    Default: "full"
+			    Options:
+			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
+					   finest-granularity.
+			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
 
-				 - Example: "['rule_based','days']"
+			  - Example: "['rule_based','full']"
+```
 
-  [not required]
-  ----------------------------------------------------------------------------------------------------------------------------------------
-  -tm, --time_matters LIST        Specifies information about Time-Matters, namely:
-				  - num_of_keywords: number of YAKE! keywords to extract from the text
-				    options:
-					    - default is 10, meaning it will extract 10 relevant keywords from the text
-					    - other values can be used (e.g., 5, 15, etc)
+``` bash
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -tm, --time_matters     Specifies information about Time-Matters, namely:
+			  - num_of_keywords: number of YAKE! keywords to extract from the text
+			    Default: 10
+			    Options:
+				    any integer > 0
 
-				  - context_window_distance: co-occurrences between terms (where a term may be a relevant keyword or a 
-				    temporal expression) are computed with regards to the distance here defined.
-				    options:
-                                            - default is "none", meaning that it will not consider a specified distance between terms, 
-					      instead  it will consider as a co-occurrence, all the terms that co-occur within the
-					      sentence being analyzed
-					    - other values can be used. For instance, using a value of 10, means it will look for 
-					      co-ocurrences within a window of 10 tokens (10 to the left and 10 to the right),
-					      guaruanteeing that it will not go other sentences besides the one being analyzed. 
-					    
-				 Fazer DAQUI PARA A FRENTE
-				 
-					- information regarding the construction of the vocabulary context vector (context_vector_size,
-                                            threshold_sim_value), and information concerning the scope of search ()
-				
-                                            context_vector_size
-                                            	Option:
-                                               	 	"max"; Means that will be considered the maximun number of words in context vector
-                                                    Intiger
-
-                                         Example: "[num_of_keywords=10, context_window_distance=10, context_vector_size='max', threshold_sim_value=0.05]"
-
-  ----------------------------------------------------------------------------------------------------------------------------------------
-  -st, --score_type TEXT                Specifies the type of score
-                                        Options:
-                                                "single" Single score per date;
-                                                "Multiple" Multiple score depending which sentence that the date appears;
+		          - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
+			    Default: "full_sentence"
+			    Options:
+                                    "full_sentence": the system will look for co-occurrences between terms that occur within the search 
+				                    space of a sentence;
+			            n: where n is any value > 0, that is, the system will look for co-occurrences between terms that 
+				       occur within a window of n terms;
+				       
+		          - N: N-size context vector for InfoSimba vectors
+			    Default: "max"
+			    Options: 
+			            "max": where "max" is given by the maximum number of terms eligible to be part of the vector
+				    any integer > 0
+				    
+			  - TH: all the terms with a DICE similarity > TH threshold are eligible to the context vector of InfoSimba
+			    Default: 0.05
+			    Options: 
+				    any integer > 0
 
 
-  -dm, --debug_mode BOOLEAN             Return the following data:
-                                                "Candidates dates list";
-                                                "Relevante words list, extracted by YAKE!";
-                                                "Inverted Index"
-                                                "Dice Matrix"
-                                                "Relevant dates list with the score and offset"
+			  - Example: "[10, 'full_sentence', 'max', 0.05]"
+```
 
+``` bash
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -st, --score_type       Specifies the type of score for the temporal expression found in the text
+  			  Default: "single"
+                          Options:
+                                  "single": returns a single score regardless the temporal expression occurs in different sentences;
+                                  "multiple": returns multiple scores (one for each sentence where it occurs)
+			  - Example: "[10, 'full_sentence', 'max', 0.05]"
+```
 
+``` bash
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -dm, --debug_mode      Returns detailed information about the results
+  	                 Default: False
+			 Options:
+			          False: when set to False debug mode is not activated
+				  True: activates debug mode. In that case it returns 
+                                        "Text";
+					"NormalizedText"
+					"Score"
+					"CandidateDates"
+					"NormalizedCandidateDates"
+					"RelevantKWs"
+					"InvertedIndex"
+					"Dice_Matrix
 
-  --help                                Show this message and exit.
+  --help                 Show this message and exit.
 ```
 
 ## How to use Time-Matters-MultipleDocs
