@@ -9,6 +9,7 @@ def main_inverted_index(yake_ln, lang, text,num_of_keywords,  document_type, doc
                                                                              document_creation_time, date_granularity,date_extractor)
 
     inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
+
     return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text
 
 
@@ -90,15 +91,31 @@ def candidate_years(text, language, document_type, document_creation_time, date_
         candidate_dates_array, new_text = rule_based(text, date_granularity)
         return candidate_dates_array, new_text, date_dictionary
     else:
-        print('You must select a valid time tagger.\n'
+        print('You must select a valid time_tagger_name.\n'
               'options:\n'
               '     py_heideltime;\n'
               '     rule_based')
-
+        return exit(1)
 
 
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
+    if heideltime_date_granularity.lower() != 'day'and heideltime_date_granularity.lower() != 'month' and heideltime_date_granularity.lower() != 'year' and heideltime_date_granularity.lower() != '':
+        print('You must select a valid date_granularity.\n'
+              'options:\n'
+              '     year;\n'
+              '     month:\n'
+              '     day;')
+        return exit(1)
+    elif heideltime_document_type.lower() != 'news'and heideltime_document_type.lower() != 'narrative' and heideltime_document_type.lower() != 'colloquial' and heideltime_document_type.lower() != 'Scientific':
+        print('You must select a valid document_type.\n'
+              'options:\n'
+              '     news;\n'
+              '     narrative;\n'
+              '     colloquial;\n'
+              '     scientific;')
+        return exit(1)
+
     list_dates = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type, heideltime_document_creation_time)
     date_dictionary = {}
     dates = []
@@ -119,6 +136,14 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
 def rule_based(text, date_granularity):
     dates_list = []
     import re
+    if date_granularity != 'day'and date_granularity != 'month' and date_granularity != 'year' and date_granularity != '':
+        print('You must select a valid date_granularity.\n'
+              'options:\n'
+              '     year;\n'
+              '     month:\n'
+              '     day;')
+        return exit(1)
+
     try:
         striped_text = text.replace('(', '').replace(')', '').replace('–', '-')
     except:
@@ -143,6 +168,7 @@ def rule_based(text, date_granularity):
                         days = re.findall('\w{2,4}[-/.]\w{2}[-/.]\w{2,4}', str(dt))
                         dates_list.append((days[0]))
                         provisional_list.append((dt, days[0]))
+
                     striped_text = striped_text.replace(provisional_list[0][0], provisional_list[0][1])
             else:
                 pass
