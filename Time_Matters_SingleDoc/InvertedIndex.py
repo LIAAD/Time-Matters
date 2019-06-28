@@ -9,7 +9,8 @@ def main_inverted_index(yake_ln, lang, text,num_of_keywords,  document_type, doc
                                                                              document_creation_time, date_granularity,date_extractor)
 
     inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
-
+    print(inverted_index)
+    print('\n')
     return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text
 
 
@@ -82,21 +83,6 @@ def sentence_tokenizer(text):
 # *************************************************************************************
 
 def candidate_years(text, language, document_type, document_creation_time, date_granularity, date_extractor):
-    if date_granularity != 'day'and date_granularity != 'month' and date_granularity != 'year' and date_granularity != '':
-        print('You must select a valid date_granularity.\n'
-              'options:\n'
-              '     year;\n'
-              '     month:\n'
-              '     day;')
-        return exit(1)
-    elif document_type.lower() != 'news'and document_type.lower() != 'narrative' and document_type.lower() != 'colloquial' and document_type.lower() != 'scientific' and document_type.lower() != '':
-        print('You must select a valid document_type.\n'
-              'options:\n'
-              '     news;\n'
-              '     narrative;\n'
-              '     colloquial;\n'
-              '     scientific;')
-
     if date_extractor == 'py_heideltime':
         candidate_dates_array, new_text, date_dictionary = py_heideltime(text, language, document_type, document_creation_time,
                       date_granularity)
@@ -145,9 +131,9 @@ def rule_based(text, date_granularity):
     try:
         for dt in match:
             provisional_list = []
-            if dt not in dates_list and date_granularity == '':
+            if dt not in dates_list and date_granularity == 'full':
                 dates_list.append(dt)
-            elif dt not in dates_list and date_granularity != '':
+            elif dt not in dates_list and date_granularity != 'full':
                 if re.match('\w{2,4}[-/.]\w{2}[-/.]\w{2,4}', str(dt)):
                     if date_granularity.lower() == 'year':
                         years = re.findall('\w{4}', str(dt))

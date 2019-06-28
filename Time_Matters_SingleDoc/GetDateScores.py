@@ -52,14 +52,8 @@ def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window ):
         if key in list_y[2]:
             x_offset = list_x[2][key][1]
             y_offset = list_y[2][key][1]
-            if n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int):
-                print('The value of n_contextual_window are not valid\n'
-                      'options:\n'
-                      '     full_sentence;\n'
-                      '     number(integer);')
 
-                return exit(1)
-            elif n_contextual_window == 'full_sentence':
+            if n_contextual_window == 'full_sentence':
                 count += 1
             else :
                 cc = find_distance_of_words(x_offset, y_offset, n_contextual_window)
@@ -121,7 +115,6 @@ def calc_info_simba(dates_array, dt, TH, N):
         #print('***************************************************************************')
         #print('************** GTE: Temporal simularity module ****************************')
     sorted_dict = sorted(gte_dict.items(), key=operator.itemgetter(1), reverse=True)
-
     return sorted_dict
 
 
@@ -137,16 +130,16 @@ def get_max_len(len_array, N):
               '     number(integer);')
         return exit(1)
 
-# ******************************************************************************************
+
 # calculation of info simba per sentence .
 def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_contextual_window):
-    dict_result = []
+    dict_result = {}
 
     for dat in dates_array:
         dd_vector = relevant_array(dat, dt, TH)
         #print(dat + ' original relevant array ' + str(dd_vector))
         index_array = sentence_index(dat, inverted_index)
-        dict_result.append((dat, []))
+        dict_result[dat] = {}
         for index in index_array:
             info_simba_array = []
             #print('sentence '+str(index))
@@ -158,11 +151,10 @@ def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_conte
                                              dt, N)
                 info_simba_array.append(info_simba_result)
             for i in range(len(dict_result)):
-                if dict_result[i][0] == dat:
                     try:
-                        dict_result[i][1].append((index, float("%.3f" % statistics.median(info_simba_array))))
+                        dict_result[dat][index] = [float("%.3f" % statistics.median(info_simba_array))]
                     except:
-                        dict_result[i][1].append((index, 0))
+                        dict_result[dat][index] = [0]
     return dict_result
 
 

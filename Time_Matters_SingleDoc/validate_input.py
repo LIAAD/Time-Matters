@@ -1,3 +1,37 @@
+def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
+    if not isinstance(num_of_keywords, int):
+        print('You must select a number of relevant keywords to consider (e.g., 10).')
+
+        return exit(1)
+
+    elif n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int):
+        print('The value of n_contextual_window is not valid\n'
+              'options:\n'
+              '     full_sentence;\n'
+              '     number(integer);')
+
+        return exit(1)
+    elif N != 'max' and not isinstance(N, int):
+        print('The value of N is not valid\n'
+              'options:\n'
+              '     number(integer);')
+
+        return exit(1)
+    elif not isinstance(TH, float):
+        print('The value of TH is not valid\n'
+              'options:\n'
+              '     number(float);')
+        return exit(1)
+
+
+def verify_score_type(score_type):
+    if score_type != 'single' and score_type != 'multiple':
+        print('You must select a valid score_type.\n'
+              'options:\n'
+              '     single;\n'
+              '     multiple;')
+        return exit(1)
+
 
 def verify_input_data(temporal_tagger, time_matters):
 
@@ -5,7 +39,7 @@ def verify_input_data(temporal_tagger, time_matters):
     language = 'English'
     document_type = 'news'
     document_creation_time = ''
-    date_granularity = ''
+    date_granularity = 'full'
     # Verify the values for temporal Tagger parameters.
     try:
         tt_name = temporal_tagger[0].lower()
