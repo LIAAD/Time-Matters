@@ -30,21 +30,13 @@
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Single Score](#Single-Score)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#SD-Default-Parameters)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#SD-SS-Default-Parameters)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SD-All-the-Parameters)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SD-SS-All-the-Parameters)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Debug](#SD-Debug)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Debug](#SD-SS-Debug)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Multiple Scores](#Multiple-Scores)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#SD-MS-Default-parameters)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SD-MS-All-the-parameters)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Debug](#SD-MS-Debug)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Python Cli](#SD-Python-CLI)
 <br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
@@ -105,10 +97,11 @@ is the set of distinct relevant keywords extracted, within a text or a set of te
 is defined as the set of distinct candidate temporal expressions extracted from a text or a set of texts T.<br>
 <br>
 To illustrate our algorithm we present the following running example:
-Let W<sub>T</sub> = {w<sub>1</sub>; w<sub>2</sub>; w<sub>3</sub>; w<sub>4</sub>; w<sub>5</sub>; w<sub>6</sub>} be the set of distinct relevant keywords, D<sub>T</sub> = {d<sub>1</sub>; d<sub>2</sub>; d<sub>3</sub>; d<sub>4</sub>;} the set of candidate dates and (W<sub>j</sub><sup>*</sup>) as the set of relevant words W<sub>T</sub> that co-occur with each of the four candidate dates D<sub>T</sub> in the search space (to be defined).
+Let W<sub>T</sub> = {w<sub>1</sub>; w<sub>2</sub>; w<sub>3</sub>; w<sub>4</sub>; w<sub>5</sub>; w<sub>6</sub>} be the set of distinct relevant keywords, D<sub>T</sub> = {d<sub>1</sub>; d<sub>2</sub>; d<sub>3</sub>; d<sub>4</sub>;} the set of candidate dates and (W<sub>j</sub><sup>*</sup>) as the set of relevant words W<sub>T</sub> that co-occur (within a given search space - to be defined) with each of the four candidate dates D<sub>T</sub> found in the text (or texts, in case we are talking about multiple documents).
 <br>
 <br>
-The following picture shows the list of six keywords W<sub>T</sub> that co-occur with the four candidate dates D<sub>T</sub>. In each column, the "X" indicate the keywords belonging to the (W<sub>j</sub><sup>*</sup>). For the sake of understanding we consider d<sub>1</sub> to be "2010", and w<sub>1</sub> to be "Haiti".
+The following picture shows the list of six keywords W<sub>T</sub> that co-occur with the four candidate dates D<sub>T</sub>. In each column, the "X" indicate the keywords belonging to the (W<sub>j</sub><sup>*</sup>). For the sake of understanding we consider d<sub>1</sub> to be "2010", and w<sub>1</sub> to be "Haiti". By looking at the picture we can understand that the candidate date 2010, occurs (within a given search space, for instance a sentence) with the relevant keywords w<sub>1</sub>, w<sub>2</sub> and w<sub>3</sub>. For instance, it could have occurred (hyphotetically) with w<sub>1</sub> on sentence one, with w<sub>2</sub> and w<sub>3</sub> on sentence two.
+
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences.jpg" width="350">
 </p>
@@ -304,6 +297,16 @@ Time-Matters-SingleDoc aims to score temporal expressions found within a single 
 
 - to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
 
+While the first one evaluates the score of a given candidate date in the context of a text (or texts, if we are talking about multiple documents), with regards to all the relevant keywords that it co-occurs with (regardless if it's on sentence 1 or 2, or doc 1 or 2, if we are talking about multiple documents): 
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences1.jpg" width="300">
+</p>
+
+The second, evaluates the score of a given candidate date with regards to the sentences (or text, if we are talking about multiple documents) where it occurs (thus taking into account only the relevant keywords of each sentence (within the search space defined), or the relevant keywords of each text, if we are talking about multiple documents). This means that, if 2010 co-occurs with w<sub>1</sub> in sentence 1, only this relevant keywords will be considered to compute the score of 2010 for this particular sentence. Likewise, if 2010 co-occurs with w<sub>2</sub> and with w<sub>3</sub> in sentence 2, only these relevant keywords will be considered to compute the score of 2010 for this particular sentence.
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences2.jpg" width="300">
+</p>
+
 How to work with each one will be explained next. But before, both the libraries, as well as the text, need to be imported.
 
 ```` bash
@@ -321,30 +324,17 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 
 [[Table of Contents]](#Table-of-Contents)
 
-#### Single Score
+#### _SD Default Parameters_
 <hr>
-Output objetive: to retrieve a unique score for each temporal expression, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
-
-##### _SD SS Default Parameters_
-Default temporal tagger is "py_heideltime" (More about this [here](#Text-Representation) and [here](#Temporal-Expressions)), and the score type is "single" (More about this [here](#How-to-use-Time-Matters-SingleDoc)) which means that having:
+This configuration assumes "py_heideltime" as default temporal tagger (more about this [here](#Text-Representation) and [here](#Temporal-Expressions)), "single" as the default score_type(more about this [here](#How-to-use-Time-Matters-SingleDoc)) and the default parameters of time_matters.
 ```` bash
 Time_Matters_SingleDoc(text)
 ````
-or:
-```` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single')
-````
-is exactly the same thing and produces the same results.
+The output is a dictionary where the key is the temporal expression (as it was found on the document) and value is the score given by GTE.
 
 While 'py_heideltime' is the default temporal tagger, a 'rule_based' approach can be used instead.
 ```` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='single')
-````
-
-The following code is an attempt to print the results of Time-Matters for temporal expressions identified with 'py_heideltime' and 'rule_based'
-```` bash
-print(Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime'], score_type='single'))
-print(Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'], score_type='single'))
+Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'])
 ````
 
 ###### Output
@@ -357,15 +347,35 @@ The output is a dictionary where the key is the temporal expression (as it was f
  'January 12, 2010': 0.7425,
  '2011': 0.73,
  'the afternoon of February 11, 1975': 0,
- 'yesterday': 0}
+ 'Yesterday': 0}
 
 #rule_based results
 {'1975': 1.0, '2011': 0.966, '2010': 0.913, '1500': 0.862, '1564': 0.856}
 ```
 
+In addition, one can also specify multiple scores instead of single scores, that is, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence in the other sentence). 
+
+```` bash
+Time_Matters_SingleDoc(text, score_type='multiple')
+````
+
+###### Output
+The output is a dictionary where the key is the temporal expression (as it was found on the document) and the value is a list of tuples with two elements (the first returns the sentence ID, the second returns the score of the temporal expression in that particular sentence).
+``` bash
+#py_heideltime results
+{'2011': [(0, 0.831)],
+ '2010': [(1, 0.2), (5, 0.982)],
+ '1564': [(2, 0.827)],
+ 'January 12, 2010': [(4, 0.68)],
+ '12 January 2011': [(5, 1.0)],
+ 'the afternoon of February 11, 1975': [(6, 0)],
+ 'Yesterday': [(7, 0)]}
+ ```
+
 [[Table of Contents]](#Table-of-Contents)
 
-##### _SD SS All the Parameters_
+#### _SD All the Parameters_
+<hr>
 
 Besides the *temporal_tagger* and the *score_type* we can also specify the time matters parameters, which consists of a list of four elements:
 - *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
@@ -378,18 +388,22 @@ In addition, one can also specify additional parameters for the temporal_tagger.
 ``` bash
 Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single')
 ```
+Obviously, we can also specify a multiple value for the score_type as seen before:
+``` bash
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='multiple')
+```
 
 ###### Output
 The output is the same as above (as the parameters specified here are exactly the same as the default above ones).
 
 [[Table of Contents]](#Table-of-Contents)
 
-##### _SD SS Debug_
+#### _SD Debug_
 We also offer the user a debug mode where users can access a more detailed version of the results, namely access to the `Text`, `TextNormalized`, `Score`, `CandidateDates`, `NormalizedCandidateDates`, `RelevantKWs`, `IIndex`, `Dice_Matrix`.
 
 - <b>Text</b>: a slightly normalized version of the input text, where temporal expressions with more than one token are joined with an underscore. By doing this, we guarantee that temporal expressions are easily identified in the text by means of its offset. This may be used for example to highlight or underline a given temporal expression in the context of some GUI.
 - <b>NormalizedText</b>: a normalized version of the input text, where temporal expressions appear normalized (according to the temporal tagger used). For instance, the temporal expression `the afternoon of February 11, 1975` will appear as `1975-02-11taf` in the text. This may be used in the DICE_Matrix (more on this bellow) to understand where normalized temporal expressions do appear in the text.
-- <b>Score</b>: a dictionary, where the key is the temporal expression (as it was found in the text), and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in the text. Recall that indexes in Python start in 0). For instance, `{'2010': [0.982, [6, 87]]}` means that the temporal expression `2010` has a score of `0.982` and appears at position `6` and `87`. Similarly, `'the_afternoon_of_February_11,_1975': [0, [103]]` means that the temporal expression `the_afternoon_of_February_11,_1975` has a zero score and appears at position `103`.
+- <b>Score</b>: the output of the score in debug mode depends whether we are using 'single' or 'multiple' score. For <b>single</b> the output will be a dictionary, where the key is the temporal expression (as it was found in the text), and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in the text. Recall that indexes in Python start in 0). For instance, `{'2010': [0.982, [6, 87, 96]]}` means that the temporal expression `2010` has a score of `0.982` and appears at position `6`, `87` and `96`. Similarly, `'the_afternoon_of_February_11,_1975': [0, [103]]` means that the temporal expression `the_afternoon_of_February_11,_1975` has a zero score and appears at position `103`. For <b>multiple</b> the output will be a dictionary, where the key is the temporal expression (as it was found in the text), and the value is another dictionary where the key is the sentence id, and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in that particular sentence). For instance, `{'2010': {'1': [0.2, [6]]}, {'5': [0.982, [87, 96]]}}` means that the temporal expression `2010` has a score of `0.2` in sentence id `1` where appears at position `6`, and a score of `0.982` in sentence id `5` where appears at position `87` e `96`.
 - <b>CandidateDates</b>: a dictionary of the candidates dates (as they appear on the text) and their corresponding normalized version. For instance, the two following entries: `'January_12,_2010': '2010-01-12',`; `'2010-01-12': '2010-01-12'`, means that the two temporal expressions `January_12,_2010` and `2010-01-12` are both normalized to `2010-01-12`. In our algorithm, candidate dates are detected by a `rule_based` solution or by using [py_heideltime](https://github.com/JMendes1995/py_heideltime). If you want to know more about the role of each one in Time-Matters, please refer to the following [link](#Text-Representation).
 - <b>NormalizedCandidateDates</b>: a dictionary of the normalized version of the candidates dates and their corresponding instances (as they appear on the text). For instance, the entry : `'2010-01-12' : ['January_12,_2010', '2010-01-12']`, means that the normalized temporal expression `2010-01-12` has at least one entry in the text as `January_12,_2010` and another one as `2010-01-12`. In our algorithm, candidate dates are detected by a `rule_based` solution or by using [py_heideltime](https://github.com/JMendes1995/py_heideltime). If you want to know more about the role of each one in Time-Matters, please refer to the following [link](#Text-Representation).
 - <b>RelevantKWs</b>: a list of the relevant keywords used by our algorithm in the process of assigning a score to temporal expressions. In our algorithm, keywords are detected by [YAKE!](https://github.com/LIAAD/yake). If you want to know more about the role of YAKE! in Time-Matters, please refer to the following [link]((#Text-Representation).
@@ -399,173 +413,173 @@ We also offer the user a debug mode where users can access a more detailed versi
 ``` bash
 Text, TextNormalized, Score, CandidateDates, NormalizedCandidateDates, RelevantKWs, IIndex, Dice_Matrix = Time_Matters_SingleDoc(text, debug_mode=True)
 ```
-
-
 [[Table of Contents]](#Table-of-Contents)
 
-#### Multiple Scores
-<hr>
-Output  objetive: to retrieve a different score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2).
 
-##### SD MS Default parameters
-``` bash
-dates, sentences = Time_Matters_SingleDoc_PerSentence(text, 'English')
-print(dates)
-print(sentences[1])
-```
-[[Table of Contents]](#Table-of-Contents)
-
-###### Output
-``` bash
-[('2019-04-25', [(1, 0.99)], [11]), ('1974-04-25', [(1, 0.99)], [19])]
-[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
-```
-##### SD MS All the parameters
-``` bash
-dates, sentences = Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'day', 'news', '1974-04-26'], time_matters_parameters=[10, 'none', 'max', 0.05], score_type='multiple', debug_mode=False)
-print(dates)
-print(sentences[1])
-```
-
-[[Table of Contents]](#Table-of-Contents)
-
-###### Output
-``` bash
-[('1974-04-25', [(1, 0.99)], [11, 19])]
-[1] The revolution began as a coup organised by the Armed Forces Movement (Portuguese: Movimento das Forças Armadas, MFA), composed of military officers who opposed the regime, but it was soon coupled with an unanticipated, popular civil resistance campaign.
-```
-##### _SD MS Debug_
-
-[[Table of Contents]](#Table-of-Contents)
-
-#### Python CLI -  Command Line Interface Time-Matters-SingleDoc
+#### SD Python CLI
+##### Help
 ``` bash
 $ Time_Matters_SingleDoc --help
+```
 
+##### Usage Examples
 Usage_examples (make sure that the input parameters are within quotes):
 
-  Default Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English']"
-  All the Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st single -dm False
+Default Parameters:
+This configuration assumes "py_heideltime" as default temporal tagger, "single" as the default score_type and the default parameters of time_matters.
 
-Options:
-  [required]: either specify a text or an input_file path.
-  ----------------------------------------------------------------------------------------------------------------------------------------
-  -i, --input LIST               A list that specifies the type of input: a text or a file path
-                                 Example:
-                                         "['text', 'August 31st']"
-                                         "['path', 'c:\text.txt']"
-
-
-
- [not required]
-  ----------------------------------------------------------------------------------------------------------------------------------------
-  -tt, --temporal_tagger LIST    Specifies the temporal tagger ("py_heideltime", "rule-based") and the corresponding parameters.
-                                 default is "py_heideltime"
-				 
-				 py_heideltime (parameters):
-				 ____________________________
-				 - temporal_tagger_name
-				   options:
-					   "py_heideltime"
-
-				 - Language of the text
-				   Default: "English"
-				   options:
-					   "English";
-					   "Portuguese";
-					   "Spanish";
-					   "Germany";
-					   "Dutch";
-					   "Italian";
-					   "French".
-
-				 - date_granularity
-				   Default: "full"
-				   options:
-                                            "full" (means that all types of granularity will be retrieved, from the coarsest to the 
-					           finest-granularity).
-                                            "day" (means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD);
-                                            "month" (means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved);
-                                            "year" (means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved);
-
-
-				 - document_type
-				   Default: "News"
-				   options:
-					   "News" for news-style documents - default param;
-					   "Narrative" for narrative-style documents (e.g., Wikipedia articles);
-					   "Colloquial" for English colloquial (e.g., Tweets and SMS);
-					   "Scientific" for scientific articles (e.g., clinical trails).
-
-				 - document_creation_time
-				   Document creation date in the format YYYY-MM-DD. Taken into account when "News" or 
-				   "Colloquial" texts are specified.
-				   Example: "2019-05-30".
-
-				 - Example: "['py_heideltime','English', 'days', 'news', '2019-05-05']"	 
-				 
-				 Rule_Based (parameters):
-				 ____________________________
-				 - temporal_tagger_name
-				   options:
-					   "rule_based"
-
-				 - date_granularity
-				   options:
-					   "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved);
-					   "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved);
-					   "day" (means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
-
-				 - Example: "['rule_based','days']"
-
-  [not required]
-  ----------------------------------------------------------------------------------------------------------------------------------------
-  -tm, --time_matters LIST        Specifies information about Time-Matters, namely:
-				  - num_of_keywords: number of YAKE! keywords to extract from the text
-				    options:
-					    - default is 10, meaning it will extract 10 relevant keywords from the text
-					    - other values can be used (e.g., 5, 15, etc)
-
-				  - context_window_distance: co-occurrences between terms (where a term may be a relevant keyword or a 
-				    temporal expression) are computed with regards to the distance here defined.
-				    options:
-                                            - default is "none", meaning that it will not consider a specified distance between terms, 
-					      instead  it will consider as a co-occurrence, all the terms that co-occur within the
-					      sentence being analyzed
-					    - other values can be used. For instance, using a value of 10, means it will look for 
-					      co-ocurrences within a window of 10 tokens (10 to the left and 10 to the right),
-					      guaruanteeing that it will not go other sentences besides the one being analyzed. 
-					    
-				 Fazer DAQUI PARA A FRENTE
-				 
-					- information regarding the construction of the vocabulary context vector (context_vector_size,
-                                            threshold_sim_value), and information concerning the scope of search ()
-				
-                                            context_vector_size
-                                            	Option:
-                                               	 	"max"; Means that will be considered the maximun number of words in context vector
-                                                    Intiger
-
-                                         Example: "[num_of_keywords=10, context_window_distance=10, context_vector_size='max', threshold_sim_value=0.05]"
-
-  ----------------------------------------------------------------------------------------------------------------------------------------
-  -st, --score_type TEXT                Specifies the type of score
-                                        Options:
-                                                "single" Single score per date;
-                                                "Multiple" Multiple score depending which sentence that the date appears;
-
-
-  -dm, --debug_mode BOOLEAN             Return the following data:
-                                                "Candidates dates list";
-                                                "Relevante words list, extracted by YAKE!";
-                                                "Inverted Index"
-                                                "Dice Matrix"
-                                                "Relevant dates list with the score and offset"
-
-
-
-  --help                                Show this message and exit.
+``` bash
+Time_Matters_SingleDoc -i "['text', 'August 31st']"
 ```
+
+All the Parameters:
+``` bash
+All the Parameters: Time_Matters_SingleDoc -i "['text', '2019-12-31']" -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']" -tm "[10,'full_sentence', 'max', 0.05]" -st single -dm False
+```
+
+##### Options
+``` bash
+  [required]: either specify a text or an input_file path.
+  ----------------------------------------------------------------------------------------------------------------------------------
+  -i, --input               A list that specifies the type of input: a text or a file path
+                            Example:
+                                    "['text', 'August 31st']"
+                                    "['path', 'c:\text.txt']"
+
+```
+
+``` bash
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -tt, --temporal_tagger   Specifies the temporal tagger and the corresponding parameters.
+                           Default: "py_heideltime"
+			   Options:
+			   	    "py_heideltime"
+				    "rule_based"
+				 
+			   py_heideltime (parameters):
+			   ____________________________
+			   - temporal_tagger_name
+			     Options:
+				     "py_heideltime"
+
+			   - language
+			     Default: "English"
+			     Options:
+			   	      "English";
+				      "Portuguese";
+				      "Spanish";
+				      "Germany";
+				      "Dutch";
+				      "Italian";
+				      "French".
+
+		          - date_granularity
+			    Default: "full"
+			    Options:
+			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
+					   finest-granularity.
+			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+
+			  - document_type
+			    Default: "News"
+			    Options:
+			  	    "News": for news-style documents - default param;
+				    "Narrative": for narrative-style documents (e.g., Wikipedia articles);
+				    "Colloquial": for English colloquial (e.g., Tweets and SMS);
+				    "Scientific": for scientific articles (e.g., clinical trails).
+
+			  - document_creation_time
+			    Document creation date in the format YYYY-MM-DD. Taken into account when "News" or "Colloquial" texts
+		            are specified.
+		            Example: "2019-05-30".
+
+			  - Example: "['py_heideltime','English', 'full', 'news', '2019-05-05']"	 
+
+		          
+			  Rule_Based (parameters):
+		          ____________________________
+			  - temporal_tagger_name
+			    Options:
+			  	    "rule_based"
+
+			  - date_granularity
+			    Default: "full"
+			    Options:
+			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
+					   finest-granularity.
+			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+
+			  - Example: "['rule_based','full']"
+```
+
+``` bash
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -tm, --time_matters     Specifies information about Time-Matters, namely:
+			  - num_of_keywords: number of YAKE! keywords to extract from the text
+			    Default: 10
+			    Options:
+				    any integer > 0
+
+		          - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
+			    Default: "full_sentence"
+			    Options:
+                                    "full_sentence": the system will look for co-occurrences between terms that occur within the search 
+				                    space of a sentence;
+			            n: where n is any value > 0, that is, the system will look for co-occurrences between terms that 
+				       occur within a window of n terms;
+				       
+		          - N: N-size context vector for InfoSimba vectors
+			    Default: "max"
+			    Options: 
+			            "max": where "max" is given by the maximum number of terms eligible to be part of the vector
+				    any integer > 0
+				    
+			  - TH: all the terms with a DICE similarity > TH threshold are eligible to the context vector of InfoSimba
+			    Default: 0.05
+			    Options: 
+				    any integer > 0
+
+
+			  - Example: "[10, 'full_sentence', 'max', 0.05]"
+```
+
+``` bash
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -st, --score_type       Specifies the type of score for the temporal expression found in the text
+  			  Default: "single"
+                          Options:
+                                  "single": returns a single score regardless the temporal expression occurs in different sentences;
+                                  "multiple": returns multiple scores (one for each sentence where it occurs)
+			  - Example: "[10, 'full_sentence', 'max', 0.05]"
+```
+
+``` bash
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -dm, --debug_mode      Returns detailed information about the results
+  	                 Default: False
+			 Options:
+			          False: when set to False debug mode is not activated
+				  True: activates debug mode. In that case it returns 
+                                        "Text";
+					"NormalizedText"
+					"Score"
+					"CandidateDates"
+					"NormalizedCandidateDates"
+					"RelevantKWs"
+					"InvertedIndex"
+					"Dice_Matrix
+
+  --help                 Show this message and exit.
+```
+[[Table of Contents]](#Table-of-Contents)
 
 ## How to use Time-Matters-MultipleDocs
 ```` bash
