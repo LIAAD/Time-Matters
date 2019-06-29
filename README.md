@@ -175,7 +175,12 @@ By looking at the picture we can observe that both vectors X (that is, `W`<sub>l
 [[Table of Contents]](#Table-of-Contents)
 
 ###### Computing DICE
-In order to compute the similarity between terms, we begin by setting a n-contextual window distance (n_contextual_window) which defines the search space where co-occurrences between terms may be counted. To this regard, we consider two possible search spaces:
+In order to compute the similarity between terms, we need to extract statistical information from the corpus. In our case, a corpus can be a single document or multiple documents.
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/Corpus.jpg" width="250">
+</p>
+
+begin by setting a n-contextual window distance (n_contextual_window) which defines the search space where co-occurrences between terms may be counted. To this regard, we consider two possible search spaces:
 - the <b>full sentence</b> itself (n_contextual_window = "full_sentence"), that is, the system will look for co-occurrences between terms that occur within the search space of a sentence;
 - a <b>window of n terms</b> (n_contextual_window = n, where n is any value > 0), that is, the system will look for co-occurrences between terms that occur within a window of n terms;
 
