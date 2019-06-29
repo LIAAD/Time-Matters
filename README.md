@@ -291,18 +291,18 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
     
 ## How to use Time-Matters-SingleDoc
-Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two options: 
+Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two scoring options:
 
-- to retrieve a unique <b>single</b> score for each temporal expression found regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
+- <b>ByDoc</b>: it retrieves a unique <b>single</b> score for each temporal expression found in the document, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
 
-- to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2); 
+- <b>BySentence</b>: to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression found in the document, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2);
 
-While the first one evaluates the score of a given candidate date in the context of a text (or texts, if we are talking about multiple documents), with regards to all the relevant keywords that it co-occurs with (regardless if it's on sentence 1 or 2, or doc 1 or 2, if we are talking about multiple documents): 
+While the first one evaluates the score of a given candidate date in the context of a text, with regards to all the relevant keywords that it co-occurs with (regardless if it's on sentence 1 or 2), that is, both w<sub>1</sub>, as well as w<sub>2</sub> and w<sub>3</sub> will be considered in the computation of the temporal score of d<sub>1</sub> given by the GTE equation, i.e., (Median([IS(d<sub>1</sub>, w<sub>1</sub>); IS(d<sub>1</sub>, w<sub>2</sub>); IS(d<sub>1</sub>, w<sub>3</sub>)])): 
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences1.jpg" width="300">
 </p>
 
-The second, evaluates the score of a given candidate date with regards to the sentences (or text, if we are talking about multiple documents) where it occurs (thus taking into account only the relevant keywords of each sentence (within the search space defined), or the relevant keywords of each text, if we are talking about multiple documents). This means that, if 2010 co-occurs with w<sub>1</sub> in sentence 1, only this relevant keywords will be considered to compute the score of 2010 for this particular sentence. Likewise, if 2010 co-occurs with w<sub>2</sub> and with w<sub>3</sub> in sentence 2, only these relevant keywords will be considered to compute the score of 2010 for this particular sentence.
+The second, evaluates the score of a given candidate date with regards to the sentences where it occurs (thus taking into account only the relevant keywords of each sentence (within the search space defined)). This means that, if 2010 co-occurs with w<sub>1</sub> in sentence 1, only this relevant keyword will be considered to compute the temporal score of 2010 for this particular sentence. Likewise, if 2010 co-occurs with w<sub>2</sub> and with w<sub>3</sub> in sentence 2, only these relevant keywords will be considered to compute the temporal score of 2010 for this particular sentence. This means that we would have a temporal score of 2010 for sentence 1 computed by GTE equation as follows: (Median([IS(d<sub>1</sub>, w<sub>1</sub>)])), and a temporal score of 2010 for sentence 2 computed by GTE equation as follows: (Median([IS(d<sub>1</sub>, w<sub>2</sub>); IS(d<sub>1</sub>, w<sub>3</sub>)]))
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences2.jpg" width="300">
 </p>
@@ -327,7 +327,7 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 #### _SD Default Parameters_
 <hr>
 
-This configuration assumes "py_heideltime" as default temporal tagger (more about this [here](#Text-Representation) and [here](#Temporal-Expressions)), "single" as the default score_type(more about this [here](#How-to-use-Time-Matters-SingleDoc)) and the default parameters of time_matters.
+This configuration assumes "py_heideltime" as default temporal tagger (more about this [here](#Text-Representation) and [here](#Temporal-Expressions)), "ByDoc" as the default score_type(more about this [here](#How-to-use-Time-Matters-SingleDoc)) and the default parameters of time_matters.
 ```` bash
 Time_Matters_SingleDoc(text)
 ````
@@ -357,11 +357,11 @@ The output is a dictionary where the key is the temporal expression (as it was f
 In addition, one can also specify multiple scores instead of single scores, that is, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence in the other sentence). 
 
 ```` bash
-Time_Matters_SingleDoc(text, score_type='multiple')
+Time_Matters_SingleDoc(text, score_type='BySentence')
 ````
 
 ###### Output
-The output is a dictionary where the key is the temporal expression (as it was found on the document) and the value is a list of tuples with two elements (the first returns the sentence ID, the second returns the score of the temporal expression in that particular sentence).
+The output here, is a dictionary where the key is the temporal expression (as it was found on the document) and the value is a list of tuples with two elements (the first returns the sentence ID, the second returns the score of the temporal expression in that particular sentence).
 ``` bash
 #py_heideltime results
 {'2011': [(0, 0.831)],
@@ -387,11 +387,11 @@ Besides the *temporal_tagger* and the *score_type* we can also specify the time 
 In addition, one can also specify additional parameters for the temporal_tagger. This is particularly evident when the temporal_tagger is py_heideltime, for which we can specify the 'language', the 'date_granularity', the 'document_type' and the 'document_creation_time'. More about py_heideltime parameters [here](https://github.com/JMendes1995/py_heideltime/#How-to-use-py_heideltime).
 
 ``` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='single')
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='ByDoc')
 ```
 Obviously, we can also specify a multiple value for the score_type as seen before:
 ``` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='multiple')
+Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='BySentence')
 ```
 
 ###### Output
@@ -404,7 +404,7 @@ We also offer the user a debug mode where users can access a more detailed versi
 
 - <b>Text</b>: a slightly normalized version of the input text, where temporal expressions with more than one token are joined with an underscore. By doing this, we guarantee that temporal expressions are easily identified in the text by means of its offset. This may be used for example to highlight or underline a given temporal expression in the context of some GUI.
 - <b>NormalizedText</b>: a normalized version of the input text, where temporal expressions appear normalized (according to the temporal tagger used). For instance, the temporal expression `the afternoon of February 11, 1975` will appear as `1975-02-11taf` in the text. This may be used in the DICE_Matrix (more on this bellow) to understand where normalized temporal expressions do appear in the text.
-- <b>Score</b>: the output of the score in debug mode depends whether we are using 'single' or 'multiple' score. For <b>single</b> the output will be a dictionary, where the key is the temporal expression (as it was found in the text), and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in the text. Recall that indexes in Python start in 0). For instance, `{'2010': [0.982, [6, 87, 96]]}` means that the temporal expression `2010` has a score of `0.982` and appears at position `6`, `87` and `96`. Similarly, `'the_afternoon_of_February_11,_1975': [0, [103]]` means that the temporal expression `the_afternoon_of_February_11,_1975` has a zero score and appears at position `103`. For <b>multiple</b> the output will be a dictionary, where the key is the temporal expression (as it was found in the text), and the value is another dictionary where the key is the sentence id, and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in that particular sentence). For instance, `{'2010': {'1': [0.2, [6]]}, {'5': [0.982, [87, 96]]}}` means that the temporal expression `2010` has a score of `0.2` in sentence id `1` where appears at position `6`, and a score of `0.982` in sentence id `5` where appears at position `87` e `96`.
+- <b>Score</b>: the output of the score in debug mode depends whether we are using 'ByDoc' or 'BySentence' score. For <b>ByDoc</b> score, the output will be a dictionary, where the key is the temporal expression (as it was found in the text), and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in the text. Recall that indexes in Python start in 0). For instance, `{'2010': [0.982, [6, 87, 96]]}` means that the temporal expression `2010` has a score of `0.982` and appears at position `6`, `87` and `96`. Similarly, `'the_afternoon_of_February_11,_1975': [0, [103]]` means that the temporal expression `the_afternoon_of_February_11,_1975` has a zero score and appears at position `103`. For <b>BySentence</b> score, the output will be a dictionary, where the key is the temporal expression (as it was found in the text), and the value is another dictionary where the key is the sentence id, and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in that particular sentence). For instance, `{'2010': {'1': [0.2, [6]]}, {'5': [0.982, [87, 96]]}}` means that the temporal expression `2010` has a score of `0.2` in sentence id `1` where appears at position `6`, and a score of `0.982` in sentence id `5` where appears at position `87` e `96`.
 - <b>CandidateDates</b>: a dictionary of the candidates dates (as they appear on the text) and their corresponding normalized version. For instance, the two following entries: `'January_12,_2010': '2010-01-12',`; `'2010-01-12': '2010-01-12'`, means that the two temporal expressions `January_12,_2010` and `2010-01-12` are both normalized to `2010-01-12`. In our algorithm, candidate dates are detected by a `rule_based` solution or by using [py_heideltime](https://github.com/JMendes1995/py_heideltime). If you want to know more about the role of each one in Time-Matters, please refer to the following [link](#Text-Representation).
 - <b>NormalizedCandidateDates</b>: a dictionary of the normalized version of the candidates dates and their corresponding instances (as they appear on the text). For instance, the entry : `'2010-01-12' : ['January_12,_2010', '2010-01-12']`, means that the normalized temporal expression `2010-01-12` has at least one entry in the text as `January_12,_2010` and another one as `2010-01-12`. In our algorithm, candidate dates are detected by a `rule_based` solution or by using [py_heideltime](https://github.com/JMendes1995/py_heideltime). If you want to know more about the role of each one in Time-Matters, please refer to the following [link](#Text-Representation).
 - <b>RelevantKWs</b>: a list of the relevant keywords used by our algorithm in the process of assigning a score to temporal expressions. In our algorithm, keywords are detected by [YAKE!](https://github.com/LIAAD/yake). If you want to know more about the role of YAKE! in Time-Matters, please refer to the following [link]((#Text-Representation).
@@ -427,7 +427,7 @@ $ Time_Matters_SingleDoc --help
 Usage_examples (make sure that the input parameters are within quotes):
 
 Default Parameters:
-This configuration assumes "py_heideltime" as default temporal tagger, "single" as the default score_type and the default parameters of time_matters.
+This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc" as the default score_type and the default parameters of time_matters.
 
 ``` bash
 Time_Matters_SingleDoc -i "['text', 'August 31st']"
@@ -435,7 +435,7 @@ Time_Matters_SingleDoc -i "['text', 'August 31st']"
 
 All the Parameters:
 ``` bash
-All the Parameters: Time_Matters_SingleDoc -i "['text', '2019-12-31']" -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']" -tm "[10,'full_sentence', 'max', 0.05]" -st single -dm False
+All the Parameters: Time_Matters_SingleDoc -i "['text', '2019-12-31']" -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']" -tm "[10,'full_sentence', 'max', 0.05]" -st ByDoc -dm False
 ```
 
 ##### Options
