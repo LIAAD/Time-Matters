@@ -184,9 +184,14 @@ In order to compute the similarity between terms, we need to extract statistical
 In the case of a single document, occurrences of terms (keywords and candidate dates) are counted on the document's sentences. Co-occurrences of terms, in turn, are counted within the two following *n_contextual_window*'s:
 
 - the <b>full sentence</b> itself (n_contextual_window = "full_sentence"), that is, the system will look for co-occurrences between terms that co-occur within the search space of a sentence;
-- a <b>window of n terms</b> (n_contextual_window = n, where n is any value > 0), that is, the system will look for co-occurrences between terms that co-occur within a window of n terms;
+- a <b>window of n terms</b> (n_contextual_window = n, where n is any value > 0), that is, the system will look for co-occurrences between terms that co-occur within a window of n terms within the search space of a sentence;
 
-In order to better understand this process, we consider the following figure:
+In order to compute the similarities between terms under this kind of contextual windows, we consider an Inverted Index with the following structure:
+{key: [SF, TotFreq, {SentID : [Freq, [OffSets]],......}]}
+
+where `key` is the term (a relevant keyword or a candidate date that is found in the document), `SF` is the Sentence Frequency (i.e., the number of document sentences where the term occurs, `TotFreq` is the total frequency of the term in the document, `SentID` is the ID of the sentence where the term appears, `Freq` is the frequency of the term in that particular sentence, and `OffSets` is the the list of offsets where the term appears in that particular sentence. For instance, a term with the following structure '2010': [2, 3, {1: [1, [6]], 5: [2, [87, 96]]}] means that it has 3 occurrences in 2 different sentences. In the sentence with ID 1, it occurs 1 time in position 6. In sentence with ID 5, it occurs 2 times in position 87 and 96.
+
+Once this structure is defined, we can then compute the similarities between terms. In order to better understand this process, we consider the following figure:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow2.jpg" width="250">
 </p>
@@ -209,11 +214,63 @@ For the second case, we consider to count co-occurrences within a <b>window of n
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE3.jpg" width="200">
 </p>
 
+<b>Multiple Documents</b> <br>
+In the case of multiple documents, occurrences of terms (keywords and candidate dates) are counted on (a) document's; and on (b) document's sentences. 
+
+For the first (<b>documents</b>), Co-occurrences of terms, are counted within the two following *n_contextual_window*'s:
+
+- the <b>full document</b> itself (n_contextual_window = "full_document"), that is, the system will look for co-occurrences between terms that co-occur within the search space of a document;
+- a <b>window of n terms</b> (n_contextual_window = n, where n is any value > 0), that is, the system will look for co-occurrences between terms that co-occur within a window of n terms within the search space of a document;
+
+
+For the second (<b>sentences</b>), Co-occurrences of terms, are counted within the two following *n_contextual_window*'s:
+
+- the <b>full sentence</b> itself (n_contextual_window = "full_sentence"), that is, the system will look for co-occurrences between terms that co-occur within the search space of a document sentence;
+- a <b>window of n terms</b> (n_contextual_window = n, where n is any value > 0), that is, the system will look for co-occurrences between terms that co-occur within a window of n terms within the search space of a document sentence;
+
+In order to compute the similarities between terms under this kind of contextual windows, we consider an Inverted Index with the following structure:
+{key: [DF, TotFreq, {DocID : [DocFreq, [DocOffSets], {SentID : [SentFreq, [SentOffsets]]},......}]}
+
+where `key` is the term (a relevant keyword or a candidate date that is found within the corpus of documents), `DF` is the Document Frequency (i.e., the number of documents where the term occurs, `TotFreq` is the total frequency of the term in the set of documents, `DocID` is the ID of the document where the term appears, `DocFreq` is the frequency of the term in that particular document, `DocOffSets` is the the list of offsets where the term appears in that particular document, `SentID` is the ID of the sentence where the term appears in that particular document, `SentFreq` is the frequency of the term in that particular sentence of the document, and `SentOffSets` is the the list of offsets where the term appears in that particular sentence of the document.
+
+For instance, a term with the following structure '2010': [2, 3, {1: [1, [6], {1 : [1, [6]]}], 5: [2, [87, 96, 106], {8: [1, [87]], 10: [2, [96, 106]]}     ]}] means that it has 3 occurrences in 2 different documents. In the document with ID 1, it occurs 1 time in position 6, or, if seen at the sentence level, it occurs 1 time in the sentence with ID 1 at position 6. In document with ID 5, it occurs 2 times in position 87, 96 and 106, or, if seen at the sentence level, it occurs 1 time in the sentence with ID 8 at position 87, and 2 times in the sentence with ID 10 at position 96 and 106.
+
+Once this structure is defined, we can then compute the similarities between terms. In order to better understand this process, we consider the following figure:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow3.jpg" width="250">
+</p>
+
+
+
+
+
+By looking at the picture, we can observe a document consisting of three sentences. In the picture, x and y represent two different terms, and n represent the n-contextual window distance between them.
+
+<br>In our work, similarities between terms are computed using [Dice coefficient](https://www.jstor.org/stable/1932409?seq=1#page_scan_tab_contents) as follows:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE1.jpg" width="175">
+</p>
+
+where |x| counts the number of distinct sentences where x appears, |y| counts the number of distinct sentences where y occurs, and |x| intersected with |y| counts the number of distinct sentences where both terms occur together within the defined context window.
+
+For the first case, we consider to count co-occurrences within the <b>full sentence</b>, meaning that the n-contextual window distance will simply not be taken into account, that is, co-occurrences between terms will be counted regardless the distance between them, and as long as they appear in the same sentence. Thus, we will have a |x| of 3 (as x occurs in 3 distinct sentences), a |y| of 2 (as y occurs in 2 distinct sentences), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space sentence - in two distinct sentences). This would result in the following DICE similarity value:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE2.jpg" width="200">
+</p>
+
+For the second case, we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct sentences), a |y| of 2 (as y occurs in 2 distinct sentences), and a |x| intersected with |y| of 1 (as both terms only occur together - within the search space of 10 tokens - in the second sentences. Indeed, if we look carefully at sentences 1 we will observe that x and y dist 12 tokens between them, which is greater than 10). This would result in the following DICE similarity value:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE3.jpg" width="200">
+</p>
+
+
+<b>DICE Matrix</b> <br>
 The calculated DICE similarities will then be stored in a matrix that keeps all the similarities between all the terms (keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` (see the figure bellow) under the search space defined.
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE_matrix3.jpg" width="400">
 </p>
 
+###### Compute GTE Scores for each Candidate Date
 By looking at the similarities stored on the matrix we can then compute the final IS score for each candidate date. For instance, for d<sub>1</sub> = 2010, this means we will have to compute the similarities between (d<sub>1</sub>,w<sub>1</sub>), (d<sub>1</sub>,w<sub>2</sub>) and (d<sub>1</sub>,w<sub>3</sub>), as according to our example, d<sub>1</sub> co-occurs with each of this relevant keywords in a given search space.
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences1.jpg" width="300">
