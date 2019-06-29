@@ -180,6 +180,8 @@ In order to compute the similarity between terms, we need to extract statistical
   <img src="http://www.ccc.ipt.pt/~ricardo/images/Corpus.jpg" width="450">
 </p>
 
+####### Single Document
+
 begin by setting a n-contextual window distance (n_contextual_window) which defines the search space where co-occurrences between terms may be counted. To this regard, we consider two possible search spaces:
 - the <b>full sentence</b> itself (n_contextual_window = "full_sentence"), that is, the system will look for co-occurrences between terms that occur within the search space of a sentence;
 - a <b>window of n terms</b> (n_contextual_window = n, where n is any value > 0), that is, the system will look for co-occurrences between terms that occur within a window of n terms;
@@ -250,7 +252,7 @@ Next, we describe the F aggregation function which is used to combine the severa
 
 [[Table of Contents]](#Table-of-Contents)
 
-##### Median Function
+#### Median Function
 All these similarity values are then combined through the median measure (a measure of central tendency). In our running example this would represent a final score of `median[0.439, 0.606, 0.439] = 0.439`.
 
 [[Table of Contents]](#Table-of-Contents)
