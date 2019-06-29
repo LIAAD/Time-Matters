@@ -195,7 +195,7 @@ In the following we describe each one of them in more detail.
 <b>Single Document</b> <br>
 In the case of a single document, individual occurrences of terms (keywords and candidate dates) are counted on the document's sentences. Co-occurrences of terms, in turn, are counted within the two following *n_contextual_window*'s:
 
-- <b>sentence</ b> (*n_contextual_window = "full_sentence"*), in which co-occurrence between terms is accounted for at the *sentence* level.
+- <b>sentence</b> (*n_contextual_window = "full_sentence"*), in which co-occurrence between terms is accounted for at the *sentence* level.
 - <b> window of n terms </ b> (*n_contextual_window = n, where n> 0*), in which co-occurrence between terms is counted in a window of *n* terms defined in the search space of a *sentence*.
 
 Such a contextual window requires each term to be stored in an Inverted Index with the following structure:
