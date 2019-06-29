@@ -145,7 +145,7 @@ In the equation, `median` is the median function, `IS` is the InfoSimba similari
 
 [[Table of Contents]](#Table-of-Contents)
 
-##### InfoSimba
+#### InfoSimba
 In this work, we apply the InfoSimba (IS) second-order similarity measure, a measure supported by corpus-based token correlations proposed by [Dias et al. (2007)](https://pdfs.semanticscholar.org/b9ef/4f739ae625f753c0ffc687369a6f335c22c1.pdf?_ga=2.179772898.733053942.1561296709-837078907.1557947535). While first order association measures (e.g., DICE) evaluate the relatedness between two tokens as they co-occur in a given context (e.g., a sentence, a paragraph, a corpus), second order measures are based on the principle that two words are similar if their corresponding context vectors are also similar. 
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/First_vs_Second1.jpg" width="350">
