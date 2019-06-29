@@ -180,7 +180,7 @@ In order to compute the similarity between terms, we need to extract statistical
   <img src="http://www.ccc.ipt.pt/~ricardo/images/Corpus.jpg" width="450">
 </p>
 
-<b>Single Document</b>
+<b>Single Document</b> <br>
 In the case of a single document, occurrences of terms (keywords and candidate dates) are counted on the document's sentences. Co-occurrences of terms, in turn, are counted within the two following *n_contextual_window*'s:
 
 - the <b>full sentence</b> itself (n_contextual_window = "full_sentence"), that is, the system will look for co-occurrences between terms that co-occur within the search space of a sentence;
