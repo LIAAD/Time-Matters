@@ -9,8 +9,7 @@ def main_inverted_index(yake_ln, lang, text,num_of_keywords,  document_type, doc
                                                                              document_creation_time, date_granularity,date_extractor)
 
     inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
-    print(inverted_index)
-    print('\n')
+
     return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text
 
 
