@@ -202,14 +202,16 @@ By looking at the picture, we can observe a document consisting of three sentenc
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE1.jpg" width="175">
 </p>
 
-where |x| counts the number of distinct sentences where x appears, |y| counts the number of distinct sentences where y occurs, and |x| intersected with |y| counts the number of distinct sentences where both terms occur together within the defined context window.
+where |x| counts the number of distinct sentences where x appears, |y| counts the number of distinct sentences where y occurs, and |x| intersected with |y| counts the number of distinct sentences where both terms co-occur together within the defined context window.
 
-For the first case, we consider to count co-occurrences within the <b>full sentence</b>, meaning that the n-contextual window distance will simply not be taken into account, that is, co-occurrences between terms will be counted regardless the distance between them, and as long as they appear in the same sentence. Thus, we will have a |x| of 3 (as x occurs in 3 distinct sentences), a |y| of 2 (as y occurs in 2 distinct sentences), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space sentence - in two distinct sentences). This would result in the following DICE similarity value:
+In this example, we consider `sentences` to be the search space where individual occurrences are counted, and the two following *n_contextual_window*'s where co-occurrences between terms are counted: the <b>full sentence</b> and a <b>window of n terms</b>.
+
+For the first case (the <b>full sentence</b>), we consider to count co-occurrences within the full sentence, meaning that the n-contextual window distance will simply not be taken into account, that is, co-occurrences between terms will be counted regardless the distance between them, and as long as they appear in the same sentence. Thus, we will have a |x| of 3 (as x occurs in 3 distinct sentences), a |y| of 2 (as y occurs in 2 distinct sentences), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space sentence - in two distinct sentences). This would result in the following DICE similarity value:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE2.jpg" width="200">
 </p>
 
-For the second case, we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct sentences), a |y| of 2 (as y occurs in 2 distinct sentences), and a |x| intersected with |y| of 1 (as both terms only occur together - within the search space of 10 tokens - in the second sentences. Indeed, if we look carefully at sentences 1 we will observe that x and y dist 12 tokens between them, which is greater than 10). This would result in the following DICE similarity value:
+For the second case (a <b>window of n tokens</b>), we consider to count co-occurrences within a window of n tokens, that is, co-occurrences between terms will be counted as long as they appear together in the same sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct sentences), a |y| of 2 (as y occurs in 2 distinct sentences), and a |x| intersected with |y| of 1 (as both terms only occur together - within a window of 10 tokens - in the second sentences. Indeed, if we look carefully at sentences 1 we will observe that x and y dist 12 tokens between them, which is greater than 10). This would result in the following DICE similarity value:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE3.jpg" width="200">
 </p>
@@ -240,27 +242,37 @@ Once this structure is defined, we can then compute the similarities between ter
   <img src="http://www.ccc.ipt.pt/~ricardo/images/nContextualWindow3.jpg" width="250">
 </p>
 
-
-
-
-
-By looking at the picture, we can observe a document consisting of three sentences. In the picture, x and y represent two different terms, and n represent the n-contextual window distance between them.
+By looking at the picture, we can observe a corpus consisting of three documents. In the picture, x and y represent two different terms, and n represent the n-contextual window distance between them.
 
 <br>In our work, similarities between terms are computed using [Dice coefficient](https://www.jstor.org/stable/1932409?seq=1#page_scan_tab_contents) as follows:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE1.jpg" width="175">
 </p>
 
-where |x| counts the number of distinct sentences where x appears, |y| counts the number of distinct sentences where y occurs, and |x| intersected with |y| counts the number of distinct sentences where both terms occur together within the defined context window.
+where |x| counts the number of distinct documents or document sentences (depending on the search space considered) where x appears, |y| counts the number of distinct documents or document sentences (depending on the search space considered) where y appears, and |x| intersected with |y| counts the number of distinct documents or document sentences (depending on the search space considered) where both terms co-occur together within the defined context window.
 
-For the first case, we consider to count co-occurrences within the <b>full sentence</b>, meaning that the n-contextual window distance will simply not be taken into account, that is, co-occurrences between terms will be counted regardless the distance between them, and as long as they appear in the same sentence. Thus, we will have a |x| of 3 (as x occurs in 3 distinct sentences), a |y| of 2 (as y occurs in 2 distinct sentences), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space sentence - in two distinct sentences). This would result in the following DICE similarity value:
+In this example we begin by considering `documents` to be the search space where individual occurrences are counted, and the two following *n_contextual_window*'s where co-occurrences between terms are counted: the <b>full document</b> and a <b>window of n terms</b>.
+
+For the first case (search space: <b>documents</b>; window: <b>full document</b>), we consider to count co-occurrences within the <b>full document</b>, meaning that the n-contextual window distance will simply not be taken into account, that is, co-occurrences between terms will be counted regardless the distance between them, and as long as they appear in the same document. Thus, we will have a |x| of 3 (as x occurs in 3 distinct documents), a |y| of 2 (as y occurs in 2 distinct documents), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space document - in two distinct documents). This would result in the following DICE similarity value:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE2.jpg" width="200">
 </p>
 
-For the second case, we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct sentences), a |y| of 2 (as y occurs in 2 distinct sentences), and a |x| intersected with |y| of 1 (as both terms only occur together - within the search space of 10 tokens - in the second sentences. Indeed, if we look carefully at sentences 1 we will observe that x and y dist 12 tokens between them, which is greater than 10). This would result in the following DICE similarity value:
+For the second case (search space: <b>documents</b>; window: a <b>window of n terms</b>), we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same document and sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 3 (as x occurs in 3 distinct documents), a |y| of 2 (as y occurs in 2 distinct documents), and a |x| intersected with |y| of 1 (as both terms only occur together - within a window of 10 tokens - in document 1 (indeed they occur twice is under this restriction). This would result in the following DICE similarity value:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE3.jpg" width="200">
+</p>
+
+Next, we begin by considering `document sentences` to be the search space where individual occurrences are counted, and the two following *n_contextual_window*'s where co-occurrences between terms are counted: the <b>full sentence</b> and a <b>window of n terms</b>.
+
+For the first case (search space: <b>document sentences</b>; window: <b>full sentence</b>), we consider to count co-occurrences within the <b>full document sentence </b>, meaning that the n-contextual window distance will simply not be taken into account, that is, co-occurrences between terms will be counted regardless the distance between them, and as long as they appear in the same document sentence. Thus, we will have a |x| of 5 (as x occurs in 5 distinct document sentences, 3 in document one, 1 in document 2, and 1 in document three), a |y| of 4 (as y occurs in 4 distinct documents, 2 in document one, and 2 n document two), and a |x| intersected with |y| of 2 (as both terms only occur together - within the search space document sentences - in two distinct sentences). This would result in the following DICE similarity value:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE4.jpg" width="200">
+</p>
+
+For the second case (search space: <b>document sentences</b>; window: a <b>window of n terms</b>), we consider to count co-occurrences within a <b>window of n tokens</b>, that is, co-occurrences between terms will be counted as long as they appear together in the same document and sentence, in a window of n tokens. For the purposes of this example, we consider a window where `n = 10`. Thus, we will have a |x| of 5 (as x occurs in 5 distinct document sentences), a |y| of 4 (as y occurs in 4 distinct document sentences), and a |x| intersected with |y| of 1 (as both terms only occur together - within a window of 10 tokens - in document 1. Indeed, if we look carefully at sentences 1 we will observe that x and y dist 12 tokens between them, which is greater than 10). This would result in the following DICE similarity value:
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE5.jpg" width="200">
 </p>
 
 
