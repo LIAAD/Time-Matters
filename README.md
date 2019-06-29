@@ -326,6 +326,7 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 
 #### _SD Default Parameters_
 <hr>
+
 This configuration assumes "py_heideltime" as default temporal tagger (more about this [here](#Text-Representation) and [here](#Temporal-Expressions)), "single" as the default score_type(more about this [here](#How-to-use-Time-Matters-SingleDoc)) and the default parameters of time_matters.
 ```` bash
 Time_Matters_SingleDoc(text)
