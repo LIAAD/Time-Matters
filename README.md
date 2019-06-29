@@ -201,7 +201,11 @@ In the case of a single document, individual occurrences of terms (keywords and 
 Such a contextual window requires each term to be stored in an Inverted Index with the following structure:
 {key: [SF, TotFreq, {SentID : [Freq, [OffSets]],......}]}
 
-where `key` is the term (a relevant keyword or a candidate date that is found in the document), `SF` is the Sentence Frequency (i.e., the number of document sentences where the term occurs, `TotFreq` is the total frequency of the term in the document, `SentID` is the ID of the sentence where the term appears, `Freq` is the frequency of the term in that particular sentence, and `OffSets` is the the list of offsets where the term appears in that particular sentence. For instance, a term with the following structure '2010': [2, 3, {1: [1, [6]], 5: [2, [87, 96]]}] means that it has 3 occurrences in 2 different sentences. In the sentence with ID 1, it occurs 1 time in position 6. In sentence with ID 5, it occurs 2 times in position 87 and 96.
+where `key` is the term (a relevant keyword or a candidate date that is found in the document), `SF` is the Sentence Frequency (i.e., the number of document sentences where the term occurs, `TotFreq` is the total frequency of the term in the document, `SentID` is the ID of the sentence where the term appears, `Freq` is the frequency of the term in that particular sentence, and `OffSets` is the the list of offsets where the term appears in that particular sentence. For instance, a term with the following structure: 
+
+'2010': [2, 3, {1: [1, [6]], 5: [2, [87, 96]]}] 
+
+means that it has 3 occurrences in 2 different sentences. In the sentence with ID 1, it occurs 1 time in position 6. In sentence with ID 5, it occurs 2 times in position 87 and 96.
 
 Once this structure is defined, we can then compute the similarities between terms. In order to better understand this process, we consider the following figure:
 <p align="center">
@@ -243,6 +247,7 @@ For the second (<b>sentences</b>), Co-occurrences of terms, are counted within t
 - a <b>window of n terms</b> (n_contextual_window = n, where n is any value > 0), that is, the system will look for co-occurrences between terms that co-occur within a window of n terms within the search space of a document sentence;
 
 In order to compute the similarities between terms under this kind of contextual windows, we consider an Inverted Index with the following structure:
+
 {key: [DF, TotFreq, {DocID : [DocFreq, [DocOffSets], {SentID : [SentFreq, [SentOffsets]]},......}]}
 
 where `key` is the term (a relevant keyword or a candidate date that is found within the corpus of documents), `DF` is the Document Frequency (i.e., the number of documents where the term occurs, `TotFreq` is the total frequency of the term in the set of documents, `DocID` is the ID of the document where the term appears, `DocFreq` is the frequency of the term in that particular document, `DocOffSets` is the the list of offsets where the term appears in that particular document, `SentID` is the ID of the sentence where the term appears in that particular document, `SentFreq` is the frequency of the term in that particular sentence of the document, and `SentOffSets` is the the list of offsets where the term appears in that particular sentence of the document.
