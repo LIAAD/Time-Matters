@@ -277,7 +277,7 @@ For the second case (search space: <b>document sentences</b>; window: a <b>windo
 
 
 <b>DICE Matrix</b> <br>
-The calculated DICE similarities will then be stored in a matrix that keeps all the similarities between all the terms (keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` (see the figure bellow) under the search space defined.
+The calculated DICE similarities will then be stored in a matrix that keeps all the similarities between all the terms (keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` (see the figure bellow for illustrative purposes) under the search space defined.
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/DICE_matrix3.jpg" width="400">
 </p>
