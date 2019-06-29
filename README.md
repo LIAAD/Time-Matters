@@ -199,11 +199,12 @@ In the case of a single document, individual occurrences of terms (keywords and 
 - <b> window of n terms </b> (*n_contextual_window = n, where n> 0*), in which co-occurrence between terms is counted in a window of *n* terms defined in the search space of a *sentence*.
 
 Such a contextual window requires each term to be stored in an Inverted Index with the following structure:
+
 {key: [SF, TotFreq, {SentID : [Freq, [OffSets]],......}]}
 
 where `key` is the term (a relevant keyword or a candidate date that is found in the document), `SF` is the Sentence Frequency (i.e., the number of document sentences where the term occurs, `TotFreq` is the total frequency of the term in the document, `SentID` is the ID of the sentence where the term appears, `Freq` is the frequency of the term in that particular sentence, and `OffSets` is the the list of offsets where the term appears in that particular sentence. For instance, a term with the following structure: 
 
-'2010': [2, 3, {1: [1, [6]], 5: [2, [87, 96]]}] 
+{'2010': [2, 3, {1: [1, [6]], 5: [2, [87, 96]]}]}
 
 means that it has 3 occurrences in 2 different sentences. In the sentence with ID 1, it occurs 1 time in position 6. In sentence with ID 5, it occurs 2 times in position 87 and 96.
 
