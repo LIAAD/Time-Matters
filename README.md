@@ -190,6 +190,7 @@ When looking at the figure, it becomes clear that in the case of the `Single Doc
 
 In the case of the **` Mutiple Docs`**, there are two hypotheses for the `Search Space` (that is, for the space considered in the counting of the individual occurrences of the terms): the` Sentence` space and the `Documents` space. In case the search space is **`Sentence`**, the counting of co-occurrences between terms can be done in the space of a sentence (`Full Sentence`), or in a (`Window of n-terms, n> 0`) in the space of a sentence. In case the search space is the  **`Document`**, the counting of co-occurrences between the terms can be done in the space of a document (`Full Document`), or in a (`Window of n-terms , n> 0`) in the space of a document (ensuring that the terms co-occur in the same sentence).
 
+In the following we describe each one of them in more detail.
 
 <b>Single Document</b> <br>
 In the case of a single document, occurrences of terms (keywords and candidate dates) are counted on the document's sentences. Co-occurrences of terms, in turn, are counted within the two following *n_contextual_window*'s:
