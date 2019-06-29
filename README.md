@@ -183,7 +183,7 @@ In order to compute the similarity between terms, we need to extract statistical
 Extracting this statistical information is grounded on three factors: (1) the type of `Corpus` (single document or multiple documents); (2) the `Search Space` that should be taken into account when accounting for individual term occurrences; and the (3) `n-contextual window` that should be taken into account when accounting for the co-occurrences between the terms.
 
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/Corpus1.jpg" width="450">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/Corpus1.jpg" width="1150">
 </p>
 
 <b>Single Document</b> <br>
