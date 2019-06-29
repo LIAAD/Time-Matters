@@ -177,7 +177,7 @@ By looking at the picture we can observe that both vectors X (that is, `W`<sub>l
 ###### Computing DICE
 In order to compute the similarity between terms, we need to extract statistical information from the corpus. In our case, a corpus can be a single document or multiple documents.
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/Corpus.jpg" width="350">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/Corpus.jpg" width="450">
 </p>
 
 begin by setting a n-contextual window distance (n_contextual_window) which defines the search space where co-occurrences between terms may be counted. To this regard, we consider two possible search spaces:
