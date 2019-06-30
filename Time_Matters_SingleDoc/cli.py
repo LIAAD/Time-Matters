@@ -162,43 +162,11 @@ def Dates():
         elif str2bool(debug_mode) == True:
             try:
                 if time_tagger_arg_list[0] == 'rule_based':
-
-                    NormalizedText, final_score_output, candidate_dates_list, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(
-                        text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
-                    print('=========================== Normalized Text ====================================\n')
-                    print(NormalizedText)
-                    print('\n')
-                    print('=========================== GTE Final score ====================================\n')
-                    print(str(final_score_output) + '\n')
-                    print('=========================== Candidate dates Dictionary =========================\n')
-                    print(str(candidate_dates_list) + '\n')
-                    print('=========================== Relevant Keywords ==================================\n')
-                    print(str(words_array) + '\n')
-                    print('=========================== Inverted Index =====================================\n')
-                    print(str(inverted_index) + '\n')
-                    print('========================== DICE Matrix =========================================\n')
-                    print(DiceMatrix)
+                    rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+                else:
+                    py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
             except:
-                n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(
-                    text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
-                print('=========================== Original Text ======================================\n')
-                print(n_txt)
-                print('\n')
-                print('=========================== Normalized Text ====================================\n')
-                print(NormalizedText)
-                print('\n')
-                print('=========================== GTE Final score ====================================\n')
-                print(str(final_score_output) + '\n')
-                print('=========================== Candidate dates Dictionary =========================\n')
-                print(str(candidate_dates_dictionary) + '\n')
-                print('=========================== Normalized Candidate dates Dictionary ==============\n')
-                print(str(normalized_candidate_date_dictionary) + '\n')
-                print('=========================== Relevant Keywords ==================================\n')
-                print(str(words_array) + '\n')
-                print('=========================== Inverted Index =====================================\n')
-                print(str(inverted_index) + '\n')
-                print('========================== DICE Matrix =========================================\n')
-                print(DiceMatrix)
+                py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
     if '--help' in arg:
         print(help_text)
         exit(1)
@@ -263,6 +231,45 @@ def verify_argument_pos(arg_list, argument, extense_argument):
         position = arg_list.index(extense_argument)
     return position
 
+
+def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
+    NormalizedText, final_score_output, candidate_dates_list, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(
+        text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+    print('=========================== Normalized Text ====================================\n')
+    print(NormalizedText)
+    print('\n')
+    print('=========================== GTE Final score ====================================\n')
+    print(str(final_score_output) + '\n')
+    print('=========================== Candidate dates Dictionary =========================\n')
+    print(str(candidate_dates_list) + '\n')
+    print('=========================== Relevant Keywords ==================================\n')
+    print(str(words_array) + '\n')
+    print('=========================== Inverted Index =====================================\n')
+    print(str(inverted_index) + '\n')
+    print('========================== DICE Matrix =========================================\n')
+    print(DiceMatrix)
+
+def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
+    n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(
+        text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+    print('=========================== Original Text ======================================\n')
+    print(n_txt)
+    print('\n')
+    print('=========================== Normalized Text ====================================\n')
+    print(NormalizedText)
+    print('\n')
+    print('=========================== GTE Final score ====================================\n')
+    print(str(final_score_output) + '\n')
+    print('=========================== Candidate dates Dictionary =========================\n')
+    print(str(candidate_dates_dictionary) + '\n')
+    print('=========================== Normalized Candidate dates Dictionary ==============\n')
+    print(str(normalized_candidate_date_dictionary) + '\n')
+    print('=========================== Relevant Keywords ==================================\n')
+    print(str(words_array) + '\n')
+    print('=========================== Inverted Index =====================================\n')
+    print(str(inverted_index) + '\n')
+    print('========================== DICE Matrix =========================================\n')
+    print(DiceMatrix)
 
 if __name__ == "__main__":
     Dates()
