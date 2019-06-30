@@ -113,22 +113,49 @@ def Dates():
         time_tagger_arg_list = get_arguments_list_values(arg, '-tt', 'temporal_tagger', [])
         time_matterss_arg_list = get_arguments_list_values(arg, '-tm', 'time_matters', [])
         score_type = get_arguments_values(arg, '-st', '--score_type', 'single')
-        debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', False)
+        debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
+        str2bool(debug_mode)
+        if str2bool(debug_mode) == False:
 
-        if not debug_mode:
-            output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+            output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+            print('=========================== GTE Final score ===================================' + '\n')
             print(output)
-        else:
-            final_score_output, dates_array, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
-
-            print('Candidate Dates =' + str(dates_array))
-            print('Relevant words =' + str(words_array))
-            print('Inverted Index =' + str(inverted_index))
-            print('==========================DICE Matrix=======================')
-            print(DiceMatrix)
-            print('=======================GTE Final score======================')
-            print(final_score_output)
-
+        elif str2bool(debug_mode) == True:
+            if time_tagger_arg_list[0] == 'py_heideltime':
+                n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+                print('=========================== Original Text ======================================\n')
+                print(n_txt)
+                print('\n')
+                print('=========================== Normalized Text ====================================\n')
+                print(NormalizedText)
+                print('\n')
+                print('=========================== GTE Final score ====================================\n')
+                print(str(final_score_output) + '\n')
+                print('=========================== Candidate dates Dictionary =========================\n')
+                print(str(candidate_dates_dictionary)+'\n')
+                print('=========================== Normalized Candidate dates Dictionary ==============\n')
+                print(str(normalized_candidate_date_dictionary)+'\n')
+                print('=========================== Relevant Keywords ==================================\n')
+                print(str(words_array)+'\n')
+                print('=========================== Inverted Index =====================================\n')
+                print(str(inverted_index)+'\n')
+                print('========================== DICE Matrix =========================================\n')
+                print(DiceMatrix)
+            else:
+                NormalizedText, final_score_output, candidate_dates_list,  words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+                print('=========================== Normalized Text ====================================\n')
+                print(NormalizedText)
+                print('\n')
+                print('=========================== GTE Final score ====================================\n')
+                print(str(final_score_output) + '\n')
+                print('=========================== Candidate dates Dictionary =========================\n')
+                print(str(candidate_dates_list)+'\n')
+                print('=========================== Relevant Keywords ==================================\n')
+                print(str(words_array) + '\n')
+                print('=========================== Inverted Index =====================================\n')
+                print(str(inverted_index)+'\n')
+                print('========================== DICE Matrix =========================================\n')
+                print(DiceMatrix)
     if '--help' in arg:
         print(help_text)
         exit(1)
@@ -167,6 +194,8 @@ def get_arguments_list_values(arg_list, argument, extense_argument, defaut_value
         input_list = defaut_value
     return input_list
 
+def str2bool(v):
+  return v in ("True")
 
 def get_arguments_values(arg_list, argument, extense_argument, defaut_value):
     value = ''
