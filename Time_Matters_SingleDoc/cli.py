@@ -6,98 +6,137 @@ help_text = '''
   All the Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st single -dm False
 
 Options:
-  [required]: that is, need to specify one of the two options (text or path).
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  -i, --input LIST                      A list that specifies the type of input: a text or path
-                                        Example:
-                                                "['text', 'August 31st']" 
-                                                "['path', 'text.txt']"
+ [required]: either specify a text or an input_file path.
+  ----------------------------------------------------------------------------------------------------------------------------------
+  -i, --input               A list that specifies the type of input: a text or a file path
+                            Example:
+                                    "['text', 'August 31st']"
+                                    "['path', 'c:\\text.txt']"
 
 
 
-  [not required]
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  -tt, --temporal_tagger LIST           Specifies the temporal tagger (“heideltime”, “rule-based”) and the corresponding parameters.                                              
-                                        py_heideltime
-                                            parameters:
-                                            
-                                                temporal_tagger_name
-                                                    options:
-                                                            "py_heideltime"
-                                                language
-                                                    options:
-                                                            "English";
-                                                            "Portuguese";
-                                                            "Spanish";
-                                                            "Germany";
-                                                            "Dutch";
-                                                            "Italian";
-                                                            "French".
-                                                
-                                                date_granularity
-                                                    options:
-                                                            "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved); 
-                                                            "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved); 
-                                                            "day" - (default param. Means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).
-                                                            
-                                                document_type    
-                                                    options:
-                                                            "News" for news-style documents - default param; 
-                                                            "Narrative" for narrative-style documents (e.g., Wikipedia articles); 
-                                                            "Colloquial" for English colloquial (e.g., Tweets and SMS);  
-                                                            "Scientific" for scientific articles (e.g., clinical trails).
-                                                            
-                                                document_creation_time            
-                                                     Document creation date in the format YYYY-MM-DD. Taken into account when "News" or "Colloquial" 
-                                                     texts are specified.
-                                                     Example: "2019-05-30".
-                                                     
-                                            Example:
-                                                "['py_heideltime','English', 'days', 'news', '2019-05-05']"
-                                                                                          
-                                        Rule_Based
-                                            parameters:
-                                                                                    
-                                                temporal_tagger_name
-                                                    options:
-                                                            "rule_based"
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -tt, --temporal_tagger   Specifies the temporal tagger and the corresponding parameters.
+                           Default: "py_heideltime"
+			   Options:
+			   	    "py_heideltime"
+				    "rule_based"
+				 
+			   py_heideltime (parameters):
+			   ____________________________
+			   - temporal_tagger_name
+			     Options:
+				     "py_heideltime"
 
-                                                date_granularity
-                                                    options:
-                                                            "year" (means that for the date YYYY-MM-DD only the YYYY will be retrieved); 
-                                                            "month" (means that for the date YYYY-MM-DD only the YYYY-MM will be retrieved); 
-                                                            "day" - (default param. Means that for the date YYYY-MM-DD it will retrieve YYYY-MM-DD).                                                        
-                                                    
-                                            Example:
-                                                "['rule_based','days']"    
+			   - language
+			     Default: "English"
+			     Options:
+			   	      "English";
+				      "Portuguese";
+				      "Spanish";
+				      "Germany";
+				      "Dutch";
+				      "Italian";
+				      "French".
 
-  [not required]
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  -tm, --time_matters LIST              specifies information about the Time-Matters
-                                            the number of YAKE! keywords to extract from the text (num_of_keywords),
-                                            information regarding the construction of the vocabulary context vector (N,
-                                            TH), and information concerning the scope of search (n_contextual_window)
-                                            
-                                            Example:
-                                                "[num_of_keywords=10, context_window_distance=10, N='max', TH=0.05]"
-                                                
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  -st, --score_type TEXT                Specifies the type of score
-                                        Options:
-                                                "single" Single score per date;
-                                                "Multiple" Multiple score depending which sentence that the date appears;
+		          - date_granularity
+			    Default: "full"
+			    Options:
+			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
+					   finest-granularity.
+			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+
+			  - document_type
+			    Default: "News"
+			    Options:
+			  	    "News": for news-style documents - default param;
+				    "Narrative": for narrative-style documents (e.g., Wikipedia articles);
+				    "Colloquial": for English colloquial (e.g., Tweets and SMS);
+				    "Scientific": for scientific articles (e.g., clinical trails).
+
+			  - document_creation_time
+			    Document creation date in the format YYYY-MM-DD. Taken into account when "News" or "Colloquial" texts
+		            are specified.
+		            Example: "2019-05-30".
+
+			  - Example: "['py_heideltime','English', 'full', 'news', '2019-05-05']"	 
+
+		          
+			  Rule_Based (parameters):
+		          ____________________________
+			  - temporal_tagger_name
+			    Options:
+			  	    "rule_based"
+
+			  - date_granularity
+			    Default: "full"
+			    Options:
+			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
+					   finest-granularity.
+			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+
+			  - Example: "['rule_based','full']"
+
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -tm, --time_matters     Specifies information about Time-Matters, namely:
+			  - num_of_keywords: number of YAKE! keywords to extract from the text
+			    Default: 10
+			    Options:
+				    any integer > 0
+
+		          - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
+			    Default: "full_sentence"
+			    Options:
+                                    "full_sentence": the system will look for co-occurrences between terms that occur within the search 
+				                    space of a sentence;
+			            n: where n is any value > 0, that is, the system will look for co-occurrences between terms that 
+				       occur within a window of n terms;
+				       
+		          - N: N-size context vector for InfoSimba vectors
+			    Default: "max"
+			    Options: 
+			            "max": where "max" is given by the maximum number of terms eligible to be part of the vector
+				    any integer > 0
+				    
+			  - TH: all the terms with a DICE similarity > TH threshold are eligible to the context vector of InfoSimba
+			    Default: 0.05
+			    Options: 
+				    any integer > 0
 
 
-  -dm, --debug_mode BOOLEAN             Return the following data:
-                                                "Candidates dates list";
-                                                "Relevante words list, extracted by YAKE!";
-                                                "Inverted Index"
-                                                "Dice Matrix"
-                                                "Relevant dates list with the score and offset"
-                                                
-  
+			  - Example: "[10, 'full_sentence', 'max', 0.05]"
 
-  --help                                Show this message and exit.
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -st, --score_type       Specifies the type of score for the temporal expression found in the text
+  			  Default: "single"
+                          Options:
+                                  "single": returns a single score regardless the temporal expression occurs in different sentences;
+                                  "multiple": returns multiple scores (one for each sentence where it occurs)
+			  - Example: "[10, 'full_sentence', 'max', 0.05]"
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -dm, --debug_mode      Returns detailed information about the results
+  	                 Default: False
+			 Options:
+			          False: when set to False debug mode is not activated
+				  True: activates debug mode. In that case it returns 
+                                        "Text";
+					"NormalizedText"
+					"Score"
+					"CandidateDates"
+					"NormalizedCandidateDates"
+					"RelevantKWs"
+					"InvertedIndex"
+					"Dice_Matrix
+
+  --help                 Show this message and exit.
 
 '''
 
