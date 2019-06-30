@@ -163,14 +163,14 @@ IS calculates the correlation between all pairs of two context vectors X and Y, 
 [[Table of Contents]](#Table-of-Contents)
 
 ###### Context Vectors
-Each context vector `X` (that is, `W`<sub>l, j</sub>) and `Y` (that is, `d`<sub>j</sub>) consists of N terms (where n is any value > 0, or the word 'max' if, instead, we want to consider all the terms) with a DICE similarity greater than a given threshold (TH, where TH is any value > 0, thus guaranteeing that the terms co-occur between them). For instance, to determine the context vector of a candidate date `d`<sub>j</sub> only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector.
+To define the contextual vectors we consider N terms (where `N` > 0, or the word 'max' if, instead, we want to consider all the terms) with a DICE similarity > `TH` (where TH is a threshold > 0 to be defined by the user). For instance, to determine the context vector of a candidate date `d`<sub>j</sub> only those keywords `(w`<sub>1</sub>`,w`<sub>2</sub>`,...,w`<sub>k</sub>`)` and candidate dates `(d`<sub>1</sub>`,d`<sub>2</sub>`,...,d`<sub>t</sub>`)` having a minimum `DICE similarity > TH` with `(.,d`<sub>j</sub>`)` are eligible for the N-size context vector.
 
 A representation of the context vectors is given in the following figure. Again for sake of understanding we consider d<sub>j</sub> to be "2010" and w<sub>l, j</sub> to be "haiti":<br>
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation2.jpg" width="250">
 </p>
 
-By looking at the picture we can observe that both vectors X (that is, `W`<sub>l, j</sub>) and Y (that is, `d`<sub>j</sub>) are represented by `N` terms (keywords such as `w`<sub>1</sub> and candidate dates such as `d`<sub>1</sub>) with a `DICE similarity value > TH`.
+By looking at the picture we can observe that both terms `w`<sub>l, j</sub> and `d`<sub>j</sub> are represented by two vectors of `N` terms (keywords such as `w`<sub>1</sub> and candidate dates such as `d`<sub>1</sub>) with a `DICE similarity value > TH`.
 
 [[Table of Contents]](#Table-of-Contents)
 
@@ -306,27 +306,27 @@ By looking at the similarities stored on the matrix we can then compute the fina
   <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences1.jpg" width="300">
 </p>
 
-<br>In this example, we will only consider the calculation between d<sub>1</sub> = 2010 and w<sub>1</sub> = haiti. In order to construct each corresponding vector we will consider all the terms (thus N = maximum number) that co-occur the candidate vector (likewise with the keyword vector) having a DICE similarity > 0. This means that the vector representation of w<sub>1</sub> would consist of 9 elements (all but the w<sub>1</sub> itself will be selected) and the vector representation of d<sub>1</sub> would be made of 5 elements (that is all the terms with DICE similarities > 0, but itself will be selected). 
+<br>In this example, we will only consider the calculation between d<sub>1</sub> = 2010 and w<sub>1</sub> = haiti. To construct each vector we will consider all the terms (thus N = maximum number) that co-occur the candidate vector (likewise with the keyword vector) having a DICE similarity > 0. This means that the vector representation of w<sub>1</sub> would consist of 9 elements (all but the w<sub>1</sub> itself will be selected) and the vector representation of d<sub>1</sub> would be made of 5 elements (that is all the terms with DICE similarities > 0, but itself will be selected). 
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation4.jpg" width="350">
 </p>
 
-<br>Given that the vectors have to have the same N size, we need to reduce the size of the w<sub>1</sub> vector, such that it ends with the same size of the d<sub>1</sub> vector. IS can now be computed as the corresponding similarity between each pairs of terms present in the N-size context vectors as depicted in following figure. Specifically, it will compute the level of relatedness between w<sub>3</sub> from the context vector of w<sub>1</sub> and the two other context terms of d<sub>1</sub>, i.e., w<sub>2</sub>, d<sub>4</sub>, d<sub>2</sub>, d<sub>3</sub> and w<sub>3</sub>, and then between d<sub>2</sub> and from the context vector of w<sub>1</sub> and the two other context terms of d<sub>1</sub>, and so on and so forth.
+<br>Given that the vectors have to have the same N size, we need to reduce the size of the w<sub>1</sub> vector, such that it ends with the same size of the d<sub>1</sub> vector. IS can now be computed as the corresponding similarity between each pairs of terms present in the N-size context vectors as depicted in following figure. Specifically, it will compute the level of relatedness between w<sub>3</sub> from the context vector of w<sub>1</sub> and the two other context terms of d<sub>1</sub>, i.e., w<sub>2</sub>, d<sub>4</sub>, d<sub>2</sub>, d<sub>3</sub> and w<sub>3</sub>, and then the similarity between d<sub>2</sub> from the context vector of w<sub>1</sub> and the other context terms of d<sub>1</sub>, and so on and so forth.
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation5.jpg" width="250">
 </p>
 
-<br>Instead, if we consider a size of N = 2 (for a matter of simplicity) we would have the following vector representation:
+<br>Instead, if we consider a vector size of N = 2 (for a matter of simplicity) we would have the following vector representation:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation6.jpg" width="200">
 </p>
 
-<br> The final score of (d<sub>1</sub>,w<sub>1</sub>) which stems from applying the IS equation will be:
+<br> The final score of (d<sub>1</sub>,w<sub>1</sub>) can now be calculated by applying the IS equation as follows:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/IS2.jpg" width="350">
 </p>
 
-<br>By looking at the similarities stored on the matrix we can then compute the final value as follows:
+<br>and results in the following score:
 <p align="center">
   <img src="http://www.ccc.ipt.pt/~ricardo/images/IS5.jpg" width="350">
 </p>
