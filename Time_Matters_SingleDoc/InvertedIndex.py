@@ -1,29 +1,35 @@
 from yake import KeywordExtractor as YakeKW
 import nltk
-
+import time
 
 # function that manage the workflow for creation of inverted_index
 def main_inverted_index(yake_ln, lang, text,num_of_keywords,  document_type, document_creation_time, date_granularity, date_extractor):
-    relevant_words_array, candidate_dates_array, new_text, date_dictionary = kw_ext(yake_ln, lang, text,
+    relevant_words_array, candidate_dates_array, new_text, date_dictionary, time_tagger_start_time, kw_exec_time = kw_ext(yake_ln, lang, text,
                                                                              num_of_keywords, document_type,
                                                                              document_creation_time, date_granularity,date_extractor)
-
     inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
-    return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text
+    return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time
 
 
 # *****************************************************************
 # words extraction using wake
 def kw_ext(yake_ln, lang, text,num_of_keywords,  document_type, document_creation_time, date_granularity, date_extractor):
-    sample = YakeKW(lan=yake_ln, n=1, top=num_of_keywords)
+
+
+    time_tagger_start_time = time.time()
     candidate_dates_array, new_text, date_dictionary = candidate_years(text, lang, document_type, document_creation_time, date_granularity, date_extractor)
+    time_tagger_exec_time = (time.time() - time_tagger_start_time)
+
+    kw_start_time = time.time()
+    sample = YakeKW(lan=yake_ln, n=1, top=num_of_keywords)
     keywords = sample.extract_keywords(new_text)
     relevant_words_array = []
 
     for ki in range(len(keywords)):
         relevant_words_array.append(keywords[ki][0])
 
-    return relevant_words_array, candidate_dates_array, new_text, date_dictionary
+    kw_exec_time = (time.time() - kw_start_time)
+    return relevant_words_array, candidate_dates_array, new_text, date_dictionary, time_tagger_exec_time, kw_exec_time
 
 
 def test_trans(text):

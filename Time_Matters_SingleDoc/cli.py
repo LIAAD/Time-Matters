@@ -117,8 +117,8 @@ Options:
   -st, --score_type       Specifies the type of score for the temporal expression found in the text
   			  Default: "single"
                           Options:
-                                  "single": returns a single score regardless the temporal expression occurs in different sentences;
-                                  "multiple": returns multiple scores (one for each sentence where it occurs)
+                                  "ByDoc": returns a single score regardless the temporal expression occurs in different sentences;
+                                  "BySentence": returns multiple scores (one for each sentence where it occurs)
 			  - Example: "[10, 'full_sentence', 'max', 0.05]"
  [not required]
  ----------------------------------------------------------------------------------------------------------------------------------

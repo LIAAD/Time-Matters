@@ -2,6 +2,7 @@ import pandas as pd
 import statistics
 import operator
 from itertools import product
+import time
 
 
 # *************************************************
@@ -16,6 +17,8 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
 
     unic_array = words_list + dates_list
     clean_unic_array = remove_duplicates(unic_array)
+
+    dice_start_time = time.time()
     # dataframe
     dt = pd.DataFrame(index=clean_unic_array, columns=clean_unic_array)
     # run all words off array's
@@ -28,18 +31,22 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
                 px_y, px, py = find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window)
                 result = dice_calc(px_y, px, py, x_axis, y_axis)
                 dt.at[x_axis, y_axis] = result
-
+    dice_exec_time = (time.time() - dice_start_time)
     #print("\n")
     #print('*********************************************************************')
     #print('************************** Dice Matrix ******************************')
     #print(dt.to_string())
     #print('\n')
-    if score_type.lower() == 'multiple':
-       date_sentence_score =  calc_info_simba_per_sentence(dates_list, dt, TH, N, inverted_index, n_contextual_window)
-       return date_sentence_score, dt
+    if score_type.lower() == 'BySentence':
+        gte_start_time = time.time()
+        date_sentence_score =  calc_info_simba_per_sentence(dates_list, dt, TH, N, inverted_index, n_contextual_window)
+        gte_exec_time = (time.time() - gte_start_time)
+        return date_sentence_score, dt, dice_exec_time, gte_exec_time
     else:
+        gte_start_time = time.time()
         sorted_dict = calc_info_simba(dates_list, dt, TH, N, words_list)
-        return sorted_dict, dt
+        gte_exec_time = (time.time() - gte_start_time)
+        return sorted_dict, dt, dice_exec_time, gte_exec_time
 
 
 # **********************************************************************

@@ -25,11 +25,11 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
 
 
 def verify_score_type(score_type):
-    if score_type != 'single' and score_type != 'multiple':
+    if score_type != 'ByDoc' and score_type != 'BySentence':
         print('You must select a valid score_type.\n'
               'options:\n'
-              '     single;\n'
-              '     multiple;')
+              '     ByDoc;\n'
+              '     BySentence;')
         return exit(1)
 
 
