@@ -38,7 +38,7 @@ def verify_input_data(temporal_tagger, time_matters):
     tt_name = 'py_heideltime'
     language = 'English'
     document_type = 'news'
-    document_creation_time = ''
+    document_creation_time = 'yyyy-mm-dd'
     date_granularity = 'full'
     # Verify the values for temporal Tagger parameters.
     try:
