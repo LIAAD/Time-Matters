@@ -251,7 +251,7 @@ def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_
 
 def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
     n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(
-        text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+        text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
     print('=========================== Original Text ======================================\n')
     print(n_txt)
     print('\n')
