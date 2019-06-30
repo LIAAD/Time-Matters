@@ -112,11 +112,12 @@ def calc_info_simba(dates_array, dt, TH, N, words_list):
         else:
             gte_dict[dat] = 0
         #print(is_vector)
-        #sprint(gte_dict)
+
         #print('\n')
         #print('***************************************************************************')
         #print('************** GTE: Temporal simularity module ****************************')
     sorted_dict = sorted(gte_dict.items(), key=operator.itemgetter(1), reverse=True)
+    #sorted_dict = sorted(gte_dict.items(), key=lambda kv: kv[1])
     return sorted_dict
 
 

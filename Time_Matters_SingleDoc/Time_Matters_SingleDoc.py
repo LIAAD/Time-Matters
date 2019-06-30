@@ -25,14 +25,16 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                                          TH, N, score_type)
 
     #print(relevant_dates)
-    final_score_output, n_txt = main_format_score(tt_name, inverted_index, relevant_dates, debug_mode, date_dictionary, score_type, NormalizedText)
-    #print(final_score_output)
     if debug_mode:
+        final_score_output, n_txt = main_format_score_debug(tt_name, inverted_index, relevant_dates, debug_mode,
+                                                            date_dictionary, score_type, NormalizedText)
         candidate_dates_dictionary, normalized_candidate_date_dictionary = format_cantidate_dictionary(date_dictionary)
         return n_txt, NormalizedText, final_score_output, candidate_dates_dictionary,\
                normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix
     elif not debug_mode:
-        return final_score_output
+        candidate_dates_dictionary = main_format_score_no_debug(tt_name, inverted_index, relevant_dates, debug_mode,
+                                                            date_dictionary, score_type)
+        return candidate_dates_dictionary
 
 
 

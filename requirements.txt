@@ -3,3 +3,5 @@ pandas
 regex
 tabulate
 langdetect
+nltk
+lxml
