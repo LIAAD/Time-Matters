@@ -13,9 +13,10 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     tt_name, language, document_type, document_creation_time, date_granularity, num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters)
 
     # input validation
-    verify_time_matters(num_of_keywords, N, n_contextual_window, TH)
-    verify_score_type(score_type)
-
+    result_validation_time_matters = verify_time_matters(num_of_keywords, N, n_contextual_window, TH)
+    result_validation_score_type = verify_score_type(score_type)
+    if result_validation_time_matters == {} or result_validation_score_type == {}:
+        return {}
     # creation of inverted index
     inverted_index, words_array, dates_array, sentence_array, date_dictionary, NormalizedText, time_tagger_start_time, kw_exec_time = main_inverted_index(yake_lang,language, txt, num_of_keywords, document_type,document_creation_time, date_granularity, tt_name)
 

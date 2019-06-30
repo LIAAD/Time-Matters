@@ -1,27 +1,26 @@
 def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
     if not isinstance(num_of_keywords, int):
-        print('You must select a number of relevant keywords to consider (e.g., 10).')
-
-        return exit(1)
+        print('You must specify a number of relevant keywords to consider (e.g., 10).')
+        return {}
 
     elif n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int):
         print('The value of n_contextual_window is not valid\n'
               'options:\n'
               '     full_sentence;\n'
               '     number(integer);')
+        return {}
 
-        return exit(1)
     elif N != 'max' and not isinstance(N, int):
         print('The value of N is not valid\n'
               'options:\n'
               '     number(integer);')
 
-        return exit(1)
+        return {}
     elif not isinstance(TH, float):
         print('The value of TH is not valid\n'
               'options:\n'
               '     number(float);')
-        return exit(1)
+        return {}
 
 
 def verify_score_type(score_type):
@@ -30,7 +29,7 @@ def verify_score_type(score_type):
               'options:\n'
               '     ByDoc;\n'
               '     BySentence;')
-        return exit(1)
+        return {}
 
 
 def verify_input_data(temporal_tagger, time_matters):
