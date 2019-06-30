@@ -212,7 +212,7 @@ def rule_based_score_format(inverted_index, list_dates_score, debug_mode):
 
 
 def format_cantidate_dictionary(date_dictionary):
-    from GetDateScores import remove_duplicates
+    from Time_Matters_SingleDoc.GetDateScores import remove_duplicates
     candidate_date_dictionary = {}
     normalized_candidate_date_dictionary = {}
     for noralized_date in date_dictionary:

@@ -1,14 +1,9 @@
-#from Time_Matters_SingleDoc.InvertedIndex import main_inverted_index
-#from Time_Matters_SingleDoc.GetDateScores import dt_frames
-#from langdetect import detect
-#from Time_Matters_SingleDoc.validate_input import *
-#from Time_Matters_SingleDoc.format_output import *
-
-from InvertedIndex import main_inverted_index
-from GetDateScores import dt_frames
+from Time_Matters_SingleDoc.InvertedIndex import main_inverted_index
+from Time_Matters_SingleDoc.GetDateScores import dt_frames
 from langdetect import detect
-from validate_input import *
-from format_output import *
+from Time_Matters_SingleDoc.validate_input import *
+from Time_Matters_SingleDoc.format_output import *
+
 
 def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type='single', debug_mode=False):
     try:
@@ -29,6 +24,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     #print(relevant_dates)
     if debug_mode and tt_name == 'py_heideltime':
+
         final_score_output, n_txt, candidate_dates_dictionary, normalized_candidate_date_dictionary, = main_format_score_debug(tt_name, inverted_index, relevant_dates, debug_mode, date_dictionary, score_type, NormalizedText, dates_array)
         return n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix
 
