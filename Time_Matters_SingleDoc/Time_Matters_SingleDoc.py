@@ -22,7 +22,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     relevant_dates, DiceMatrix, dice_exec_time, gte_exec_time = dt_frames(inverted_index, words_array, dates_array, n_contextual_window,
                                          TH, N, score_type)
-    #print(relevant_dates)
+
     if debug_mode and tt_name == 'py_heideltime':
         execution_time_list = [tt_name + " execution time " + str(time_tagger_start_time)+' seconds',
                                'Word extractor(Yake) execution time ' + str(kw_exec_time)+' seconds',
@@ -31,7 +31,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
         final_score_output, n_txt, candidate_dates_dictionary, normalized_candidate_date_dictionary, = main_format_score_debug(tt_name, inverted_index, relevant_dates, debug_mode, date_dictionary, score_type, NormalizedText, dates_array)
         return n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix, execution_time_list
-
     elif debug_mode and tt_name == 'rule_based':
         execution_time_list = [tt_name + " execution time " + str(time_tagger_start_time)+' seconds',
                                'Word extractor(Yake) execution time ' + str(kw_exec_time)+' seconds',
@@ -42,9 +41,8 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         return NormalizedText, final_score_output, candidate_dates_list,  words_array, inverted_index, DiceMatrix, execution_time_list
 
     elif not debug_mode:
-        candidate_dates_dictionary = main_format_score_no_debug(tt_name, inverted_index, relevant_dates, debug_mode, date_dictionary, score_type)
-
-        return candidate_dates_dictionary
+        final_score_output = main_format_score_no_debug(tt_name, inverted_index, relevant_dates, debug_mode, date_dictionary, score_type)
+        return final_score_output
 
 
 

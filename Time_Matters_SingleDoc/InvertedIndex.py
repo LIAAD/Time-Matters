@@ -52,14 +52,7 @@ def create_inverted_index(relevant_words_list, candidate_dates_list, text):
 
             for i, w in enumerate(strip_text):
                 if w.lower() == search_str:
-                    if n not in dictionary[dt][2]:
-                        pos =i+last_pos
-                        dictionary[dt][2][n] = [0, [pos]]
-
-                    else:
-                        pos = i + last_pos
-
-                        dictionary[dt][2][n][1].append(pos)
+                    dictionary[dt][2][n] = [0, [i+last_pos]]
             try:
                 ct = len(dictionary[dt][2][n][1])
                 totalfreq += ct

@@ -22,24 +22,25 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
     # dataframe
     dt = pd.DataFrame(index=clean_unic_array, columns=clean_unic_array)
     # run all words off array's
-    for x_axis in clean_unic_array:
-        for y_axis in clean_unic_array:
-            if x_axis == y_axis:
-                # set 1 on dataframe in words that are the same in 2 axis
-                dt.at[x_axis, y_axis] = 1
-            else:
-                px_y, px, py = find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window)
-                result = dice_calc(px_y, px, py, x_axis, y_axis)
-                dt.at[x_axis, y_axis] = result
+    for i in range(0, len(clean_unic_array)):
+        Term1 = clean_unic_array[i]
+        dt.at[Term1, Term1] = 1
+        for j in range(i+1, len(clean_unic_array)):
+            Term2 = clean_unic_array[j]
+            px_y, px, py = find_axis_data(inverted_index[Term1], inverted_index[Term2], n_contextual_window)
+            result = dice_calc(px_y, px, py, Term1, Term2)
+            dt.at[Term1, Term2] = result
+            dt.at[Term2, Term1] = result
+
     dice_exec_time = (time.time() - dice_start_time)
     #print("\n")
     #print('*********************************************************************')
     #print('************************** Dice Matrix ******************************')
     #print(dt.to_string())
     #print('\n')
-    if score_type.lower() == 'BySentence':
+    if score_type == 'BySentence':
         gte_start_time = time.time()
-        date_sentence_score =  calc_info_simba_per_sentence(dates_list, dt, TH, N, inverted_index, n_contextual_window)
+        date_sentence_score = calc_info_simba_per_sentence(dates_list, dt, TH, N, inverted_index, n_contextual_window)
         gte_exec_time = (time.time() - gte_start_time)
         return date_sentence_score, dt, dice_exec_time, gte_exec_time
     else:
@@ -51,34 +52,28 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
 
 # **********************************************************************
 # find the position and the frequency of words
-def find_axis_data(inverted_index, x_axis, y_axis, n_contextual_window ):
-    list_x = inverted_index[x_axis]
-    list_y = inverted_index[y_axis]
+def find_axis_data(x_axis, y_axis, n_contextual_window ):
     count = 0
-    for key in list_x[2]:
-        if key in list_y[2]:
-            x_offset = list_x[2][key][1]
-            y_offset = list_y[2][key][1]
-
+    for key in x_axis[2]:
+        if key in y_axis[2]:
             if n_contextual_window == 'full_sentence':
                 count += 1
-            else :
-                cc = find_distance_of_words(x_offset, y_offset, n_contextual_window)
-                count += cc
-    return count, list_x[0], list_y[0]
+            else:
+                x_offset = x_axis[2][key][1]
+                y_offset = y_axis[2][key][1]
+                # distance value (0 = words does not appears together between n_contextual_window) (1 = words appears together between n_contextual_window)
+                distance_value = find_distance_of_words(x_offset, y_offset, n_contextual_window)
+                x_axis += distance_value
+    return count, x_axis[0], y_axis[0]
 
 
 # **********************************************************
-# verifica se na mesma sentence as palavras estão á distancia defenido pela limit_distance
+# verify if a distance between words are according n_contextual_window
 def find_distance_of_words(x_offset, y_offset, n_contextual_window):
-    value = 0
-
-    for x, y in product(range(len(x_offset)), range(len(y_offset))):
-        try:
-            if -n_contextual_window <= x_offset[x] - y_offset[y] <= n_contextual_window:
-                return 1
-        except:
-            return value
+    if any(1 for x in x_offset for y in y_offset if abs(x - y) < n_contextual_window) == True:
+        value = 1
+    else:
+        value = 0
     return value
 
 
@@ -169,20 +164,17 @@ def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_conte
     return dict_result
 
 
-# *******************************************************************************************
+# ***********************************************************************************
 # calc the som of dice for the same vector.
 def relevant_array(word, dt, TH, dates_list):
-    vector_sim = []
-    a = dt.sort_values(by=[word], ascending=False)
+    sorted_vector = dt.sort_values(by=[word], ascending=False)
 
-    ar1 = a[word] > TH
+    filter_low_dice_score = sorted_vector[word] > TH
 
     # Get ndArray of all column names
-    index_names = a[ar1].index.values
+    index_names = sorted_vector[filter_low_dice_score].index.values
+    vector_sim = [w for w in index_names if w != word and w not in dates_list]
 
-    for nm in index_names:
-        if nm != word and nm not in dates_list:
-            vector_sim.append(nm)
     return vector_sim
 
 
@@ -192,37 +184,38 @@ def find_max_length(date, word, date_relevant_array, word_relevant_array, dt, N)
     if N == 'max':
         if len(date_relevant_array) < len(word_relevant_array):
             max_length = len(date_relevant_array)
-            result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
+            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
             return result
 
         else:
             max_length = len(word_relevant_array)
-            result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
+            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
             return result
     else:
 
         if N > 0 and (len(date_relevant_array) >= N <= len(word_relevant_array)):
             # sin in dates_array
             max_length = int(N)
-            result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
+            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
             return result
 
         elif N <= 0 and (len(date_relevant_array) >= len(word_relevant_array)):
             max_length = len(word_relevant_array)
-            result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
+            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
             return result
         else:
             if len(date_relevant_array) < len(word_relevant_array):
                 max_length = len(date_relevant_array)
-                result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length],
+                result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length],
                                          dt)
                 return result
 
             else:
                 max_length = len(word_relevant_array)
-                result = calc_sim_vector(word, date, date_relevant_array[:max_length], word_relevant_array[:max_length],
+                result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length],
                                          dt)
                 return result
+
 
 # ****************************************************************************************************
 # define a array with sentence index for words and dates. according inverted index
@@ -255,12 +248,11 @@ def define_vector_by_sentence(inverted_index, all_sentences_context_vector, inde
     return relevant_array_by_sentence
 
 
-def get_ocorrency(date_offset, word, word_offset, n_contextual_window):
-    for d, w in product(date_offset, word_offset):
-        if -n_contextual_window <= d - w <= n_contextual_window:
-            return word
-        else:
-            pass
+def get_ocorrency(y_offset, word, x_offset, n_contextual_window):
+    if any(1 for x in x_offset for y in y_offset if abs(x - y) < n_contextual_window) == True:
+        return word
+    else:
+        pass
     return ''
 
 
@@ -272,56 +264,16 @@ def define_word_vector_by_sentence(word, inverted_index, index, dataframe, TH, d
 
 
 # *******************************************************************************************
-# calc the sim of dates and word vectors
-def calc_sim_vector(word, date, date_ultimate_array, word_ultimate_array, dataframe):
-    # calc dates sim vector
-    date_vector_result = 0
-    word_vector_result = 0
-    # calc date sim context vector
-    for dt_x, dt_y in product(date_ultimate_array, date_ultimate_array):
-        value = dataframe.loc[dt_x, dt_y]
-        date_vector_result += value
+# calc Info simba
+def IS(ContextVector_X, ContextVector_Y, dataframe):
 
-    # calc words sim context vector
-    for word_x, word_y in product(word_ultimate_array, word_ultimate_array):
-        value = dataframe.loc[word_x, word_y]
-        word_vector_result += value
+    Sum_YY = sum([dataframe.loc[x, y] for x in ContextVector_Y for y in ContextVector_Y])
 
+    Sum_XY = sum([dataframe.loc[x, y] for x in ContextVector_X for y in ContextVector_Y])
 
-    date_word_vector_result =  sim_word_date_vector(word, date, date_vector_result, word_vector_result, date_ultimate_array, word_ultimate_array, dataframe)
-    result = sim_calc(date_vector_result, word_vector_result , date_word_vector_result)
-    return result
-
-
-# *******************************************************************************************
-# calc the sim of dates with word vectors
-def sim_word_date_vector(word, date, date_result, word_result, date_ultimate_array, word_ultimate_array, dataframe):
-    date_word_result = 0
-    #print(date_ultimate_array)
-    #print(word_ultimate_array)
-    #print(date, '=>', date_ultimate_array, 'result= ', date_result)
-    #print(word, '=>', word_ultimate_array, 'result= ', word_result)
-    for dt , wd in product(date_ultimate_array, word_ultimate_array):
-
-        value = dataframe.loc[dt, wd]
-        date_word_result += value
-
-    #print('('+date+', '+word+')'+' result', date_word_result)
-    return date_word_result
-
-
-# ***************************************************************************************
-# calc of GTE
-def sim_calc(date_vector_result, word_vector_result , date_word_vector_result ):
-
-    if date_word_vector_result <= 0:
-        result = 0
-    else:
-        try:
-            result = date_word_vector_result / (date_vector_result + word_vector_result - date_word_vector_result)
-        except:
-            result = 0
-    #print(result)
-    #print('\n')
-    return result
-
+    Sum_XX = sum([dataframe.loc[x, y] for x in ContextVector_X for y in ContextVector_X])
+    try:
+        result = Sum_XY / (Sum_XX + Sum_YY - Sum_XY)
+        return result
+    except:
+        return 0

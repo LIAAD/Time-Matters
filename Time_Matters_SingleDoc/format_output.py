@@ -8,7 +8,7 @@ def main_format_score_debug(tt_name, inverted_index, relevant_dates, debug_mode,
         candidate_dates_dictionary, normalized_candidate_date_dictionary = format_cantidate_dictionary(date_dictionary)
         return final_score_output, normal_text, candidate_dates_dictionary, normalized_candidate_date_dictionary
 
-    elif tt_name == 'py_heideltime' and score_type == 'multiple':
+    elif tt_name == 'py_heideltime' and score_type == 'BySentence':
         final_score_output = py_heideltime_MultiScore_format(inverted_index, relevant_dates, debug_mode, date_dictionary, tt_name)
         normal_text = text_multi_refactor(NormalizedText, final_score_output, tt_name)
         candidate_dates_dictionary, normalized_candidate_date_dictionary = format_cantidate_dictionary(date_dictionary)
@@ -17,14 +17,14 @@ def main_format_score_debug(tt_name, inverted_index, relevant_dates, debug_mode,
     elif tt_name == 'rule_based' and score_type == 'ByDoc':
         final_score_output = rule_based_score_format(inverted_index, relevant_dates, debug_mode)
         return final_score_output, dates_array
-    elif tt_name == 'rule_based' and score_type == 'multiple':
+    elif tt_name == 'rule_based' and score_type == 'BySentence':
         final_score_output = rule_based_MultiScore_format(inverted_index, relevant_dates, debug_mode)
         return final_score_output, dates_array
 
 
 def main_format_score_no_debug(tt_name, inverted_index, relevant_dates, debug_mode, date_dictionary, score_type):
     final_score_output = {}
-    if tt_name == 'py_heideltime' and score_type == 'BySentence':
+    if tt_name == 'py_heideltime' and score_type == 'ByDoc':
         final_score_output = py_heideltime_score_format(inverted_index, relevant_dates, debug_mode, date_dictionary)
         return final_score_output
 
@@ -42,7 +42,6 @@ def main_format_score_no_debug(tt_name, inverted_index, relevant_dates, debug_mo
 
 def py_heideltime_score_format(inverted_index, list_dates_score, debug_mode, date_dictionary):
     final_output= {}
-    dictionary_result = {}
     for n_lt in range(len(list_dates_score)):
         dict_date_info = (inverted_index[list_dates_score[n_lt][0]][2])
 
@@ -50,8 +49,7 @@ def py_heideltime_score_format(inverted_index, list_dates_score, debug_mode, dat
         #print(date_dictionary[list_dates_score[n_lt][0]])
         #print(dict_date_info)
         # get all offset from dates
-        for offset in dict_date_info:
-            total_offset += dict_date_info[offset][1]
+        total_offset = [dict_date_info[offset][1] for offset in dict_date_info]
         final_output = create_final_output(final_output, list_dates_score, date_dictionary, total_offset, n_lt)
 
     return final_output
@@ -77,6 +75,7 @@ def py_heideltime_MultiScore_format(inverted_index, relevant_dates, debug_mode, 
                                                                 date, ultimate_score, inverted_index, debug_mode)
     return ultimate_score
 
+
 def rule_based_MultiScore_format(inverted_index, list_dates_score, debug_mode):
     final_output = {}
     for date in list_dates_score:
@@ -84,8 +83,7 @@ def rule_based_MultiScore_format(inverted_index, list_dates_score, debug_mode):
         if debug_mode:
             if date not in final_output:
                 final_output[date] = {}
-            for sent_id in list_dates_score[date]:
-                final_output[date][sent_id] = [list_dates_score[date][sent_id][0], inverted_index[date][2][sent_id][1]]
+            final_output[date] = {sent_id: [list_dates_score[date][sent_id][0], inverted_index[date][2][sent_id][1]] for sent_id in list_dates_score[date]}
         else:
             return list_dates_score
     return final_output
@@ -208,6 +206,7 @@ def rule_based_score_format(inverted_index, list_dates_score, debug_mode):
             final_output[lt[0]] = lt[1]
         else:
             final_output[lt[0]] = [lt[1], total_offset]
+    print(final_output)
     return final_output
 
 
