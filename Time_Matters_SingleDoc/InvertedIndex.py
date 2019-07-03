@@ -7,8 +7,11 @@ def main_inverted_index(yake_ln, lang, text,num_of_keywords,  document_type, doc
     relevant_words_array, candidate_dates_array, new_text, date_dictionary, time_tagger_start_time, kw_exec_time = kw_ext(yake_ln, lang, text,
                                                                              num_of_keywords, document_type,
                                                                              document_creation_time, date_granularity,date_extractor)
+    ii_start_time = time.time()
     inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
-    return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time
+    ii_exec_time = (time.time() - ii_start_time)
+
+    return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time, ii_exec_time
 
 
 # *****************************************************************
@@ -52,12 +55,18 @@ def create_inverted_index(relevant_words_list, candidate_dates_list, text):
 
             for i, w in enumerate(strip_text):
                 if w.lower() == search_str:
-                    dictionary[dt][2][n] = [0, [i+last_pos]]
+                    if n not in dictionary[dt][2]:
+                        pos = i+last_pos
+                        dictionary[dt][2][n] = [0, [pos]]
+
+                    else:
+                        pos = i + last_pos
+
+                        dictionary[dt][2][n][1].append(pos)
             try:
                 ct = len(dictionary[dt][2][n][1])
                 totalfreq += ct
                 dictionary[dt][2][n][0] = ct
-
             except:
                 pass
             last_pos += len(strip_text)

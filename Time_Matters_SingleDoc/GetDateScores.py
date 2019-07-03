@@ -156,11 +156,11 @@ def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_conte
                 info_simba_result = find_max_length(dat, wor, relevant_date_array_by_sentence, relevant_word_array_by_sentence,
                                              dt, N)
                 info_simba_array.append(info_simba_result)
-            for i in range(len(dict_result)):
-                    try:
-                        dict_result[dat][index] = [float("%.3f" % statistics.median(info_simba_array))]
-                    except:
-                        dict_result[dat][index] = [0]
+
+            try:
+                dict_result[dat][index] = [float("%.3f" % statistics.median(info_simba_array))]
+            except:
+                dict_result[dat][index] = [0]
     return dict_result
 
 
