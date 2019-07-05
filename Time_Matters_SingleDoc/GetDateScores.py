@@ -20,17 +20,17 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
 
     dice_start_time = time.time()
     # dataframe
-    dt = pd.DataFrame(index=clean_unic_array, columns=clean_unic_array)
+    dataframe = pd.DataFrame(index=clean_unic_array, columns=clean_unic_array)
     # run all words off array's
     for i in range(0, len(clean_unic_array)):
         Term1 = clean_unic_array[i]
-        dt.at[Term1, Term1] = 1
+        dataframe.at[Term1, Term1] = 1
         for j in range(i+1, len(clean_unic_array)):
             Term2 = clean_unic_array[j]
             px_y, px, py = find_axis_data(inverted_index[Term1], inverted_index[Term2], n_contextual_window)
             result = dice_calc(px_y, px, py, Term1, Term2)
-            dt.at[Term1, Term2] = result
-            dt.at[Term2, Term1] = result
+            dataframe.at[Term1, Term2] = result
+            dataframe.at[Term2, Term1] = result
 
     dice_exec_time = (time.time() - dice_start_time)
     #print("\n")
@@ -40,14 +40,14 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
     #print('\n')
     if score_type == 'BySentence':
         gte_start_time = time.time()
-        date_sentence_score = calc_info_simba_per_sentence(dates_list, dt, TH, N, inverted_index, n_contextual_window)
+        date_sentence_score = calc_info_simba_per_sentence(dates_list, dataframe, TH, N, inverted_index, n_contextual_window)
         gte_exec_time = (time.time() - gte_start_time)
-        return date_sentence_score, dt, dice_exec_time, gte_exec_time
+        return date_sentence_score, dataframe, dice_exec_time, gte_exec_time
     else:
         gte_start_time = time.time()
-        sorted_dict = calc_info_simba(dates_list, dt, TH, N, words_list)
+        sorted_dict = calc_info_simba(dates_list, dataframe, TH, N, words_list)
         gte_exec_time = (time.time() - gte_start_time)
-        return sorted_dict, dt, dice_exec_time, gte_exec_time
+        return sorted_dict, dataframe, dice_exec_time, gte_exec_time
 
 
 # **********************************************************************
@@ -90,24 +90,22 @@ def dice_calc(px_y, px, py, x_axis, y_axis):
 
 # ******************************************************************************************
 # calculation of info simba.
-def calc_info_simba(dates_array, dt, TH, N, words_list):
+def calc_info_simba(dates_array, dataframe, TH, N, words_list):
     #print('***************************************************************************')
     #print('*********************** Info simba ****************************************')
     is_vector = {}
     gte_dict = {}
     for dat in dates_array:
-        dd_vector = relevant_array(dat, dt, TH, dates_array)
-        #print(dat)
-        #print(dd_vector)
+        dd_vector = relevant_array(dat, dataframe, TH)
         x = len(dd_vector)
         max_val_allowed = get_max_len(x, N)
 
         is_vector[dat] = []
 
         for wor in dd_vector[:max_val_allowed]:
-            if dt.loc[dat, wor] > TH and dat != wor:
-                ww_vector = relevant_array(wor, dt, TH, dates_array)
-                info_simba_result = find_max_length(dat, wor, dd_vector, ww_vector, dt, max_val_allowed)
+            if dataframe.loc[dat, wor] > TH and wor not in dates_array:
+                ww_vector = relevant_array(wor, dataframe, TH)
+                info_simba_result = find_max_length(dd_vector, ww_vector, dataframe, max_val_allowed)
                 is_vector[dat].append(float('%.3f' % info_simba_result))
         if is_vector[dat] != []:
             gte_dict[dat] = statistics.median(is_vector[dat])
@@ -137,11 +135,11 @@ def get_max_len(len_array, N):
 
 
 # calculation of info simba per sentence .
-def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_contextual_window):
+def calc_info_simba_per_sentence(dates_array, dataframe, TH, N, inverted_index, n_contextual_window):
     dict_result = {}
 
     for dat in dates_array:
-        dd_vector = relevant_array(dat, dt, TH, dates_array)
+        dd_vector = relevant_array(dat, dataframe, TH)
         #print(dat)
         #print(dat + ' original relevant array ' + str(dd_vector))
         index_array = sentence_index(dat, inverted_index)
@@ -151,10 +149,9 @@ def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_conte
             #print('sentence '+str(index))
             relevant_date_array_by_sentence = define_vector_by_sentence(inverted_index, dd_vector, index, dat, n_contextual_window)
             for wor in relevant_date_array_by_sentence:
-                relevant_word_array_by_sentence = define_word_vector_by_sentence(wor, inverted_index, index, dt,
+                relevant_word_array_by_sentence = define_word_vector_by_sentence(wor, inverted_index, index, dataframe,
                                                                                  TH, dat, n_contextual_window, dates_array)
-                info_simba_result = find_max_length(dat, wor, relevant_date_array_by_sentence, relevant_word_array_by_sentence,
-                                             dt, N)
+                info_simba_result = find_max_length(relevant_date_array_by_sentence, relevant_word_array_by_sentence, dataframe, N)
                 info_simba_array.append(info_simba_result)
 
             try:
@@ -165,55 +162,53 @@ def calc_info_simba_per_sentence(dates_array, dt, TH, N, inverted_index, n_conte
 
 
 # ***********************************************************************************
-# calc the som of dice for the same vector.
-def relevant_array(word, dt, TH, dates_list):
+# calc the sum of dice for the same vector.
+def relevant_array(word, dt, TH):
     sorted_vector = dt.sort_values(by=[word], ascending=False)
 
     filter_low_dice_score = sorted_vector[word] > TH
 
     # Get ndArray of all column names
     index_names = sorted_vector[filter_low_dice_score].index.values
-    vector_sim = [w for w in index_names if w != word and w not in dates_list]
+    vector_sim = [w for w in index_names if w != word]
 
     return vector_sim
 
 
 # *******************************************************
 # discover the max length to calculate the sim of vector
-def find_max_length(date, word, date_relevant_array, word_relevant_array, dt, N):
+def find_max_length(date_relevant_array, word_relevant_array, dataframe, N):
     if N == 'max':
         if len(date_relevant_array) < len(word_relevant_array):
             max_length = len(date_relevant_array)
-            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
+            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
             return result
 
         else:
             max_length = len(word_relevant_array)
-            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
+            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
             return result
     else:
 
         if N > 0 and (len(date_relevant_array) >= N <= len(word_relevant_array)):
             # sin in dates_array
             max_length = int(N)
-            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
+            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
             return result
 
         elif N <= 0 and (len(date_relevant_array) >= len(word_relevant_array)):
             max_length = len(word_relevant_array)
-            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dt)
+            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
             return result
         else:
             if len(date_relevant_array) < len(word_relevant_array):
                 max_length = len(date_relevant_array)
-                result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length],
-                                         dt)
+                result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
                 return result
 
             else:
                 max_length = len(word_relevant_array)
-                result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length],
-                                         dt)
+                result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length],dataframe)
                 return result
 
 
@@ -229,8 +224,8 @@ def sentence_index(date, inverted_index):
 
 def define_vector_by_sentence(inverted_index, all_sentences_context_vector, index, date, n_contextual_window):
     relevant_array_by_sentence = []
-    #print(date+' '+str(inverted_index[date][2][index][1]))
-    #print('\n')
+    # print(date+' '+str(inverted_index[date][2][index][1]))
+    # print('\n')
     date_offset = inverted_index[date][2][index][1]
     for word in all_sentences_context_vector:
         word_sim = inverted_index[word][2].keys()
@@ -238,7 +233,7 @@ def define_vector_by_sentence(inverted_index, all_sentences_context_vector, inde
             if index == n_sentence_word and n_contextual_window == 'full_sentence':
                 relevant_array_by_sentence.append(word)
             elif index == n_sentence_word and n_contextual_window != 'full_sentence':
-                #print(word+' '+str(inverted_index[word][2][index][1]))
+                # print(word+' '+str(inverted_index[word][2][index][1]))
                 word_offset = inverted_index[word][2][index][1]
                 verified_word = get_ocorrency(date_offset, word, word_offset ,n_contextual_window)
                 if verified_word != '':
@@ -257,8 +252,8 @@ def get_ocorrency(y_offset, word, x_offset, n_contextual_window):
 
 
 def define_word_vector_by_sentence(word, inverted_index, index, dataframe, TH, date, n_contextual_window, dates_list):
-    ww_vector = relevant_array(word, dataframe, TH, dates_list)
-    #print(word + ' original relevant array ' + str(ww_vector))
+    ww_vector = relevant_array(word, dataframe, TH)
+    # print(word + ' original relevant array ' + str(ww_vector))
     relevant_word_array_by_sentence = define_vector_by_sentence(inverted_index, ww_vector, index, date, n_contextual_window)
     return relevant_word_array_by_sentence
 
@@ -266,7 +261,6 @@ def define_word_vector_by_sentence(word, inverted_index, index, dataframe, TH, d
 # *******************************************************************************************
 # calc Info simba
 def IS(ContextVector_X, ContextVector_Y, dataframe):
-
     Sum_YY = sum([dataframe.loc[x, y] for x in ContextVector_Y for y in ContextVector_Y])
 
     Sum_XY = sum([dataframe.loc[x, y] for x in ContextVector_X for y in ContextVector_Y])

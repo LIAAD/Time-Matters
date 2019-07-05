@@ -1,0 +1,595 @@
+Decision making, Information gathering, Problem and information presentation ­ design suggestions Tufte (1983) made the point that differences in the way that information is presented can make large differences in problem solving and interpretation of data, conversely poor presentation of information can create difficulties in achieving accurate understanding. It seems reasonable that older users will both benefit more by simple presentation of information and be more affected by information presentation that departs from simplicity. For example Chadwick-Dias et al. (2003) found that where web pages had large data tables, older users had significant difficulty accessing information and often could not move beyond that page while attempting to complete a task. However the actual form of information presentation that older people will find best in simplifying modeling of information is uncertain. Consider for example Zaphiris et al.'s work on extensible versus non-extensible views of tree data where showing the tree structure more fully, via the extensible view, led to poorer orientation by the older users, Zaphiris et al. (2003). We need to be aware that there may be a disproportionate pay-off from giving simple representation of data to older people but we should be very cautious about what such simple representations will consist of.
+
+It is not clear how the findings that older people show declines on spatial ability should be interpreted by interface designers. The findings come mainly from experiments involving mental rotation of figures, not a common feature of interface designs. However it has also been found that spatial ability as measured by figure rotation tests correlates with the ability of older people to learn new applications. On the other hand it has been shown that older people can benefit from site maps which incorporate a form of spatial information. Fisk et al. (2004) suggest that spatial ability indicates the ability to infer extra information from the visual presentation. The implication for interface designers might then be to make the transition from visual representation to system model as simple as possible and to be particularly cautious in testing whether older users can benefit from spatial presentation and layout information. It may be that providing support in the area of spatial inference could provide assistance with the large table problems identified by Chadwick-Dias et al.
+
+141
+
+Cognitive performance gaps between young and old ­ relevant changes · Older people's declines in cognitive function are likely to show under novel situations and conditions of increased cognitive load while older people's performance may be well preserved in familiar activities. · While intellectual decline is relatively slow if one follows the same individuals over time, the gap between today's younger people and older people is wider than the gap between today's older people as they were when young and as they are now. This is due to a well established but not fully explained improvement by each generation in test performance, (the Flynn effect). · The performance of older experts is maintained at levels similar to younger experts but this depends on high levels of practice and does not translate into general ability in areas that relate to the expertise · Losses of types of mental functioning are not uniform, they vary widely between older individuals
+
+Cognitive performance gaps between young and old ­ design suggestions Examination of the longitudinal data on various aspects of intelligence implies that most individuals should maintain reasonable intellectual functioning until their mid sixties. Further only a small minority are likely to show impairment in multiple areas of mental functioning. Again impaired functioning should only be apparent in tasks whose difficulty challenges individual's cognitive reserves, routine tasks, including well-learned computing tasks, should be carried out with little decline in performance.
+
+What is of concern is that younger designers may either attempt to model the likely performance of older users on their own performance or they may take evidence of older people functioning normally in familiar settings as evidence that the older people will be competent in the new circumstances into which the designers are about to thrust them. Neither assumption is likely to be helpful. The Flynn effect seems likely to increase the gap between younger designers and older users when it comes to intuition about what constitutes an easily solvable problem. What younger designers assume to be simple may be see as too difficult by older people. There is more need to check with actual older users when designing for older people than is the case when designing for younger people.
+
+142
+
+Older people may be seen as having a degree of expertise in everyday living. However it would be mistaken to take this as evidence of ability to cope in new areas or even areas seemingly related to existing skills. The performance of older experts is maintained at levels similar to younger experts but this does not translate into general ability in areas that might be expected to relate to the skill set, visual thinking for example is not disproportionately preserved in older architects. Maintaining expertise in old age depends on high levels of practice. Masunaga and Horn's (2001) findings on Go players suggest that as well as needing practice, expertise is better maintained in those who enter old age with a very high level of expertise, moderate players show declines in skill with aging. It also seems that expertise in old age is best produced in a relatively narrow and highly familiar context, Szylk et al. (1995). This raises questions as to how well computing skills acquired by future generations of older computer users before they age, will assist their computing use in old age.
+
+A variety of issues mean that the disadvantaged status of older computer users may ease but is unlikely to disappear. Masunaga and Horn's findings may indicate a reason for concern in that few older people will enter old age as highly expert computer users and with full or partial retirement the level of practice of their skills can be expected to reduce. Szylk et al.'s work and the lack of general preservation of ability in skill related areas suggests that skills are maintained with a very narrow focus indeed and that the paradigm shifts and feature changes that are an economic driver of the computing industry will erode the relevance of the computing skills that older people bring into old age. We know that driving skills decline with age, we would expect this to be much more pronounced if cars changed paradigms rapidly, the same seems likely for computing skills. It appears probable that future generations of older people will not have generalizable computing skills that will allow them to work well in new computing environments.
+
+143
+
+2.11 Learning, Training and Aging
+2.11.1 Studies of learning and older people
+
+Baldi (1997) has reviewed the literature on training older adults to use applications. The papers reviewed indicate that while older adults can learn applications it may take them twice as long to reach the same level as younger users. Older adults also needed more assistance during learning. Baldi also noted reports that prior experience with computers improved learning for older adults. What is not clear from the papers Baldi reviews is what happens to older learning as program complexity increases, some of the negative findings on successful learning involved Lotus 1-2-3. Bosman and Charness (1996) suggest that declining cognitive resources may hamper acquisition of new skills in older adults. It seems reasonable that this will depend on the complexity of the skill being learned. Kelley and Charness (1995) reviewed twelve studies in which older users were trained to use computer applications and found that in ten of the studies the older users had significantly greater difficulty in learning. It should be noted that these were older pre-Windows applications, the duration of training was short ­ less than a week and the subjects were computer novices. Czaja and Sharit (1993) found that the level of prior computer experience outweighed the effects of age when considering performance on training to use an application. It is also worth considering that older people have been shown to have a more negative bias in self evaluation and that they may further see learning computer skills as more challenging for the old in particular. Stresses caused by such expectations could impede learning, Baldi (1997).
+
+Where learning is seen or experienced as difficult or unrewarding it would seem probable that learning is minimized so that a person learns a bare minimum for surviving in a particular computing environment. It may also be that minimizing learning is a strategy for reducing the complexity of the material older adults face when meeting new computer tasks. Once a method has been learned there may be resistance to abandoning it to learn a more efficient alternative. Given richly featured and evolving applications and operating systems this has potential implications for the efficiency of older users. Perlmutter and Mitchell (1982) suggested that some of older peoples' memory problems are due to differences in applying strategies for organizing material. It is worth asking if there are differences in the way older people organize information about richly featured applications and whether more effective patterns of organization
+
+144
+
+can be offered. However Touron and Hertzog (2004) found that older people's belief that they would not be able to learn a system for improving memory by using categories meant that they avoided such learning when in fact they were able to benefit from it. We can ask if older people have less effective application models and is this subject to training effects? It may be worthwhile to consider if older users are more averse to making mistakes while learning applications, show less one-shot or incidental learning and possibly tend to learn on tasks which are important to them rather than tasks which are artificial. There is also a concern that, particularly for older adults, poor techniques included in early learning of an application are resistant to later changes.
+
+Rogers et al. (1996) found that the best form of training out of a brief description, a text manual, a pictorial manual and an online tutorial was the on-line tutorial. Rogers et al. concluded that this was because the older adults benefited from repeated hands on experience with the component tasks of ATM use. Note however that Charness and Bosman (1990) looking at earlier studies of training mode and learning success with older computer users report that there is no clear indication of what training mode is best. However Charness and Kelley (1995) recommend self-paced learning using a minimal manual approach for older adults. They note that the studies they review on online tutorials found that this represented the least satisfactory form of training, possibly because of the lack of self pacing and the lack of opportunity to learn from mistakes. They also cite findings by Caplan and Schooler (1990) which indicate that while younger users may benefit from emphasizing the metaphor underlying an application older adults performed worse on training when the desktop metaphor was explained prior to training. In Baldi's 1997 review of training a number of studies report that the method of training affects the success of older learners of computer programs. However a rather wide variety of methods are reported as being better.
+
+There is a tradition of research using contrasting tutorial designs for teaching older users to use computer applications, see Morrell and Echt (1996, 1997) and Kelley and Charness (1995) for reviews. Morrell and Echt (1996) point out the dominant research method is to contrast two different approaches for delivering the same content. There are at least two problems here. There is a question of the fit between the content of the tutorial and its delivery medium, would the same medium have performed differently in delivering different content specifically designed for the medium? There is also the
+
+145
+
+question as to how representative the tutorial studied is in relation to best practice among tutorials of the same type. Debate about the best method for teaching older people may well be unproductive, a demonstration of older people succeeding well with one approach to acquiring complex computer skills does not rule out other approaches. Note that Morrell and Echt's reviews endeavor to extract underlying principles that could be generally useful in producing instructional material for older people, rather than arguing for a particular type of instructional approach.
+
+It may also be that, as the supporting technology improves, different approaches may become more valuable. For example earlier studies of on-line tutorials such as Gist et al. (1988) found them to be a poor form of instruction for older people but later studies are more likely to support on-line tutorials, emphasizing the advantages of active performance of procedural steps by the learners, see Mead & Fisk (1998), Morrell, et al. (2000), Rogers, et al. (1996), Czaja & Lee (2001). Morrell et al. (2000) found that providing older learners with background conceptual information in addition to step by step instructions led to poorer performance both immediately after training and on retesting one week later. Morrell as well as Czaja and Lee (2001) and Rogers (2000) argue for providing the older user with active hands on learning. These studies used limited tutorials constructed purely for use in their experiments. However they give overall support for computer based training as a method of training older people in computer skills.
+
+We can summarize the guidelines for instructional material and delivery for older people offered by Morrell and Echt (1996, 1997), Morrow and Leirer (1999), Morrell et al. (2000), Rogers (2000) and Willis (2004) as follows. · Text formatting: Use a typeface with rounded distinctive sans-serif letters (e.g. Helvetica), use 12 to 14 point with strong contrast between letters and background, use short, left justified lines with a maximum of 65 characters per line, use white space to increase clarity. · Instruction structure: Use lists in a standardized format, language structure and vocabulary should be kept simple, avoid the use of negatives, use an active rather than a passive voice. · Provide an active learning situation and provide sufficient practice with task components. Ensure that the training environment is free from distractions.
+
+146
+
+·
+
+Content: Emphasize procedural steps and leave out background conceptual information, use concrete examples, some instructions should be accompanied by relevant simple illustrations since some information is not well conveyed in text, slowed animation may be useful. Training material should be well organized and important information should be highlighted.
+
+· · ·
+
+Ensure that help is available and easy to access Delivery: Allow extra time for training. Training should be self-paced and may work better in small groups Instructional materials for older learners should be designed so that attention can be focused on single areas, being mindful of older adult's issues with maintaining divided attention.
+
+·
+
+General: Be aware of older peoples' problems with: reductions in working memory capacity, reductions in ability to deal with complexity, reduced color discrimination particularly in the blue green range.
+
+What can be seen from this list is that the recommendations come from a wide range of areas related to the effects of aging on older people and techniques for addressing those effects. In fact training older people is another example of the general area of interaction design for older people. In particular training older people on computer skills and applications is going to involve computer based materials if not a full fledged interactive tutorial. From this it follows that the whole of the literature review thus far can be seen as having implications for the design of any computer based training material for older users and this includes the design of interactive tutorials. This considerably extends the number of considerations that are relevant to training older people in computer skills, we need to examine what we know of older people's learning and what we know of suitable application design for older people. In what follows we will look at implications from what is known of older people's learning and leave the issue of application design to what has already been covered in the earlier sections. However we need to acknowledge the insight of previous authors in taking recommendations not just from older people's learning patterns but also from older people's cognitive and perceptual abilities.
+
+147
+
+Summary of findings about aging and learning
+
+Difficulties with learning · · Learning takes more effort and takes longer Older people can be overwhelmed by younger instructors who go too fast, present too many ideas and tend to be impatient with the slow and uncertain progress typifying older people. · · · · · Older people's learning can be disrupted by the provision of too much information Learning may be limited to a minimum or inadequate skill set in some older people There may be a long period during which learnt items are easily forgotten and need to be relearned more than once Older people are likely to blame themselves for learning difficulties Where older people see themselves in negative age stereotyped terms this further impairs their ability to perform
+
+Points with Implications for content · · · · · · · Older people can learn a wide range of new skills Older people benefit from learning on a simplified model before using the more complex real world tool Older people benefit from a focus on learning a minimum of essential concepts and techniques Older people benefit from learning skills as a set of concrete procedures Older people benefit from actually performing skills as they learn Older people may benefit from simple background information that places their learning in context but they are disadvantaged by a focus on conceptual material Learning techniques such as ways of associating new items with categories in order to assist remembering can show continued benefit over years, but older people need encouragement to adopt such techniques
+
+Points with implications for delivery format · · The speed with which individual older people learn varies widely Older people benefit from self paced learning
+
+148
+
+· ·
+
+Older people appear to benefit from learning in small (2 ­ 4) groups rather than individually or in large groups There appears to be a benefit in having either an instructor from the same (older) age group or an instructor who has adjusted their style to accommodate older learners
+
+2.11.2
+· · · · ·
+
+Implications for training older people to use applications
+
+Difficulties with learning ­ relevant changes Learning takes more effort and takes longer Learning may be limited to a minimum or inadequate skill set in some older people There may be a long period during which learnt items are easily forgotten and need to be relearned more than once (fragile learning) Older people are likely to blame themselves for learning difficulties Where older people see themselves in negative age stereotyped terms this further impairs their ability to perform
+
+Difficulties with learning ­ design suggestions
+
+The point that learning in older people is initially fragile may imply that the instructional format should be such that older people can easily repeat sections of material, in fact a need to structure learning materials so that they can be used on demand over the period of weeks or months when previously learnt material is forgotten, re-learnt and forgotten again. It also seems likely to be useful to create a learning environment where success is easy to achieve and mistakes are easy to recover from in order to counter older learner's initial negative expectations. The point that some older people will only achieve limited learning may indicate that when deciding on instruction content the instructor should define what constitutes a survival skill set and this should be the first aim of a course for older people. However the variability of older people means that courses should allow those who are learning well to progress beyond this basic skill set.
+
+Content of learning material ­ relevant changes · Older people can learn a wide range of new skills
+
+149
+
+· · · · · · ·
+
+Older people benefit from learning on a simplified model before using the more complex real world tool Older people's learning can be disrupted by the provision of too much information Older people benefit from a focus on learning a minimum of essential concepts and techniques Older people benefit from learning skills as a set of concrete procedures Older people benefit from actually performing skills as they learn Older people may benefit from simple background information that places their learning in context but they are disadvantaged by a focus on conceptual material Learning techniques such as ways of associating new items with categories in order to assist remembering can show continued benefit over years, but older people need encouragement to adopt such techniques
+
+Content of learning material ­ design suggestions
+
+The content of courses for older users should be rigorously simplified. Very simple conceptual background that is closely related to the skills being learnt may be helpful but more general conceptual information is likely to hinder learning. Overall courses should present a limited amount of material. Older learners will benefit from a focus on procedural steps rather than conceptual background. Active learning, where older people actually carry out the steps being learnt is important and there needs to be time for sufficient practice. The exercises that are chosen for practice should be appropriate to the current skill level and perceptual, motor and cognitive abilities of the older learners. It also seems reasonable that there should be only a little new material introduced at any one stage of a course and this implies careful sequencing of the skills taught so that earlier skills support the teaching of later skills. However this will not be simple to implement given that the skills learnt earlier will be subject to fragile learning.
+
+Older people may benefit from being taught specific techniques for remembering as part of a course but remember that Kliegel et al. (2003) found that although older people benefited from using such techniques they were skeptical of their ability to benefit and were therefore less likely to use the techniques.
+
+150
+
+Learning and delivery format ­ relevant changes · · · · The speed with which individual older people learn varies widely Older people benefit from self paced learning Older people appear to benefit from learning in small (2 ­ 4) groups rather than individually or in large groups Older people can be overwhelmed by younger instructors who go too fast, present too many ideas and tend to be impatient with the slow and uncertain progress typifying older people. · There appears to be a benefit in having either an instructor from the same (older) age group or an instructor who has adjusted their style to accommodate older learners
+
+Learning and delivery format ­ design suggestions
+
+It seems to be the case that older users learn well in small groups and that the group can provide a rewarding social context in which learning benefits. Note that this seems to depend on the class as a whole being well designed. Classes for older learners should be small, note that SeniorNet classes in New Zealand choose class sizes in the range of two to five students. The speed of instruction should be such that older learners are not hurried and this implies at least double the time taken for younger learners. However the variability of older people indicates that there is likely to be no ideal pace for a group, rather that self paced learning should be supported.
+
+Given that older people need considerable support as they learn but that they learn at differing speeds there is going to be strain placed on an instructor. An overloaded instructor is at risk of triggering older people's views of themselves as poor learners, which can then be self-confirming. It becomes important to reduce the load on an instructor. Having only a very small number of students to teach is going to assist this. In addition it will be an advantage if the learning materials are such that they reduce the requirement for the instructor to be the main source of information, they allow older learners to proceed in a self paced manner with less instructor input and they allow other older people in the group to assist each other.
+
+151
+
+The claim is made by SeniorNet New Zealand that there is a benefit from having older instructors of a similar age to those being instructed. This has not been verified but seems reasonable, however I have met a few past students of SeniorNet computing courses who argued that their older instructor knew too much to be, "useful to beginners like us", so not all same age tutors are suitable. There has been research on ways in which younger people fall into counter-productive patterns when attempting to communicate with older people, this is explored in Chapter 8. What seems important is to have an instructor who has adjusted their expectations so as to be accepting of the likely initial level of knowledge displayed by older people, the slow speed at which they will be able to expand this knowledge and the inevitability of fragile learning in this group. It also seems important to have an instructor who does not trigger older users' negative self stereotypes and a suitable older instructor may have an advantage here.
+
+2.12 Conclusions
+The first point that arises from such a literature survey is the sheer breadth of aspects of aging that can affect older people as they try and use computer applications. Following from this is the difficulty of translating this information into terms that are relevant for interface design. The design considerations raised in this chapter are mainly inferred from findings on aging, only a few have been the subject of published interface design research. It is therefore unknown how well the suggestions made for responding to the effects of aging will translate into successful interface design for older people. It is apparent that rigorous research to substantiate or challenge these suggestions would take a very long time so we are cast back on Donald Norman's argument that establishing workable designs takes "approximate science". Even so there are so many suggestions that they are likely to overload any designer and it is uncertain in what design contexts they will be relevant or can be ignored or downgraded. In effect what has occupied the rest of this thesis is a search for ways of helping a designer come to terms with the abundance of possibly useful information about aging that has been uncovered here. In the next chapter we will discuss an attempt to provide a perspective for integrating this material through the concept of competition for the older person's cognitive resources between the user's substantive task and the tasks involved in manipulating and comprehending the interface. Following this we will look at using
+
+152
+
+increased involvement with and understanding of actual older users as a resource to guide designers through the interface design process.
+
+153
+
+Chapter 3
+
+The Dual Task Pilot Study
+
+3.1 INTRODUCTION
+This chapter of the thesis describes the first study done after completing the literature review. An experimental approach was used but showed unexpected difficulties. The key result was to prompt careful examination of the appropriateness of an experimental approach given the thesis aims. This led to a change in direction for the thesis. The concerns on which this change in direction are based are set out in the discussion and conclusions at the end of this chapter. This discussion on the change in direction gives the core of the effect of this study on the overall thesis.
+
+The literature review was a strong influence on the intended style of the overall research. The literature reviewed came overwhelmingly from the discipline of cognitive psychology and the predominant method was experimental. This led to a presumption that an experimental approach would be the appropriate way of approaching the thesis research. The initial approach was to look for a set of hypotheses that would relate the overall effects of aging to a way in which the presumed poorer performance of older people on computing tasks could be moderated by interface factors. The hypotheses adopted centered on the concept of dual task performance. Older people had been shown to exhibit poorer performance in several dual task situations so it was of interest to see if this could provide a worthwhile model for the role of the user interface for older computer users. The assumption was that older computer users are in a dual task situation. The task that led the older user to use the computer (the substantive task) might be writing a letter. However actually using the computer called for simultaneous performance on the task of managing the user interface (the interface task). It seemed reasonable to propose that as the interface task increased in difficulty then performance on the substantive task would show the effects of competition for cognitive resources from the interface task. Given support for the dual task hypothesis it was then intended to study particular aspects of interface design to see how they contributed to the dual task difficulties. It was decided to carry out a pilot study to evaluate this approach. The result of the pilot study was a lack of support for the dual task hypothesis and the development of a very different view of how the research should proceed.
+
+154
+
+This chapter will describe the hypothesis developed, give details of the experimental method used and examine the results obtained from carrying out the pilot study. The dual task study actually consisted of three linked studies using the same set of volunteers. The first sub-study looked at font readability in order to establish baselines for manipulating the difficulty levels of the interfaces provided in the second sub-study. The second sub-study examined the older volunteer's ability to carry out a series of comprehension tasks provided in the format of a game while level of difficulty of substantive task and interface task were varied. The third sub-study provided a second look at comprehension tasks while level of difficulty of substantive task and interface task were varied. This second study was done within different context using a web based comprehension quiz. The method description and the results of each of these sub-studies will be presented separately with a discussion of the findings of each substudy. The key to the importance of this chapter however lies in the closing pages where a general discussion of the results and problems of the pilot study examines their implications for the direction of the overall research.
+
+3.2 Theoretical basis for the pilot study
+The approach taken in this study is to consider the user's activity in terms of two tasks, coping with the interface of the application and carrying out the substantive task the application is designed for, writing a letter, sending an email, etc. It has been shown that older people have difficulty carrying out complex tasks or carrying out two tasks simultaneously, see Korteling (1994). People have a limited cognitive capacity and it seems reasonable that cognitive effort expended in coping with the interface should reduce the capacity available for dealing satisfactorily with the substantive task. On this basis a poor interface should reduce task performance, as discussed in Cooper and Reimann (2003). The next issue is whether interfaces which are acceptable for younger users are acceptable for older users, it is possible that an interface which is simple to use for younger people would cause significant difficulty for older people. In the near future older people will be disadvantaged if they cannot complete computerized versions of daily tasks such as banking. Worryingly Rogers et al. (1996) found that older adults generally made high levels of mistakes on a simulated Automatic Teller Machine (ATM) contradicting bank staff expectations that the use of ATMs was self evident. It was decided that it would be interesting to look at comprehension of material presented via a
+
+155
+
+computer interface as a general task and to give the same comprehension task to users under different interface conditions. The interface conditions chosen for manipulation involved text appearance and display style. There has been some previous work on font preferences for older people. Morrell and Echt (1996) suggest that older adults will benefit from san-serif fonts (with a specific recommendation for Helvetica) that are in the 12 - 14 point range and of medium to bold weight. These recommendations are for printed text so it is of interest to see if they hold for on-screen displays. Discussion with older people indicated that some found large font books uncomfortable, possibly because the large font meant that there were fewer words in a given viewing angle and this reduced the amount of information available in the sub-conscious scan ahead activity supporting reading. It was therefore decided to include a test for the upper size limit at which participants found fonts comfortable.
+
+I had observed older people with impaired vision caused by the onset of macular degeneration, both the style of text used and the background against which it was displayed were important to their being able to read successfully. It was therefore decided to compare comprehension when the interface used fonts that were easy to read versus fonts that users could read with difficulty. The expectation was that comprehension would drop as the text quality declined (and more effort had to be put into reading). There is agreement in the literature that the ability to pay attention to relevant information in the presence of distracting information declines with age, Connelly and Hasher (1993), Kotary and Hoyer (1995). One of the display conditions was therefore set to include distracting animated graphics. From the proposition that both the substantive task and coping with the interface compete for the user's limited cognitive capacity there was a further implication. There should be an interaction effect in that difficult comprehension tasks should be more affected by text formats that require greater effort to read information. It was desired to provide a degree of internal replication within the study so two different comprehension tasks were designed.
+
+3.3 General Notes on Experimental Methods
+The study was done as a pilot study for a planned larger study. 12 older volunteers each attended three sessions of two and a half hours. They ranged from 66 to 82 years old with a mean age of 76.2. Previous careers indicated considerable achievement, careers
+
+156
+
+included manager, nurse, lecturer, doctor, etc. All volunteers were able to drive themselves, all were members of SeniorNet. All used Windows 95 or 98 and email. The number of years' experience with computers ranged from 1 to 35 years. All but one reported themselves to be in reasonable health and all wore spectacles when using a computer. There were three software programs used in this study, one for studying font preferences and two for studying how well research participants could comprehend information given a variety of presentation formats. One of the comprehension programs was a text based game and the other comprehension program consisted of a quiz on articles presented in a Web page format. Participants attended the first two sessions in groups of two or three and worked with the experimental software. The final sessions ran focus groups for six participants at a time in which they discussed both their experiences in the experimental sessions and their overall experiences with computing as older people.
+
+3.3.1 Note on analysis of results
+Total numbers are small and since this was a pilot study there were some problems with time available and my administration. Three participants did not complete all parts of the Pen Game and Web Quiz studies so analysis using ANOVA was not attempted.
+
+3.4 Font size and preference study
+Part of the manipulation of interface task difficulty intended in the dual task study was the manipulation of the readability of information presented on screen. A small study of the readability of different fonts under different conditions was planned as part of the overall dual task study. The aim was firstly to obtain individual measures of acceptable and poor fonts for the volunteers involved in the dual task study that meant that individual baselines would be available in the later parts of the study. In addition there is a basic gap in the research literature, we do not know how the ability to cope with various text displays is distributed in older users. Hence a second aim was to use this study as a pilot for a study establishing the range of fonts and backgrounds that could be considered appropriate for older users.
+
+157
+
+3.4.1 Font size and preference study - method
+Text was presented on a 14" SVGA color monitor using 800 x 600 resolution and the Windows small fonts setting. Participants adjusted chair and screen positions to suit their preferred working conditions. There were four subsections to the font size and preference study
+
+Preferred size within a font ­ short text passages
+Ten passages of the same small paragraph of text in a single font but at differing sizes were displayed simultaneously (Figure 3.1). Participants were asked to find the size at which they could barely read the text, the size at which the text was comfortable to read and the size at which the font became too large to read.
+
+Figure 3.1 Preferred size within a font ­ short text passages - subjects choose three text sizes: as small as they could read, smallest comfortable and largest comfortable. The subject was asked to read aloud the string of random letters at the top of each text block and the experimenter then displayed a larger version of the string to check it had been read accurately. To ensure that experimenter and subject both knew which block of text was being referred to, the block could be highlighted with a green outline by clicking on the block, (the Arial 12 point block is highlighted in the figure).This was repeated over
+
+158
+
+a range of fonts. The fonts chosen represented three font families, sans-serif, serifed and a range of fancy fonts.
+
+Preferred size within a font ­ long text passages The fonts were also presented in displays that gave a full screen of text and the range of comfortable sizes was again found (Figure 3.2). Subjects choose text sizes that were as small as they could read, smallest comfortable and largest comfortable.
+
+Figure 3.2 Preferred size within a font ­ long text passages
+
+Font preference within font size Ten passages of the same text at a single size but in differing fonts were displayed simultaneously (Figure 3.3). Participants were asked to rate the readability of each of the fonts on a five point scale: (excellent, good, fair, poor and horrible).
+
+159
+
+Figure 3.3 Font preference within font size
+
+Effect of background on legibility Text was shown with differing percentages of colored and graphic backgrounds and the effect of varying the intensity of the background was examined (Figures 3.4 and 3.5). Background effects were studied looking at a split screen where the subject could rate the relative readability of the two halves as background color and background illustrations were varied. Hue saturation and luminance could be altered and a background picture displayed at various percentages of full picture density.
+
+160
+
+Figure 3.4 Effect of plain background on legibility
+
+Figure 3.5 Effect of graphic background on legibility. Background effects showing a graphic background with a picture displayed at 40% of full density.
+
+161
+
+3.4.2 Font size and preference study - results
+Table 3.1. Point size where font is just readable Times New Font> Ave. Range Arial 7.2 6-8 Bookman 7.0 6-8 Garamond 7.8 6 - 10 Tahoma 7.4 7-9 Roman 7.5 6-9 Verdana 6.8 6-7
+
+With corrected vision all participants were able to read very small fonts.
+
+Table 3.2. Point size at which text in this font becomes comfortable Times New Font> Arial Bookman Garamond Tahoma Roman Verdana
+
+Small paragraphs of text Ave. Range 9.1 8 - 11 9.3 8 -11 10.4 7 - 12 9.4 8 - 11 9.9 8 - 11 8.8 7 - 10
+
+Full screen of text Ave. Range 10.3 9 - 13 10.5 9 - 13 11.6 8 - 14 10.6 8 - 14 11.3 8 - 16 10.1 8 - 14
+
+It was notable that larger font sizes were preferred for big text displays.
+
+Table 3.3. Point size at which text in this font ceases to be comfortable Times New Font> Arial Bookman Garamond Tahoma Roman Verdana
+
+Small paragraphs of text Ave. Range 13.6 10 ­ 17 14.0 11 ­ 17 15.3 12 ­ 18 13.1 11 - 16 13.9 12 - 17 13.4 11 - 16
+
+Full screen of text Ave. Range 14.7 12 - 20 16.0 13 - 26 15.9 14 - 20 13.7 11 - 18 14.1 12 ­ 20 14.6 11 ­ 20
+
+Only seven of the twelve participants reported a size at which reading was not comfortable but this was a different seven for small paragraphs and for full screen text displays.
+
+162
+
+Although some of the older adults could read text at remarkably small point sizes they were seen to strain when doing this. The comfortable size required was consistently larger when screenfulls of text were used than for small paragraphs. Comparing the top of the size ranges where comfortable reading begins with the bottom of the size ranges where comfortable reading ceases, there appears to be no font and size combination which completely suits all the older people in this group. However participants reported that comfort was more affected by undersize text than by oversize text. Therefore if it is not practical for users to adjust font sizes to suit, the best option seems to be 11 point fonts for small blocks of text and 12 ­ 13 point font where large amounts of reading is involved. However a warning may be seen in the ability of this group to read very small fonts. It seems likely that this group is not representative of older people as a whole and so larger font size recommendations may well emerge from a larger, more representative study.
+
+Table 3.4. The readability ratings given to the different fonts at different font sizes Size of font > Just readable Font San serif fonts Arial Tahoma Verdana Serifed fonts Bookman Garamond Times NR Fancy fonts Comic Sans Serif Haettenschwe iler Impact Modern 2.4 2-4 1.9 1-3 1.9 1-2 2.8 3.6 2.7 1-4 3-4 2-4 1.5 2.8 2.2 1-3 1-4 1­3 1.6 2.1 1.9 1-3 1-3 1-3 2.5 2.8 1.5 1-4 2-4 1-2 1.7 1.9 1.3 1-3 1-3 1-2 1.8 2.3 1.7 1-3 1-3 1-3 Ave. Range Smallest comfortable Ave. Range Largest comfortable Ave. Range
+
+5 3.5 4.6
+
+5-5 2-5 4-5
+
+4.0 3.8 3.9
+
+3-5 3-5 3-5
+
+4.2 3.8 3.2
+
+3-5 3-5 2-4
+
+163
+
+The font preference figures in Table 4 are from a range of 1 (excellent) to 5 (horrible). The ratings could be interpreted in terms of a slight advantage for san serif fonts over serifed fonts with generally poor performance from fancy fonts. However another possible interpretation is that the fonts receiving the best ratings are those which emphasize well rounded, well spaced letters (Arial, Verdana, Bookman and Comic Sans Serif) and this overrides the sans serif, serif, fancy categories. When it comes to preference at small sizes the rounded fonts are highly preferred. (Verdana appears to be ahead but this can be considered an artifact of Verdana's larger characters at small point sizes.) In general the readability of all fonts improves as size increases.
+
+Colored and Pictorial backgrounds The older people in the study found that marked degrees of background color or anything except very, very faint background pictures interfered with their ability to read text. Blue hues, which are the darkest, were the worst performing backgrounds. It was noticeable however that the effect of background color and pictorial backgrounds decreased as the font size increased.
+
+3.5 First Comprehension Study - the Pens game
+As pointed out in the first sections of this chapter the two comprehension studies were intended to examine the issue of whether a dual task model explained the relationship of substantive task performance to interface difficulty. The hypothesis was that because of presumed competition for cognitive resources performance on the substantive task should decline as the difficulty of the interface task increased. As a way of providing an experimental setup that would allow the difficulty level of the interface task to be manipulated, software was constructed that allowed the volunteers to play a game based on combining information about 8 animals paired in 4 pens with a set of rules that stated which animals were safe to pen together and which were unsafe. Thus penning a cat and a rabbit together would result in one safe animal (the cat) and one unsafe animal (the rabbit). The volunteer's task was to provide a total for the number of safe animals out of 8 in each round of the game. In each round the pairings of the animals in the 4 cages was randomly altered. The substantive task could be made harder by varying the syntactical complexity of the way in which the information about the pairings was
+
+164
+
+presented. As well as varying the difficulty of the substantive task, the experiment varied the presumed difficulty of the interface by altering the readability of the font used for presenting the information about the pairings.
+
+The hypothesis under test was that given limited cognitive resources on the part of the older volunteers, interface difficulty should interact with substantive task difficulty. It was also expected that there should be main effects where time taken and accuracy were affected by both syntactical complexity and by interface difficulty.
+
+3.5.1 First Comprehension Study - method
+The substantive task is a "game" in which the participant is given a page with a set of rules stating which of nine common animals can safely be penned together and which would endanger other animals. The rules remained constant. The participant was presented with a text passage on screen describing how eight animals are put into four pens two at a time. The participant then pressed a key on the numeric keypad to record how many animals are safe according to the rules.
+
+Interface difficulty The software accepted as setup information three text styles chosen from the test subject's individual results from the preliminary font study and rated by the subject as excellent, fair and poor (but readable). The format of the text display was varied on each trial using the three fonts chosen at setup.
+
+Task difficulty Task difficulty was manipulated. Low task difficulty consisted of presenting the information as a list of four lines with a pen number and two animal names per lines with the pens given in order, see Figure 3.6. High task difficulty gave the same information but as a paragraph of eight sentences in random order, see Figure 3.7.
+
+The software recorded the settings for each subject, the settings for each trial and the accuracy and time taken for each response.
+
+A within subjects design was used, participants did 4 sets of 6 trials under the low task difficulty condition and 4 sets of 6 trials under the high task difficulty condition. Within
+
+165
+
+each set participants met two trials under each of the excellent, fair and poor readability conditions. The accuracy and time for each trial was recorded. Participants practiced for 20 minutes beforehand, results of the practice tests were discarded.
+
+Figure 3.6 Pens game low task difficulty and high readability
+
+Figure 3.7 Pens game high task difficulty and high readability
+
+166
+
+Figure 3.8 Pens game - the subject was given results after each trial
+
+Figure 3.9 Pens game - the screen for displaying the rules. During practice sessions volunteers forgot to use this so it was replaced by a paper version using the same large font and layout in the actual experiment.
+
+167
+
+Examples of the various levels of task difficulty prepared for the Pens game. In fact 5 levels of task difficulty had been prepared as shown below. It was found in preliminary work with older users while they were doing practice examples that level 1 and level 2 led to similar performance, level 3 was as hard as the older users could cope with and levels 4 and 5 led to frustration and non-performance. Hence after the practice session levels 1 and 3 were used in the actual experiment as the low and high levels of difficulty. Levels 4 and 5 are of interest in that they were easy for middle aged pre-test subjects and considerably too hard for the older group of volunteers.
+
+Level 1 - simple list in pen order (low task difficulty as used in experiment) Pen 1 goat Pen 2 dog Pen 3 cow Pen 4 hen deer duck cat fox
+
+Level 2 - text paragraph version in pen order (not used except in practice) Looking into pen one you can see a goat. One animal in pen one is a fox. Pen two has a deer in it. A cow can be seen in the back of pen two. Looking into pen three you can see a duck. You can see a hen in pen three. Pen four has a cat in it. A dog can be seen in the back of pen four.
+
+Level 3 - Text version with randomized pen order (high task difficulty as used in experiment) Pen four has a deer in it. Looking into pen one you can see a cat. A cow can be seen in the back of pen four. A goat can be seen in the back of pen one. One animal in pen three is a dog. Pen two has a fox in it. You can see a hen in pen two. Looking into pen three you can see a duck.
+
+Level 4 - Text with random pen order and extra irrelevant information (found to be too hard, not used except in practice) Pen two has a deer in it. The hen should be groomed today. A fox can be seen in the back of pen two. Pen four has a hen in it. The pen at the end needs repairs to the wire. Looking into pen four you can see a cow. A cat can be seen in the back of pen one. The duck was shifted yesterday. You can see a duck in pen three.
+
+168
+
+Looking into pen one you can see a goat. In pen one the animals are not getting along. One animal in pen three is a dog.
+
+Level 5 - Text with indirect naming of pens, random pen order and extra irrelevant information (the older volunteers could not achieve results with this format, hence not used except in practice) Looking into the pen after pen three you can see a deer. The goat should be groomed today. The pen at the beginning has a fox in it. Pen two has a cow in it. The pen at the beginning needs repairs to the wire. A hen can be seen in the back of the pen at the beginning. You can see a dog in the third pen. The fox needs worm pills. One animal in the pen at the end is a cat. A duck can be seen in the back of the pen after pen two. The hen was shifted yesterday. Looking into pen two you can see a goat.
+
+3.5.2 First Comprehension Study - results
+The expectation from the pens study was that poor display formats would affect task performance. This was not found. The following graphs summarize the results obtained. Neither error rate or time taken was highly affected by the use of fonts and font sizes that individuals had previously rated fair or poor. There is no statistical support for an interaction effect and even if one were found with larger numbers of participants it would be unlikely to be of practical effect for actual interface designers as the hint of an interaction seen in Figure 2 only applies to the font / size combination rated as "poor" which should be unlikely to occur in even moderately well designed interfaces.
+
+On the other hand task complexity had a major effect on time taken. It would also have had a practical effect on error rates except that the older participants adopted strategies such as counting on their fingers to cope with the difficulty they were encountering. They did not use these strategies in the simple list condition. Obviously task complexity levels that force users to attempt to supplement what is provided by the interface indicate undesirable levels of difficulty.
+
+169
+
+Figure 3.10 Errors made per trial (means and 95% confidence intervals) by task difficulty by readability. In the majority of trials no errors were made. This held under all conditions.
+
+Figure 3.11 Time taken (means and 95% confidence intervals) by task difficulty by readability
+
+170
+
+3.5.3 First Comprehension Study - discussion
+The group proved to have difficulty with an on-line version of the rules of the pen game, the problems were twofold. Firstly participants did not remember to use the rules display when it was needed though they did remember the command to display the rules. A second problem was that the rules display using a large font and a clearly set out design took up most of the screen, this meant that the user had to remember the rule involved, close the display and then look at the information on penned animals. This appeared to disrupt the memory of how many safe animals had been counted to that point. The solution was to provide a paper version of the rules in the same large font format as the screen version. This proved trouble free.
+
+The older users took around 20 seconds per trial in the simple list condition and over 70 seconds per trial in the random order paragraph condition. This compares with the times of 10 seconds (list) and 40 seconds (paragraph) taken by the middle aged subjects used for pretesting the design.
+
+3.6 Second Comprehension study - the Web Quiz
+This comprehension study was intended to repeat the testing of the hypothesis of a competition for older users' cognitive resources between the substantive task and the interface task. Again the difficulty level of the substantive task and of interface task were manipulated but within a different context. The intention was to show that if the hypothesis of resource competition was supported, it could be generalized over more than one task/interface combination.
+
+As a way of providing an experimental setup that would allow this manipulation, software was constructed that allowed the volunteers to take part in a web based quiz where they evaluated a set of statements about the information presented in four web pages.
+
+The hypothesis under test was that given limited cognitive resources on the part of the older volunteers, interface difficulty should interact with substantive task difficulty. It was also expected that there should be main effects where time taken and accuracy were affected by both syntactical complexity and by interface difficulty.
+
+171
+
+3.6.1 Second Comprehension study - method
+Software was constructed to present the statements and the web information pages as well as to record the volunteers' responses and calculate time taken and error rates. Three short Discovery Channel type articles were presented in Web page format. The topics covered in the articles were; eclipses, boomerangs and tuataras. Each article was four Web pages long using a large san-serif font. Scrolling was not required to read any page.
+
+A within subjects design was used. A participant read and was tested on each of the three articles and met each of the three display styles while doing so. Data recorded included sequence of moves between pages and test page, time spent on each page, accuracy in answering questions and time taken to answer questions. Participants did a practice session using a fourth article with its own comprehension test. For each of the actual tests, results from the first question were discarded to eliminate settling down time.
+
+Substantive task The subject first read the four web pages of an article. Then statements intended to test the subject's comprehension of each article were presented one at a time on a further Web page. The subject could make one of four responses to each statement using onscreen buttons. The subject could re-read any part of the article while attempting to answer a question. There were 24 statement for each article.
+
+The participant could make one of four choices about a statement. (Figure 3.12) 1. 2. 3. 4. It was supported by the information in the web pages. The statement was denied by the information in the web pages. The statement was not covered by the information in the web pages The information in the web pages mentioned the topic but was not clear
+
+enough to say whether or not the statement was actually supported.
+
+Task difficulty was manipulated by varying the sort of comprehension activity needed to answer correctly. The statements were constructed so as to provide a range of difficulty based on the assumption that statements that simply agreed with material given in the web pages would be easier to evaluate as agreeing with the web information than
+
+172
+
+statements that were not covered by the web information. It was assumed that these in turn would be easier than statements whose agreement with the web information required making inferences based on the web information. Thus variation in substantive task difficulty was achieved by presenting each volunteer with a range of statements that required different types of information extraction from the material in the web pages.
+
+The 24 statements were constructed so that there were six statements whose correct answer corresponded to each of the four choices available to the participant, supported, denied, not covered or unclear. Within each of these sets of six, two statements could be answered immediately from the web material, two statements required inference and two statements were such that the material needed to evaluate them was not available in the web pages. The order of presentation of the 24 statements was randomized.
+
+Figure 3.12 The page for presenting comprehension statements. Subjects read the statement, then could use the numbered links at the bottom to browse the web pages containing the article. After they had decided if the statement was "supported', 'denied', 'not covered' or that there was 'insufficient information' they came back to this test page and clicked the matching button.
+
+173
+
+Figure 3.13 The page for presenting comprehension results. When subjects had made a choice they were given feedback and proceeded to the next question via the button shown.
+
+Interface difficulty As well as varying the difficulty of the substantive task the experiment varied the presumed difficulty of the interface by altering the amount of distracting information shown on the pages that presented the web information. Display quality was manipulated as follows. Each article exists in three formats: "good" - simple display, clear font; "moderate" - italic font, patterned background, "bad" - italic font, pictorial background and distracting and irrelevant animated graphics. Text position on the Web pages remained consistent over each display condition.
+
+174
+
+Figure 3.14 The easy level of readability was given by 14 point dark blue Arial text on a light cream background. There was only one static illustration per page. The [Go back to test] button returned the subject to the test page. The links shown at the bottom gave access to the other three pages in the article.
+
+Figure 3.15 The moderate level of readability put a 12 point italic blue Arial font on a medium blue textured background and increased the number of illustrations.
+
+175
+
+Figure 3.16 The difficult level of readability put the same text on a pictorial background and introduced two animated GIF displays in the bottom left and top right corners.
+
+After the first six participants it was noted that no differences were emerging between good and moderate display formats. For the second six participants the moderate format test was replaced by one where the test was still given in Web page format but the article was given on paper. Font size, text layout and graphics of the paper version were the same as the "good" Web page design with the exception that the paper version occupied two A4 pages compared with the four screens of the Web version.
+
+176
+
+3.6.2 Second Comprehension study - results
+
+Figure 3.17 Proportion correct (means and 95% confidence intervals) by format difficulty and task difficulty
+
+Figure 3.18 Time taken (means and 95% confidence intervals) by format difficulty and task difficulty
+
+177
+
+"Task" in Figures 3 and 4; task refers to task difficulty: The labels used indicate different ways in which the comprehension items related to the material in the Web articles. Direct cover ­ the comprehension item was directly covered in the Web article. Easy and hard inferences ­ inferences had to be drawn from the Web article to answer the comprehension item. Not covered ­ the comprehension item was not covered directly or indirectly in the Web article.
+
+The task difficulty clearly affected the error rate as shown in Figure 3. Equally the format used for the Web pages did not affect errors. There was no indication of an interaction. After considering the time taken data I was worried that users might be dealing with comprehension items that required inferences simply as if the material was not covered. Therefore the number of times the various possible answers were chosen were compared over types of comprehension items.
+
+Figure 5. Actual answers given by participants under various task conditions
+
+The results shown in Figure 5 indicate that people responded differently to comprehension items requiring inference versus comprehension items where they needed to identify that the information was not covered. (Because of the small numbers easy and hard inferences are combined).
+
+178
+
+It remains unclear why items involving direct cover were given longer time by the subjects than items involving inference or items that were not covered. The pattern is the reverse of what might be expected. It is possible that subjects did further reading to check their findings when the material appeared to be covered directly but that subjects disengaged when they did not find easy answers.
+
+Interface format Although format did not affect performance it did affect participants' ratings of likes and dislikes. This can be seen in Table 3.5.
+
+Table 3.5 Ratings of preference choices for the Web page formats on a 7 point scale. Higher values indicate higher acceptance. Easy to read plain animated 6.6 4.2 Like - dislike plain 6.4 animated 3.7 Use - avoid plain 6.2 animated 2.6
+
+The participants could make use of the Web pages with the deliberately distracting format but they did not like doing so. They were asked to rate the different Web page styles in three ways: did they find the style easy to read from, did they like or dislike the style and given a choice would they use or avoid pages using this style. In all cases the plain style was rated ahead of the animated style. The difference was particularly pronounced on the question of use versus avoid. Paper versus Web display Half the group used a Web page format which used a patterned background and italic text as the third presentation style. This format was rated as virtually the same as the plain style by most participants, two participants rated it as slightly worse. The other half of the group used a paper version of the Web pages as the third presentation style.
+
+Here there was a consistent but slight preference for the paper version over the plain online version. Table 3.6 shows the ratings for paper versus web display for this group of 5 people.
+
+179
+
+Table 3.6 Ratings of preference choices for the Web page versus paper on a 7 point scale Easy to read Like - dislike Use - avoid plain Paper 6.6 6.8 plain paper 6.2 6.6 plain paper 5.6 6.8
+
+3.6.3 Second Comprehension study - discussion
+The lack of effect from Web page format was surprising. The Web page formats were designed to cause difficulty for older people with impaired sight and this group had excellent corrected vision. The filtering effects of selecting volunteers who were existing computer users and who drove themselves also need to be considered. However even within the group studied, the fact that they were able to use a particular poor Web page format did not mean that they enjoyed doing so. In particular animation led to participants stating that they would prefer to avoid pages like this. The most frequently made comments on the animated style were that it was irritating or stressful. Given that use of Web pages is generally voluntary this suggests that pages designed to catch the interest of younger viewers may irritate older users to the point where they do not read the material on heavily animated pages.
+
+The results from task complexity were also unexpected. The group generally did not achieve high levels of accuracy even where the comprehension item covered some fact which was directly stated in the Web articles. They had similar if slightly poorer performance when identifying that a comprehension item had not been covered in the Web article. However when it came to making inferences accuracy sank to chance levels. From Figure 5 it does not appear that comprehension items requiring inference were treated in the same way as comprehension items that were not covered in the Web articles. It appears that the participants tried to find answers other than "not covered" for inference items but usually failed to do so correctly. This is consistent with data provided by Schaie and Willis (1993) indicating that as people age there can be a 25% drop in reasoning ability by the mid seventies.
+
+180
+
+3.7 General Discussion of the Dual Task Study
+The older users involved were generally from occupations indicating a high degree of career success and capacity to learn. They are currently computer users and driving themselves around the city. They are interested in taking part in research. This makes them an unusual group of older people. They still found the comprehension tasks involved difficult. They also showed strong evidence of reduced performance with increased complexity in both the pen and the Web study. This raises concerns about the coping ability of a less selected group of the older population.
+
+The difficulty seems to lie squarely within the comprehension task. The interface manipulations did not affect comprehension task performance. There was no sign of an interaction effect or even a main effect with interface difficulty. This is of interest in that it suggests limits to a simple model in which cognitive load due to coping with the interface competes with the main task for the user's available cognitive capacity. It does not totally rule out the role of large fonts and simple backgrounds in suitable design for older users. Firstly there are older users with impaired sight who were not represented in this sample but whose needs should be considered. Secondly the experimental software itself was designed specifically with easy to read fonts and simple explanations. It won praise from the participants as being particularly easy to read and use.
+
+All users learnt to use the experimental setups in the pen and Web studies rapidly, in under 25 minutes. They sometimes had additional questions when they met the first question of the experimental tasks but then settled down and completed the tasks without needing assistance from the experimenter. There was no evidence of a learning effect in either the Web study or the pen study. The conclusion here is that this older group was very capable when learning a new program with a simply designed and clearly laid out user interface (ie the experimental software itself). This does not translate into satisfying achievement when dealing with complex applications. The group was asked to rate their satisfaction with their progress in general computer use and the average rating was 3.6 on a five point scale where 5 indicated highly dissatisfied.
+
+The focus groups indicated that by far the dominant computing activities of the group were email and word processing. The issues underlying the experimental tasks, decision making and extracting information from complex environments were simply not relevant
+
+181
+
+to the day to day computer use of the group studied. Computer tasks such as on-line banking and tax returns or obtaining entitlement information are more likely to involve older users in the near future and in tasks of this nature comprehension will become of greater importance. The participants were distressed by their failure to do well in the comprehension exercises. They were also not particularly interested in these activities. There was a marked contrast in the attitude of the participants in the font preference study where the idea of finding readable fonts appealed to the volunteers and they were enthusiastic in taking part. Again in the focus groups the participants enjoyed the chance to talk about their experiences and exchange these with other older computer users.
+
+The fact that the older users could cope with the more difficult forms of the interface displays did not mean that they liked them. They clearly stated that given a choice they would avoid situations that involved interfaces similar to the difficult one's used. Bailey (1993) argued that we should be skeptical of interface claims based on preference since they do not reliably indicate performance. This is borne out here, but the preference factor is still relevant to behavior if the users have choices. In an environment such as the Web where sites are competing for viewers this becomes crucial. The other point is that the older users described their dislike of the more difficult interface styles in terms of stress, annoyance and strain. I see it as probable that this indicates that performance could fall off, or older users might simply opt out, given prolonged use of these interface styles.
+
+3.8 General Conclusions from the Dual Task Study
+Reflecting upon the dual task study had a pervasive effect on the direction of my research. Its first effect was to raise questions about what was an appropriate research focus for a thesis aiming at guidance for interface designers who were concerned with older users. It also gave me a series of insights into working with older participants that shaped my further work. Rather than being simply a failure to confirm an attractive hypothesis, it proved to be a valuable starting point into productive research. 3.8.1 Appropriate research focus
+
+Even if the dual task hypothesis was supported, given that the aim of the thesis is "how to design usable software for older people", what is the value of the hypothesis about
+
+182
+
+dual tasks and resource competition? Was experimentation in order to examine a theoretical mechanism really a suitable focus for the thesis? Especially since application of the literature review suggestions and development with in-house older users suggested that successful software could be designed without such a theory. Again the variability of aging effects in older people argues against the role of a single mechanism in shaping the responses of the interface designer.
+
+There may be common sources of much of the variance in older people's performance in such things as cognitive slowing but the interface designer is working at the level of countering the effects, not at the level of countering the original cause. It seems likely that the level of explanation used in the literature survey based on more specific sensory, physical and cognitive aspects of aging is a more appropriate level from which to shape the interface designer's responses to the needs of older users. Therefore applied research into interface design can usefully address issues at these levels rather than attempting to consider how design may be affected by some overall underlying aspect of aging.
+
+Task competition remains as a possible mechanism underlying older people's generally poorer performance when using computer applications but I now see it as one of a number of contributions. A simplistic concept of overall interface difficulty may not be useful in estimating the competition between the user's task and the effort required to manipulate the interface. With hindsight one should analyze the detailed demands of using a particular interface and see how each competes with the perceptual, memory and processing demands of the user's substantive task at particular points in time.
+
+3.8.2 Simplicity means Simple
+In terms of improving older people's performance the key issue highlighted here is redesigning tasks to avoid complexity. Where the pen study provided simple lists or the Web articles gave simple facts relevant to the questions that were asked, then the older people performed relatively well. However asked to handle the same tasks in ways that increased demands on short term memory (random order for pen information in the pen study) or required making inferences (Web study) performance decreased markedly. Remember that in the pen study the older users used compensatory strategies such as
+
+183
+
+finger counting to maintain a low error rate in the face of task complexity. A well designed interface should remove the need for such strategies.
+
+It is relevant that I, as the designer, was surprised by the strength of this effect even though I had expected older users to need simplicity. Levels of complexity that the middle aged subjects I pre-tested the designs with, found only slightly more difficult, nearly defeated the older users. This occurred with a group of older users whose career achievements indicate that this had been a decidedly high performing group. Young interface designers are at risk of missing the importance of extremely simple representations of the task. Perhaps young designers are also at risk of not understanding how their view of simple fails to match that of older users. This has subsequently been strongly borne out in Newell et al's (2005) study of the assumptions that designers brought to a project for older users.
+
+3.8.3 Selection effects and Diversity
+I am concerned about the generalizabilty of experimental findings using older volunteers. The filtering effect of selection bias means that the computer-using older users who volunteer are probably atypical. Asking participants to come to an experimental site rather than observing users in their daily activity seems likely to accentuate such bias. This is particularly likely in a widely spread out city with considerable traffic congestion and poor public transport.
+
+The individual results were remarkably variable. Even if larger numbers of experimental subjects had meant that small yet statistically significant interface effects had been observed, such results would not have characterized many of those who took part. This illustrates the issue of whether statistical analysis based on measures of central tendency is appropriate when dealing with research on older computer users. It would seem that studies of interface design for older users need to address the point that difficulty with an interface for older users is a very individual matter based on the particular combination of aging effects that the older person has.
+
+What this study underscores is that selecting a representative group of older learners is problematic. Hertzog (1996) has called the problem of selection bias the Achilles heel of research on aging and this study bears this out. The easily available older people for
+
+184
+
+studies of interface design and aging are existing computer users connected to email. They are unfortunately not representative of the general older population.
+
+Studies on designing computer systems for older people should carefully define their aims. Is one trying to improve the access of existing older users, trying to design for older people who are currently not computer users but may be faced with a need to get computerized services or is one trying to design general purpose interfaces and using older test subjects on the basis that they are more sensitive to (some) interface problems. The study aims need to be explicitly linked to selection of participants.
+
+3.8.4 Ethical involvement with older participants
+Although the study had received a formal research consent and was well meaning, it ended up exposing the older participants to a situation that led to failure. Further this failure distressed the participants and led them to question their identity as competent people in that what should have been relatively simple problem solving was beyond them. The issue of asking older volunteers to fail and the consequent distress and reevaluation of their belief in their competence needs to be considered in any research design. In particular the standard experimental evaluation of task performance tends to set tasks that will provide a percentage of failures over n trials. This tends to be taken for granted in the research literature but if there are other ways of obtaining the desired information these other approaches need consideration.
+
+3.8.5 Motivation
+One of the crucial points illustrated is that the decision making and information gathering scenarios around which the study based its tasks were not typical of the older group's normal computer use and were not seen as relevant by the participants. They also led to higher levels of failure than the participants were comfortable with. The result was that there was a tendency to partly disengage from the tasks. To increase the realism of the levels of task performance obtained from older participants there should be careful selection of tasks so that the tasks are seen as relevant and so that the overall level of success achieved is acceptable to the participants. A lesson from this study is that in designing research on interface design for older people we need to look more closely at what older users are actually doing, what they would like to do and what actually prevents them achieving their aims. Information
+
+185
+
+gathering (which in this pilot study was carried out in the focus groups after the experimental phase) should be done well beforehand and shape the design of any later experimental work. Charness and Schaie (2003) argue that understanding how older people learn to use new technology is a crucial aspect of designing for older users. Salthouse (1996) points out that acquiring competence on complex tasks in older people takes more time than we have available in laboratory based experiments, he suggests that this means studying older people as they learn in real life. The lack of engagement found in the less rewarding parts of the dual task study suggest that if research moves to areas that are more representative of older people's actual lives we will obtain more relevant and higher quality information.
+
+3.9 Towards a desirable research format
+The Dual Task study left me with a concern about the narrowness of the information gained in the experimental setting compared with the focus groups. The question arose of finding ways of studying older computer users in ways that allowed serendipitous findings and in ways that were ethical. There was also an emerging insight into the need for obtaining realistic engagement from the older volunteers by way of tasks that were seen as relevant and activity that was experienced as rewarding. Techniques for doing this looked as if they could be found in making the research occur in settings that functioned as social gatherings and by changing the role of the volunteers from research subject to research participant. It was hoped that enjoyable activities would provide an ethical way of rewarding volunteers. There seemed to be an advantage of exploring the older people's lives in more depth to obtain more insight into the context within which they approached computer use. At the same time the experience from the focus groups in the Dual Task study seemed to offer encouragement for the general thrust of the implications for interface design raised in the literature survey. The older users had concerns about the difficulties they experienced with computing that definitely reflected the issues raised in the literature survey. These points led to a rethinking of the research methodology that would be fruitful in pursuing a study of what interface designers should consider in undertaking interface design for older users. This methodology was refined in the studies that are reported in the next three chapters and the eventual methodology will be discussed in detail in Chapter 7.
+
+186
+
+187
+
+Chapter 4
+
+MEETING THE NEEDS OF OLDER
+
+BEGINNERS
+4.1 INTRODUCTION
+This chapter looks at the issues for older beginners by examining insights gained from the development of the WinTutor tutorial. WinTutor is an interactive tutorial for older beginners that was designed after the completion of the literature review. The impetus for constructing the tutorial came from exposure to older beginners attempting to cope with poorly designed instruction. The construction of this system and the accompanying interaction with older learners and tutors of older learners gave a chance to reflect on how the implications of the literature review could be put into practice. The research that led to WinTutor was not initially designed as research into developing for older beginners, rather it was aimed at broadening my understanding of, and exposure to, older people. However the WinTutor project did in fact lead to useful understanding about design for older people and it was instrumental in shaping the direction of subsequent research. There are several threads to the WinTutor study. ·
+
+Because WinTutor is an interactive tutorial, its development involved constructing an application that very inexperienced older users could work with comfortably. Hence the WinTutor study provides a basis for looking at the interface design issues when constructing an application for older beginners, both at the level of individual screen designs that communicate well with, and can be successfully manipulated by, older beginners, but also at the level of an overall application architecture that could be understood by older beginners.
+
+·
+
+An interactive tutorial constructed in association with older people gives the designer repeated experience with developing screen designs that work for older people and repeated experience in discovering screen designs that may please the designer but which do not meet the needs of the older participants. Developing the 57 screens used in interactive tutorials proved to be an excellent way of sharpening my understanding of the interface needs of older people.
+
+·
+
+The interface guidelines used in the development of WinTutor follow the broad outline of the implications for user interface design for older users derived in the
+
+188
+
+literature review. Hence the success of WinTutor can be considered as offering some support for those implications. · The WinTutor study makes a start on establishing aspects of a methodology that allows a researcher / designer to realistically explore and address older people's needs. · The development of WinTutor offered a chance to look at what is needed when providing training for older people. It will be argued that this training is significantly different from that needed for younger people and that providing suitable training in basic skills is important to allowing older people to become effective computer users. · The WinTutor study provides a look at the difficulties of older people when learning how to use computers. These difficulties should be seen as relevant to the wider issues of older people and the design of user interfaces to suit them. 1. Firstly the difficulties of older beginners will shape their later attitude to computing and may persuade some older people to give up the idea of becoming computer users. Hence understanding how to reduce these initial difficulties is important. 2. Secondly the difficulties when older people try to learn a new piece of software will have some similarities to those they faced when they first began computing. 3. Thirdly some of the gaps in computer knowledge that older beginners display are likely to persist given a.) the poor provision of training currently available for older users and b.) the general difficulties they face in retaining learnt material. Hence the initial gaps found in older people's computer knowledge act as warnings to the designer of knowledge gaps that are likely to be present in at least some of their older users.
+
+In what follows this chapter will first look at the observations of older beginners that prompted the WinTutor study. This consisted of observations of older users in a conventional teaching environment, these gave an, at times, vivid illustration of the issues identified in the literature review. The design of WinTutor is then discussed pointing out the way in which the design features that WinTutor implements and the design approach followed in WinTutor's development are aimed at providing solutions to the identified issues of older beginners. The extent to which WinTutor can be seen as
+
+189
+
+effective is then considered. This will be followed by a section that specifies the design recommendations that emerge from the development of the tutorial, including recommendations for the methodological approach. Having established the contributions of the WinTutor study to the overall research, the conclusion of the chapter looks at the further issues that needed exploring and hence shaped the subsequent studies. For convenience a detailed summary of all the recommendations from the WinTutor study and the other studies is provided in Appendix E at the end of the thesis.
+
+4.2 Study format
+At the time the WinTutor study was begun the main format of the research was intended to be an experimental examination of older people's interaction with interfaces. However there was also a need to flesh out the rather academic picture of aging that came from the literature review and allow some observation of older people that was not constrained to what could be framed in an experimental context. I considered that it would be important to make contact with older people in a way that let me gain a wider overall picture of their needs, attitudes and difficulties. To this end I sat in on three courses for older people run by Unitec.
+
+The Unitec courses were aimed at teaching introductory computer skills to older people in a Windows environment. The courses consisted of five two hour sessions run with one or two day gaps between sessions. Two separate tutors were involved, one taking two courses and the other one. Neither tutor had special training in working with older people. Class sizes were around ten people. The age range was from sixties to late seventies. With the agreement of the tutors I chose a flexible role as both an observer and a teaching assistant, this gave me the freedom to become involved in older learner's individual difficulties, to intervene at times and to observe at others. I attended all sessions and the afternoon tea breaks in the middle of sessions.
+
+My personal reaction to the effects of these classes on the older beginners was considerable distress. After the first two courses I intervened, providing a rushed, very crude tutorial that provided some simple interactive exercises on the computers in front of the students. This will be referred to from here on as "the intervention tutorial" so as to distinguish it from WinTutor. The exercises were designed to be easy to read and to carry out. The response observed from the tutor and the students was highly positive.
+
+190
+
+This suggested that one way of examining the application of the guidelines that were being developed for older users would be to use them in constructing a carefully designed interactive tutorial for older beginners. This led to a decision to design and test an improved tutorial for older beginners. This became the WinTutor tutorial described below. Much of the development involved testing with two 55 year olds who were willing to devote extensive time to short sessions of impromptu interface testing in order to help the project and to learn the skills they needed. These people had jobs that required them to learn Windows skills for the first time and they were finding themselves remarkably unable to do so. It would have been preferable in some ways if there had been usability subjects readily available who more closely matched the target age group, but, as will be seen, the final acceptance of the product suggests that the insights my available test users provided were relevant. There was also the considerable advantage of being able to form a close working relationship with these people so that there could be free discussion of the failings of each version of the topic screens in the tutorial as they were developed and of the difficulties that they as learners were experiencing with their own skills and abilities, with Windows concepts and with skill development.
+
+Once the tutorial was in a state where it could be considered to be a credible product it was provided to a selection of experienced New Zealand SeniorNet tutors and the tutorial was refined in response to their feedback as they trialed it on their older learners and discussed it with their colleagues.
+
+Another useful source of reflections and ideas was to set design exercises based on problems in the WinTutor tutorial to classes of (young) students doing graphical user interface programming and interface design courses. This tended to highlight the incomprehension of young designers when faced with a request to design for older users' difficulties with actions and concepts that the younger designers considered absolutely self evident.
+
+4.3 OBSERVATIONS ON OLDER BEGINNERS
+The experience of being involved in the Unitec classes was frankly distressing. Most students gained little, they were frequently confused, much of the material was incomprehensible to them and not relevant to what they wanted, which was practical
+
+191
+
+instruction in how to do simple computer tasks. Though he did not express this to the class, one tutor privately expressed the view that he was wasting his time and that the older people were simply not capable of acquiring computer skills. A number of students left the courses feeling that they were too affected by age to continue with computing. In my view this was unnecessary. The Unitec classes for older users provided a rich ground for observing and intervening in older beginners' issues. However because of the poor outcomes and the negative self evaluation of many of the older students resulting from their experiences, it would be highly unethical to deliberately set up such an environment.
+
+4.3.1 Observed issues for older beginners
+Vision The older beginners in the Unitec introductory computer courses were faced with teaching material intended for younger users. Visibility issues arose quickly, some of the students could not make out the text and features on the datashow display at the front of the class. Some of the students could not see the printed material or use it in combination with the screen display. The default font used on the students' machines was set to a 10 point font that was too small for the students.
+
+These older beginners struggled with small fonts on screen and with instructional material on paper. From the items that these older users had difficulty in identifying it is clear that the need for larger readable fonts applies to all text the older user needs to read; captions on buttons, menu and pop-up menu fonts, help text, listboxes and labels explaining other features as well as to blocks of text to be read or input by the older user. In the quickly produced intervention tutorial, Arial, with its simply formed, well spaced letters, was observed to be easily read on screen by the older users, this accords with the findings of the Dual Task study. Many of these older learners struggled when asked to combine paper documents with on-screen work. There was much shuffling of spectacles, peering closely at screens (this involved body positions that the older people found uncomfortable) and forgetting of instructions as they moved from paper to screen. Corrected vision for comfortable reading does not provide for clear focus at the slightly greater distance involved when reading text on a computer screen.
+
+192
+
+In the Unitec courses the older learners were noticeably slow to find features the instructor referred to, particularly on those MS Works screens that were more complex. This is in line with the findings on older adults' reduced ability to perform visual searches over complex backgrounds. In the intervention tutorial, the screen layouts were very simple, consequently the problems with locating features practically vanished.
+
+These problems with font size and search were also observed in the older users I involved in the development of WinTutor. The consensus that we reached after experimenting with a variety of typefaces was that an Arial 14 point font was easy to read while an Arial 12 point bold was a possible alternative for short text items such as button caption. We also found that reading large blocks of text on screen in almost any font could be an effort but that a slightly off white background was seen as making this easier. Manipulation There is research reported in the literature review that shows mouse movement is less well controlled by older users, see Schieber (2003). This slower and more erratic mouse movement with a tendency to overshoot small targets is a good description of what was observed with older users in the Unitec classes and during the development of WinTutor. In addition some of the older beginners had incomplete control over their fingers as they moved the mouse so that there were instances of inadvertent clicks while the mouse was being moved. Further some of the older people seen in the Unitec classes and in other sessions I ran with older people had learnt a poor style of holding the mouse where the base of the hand is in the air rather than resting on the mouse pad. These people were likely to move the mouse significantly when making even single clicks and needed to be taught a more stable way of holding the mouse. Drag and drop features in this context meant that older users could start unintended drag operations as well as make unintended drops with little understanding of what had happened or why. Even after tuition on how to hold the mouse not all of the older beginners could manage to double click. Also at times older beginners would miss the borders of a window and be bewildered by the consequence of the window being sent to the background, by a click that they were unaware was outside the window. They were also at a loss as to how to recover from such a situation. Aula (2005) notes similar problems for older novices observed in Finland including a striking example where an unintended click on the
+
+193
+
+mouse wheel locked the mouse movements into controlling scrolling. Her users then made their usual response of trying to find the mouse cursor by moving the mouse about and were bewildered by the text and screen movements that this caused. Menus and Sub-menus The older beginners in the Unitec classes had difficulty in finding items in Works menus, generally they could find an item mentioned by the tutor but only after effort and occasional false choices. This corresponds to the reports of older people's greater difficulties with visual search and difficulties with acquiring small targets. A further difficulty in searching was provided by the distraction that occurred when the mouse moved over the main menu and triggered successive sub-menu displays. Note that in the Unitec classes the menu text was in the default MS Sans Serif font at 10 point size, this was in itself too small for easy reading or searching by the older students. Once a menu item had been located it was not always a sufficiently large target to be accurately clicked on by the older user and mistakes were not uncommon.
+
+The provision of sub-menus added an extra difficulty in that under the Windows operating system the mouse movements required to capture a sub-menu item assume the user maintains a certain speed and accuracy in order for the sub-menu opened from a main menu item to remain visible as the user traverses to from main menu item to submenu item. The older beginners could not reliably produce this combination of speed and accuracy so there were repeated instances of the older user losing the sub-menu display. This occurred either because they ventured off the main menu item while trying to move horizontally to the submenu item or because they attempted to move diagonally directly towards the sub-menu item but moved so slowly that the operating system interpreted their intent as a move to a different main menu item, not a move to the sub menu. Older beginners found these results confusing and frustrating. Typing Typing was a major source of difficulty for many of the older beginners observed at Unitec. Their text input was upsettingly slow for both the older users and the tutors. Given their reduced effectiveness in visual search some older typists can be described as, "hunt, hunt, swear, hunt and peck", and they can be observed going through the same agonizing process for the next occurrence of a letter that they have found only a
+
+194
+
+few seconds before. Thus the core problem observed was an inability to find keys quickly while searching the keyboard. However this combined with less than flexible fingers and a lack of knowledge of what keys produced various required editing effects such as entering capitals, a space, a new line, removing text or repositioning the insertion point. The older beginners at Unitec were observed to be confused about the difference between the insertion point and the mouse cursor. Charness (1998), using informal observation, noted that older users had serious difficulty understanding the difference between the mouse cursor and the insertion point indicator. My own observations confirm that this occurs and is important in hindering older people's gaining typing competency.
+
+Because of problems with keyboard skills, errors were frequent in the exercises provided. I watched older users use the mouse when trying to position the insertion point in order to make corrections, and it was apparent that the older users were trying for targets (text characters and the spaces between them) whose size strained the older users' ability with mouse positioning unless the fonts used are very large. Similar problems were noted by Aula (2005).
+
+Although it should be simple to approximately position the insertion point using the mouse and then make fine adjustments using the arrow keys, in practice older users were not seen doing this when revising, they tend to persist with mouse based attempts to position the cursor before switching to the keyboard to enter corrections. Alternately, if errors occurred during typing the older users would backspace-delete even quite large portions of valid text in order to get back to the mistake. What appears to be happening here is the lack of a flexible strategy for swapping between mouse and keyboard or between character keys and position keys.
+
+A further problem was that because older people usually look at the keyboard when typing (as well as having a poor model of what the caret signifies and trouble locating it) they are likely to type into text entry areas other than those they intend to, only discovering the mistake after they look back at the screen on completing typing. Again similar problems were noted by Aula (2005).
+
+195
+
+Scrollbars The older users in the Unitec classes were observed to have numerous difficulties with manipulating and understanding scrollbars. They were confused by the reversal of direction, a down arrow meant that the text moved up. They struggled to capture the up and down arrows. They did not know about the functionality of the track and slider and if shown were likely to drop the slider when trying to drag it. They did not understand the information contained in the relative size of track and slider. A typical problem was that they would be typing a fairly long (one or two paragraphs) document into MS Works and at some point they would inadvertently click on the track of the scrollbar while trying to click on the text in order to make a correction. (remember that typing and positioning errors were frequent.) The older user would be unaware that they had clicked the scrollbar instead of the text. Confusingly the scrollbar track would respond to a click by making the viewing window jump to a radically different part of the text, at times to a place where the page was in fact blank. The older users virtually all interpreted this as meaning that they had done something that had destroyed their work. This was especially distressing because typing in one or two paragraphs can be a major effort and achievement for an older user. Faced with having apparently lost their work, the older beginners often proceeded to do things that did in fact cause the loss of what they had typed in, such as starting a new document ready to begin again.
+
+Although the older beginners did gain a general understanding that scrollbars were for moving to different parts of text they did not use the tool effectively and restricted themselves to repeated single clicks on the up or down arrows so that they moved through text one line at a time. They also failed to generalize the scrollbar concept. On the forth day of the course students were asked to choose a piece of clip art and insert it into a document. The tool for selecting from the available pictures included a pair of horizontal arrow buttons [<] and [>] that scrolled the user through the images. None of the older users that I observed made the connection that these buttons were to be used to move through the selection of available images. Each student needed to be told what to do. Comprehension It was frequently the case that tutors in the Unitec classes asked the older beginners to start a new topic while they were still unsure about the current topic. It became apparent
+
+196
+
+that material to be taught to older beginners needs to be covered at a sufficiently slow pace to allow students to understand it and that this pace is slower than that for younger users and needs to be accommodated into the teaching schedule.
+
+A number of the incidental topics that the tutors brought into the course appeared to reflect the tutor's concept of what was needed to be a respectable computer user, "well of course everyone should know about binary data". Observation suggested that the course material should be ruthlessly pruned to remove items that are not relevant to the older student's immediate learning needs. A large amount of spoken material was presented between each exercise and the students did not take up enough of this material to succeed in the exercises without considerable step by step handholding. This material included items from the history and theory of computing that were both confusing to the older beginners and irrelevant to what was needed for the subsequent practical exercises. It was also my impression that, in the Unitec classes for older beginners, the provision of background information on computing history and concepts impeded the students. For example there was confusion when the older users were introduced to binary storage, they did not readily see how text characters could really be held as one's and zeros. When the class then proceeded to learn how to save their work, worrying about the need to understand binary storage, and how binary storage was relevant to what they were doing, appeared to interfere with learning the steps needed to save a document. Navigation The older users became confused when attempting to navigate around MS Works. MS Works gives a notable example of an application that combines a lot of features that are unfriendly to older users and older beginners. The older beginners had considerable difficulty in finding how to get to the appropriate part of MS Works in order to do text entry exercises. In part this was because they did not appear to form a usable model of the structure of MS Works and how the Navigation Center let users jump to the various parts. They found problems in finding the Navigation Center, in locating the word processor and in extracting themselves when they visited the wrong locations in MS Works. They also evidenced considerable confusion when faced with the difference between separate windows within a single program that gave access to different functions and the windows of another program that offered yet another function. Why
+
+197
+
+when they were using MS-Paint was there no obvious way to get to the navigation center of MS-Works but when doing word processing in MS-Works they were expected to get to the Navigation center to do other exercises. Throughout the five days of the course the older students frequently became lost and needed to be rescued. Memory and learning To say that the older users had trouble learning and comprehending the course material offers an explanation that is at too high a level to identify the multiple sources of difficulty involved, and hence at too high a level to plan effective intervention of interface designs that circumvent these problems.
+
+In the Unitec classes, the tutors used an existing full featured application for younger users (MS Works) as a basis for teaching the older students and asked the older beginners to carry out exercises in this environment. The intention was to teach MS Works as well as teaching elementary skills. While this had been found to be workable for younger learners it badly overloaded the older learners.
+
+The tutors were well intentioned, polite, patient and considerate but had a timetable that they wanted to keep to so that they could compete the scheduled content. The differences in the individual speeds at which students mastered material and the extent to which the students needed individual assistance meant that tutors were forced to leave students behind and to terminate some exercises before all students had succeeded. When older users came to subsequent sessions they appeared to have retained relatively little of the material from the sessions of the previous days. One of the other points that came up in discussion of learning experiences was that teachers with Windows experience but without experience in teaching older beginners tended to teach a number of different ways of achieving one result. The same approach was seen in Help manuals. Older users were found to be surprisingly united in their condemnation of this. Their strongly expressed preference was to be told one way of doing things and they said that being told of multiple techniques was confusing and made remembering any of them more difficult.
+
+From observation it appears that initially skills such as using the Delete key to delete a character, delete a blank line or delete selected text are learnt individually, the older
+
+198
+
+users observed appeared to take time to see the overall role of the Delete key and this was complicated by the similar but distinct action of the Backspace key. Watching the older beginners' efforts and attempting to find out what prevented them from proceeding it was evident that at worst they operated from a mishmash of a partial memory of the large volume of recently presented information by the tutor, a difficulty in comprehending new concepts, disruption from trying to cope with errors, a limited ability to see, interpret and find the features that were being referred to, the fact that some manipulation tasks were likely to generate further errors and a lack of knowledge of idiomatic features and jargon that the tutor assumed were obvious. In the midst of the distress caused by this situation they would then be asked to move on to another equally confusing topic. Idiomatic knowledge Older learners faced with a computer for the first time are beset with the need to learn a very large number of "factoids" almost simultaneously. The essence of what is mean here by "factoids" is that they are small simple facts and rules that exist in isolation from each other. There is little connection between each fact and little obvious reason for many of the actions and patterns that make up the user interface of the (Windows) operating system. Consider text selection for example. The basic questions are, how do you select text and what do you achieve when you do this? But there is nothing really intuitive about the available mechanisms for text selection. Dragging over text, using the arrow and position keys with Shift held down, typing Control-A or double or triple clicking words and paragraphs form an apparently unrelated jumble of methods. For any beginner of any age there is a period of needing to deliberately remember each of these skills individually. For young users there is a rather rapid transition to automated behavior whereas older users appear to struggle to remember for far longer than young beginners.
+
+Cooper (1995) makes the point that very little about graphical user interfaces is really intuitive, rather Cooper suggests that what a graphical user interface presents to a user is a rich set of idioms. Cooper argues that what distinguishes an idiom is that it is an easily memorable association between a stimulus and a meaning but that this association is not inherent in the idiom, it must be learnt. What was seen in the Unitec
+
+199
+
+classes was that older people did not learn idiomatic skills quickly or reliably in the midst of learning other skills.
+
+One of the successful features in the design of the intervention tutorial was that the idioms needed by older users to complete exercises were identified in advance of the exercise and the intervention tutorial deliberately taught the needed idioms first as separate and distinct items of learning.
+
+One of the crucial differences between younger and older users illustrated by the Unitec classes is that older users do not readily acquire idiomatic skills through incidental learning while engaged in developing higher level skills, such as learning to use a word processor. Because of the number of idioms needing to be rapidly (and nearly simultaneously) acquired for competent computer use, the idiomatic nature of the graphical interface is initially a barrier to older learners rather than an assistance. Lacking idiomatic skills and not being able to acquire them in the midst of other learning is a major obstacle to further computer learning by older users. Communication between young and old In the Unitec classes the resource materials were unsuitable. There was a not very powerful datashow used to project the tutor's computer screen which was set to unsuitably small font sizes. This resulted in a poorly lit display at the front of the class that most of the class could not clearly interpret. There were several pages of printed handouts with boring content as well as small font sizes. The main software used was an early version of Microsoft Works which proved to have a navigation structure that often bewildered the students and that they were unable to cope with on their own. The older students were stressed and largely failing to achieve their goals.
+
+One might have expected armed revolt. Instead the students were unfailingly polite to the tutors and took the attitude that the tutors were doing as best they could in the very difficult situation of teaching "old people like us". The students did not see that there were possibilities in providing different resources that were more suited to their needs as older users. Overwhelmingly the students blamed themselves for their difficulties, they apologized for being silly, forgetful and slow of understanding. They were apologetic about making extra demands on the tutor's time.
+
+200
+
+Older people repeatedly report that younger teachers and relations, "go too fast, try to cover too much, get impatient and assume I understand things". Remember that in the Unitec classes, the intention was to teach MS Works as well as teaching elementary skills. While this had been found to be workable for younger learners it made too many simultaneous demands on the older learners. One of the design points in the intervention tutorial was that each screen was designed to provide an exercise for a single elementary teaching point. This was observed to noticeably reduce the confusion of the older users. The other point that was evident from the Unitec classes is that being told or even shown a skill was not sufficient for the older learners. They needed to be told, shown and then have repeated opportunities to practice before they felt comfortable with proceeding.
+
+In conversation with SeniorNet members I have encountered a widely held belief that having older people taught by younger people leads to poor learning and unpleasant experiences. What was seen in the Unitec classes lends considerable substance to that. However it should be noted that it is not necessarily the age difference that causes problems nor do same aged tutors always eliminate problems. I have also talked with ex-SeniorNet students who have said that their (same aged) tutors knew too much about computing to adjust to the needs of beginners. Some of the key issues appear to be anticipating the likely needs and knowledge gaps of older people, reflecting this in the teaching materials provided, providing sufficient individual assistance (SeniorNet classes tend to have three students per tutor), and that the tutor and others in the class are sympathetic to, and experienced with, the difficulties of older learners. Motivation The Unitec classes were demotivating for the older students. The key factors that could be seen were the lack of readily available success, the lack of instruction and materials that were easy to understand, the frequency of getting mired in errors and needing rescuing, the tutors who were unable to empathize with the older beginner's position and the general feeling of being incompetent and out of place that the classes generated in the older beginners. It was noticeable that the response of the students to the intervention tutorial was more positive, it was when using this tutorial that they gained the highest frequency of successful actions. However the intervention tutorial did not
+
+201
+
+change the overall nature of the course which was to teach older beginners a wide variety of skills such as using a word processor, in spite of the evidence that the older users were inadequately prepared for this sort of learning.
+
+My impression was that older people were more likely to get stuck than younger people using the same application. Looking at the problems encountered by my older testers as WinTutor was developed it became apparent that they did not possess the background knowledge that means that elements in a screen can be rapidly scanned and evaluated for their potential in offering solutions. It was also observed that often the older users appeared as if blind to features that were distant from the area of the screen in which they were working. However there was an additional factor in that the older users were found to be much more cautious about trying any feature whose function was unknown. If they did try an unknown feature and obtained an unexpected and undesired effect they had more difficulty in getting back to the starting point. This increased potential for getting stuck if an older user explores an application may contribute to what I see as less willingness to explore in older users. Older students need an environment in which mistakes are minimized and in which the response to being an older student is encouragement and understanding (from peers, including the tutor), rather than a felt pressure to apologize.
+
+Because of the class numbers, tutor expectations and room layout there was almost no student-to-student interaction and assistance during exercises. Although the class had an afternoon tea break, the stresses and self-judgments that the older beginners took from the class inhibited socializing and the somewhat glum mood of the tea breaks was not socially rewarding.
+
+Later when starting to work with the two older in-house testers they did some of the exercises in the rapid intervention tutorial and commented that while they could do the exercises they did not enjoy them much. Simply acquiring a skill was not enough motivation to persist with learning in a boring environment. And so one of the checkpoints as WinTutor was designed was whether an exercise had been enjoyable and fun to engage in.
+
+202
