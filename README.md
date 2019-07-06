@@ -308,22 +308,22 @@ By looking at the similarities stored on the matrix we can then compute the fina
 
 <br>In this example, we will only consider the calculation between d<sub>1</sub> = 2010 and w<sub>1</sub> = haiti. To construct each vector we will consider all the terms (thus N = maximum number) that co-occur the candidate vector (likewise with the keyword vector) having a DICE similarity > 0. This means that the vector representation of w<sub>1</sub> would consist of 9 elements (all but the w<sub>1</sub> itself will be selected) and the vector representation of d<sub>1</sub> would be made of 5 elements (that is all the terms with DICE similarities > 0, but itself will be selected). 
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation4.jpg" width="350">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation_8.jpg" width="350">
 </p>
 
 <br>Given that the vectors have to have the same N size, we need to reduce the size of the w<sub>1</sub> vector, such that it ends with the same size of the d<sub>1</sub> vector. IS can now be computed as the corresponding similarity between each pairs of terms present in the N-size context vectors as depicted in following figure. Specifically, it will compute the level of relatedness between w<sub>3</sub> from the context vector of w<sub>1</sub> and the two other context terms of d<sub>1</sub>, i.e., w<sub>2</sub>, d<sub>4</sub>, d<sub>2</sub>, d<sub>3</sub> and w<sub>3</sub>, and then the similarity between d<sub>2</sub> from the context vector of w<sub>1</sub> and the other context terms of d<sub>1</sub>, and so on and so forth.
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation5.jpg" width="250">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation_9.jpg" width="250">
 </p>
 
 <br>Instead, if we consider a vector size of N = 2 (for a matter of simplicity) we would have the following vector representation:
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation6.jpg" width="200">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/VectorRepresentation_10.jpg" width="200">
 </p>
 
 <br> The final score of (d<sub>1</sub>,w<sub>1</sub>) can now be calculated by applying the IS equation as follows:
 <p align="center">
-  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS2.jpg" width="350">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/IS3.jpg" width="350">
 </p>
 
 <br>and results in the following score:
