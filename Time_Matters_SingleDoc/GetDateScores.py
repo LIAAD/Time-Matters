@@ -1,7 +1,6 @@
 import pandas as pd
 import statistics
 import operator
-from itertools import product
 import time
 
 
@@ -11,7 +10,7 @@ def remove_duplicates(string_list):
     return list(dict.fromkeys(string_list))
 
 
-def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type):
+def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type):
     words_list = remove_duplicates(words_array)
     dates_list = remove_duplicates(dates_array)
 
@@ -28,7 +27,7 @@ def dt_frames(inverted_index, words_array, dates_array, n_contextual_window, TH,
         for j in range(i+1, len(clean_unic_array)):
             Term2 = clean_unic_array[j]
             px_y, px, py = find_axis_data(inverted_index[Term1], inverted_index[Term2], n_contextual_window)
-            result = dice_calc(px_y, px, py, Term1, Term2)
+            result = DICE(px_y, px, py, Term1, Term2)
             dataframe.at[Term1, Term2] = result
             dataframe.at[Term2, Term1] = result
 
@@ -61,15 +60,16 @@ def find_axis_data(x_axis, y_axis, n_contextual_window ):
             else:
                 x_offset = x_axis[2][key][1]
                 y_offset = y_axis[2][key][1]
+
                 # distance value (0 = words does not appears together between n_contextual_window) (1 = words appears together between n_contextual_window)
-                distance_value = find_distance_of_words(x_offset, y_offset, n_contextual_window)
+                distance_value = distance_of_terms(x_offset, y_offset, n_contextual_window)
                 x_axis += distance_value
     return count, x_axis[0], y_axis[0]
 
 
 # **********************************************************
 # verify if a distance between words are according n_contextual_window
-def find_distance_of_words(x_offset, y_offset, n_contextual_window):
+def distance_of_terms(x_offset, y_offset, n_contextual_window):
     if any(1 for x in x_offset for y in y_offset if abs(x - y) < n_contextual_window) == True:
         value = 1
     else:
@@ -79,7 +79,7 @@ def find_distance_of_words(x_offset, y_offset, n_contextual_window):
 
 # ******************************************************************************************
 # calculation of dice.
-def dice_calc(px_y, px, py, x_axis, y_axis):
+def DICE(px_y, px, py, x_axis, y_axis):
     try:
         result = (2 * px_y) / (px + py)
     except:
@@ -96,7 +96,7 @@ def calc_info_simba(dates_array, dataframe, TH, N, words_list):
     is_vector = {}
     gte_dict = {}
     for dat in dates_array:
-        dd_vector = relevant_array(dat, dataframe, TH)
+        dd_vector = contextual_vector(dat, dataframe, TH)
         x = len(dd_vector)
         max_val_allowed = get_max_len(x, N)
 
@@ -104,7 +104,7 @@ def calc_info_simba(dates_array, dataframe, TH, N, words_list):
 
         for wor in dd_vector[:max_val_allowed]:
             if dataframe.loc[dat, wor] > TH and wor not in dates_array:
-                ww_vector = relevant_array(wor, dataframe, TH)
+                ww_vector = contextual_vector(wor, dataframe, TH)
                 info_simba_result = find_max_length(dd_vector, ww_vector, dataframe, max_val_allowed)
                 is_vector[dat].append(float('%.3f' % info_simba_result))
         if is_vector[dat] != []:
@@ -138,41 +138,35 @@ def get_max_len(len_array, N):
 def calc_info_simba_per_sentence(dates_array, dataframe, TH, N, inverted_index, n_contextual_window):
     dict_result = {}
 
-    for dat in dates_array:
-        dd_vector = relevant_array(dat, dataframe, TH)
+    for date in dates_array:
+        dd_vector = contextual_vector(date, dataframe, TH)
         #print(dat)
         #print(dat + ' original relevant array ' + str(dd_vector))
-        index_array = sentence_index(dat, inverted_index)
-        dict_result[dat] = {}
+        index_array = sentence_index(date, inverted_index)
+        dict_result[date] = {}
         for index in index_array:
             info_simba_array = []
             #print('sentence '+str(index))
-            relevant_date_array_by_sentence = define_vector_by_sentence(inverted_index, dd_vector, index, dat, n_contextual_window)
-            for wor in relevant_date_array_by_sentence:
-                relevant_word_array_by_sentence = define_word_vector_by_sentence(wor, inverted_index, index, dataframe,
-                                                                                 TH, dat, n_contextual_window, dates_array)
+            relevant_date_array_by_sentence = define_vector_by_sentence(inverted_index, dd_vector, index, date, n_contextual_window)
+            for word in relevant_date_array_by_sentence:
+                relevant_word_array_by_sentence = define_word_vector_by_sentence(word, inverted_index, index, dataframe,
+                                                                                 TH, date, n_contextual_window, dates_array)
                 info_simba_result = find_max_length(relevant_date_array_by_sentence, relevant_word_array_by_sentence, dataframe, N)
                 info_simba_array.append(info_simba_result)
 
             try:
-                dict_result[dat][index] = [float("%.3f" % statistics.median(info_simba_array))]
+                dict_result[date][index] = [float("%.3f" % statistics.median(info_simba_array))]
             except:
-                dict_result[dat][index] = [0]
+                dict_result[date][index] = [0]
     return dict_result
 
 
 # ***********************************************************************************
 # calc the sum of dice for the same vector.
-def relevant_array(word, dt, TH):
-    sorted_vector = dt.sort_values(by=[word], ascending=False)
-
-    filter_low_dice_score = sorted_vector[word] > TH
-
-    # Get ndArray of all column names
-    index_names = sorted_vector[filter_low_dice_score].index.values
-    vector_sim = [w for w in index_names if w != word]
-
-    return vector_sim
+def contextual_vector(term, dataframe, TH):
+    df_filtered = dataframe[term][dataframe[term] > TH].sort_values(ascending=False)
+    contextualVector = [x for x in df_filtered.index.to_list() if x != term]
+    return contextualVector
 
 
 # *******************************************************
@@ -251,8 +245,8 @@ def get_ocorrency(y_offset, word, x_offset, n_contextual_window):
     return ''
 
 
-def define_word_vector_by_sentence(word, inverted_index, index, dataframe, TH, date, n_contextual_window, dates_list):
-    ww_vector = relevant_array(word, dataframe, TH)
+def define_word_vector_by_sentence(term, inverted_index, index, dataframe, TH, date, n_contextual_window, dates_list):
+    ww_vector = contextual_vector(term, dataframe, TH)
     # print(word + ' original relevant array ' + str(ww_vector))
     relevant_word_array_by_sentence = define_vector_by_sentence(inverted_index, ww_vector, index, date, n_contextual_window)
     return relevant_word_array_by_sentence

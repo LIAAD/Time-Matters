@@ -1,5 +1,5 @@
 from Time_Matters_SingleDoc.InvertedIndex import main_inverted_index
-from Time_Matters_SingleDoc.GetDateScores import dt_frames
+from Time_Matters_SingleDoc.GetDateScores import GetDataScores
 from langdetect import detect
 from Time_Matters_SingleDoc.validate_input import *
 from Time_Matters_SingleDoc.format_output import *
@@ -22,8 +22,9 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     # creation of inverted index
     inverted_index, words_array, dates_array, sentence_array, date_dictionary, NormalizedText, time_tagger_start_time, kw_exec_time, ii_exec_time = main_inverted_index(yake_lang,language, txt, num_of_keywords, document_type,document_creation_time, date_granularity, tt_name)
 
-    relevant_dates, DiceMatrix, dice_exec_time, gte_exec_time = dt_frames(inverted_index, words_array, dates_array, n_contextual_window,
+    relevant_dates, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
                                          TH, N, score_type)
+    print(relevant_dates)
     total_exec_time = (time.time() - total_start_time)
     if debug_mode and tt_name == 'py_heideltime':
         execution_time_list = {'TotalTime': total_exec_time,

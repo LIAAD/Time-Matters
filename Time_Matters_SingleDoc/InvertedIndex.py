@@ -3,6 +3,7 @@ import nltk
 import time
 
 
+# *****************************************************************
 # function that manage the workflow for creation of inverted_index
 def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity,
                         date_extractor):
@@ -20,11 +21,11 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
 
 
 # *****************************************************************
-# words extraction using wake
+# keywords extraction using wake
 def kw_ext(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity,
            date_extractor):
     time_tagger_start_time = time.time()
-    candidate_dates_array, new_text, date_dictionary = candidate_years(text, lang, document_type,
+    candidate_dates_array, new_text, date_dictionary = candidate_years_selection(text, lang, document_type,
                                                                        document_creation_time, date_granularity,
                                                                        date_extractor)
     time_tagger_exec_time = (time.time() - time_tagger_start_time)
@@ -45,6 +46,8 @@ def test_trans(text):
     return text.translate(str.maketrans('', '', '!"#$%&\'()*+,:.;<=>?@[\\]^`{|}~'))
 
 
+# ***********************************************************************************
+# Create inverted Index
 def create_inverted_index(relevant_words_list, candidate_dates_list, text):
     sentence_array = sentence_tokenizer(text)
     words_dates_list = relevant_words_list + candidate_dates_list
@@ -88,12 +91,11 @@ def sentence_tokenizer(text):
     return sentences
 
 
-# ************************************************************************************************************************************************
 # *************************************************************************************
 # **************************** Date extraction from text ******************************
 # *************************************************************************************
 
-def candidate_years(text, language, document_type, document_creation_time, date_granularity, date_extractor):
+def candidate_years_selection(text, language, document_type, document_creation_time, date_granularity, date_extractor):
     if date_extractor == 'py_heideltime':
         candidate_dates_array, new_text, date_dictionary = py_heideltime(text, language, document_type,
                                                                          document_creation_time,
@@ -127,12 +129,11 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
         elif list_dates[ct][0].lower() in date_dictionary:
             date_dictionary[list_dates[ct][0].lower()].append(list_dates[ct][1])
         try:
-            import re
+
             new_text = new_text.replace(list_dates[ct][1], list_dates[ct][0])
 
         except:
             pass
-    print(date_dictionary)
     return dates, new_text, date_dictionary
 
 
