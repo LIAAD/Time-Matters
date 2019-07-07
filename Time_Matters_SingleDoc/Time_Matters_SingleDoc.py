@@ -17,7 +17,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     # input validation
     result_validation_time_matters = verify_time_matters(num_of_keywords, N, n_contextual_window, TH)
-    result_validation_score_type = verify_score_type(score_type)
+    result_validation_score_type = verify_score_type(score_type, debug_mode)
     if result_validation_time_matters == {} or result_validation_score_type == {}:
         return {}
     # creation of inverted index
@@ -39,6 +39,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         final_score_output, n_txt, candidate_dates_dictionary, normalized_candidate_date_dictionary, = main_format_score_debug(
             tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, NormalizedText,
             dates_array)
+
         return n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix, execution_time_list
     elif debug_mode and tt_name == 'rule_based':
         execution_time_list = {'TotalTime': total_exec_time,

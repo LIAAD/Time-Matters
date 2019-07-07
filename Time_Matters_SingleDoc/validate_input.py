@@ -25,17 +25,22 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
         return {}
 
 
-def verify_score_type(score_type):
+def verify_score_type(score_type, debug_mode):
     if score_type != 'ByDoc' and score_type != 'BySentence':
         print('You must select a valid score_type.\n'
               'options:\n'
               '     ByDoc;\n'
               '     BySentence;')
         return {}
+    if isinstance(debug_mode, bool):
+        print('You must select a valid option for debug_mode.\n'
+              'options:\n'
+              '     True;\n'
+              '     False;')
+        return {}
 
 
 def verify_input_data(temporal_tagger, time_matters):
-
     tt_name = 'py_heideltime'
     language = 'English'
     document_type = 'news'
