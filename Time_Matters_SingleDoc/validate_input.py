@@ -32,7 +32,7 @@ def verify_score_type(score_type, debug_mode):
               '     ByDoc;\n'
               '     BySentence;')
         return {}
-    if isinstance(debug_mode, bool):
+    if not isinstance(debug_mode, bool):
         print('You must select a valid option for debug_mode.\n'
               'options:\n'
               '     True;\n'
