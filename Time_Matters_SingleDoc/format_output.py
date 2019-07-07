@@ -148,7 +148,6 @@ def py_heideltime_sigleDoc_debug(dictionary_result, date_dictionary, inverted_in
         except:
             pass
 
-    print(dictionary_result)
     return dictionary_result
 
 
