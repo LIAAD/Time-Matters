@@ -27,7 +27,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array,
                                                                               n_contextual_window,
                                                                               TH, N, score_type)
-    print(gte_dictionary)
     total_exec_time = (time.time() - total_start_time)
     if debug_mode and tt_name == 'py_heideltime':
         execution_time_list = {'TotalTime': total_exec_time,
