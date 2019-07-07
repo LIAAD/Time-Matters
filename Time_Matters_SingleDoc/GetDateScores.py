@@ -35,23 +35,23 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
     #print("\n")
     #print('*********************************************************************')
     #print('************************** Dice Matrix ******************************')
-    #print(dt.to_string())
+    #print(dataframe.to_string())
     #print('\n')
     if score_type == 'BySentence':
         gte_start_time = time.time()
-        date_sentence_score = calc_info_simba_per_sentence(dates_list, dataframe, TH, N, inverted_index, n_contextual_window)
+        gte_dict = main_info_simba_BySentence(dates_list, words_list, dataframe, TH, N, inverted_index, n_contextual_window)
         gte_exec_time = (time.time() - gte_start_time)
-        return date_sentence_score, dataframe, dice_exec_time, gte_exec_time
+        return gte_dict, dataframe, dice_exec_time, gte_exec_time
     else:
         gte_start_time = time.time()
-        sorted_dict = calc_info_simba(dates_list, dataframe, TH, N, words_list)
+        gte_dict = main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N)
         gte_exec_time = (time.time() - gte_start_time)
-        return sorted_dict, dataframe, dice_exec_time, gte_exec_time
+        return gte_dict, dataframe, dice_exec_time, gte_exec_time
 
 
 # **********************************************************************
 # find the position and the frequency of words
-def find_axis_data(x_axis, y_axis, n_contextual_window ):
+def find_axis_data(x_axis, y_axis, n_contextual_window):
     count = 0
     for key in x_axis[2]:
         if key in y_axis[2]:
@@ -63,7 +63,7 @@ def find_axis_data(x_axis, y_axis, n_contextual_window ):
 
                 # distance value (0 = words does not appears together between n_contextual_window) (1 = words appears together between n_contextual_window)
                 distance_value = distance_of_terms(x_offset, y_offset, n_contextual_window)
-                x_axis += distance_value
+                count += distance_value
     return count, x_axis[0], y_axis[0]
 
 
@@ -90,120 +90,62 @@ def DICE(px_y, px, py, x_axis, y_axis):
 
 # ******************************************************************************************
 # calculation of info simba.
-def calc_info_simba(dates_array, dataframe, TH, N, words_list):
-    #print('***************************************************************************')
-    #print('*********************** Info simba ****************************************')
-    is_vector = {}
-    gte_dict = {}
-    for dat in dates_array:
-        dd_vector = contextual_vector(dat, dataframe, TH)
-        x = len(dd_vector)
-        max_val_allowed = get_max_len(x, N)
+def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N):
+    is_dictionary = {}
+    gte_dictionary = {}
+    for date in dates_list:
+        is_dictionary[date] = []
+        #ContextVector_date = Create_ContextualVector(date, dataframe, TH)
 
-        is_vector[dat] = []
+        for word in words_list:
+            if dataframe.loc[date, word] > TH and word not in dates_list:
+                word_ContextVector = Create_ContextualVector(word, dataframe, TH)
+                date_context_vector = Create_ContextualVector(date, dataframe, TH)
+                maxLen = max_length(len(date_context_vector), len(word_ContextVector), N)
+                #date_context_vector, word_ContextVector = Create_ContextVector(date, word, dataframe, TH, N, score_type, Inverted_Index, False, n_contextual_window)
+                result = InfoSimba(date_context_vector[:maxLen], word_ContextVector[:maxLen], dataframe)
+                is_dictionary[date].append(float('%.3f' % result))
 
-        for wor in dd_vector[:max_val_allowed]:
-            if dataframe.loc[dat, wor] > TH and wor not in dates_array:
-                ww_vector = contextual_vector(wor, dataframe, TH)
-                info_simba_result = find_max_length(dd_vector, ww_vector, dataframe, max_val_allowed)
-                is_vector[dat].append(float('%.3f' % info_simba_result))
-        if is_vector[dat] != []:
-            gte_dict[dat] = statistics.median(is_vector[dat])
+        if is_dictionary[date] != []:
+            gte_dictionary[date] = statistics.median(is_dictionary[date])
         else:
-            gte_dict[dat] = 0
-        #print(is_vector)
+            gte_dictionary[date] = 0
 
-        #print('\n')
-        #print('***************************************************************************')
-        #print('************** GTE: Temporal simularity module ****************************')
-    sorted_dict = sorted(gte_dict.items(), key=operator.itemgetter(1), reverse=True)
-    #sorted_dict = sorted(gte_dict.items(), key=lambda kv: kv[1])
-    return sorted_dict
+    sorted_gt = sorted(gte_dictionary.items(), key=operator.itemgetter(1), reverse=True)
 
 
-def get_max_len(len_array, N):
-    if N == 'max':
-        return len_array
-    elif isinstance(N, int):
-        return N
-    else:
-        print('The value of N are not valid\n'
-              'options:\n'
-              '     max;\n'
-              '     number(integer);')
-        return exit(1)
+    sorted_gte_dict = {}
+    for i in sorted_gt:
+        sorted_gte_dict[i[0]] = i[1]
+    return sorted_gte_dict
 
 
 # calculation of info simba per sentence .
-def calc_info_simba_per_sentence(dates_array, dataframe, TH, N, inverted_index, n_contextual_window):
-    dict_result = {}
+def main_info_simba_BySentence(dates_list, words_list, dataframe, TH, N, inverted_index, n_contextual_window):
+    gte_dict = {}
 
-    for date in dates_array:
-        dd_vector = contextual_vector(date, dataframe, TH)
-        #print(dat)
-        #print(dat + ' original relevant array ' + str(dd_vector))
+    for date in dates_list:
+        gte_dict[date] = {}
         index_array = sentence_index(date, inverted_index)
-        dict_result[date] = {}
         for index in index_array:
             info_simba_array = []
-            #print('sentence '+str(index))
-            relevant_date_array_by_sentence = define_vector_by_sentence(inverted_index, dd_vector, index, date, n_contextual_window)
-            for word in relevant_date_array_by_sentence:
-                relevant_word_array_by_sentence = define_word_vector_by_sentence(word, inverted_index, index, dataframe,
-                                                                                 TH, date, n_contextual_window, dates_array)
-                info_simba_result = find_max_length(relevant_date_array_by_sentence, relevant_word_array_by_sentence, dataframe, N)
-                info_simba_array.append(info_simba_result)
+            ContextVector_date = Create_ContextVector_BySentence(date, dataframe, TH, inverted_index, index,
+                                                                 n_contextual_window)
 
+            for word in ContextVector_date:
+                if word not in dates_list:
+
+                    ContextVector_word = Create_ContextVector_BySentence(word, dataframe, TH, inverted_index, index, n_contextual_window)
+
+                    maxLen = max_length(len(ContextVector_date), len(ContextVector_word), N)
+                    result = InfoSimba(ContextVector_date[:maxLen], ContextVector_word[:maxLen], dataframe)
+                    if result != 0:
+                        info_simba_array.append(result)
             try:
-                dict_result[date][index] = [float("%.3f" % statistics.median(info_simba_array))]
+                gte_dict[date][index] = [float("%.3f" % statistics.median(info_simba_array))]
             except:
-                dict_result[date][index] = [0]
-    return dict_result
-
-
-# ***********************************************************************************
-# calc the sum of dice for the same vector.
-def contextual_vector(term, dataframe, TH):
-    df_filtered = dataframe[term][dataframe[term] > TH].sort_values(ascending=False)
-    contextualVector = [x for x in df_filtered.index.to_list() if x != term]
-    return contextualVector
-
-
-# *******************************************************
-# discover the max length to calculate the sim of vector
-def find_max_length(date_relevant_array, word_relevant_array, dataframe, N):
-    if N == 'max':
-        if len(date_relevant_array) < len(word_relevant_array):
-            max_length = len(date_relevant_array)
-            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
-            return result
-
-        else:
-            max_length = len(word_relevant_array)
-            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
-            return result
-    else:
-
-        if N > 0 and (len(date_relevant_array) >= N <= len(word_relevant_array)):
-            # sin in dates_array
-            max_length = int(N)
-            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
-            return result
-
-        elif N <= 0 and (len(date_relevant_array) >= len(word_relevant_array)):
-            max_length = len(word_relevant_array)
-            result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
-            return result
-        else:
-            if len(date_relevant_array) < len(word_relevant_array):
-                max_length = len(date_relevant_array)
-                result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length], dataframe)
-                return result
-
-            else:
-                max_length = len(word_relevant_array)
-                result = IS(date_relevant_array[:max_length], word_relevant_array[:max_length],dataframe)
-                return result
+                gte_dict[date][index] = [0]
+    return gte_dict
 
 
 # ****************************************************************************************************
@@ -216,52 +158,52 @@ def sentence_index(date, inverted_index):
     return sentence_index_array
 
 
-def define_vector_by_sentence(inverted_index, all_sentences_context_vector, index, date, n_contextual_window):
-    relevant_array_by_sentence = []
-    # print(date+' '+str(inverted_index[date][2][index][1]))
-    # print('\n')
-    date_offset = inverted_index[date][2][index][1]
-    for word in all_sentences_context_vector:
-        word_sim = inverted_index[word][2].keys()
-        for n_sentence_word in word_sim:
-            if index == n_sentence_word and n_contextual_window == 'full_sentence':
-                relevant_array_by_sentence.append(word)
-            elif index == n_sentence_word and n_contextual_window != 'full_sentence':
-                # print(word+' '+str(inverted_index[word][2][index][1]))
-                word_offset = inverted_index[word][2][index][1]
-                verified_word = get_ocorrency(date_offset, word, word_offset ,n_contextual_window)
-                if verified_word != '':
-                    relevant_array_by_sentence.append(verified_word)
-
-    #print('\n')
-    return relevant_array_by_sentence
+def max_length(lenX, lenY, N):
+    if N == "max":
+        N = 9999999
+    maxLength = min(lenX, lenY, N)
+    return maxLength
 
 
-def get_ocorrency(y_offset, word, x_offset, n_contextual_window):
-    if any(1 for x in x_offset for y in y_offset if abs(x - y) < n_contextual_window) == True:
-        return word
-    else:
-        pass
-    return ''
+def Create_ContextualVector(term, DF, TH):
+    DF_Filtered = DF[term][DF[term]>TH].sort_values(ascending=False)
+    contextVector = [x for x in DF_Filtered.index.tolist() if x != term]
+    return contextVector
 
 
-def define_word_vector_by_sentence(term, inverted_index, index, dataframe, TH, date, n_contextual_window, dates_list):
-    ww_vector = contextual_vector(term, dataframe, TH)
-    # print(word + ' original relevant array ' + str(ww_vector))
-    relevant_word_array_by_sentence = define_vector_by_sentence(inverted_index, ww_vector, index, date, n_contextual_window)
-    return relevant_word_array_by_sentence
+def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_contextual_window):
+    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False)
+    contextVector = []
+    for x in DF_Filtered.index.tolist():
+
+        try:
+            offset_x = Inverted_Index[x][2][Index]
+            offset_y = Inverted_Index[term][2][Index]
+            if n_contextual_window != 'full_sentence':
+                if x != term and distance_of_terms(offset_x[1], offset_y[1], n_contextual_window):
+                    contextVector.append(x)
+            elif x != term:
+                contextVector.append(x)
+        except:
+            pass
+    return contextVector
 
 
 # *******************************************************************************************
 # calc Info simba
-def IS(ContextVector_X, ContextVector_Y, dataframe):
-    Sum_YY = sum([dataframe.loc[x, y] for x in ContextVector_Y for y in ContextVector_Y])
+def InfoSimba(ContextVector_X, ContextVector_Y, DF):
+    Sum_XY = sum([DF.loc[x, y] for x in ContextVector_X for y in ContextVector_Y])
+    #print(f"sum_XY = {Sum_XY}")
 
-    Sum_XY = sum([dataframe.loc[x, y] for x in ContextVector_X for y in ContextVector_Y])
+    Sum_XX = sum([DF.loc[x, y] for x in ContextVector_X for y in ContextVector_X])
+    #print(f"sum_XX = {Sum_XX}")
 
-    Sum_XX = sum([dataframe.loc[x, y] for x in ContextVector_X for y in ContextVector_X])
+    Sum_YY = sum([DF.loc[x, y] for x in ContextVector_Y for y in ContextVector_Y])
+    #print(f"sum_YY = {Sum_YY}")
+
     try:
         result = Sum_XY / (Sum_XX + Sum_YY - Sum_XY)
+        #print(f"result = {result}")
         return result
     except:
         return 0

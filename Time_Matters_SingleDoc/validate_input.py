@@ -7,12 +7,14 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
         print('The value of n_contextual_window is not valid\n'
               'options:\n'
               '     full_sentence;\n'
+              '     full_document;\n'
               '     number(integer);')
         return {}
 
     elif N != 'max' and not isinstance(N, int):
-        print('The value of N is not valid\n'
+        print('The value of N are not valid\n'
               'options:\n'
+              '     max;\n'
               '     number(integer);')
 
         return {}
