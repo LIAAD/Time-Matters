@@ -25,23 +25,25 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
               '     number(float);')
         return {}
 
+
 def verify_temporal_tagger(tt_name):
     if tt_name != 'py_heideltime':
-        print('You must select a valid time_tagger_name.\n'
+        print('Please specify a valid time_tagger_name.\n'
               'options:\n'
               '     py_heideltime;\n'
               '     rule_based')
         return {}
 
+
 def verify_score_type(score_type, debug_mode):
     if score_type != 'ByDoc' and score_type != 'BySentence':
-        print('Please select a valid score_type.\n'
+        print('Please specify a valid score_type.\n'
               'options:\n'
               '     ByDoc;\n'
               '     BySentence;')
         return {}
     if not isinstance(debug_mode, bool):
-        print('Please select a valid option for debug_mode.\n'
+        print('Please specify a valid option for debug_mode.\n'
               'options:\n'
               '     True;\n'
               '     False;')
