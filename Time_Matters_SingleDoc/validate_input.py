@@ -1,8 +1,8 @@
 def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
     if not isinstance(num_of_keywords, int) or num_of_keywords < 0:
-        print('Please specify a valid num_of_keywords'
+        print('Please specify a valid num_of_keywords\n'
               'options:\n'
-              'n, where n is any integer > 0;')
+              '     n, where n is any integer > 0;')
         return {}
 
     elif n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int) or (isinstance(n_contextual_window, int) and n_contextual_window < 0) :
@@ -35,7 +35,7 @@ def verify_temporal_tagger(tt_name, date_granularity):
               '     rule_based')
         return {}
     date_granularity_options = ['day', 'month', 'year', 'full']
-    if date_granularity.lower() not in date_granularity_options:
+    if date_granularity.lower() not in date_granularity_options and tt_name == 'rule_based':
         print('Please specify a valid date_granularity.\n'
               'options:\n'
               '     full;\n'
