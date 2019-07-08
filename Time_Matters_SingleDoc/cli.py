@@ -155,7 +155,6 @@ def Dates():
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
         str2bool(debug_mode)
         if str2bool(debug_mode) == False:
-
             output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
             print('=========================== GTE Final score ===================================' + '\n')
             print(output)
@@ -233,7 +232,7 @@ def verify_argument_pos(arg_list, argument, extense_argument):
 
 
 def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
-    NormalizedText, final_score_output, candidate_dates_list, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(
+    NormalizedText, final_score_output, candidate_dates_list, words_array, inverted_index, DiceMatrix, execution_time_list = Time_Matters_SingleDoc(
         text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
     print('=========================== Normalized Text ====================================\n')
     print(NormalizedText)
@@ -247,11 +246,13 @@ def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_
     print('=========================== Inverted Index =====================================\n')
     print(str(inverted_index) + '\n')
     print('========================== DICE Matrix =========================================\n')
-    print(DiceMatrix)
-
+    print(DiceMatrix, '\n')
+    print('============================= Execution time list  =============================\n')
+    print(execution_time_list)
 def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
-    n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix = Time_Matters_SingleDoc(
+    n_txt, NormalizedText, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix, execution_time_list = Time_Matters_SingleDoc(
         text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+
     print('=========================== Original Text ======================================\n')
     print(n_txt)
     print('\n')
@@ -269,7 +270,9 @@ def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, sco
     print('=========================== Inverted Index =====================================\n')
     print(str(inverted_index) + '\n')
     print('========================== DICE Matrix =========================================\n')
-    print(DiceMatrix)
-
+    print(DiceMatrix, '\n')
+    print('============================= Execution time list  =============================\n')
+    print(execution_time_list)
+    
 if __name__ == "__main__":
     Dates()
