@@ -5,7 +5,7 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
               '     n, where n is any integer > 0;')
         return {}
 
-    elif n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int) or (isinstance(n_contextual_window, int) and n_contextual_window < 0) :
+    elif (n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int)) or (isinstance(n_contextual_window, int) and n_contextual_window < 0) :
         print('Please specify a valid n_contextual_window\n'
               'options:\n'
               '     full_sentence;\n'
