@@ -27,16 +27,13 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
         return {}
 
 
-def verify_temporal_tagger(tt_name):
+def verify_temporal_tagger(tt_name, date_granularity):
     if tt_name != 'py_heideltime' and tt_name != 'rule_based':
         print('Please specify a valid time_tagger_name.\n'
               'options:\n'
               '     py_heideltime;\n'
               '     rule_based')
         return {}
-
-
-def verify_score_type(score_type, debug_mode, date_granularity):
     date_granularity_options = ['day', 'month', 'year', 'full']
     if date_granularity.lower() not in date_granularity_options:
         print('Please specify a valid date_granularity.\n'
@@ -46,6 +43,9 @@ def verify_score_type(score_type, debug_mode, date_granularity):
               '     month:\n'
               '     day;')
         return {}
+
+
+def verify_score_type(score_type, debug_mode):
 
     if score_type != 'ByDoc' and score_type != 'BySentence':
         print('Please specify a valid score_type.\n'
