@@ -103,12 +103,6 @@ def candidate_years_selection(text, language, document_type, document_creation_t
         date_dictionary = {}
         candidate_dates_array, new_text = rule_based(text, date_granularity)
         return candidate_dates_array, new_text, date_dictionary
-    else:
-        print('You must select a valid time_tagger_name.\n'
-              'options:\n'
-              '     py_heideltime;\n'
-              '     rule_based')
-        return exit(1)
 
 
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time,
