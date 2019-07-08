@@ -1,39 +1,47 @@
 def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
     if not isinstance(num_of_keywords, int):
-        print('You must specify a number of relevant keywords to consider (e.g., 10).')
+        print('Please specify a valid num_of_keywords'
+              'options:\n'
+              'n, where n is any integer > 0;')
         return {}
 
-    elif n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int):
-        print('The value of n_contextual_window is not valid\n'
+    elif n_contextual_window != 'full_sentence' and not isinstance(n_contextual_window, int) and n_contextual_window < 0:
+        print('Please specify a valid n_contextual_window\n'
               'options:\n'
               '     full_sentence;\n'
-              '     full_document;\n'
-              '     number(integer);')
+              '     n, where n is any integer > 0;')
         return {}
 
-    elif N != 'max' and not isinstance(N, int):
-        print('The value of N are not valid\n'
+    elif N != 'max' and not isinstance(N, int) and N < 0:
+        print('Please specify a valid n context vector size\n'
               'options:\n'
               '     max;\n'
               '     number(integer);')
 
         return {}
-    elif not isinstance(TH, float):
-        print('The value of TH is not valid\n'
+    elif not isinstance(TH, float) and TH < 0:
+        print('Please specify a valid TH threshold\n'
               'options:\n'
               '     number(float);')
         return {}
 
+def verify_temporal_tagger(tt_name):
+    if tt_name != 'py_heideltime':
+        print('You must select a valid time_tagger_name.\n'
+              'options:\n'
+              '     py_heideltime;\n'
+              '     rule_based')
+        return {}
 
 def verify_score_type(score_type, debug_mode):
     if score_type != 'ByDoc' and score_type != 'BySentence':
-        print('You must select a valid score_type.\n'
+        print('Please select a valid score_type.\n'
               'options:\n'
               '     ByDoc;\n'
               '     BySentence;')
         return {}
     if not isinstance(debug_mode, bool):
-        print('You must select a valid option for debug_mode.\n'
+        print('Please select a valid option for debug_mode.\n'
               'options:\n'
               '     True;\n'
               '     False;')
