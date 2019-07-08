@@ -151,7 +151,7 @@ def Dates():
     def run_time_matters(text):
         time_tagger_arg_list = get_arguments_list_values(arg, '-tt', 'temporal_tagger', [])
         time_matterss_arg_list = get_arguments_list_values(arg, '-tm', 'time_matters', [])
-        score_type = get_arguments_values(arg, '-st', '--score_type', 'single')
+        score_type = get_arguments_values(arg, '-st', '--score_type', 'ByDoc')
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
         str2bool(debug_mode)
         if str2bool(debug_mode) == False:
