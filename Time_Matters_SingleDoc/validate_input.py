@@ -26,7 +26,8 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
 
 
 def verify_temporal_tagger(tt_name):
-    if tt_name != 'py_heideltime' and tt_name != 'rule_based' or not isinstance(tt_name, str):
+    tt_options = ['py_heideltime', 'rule_based']
+    if tt_name not in tt_options:
         print('Please specify a valid time_tagger_name.\n'
               'options:\n'
               '     py_heideltime;\n'
@@ -80,7 +81,7 @@ def verify_input_data(temporal_tagger, time_matters):
         elif tt_name == 'rule_based':
             date_granularity = temporal_tagger[1].lower()
     except:
-        pass
+        tt_name = 'false'
     num_of_keywords = 10
     n_contextual_window = 'full_sentence'
     N = 'max'
