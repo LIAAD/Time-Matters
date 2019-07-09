@@ -9,6 +9,10 @@ import time
 def remove_duplicates(string_list):
     return list(dict.fromkeys(string_list))
 
+def round_up(n, decimals=0):
+    import math
+    multiplier = 10 ** decimals
+    return math.ceil(n * multiplier) / multiplier
 
 def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type):
     words_list = remove_duplicates(words_array)
@@ -104,10 +108,11 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N):
                 maxLen = max_length(len(date_context_vector), len(word_ContextVector), N)
                 #date_context_vector, word_ContextVector = Create_ContextVector(date, word, dataframe, TH, N, score_type, Inverted_Index, False, n_contextual_window)
                 result = InfoSimba(date_context_vector[:maxLen], word_ContextVector[:maxLen], dataframe)
-                is_dictionary[date].append(float('%.3f' % result))
+                is_dictionary[date].append(result)
 
         if is_dictionary[date] != []:
-            gte_dictionary[date] = statistics.median(is_dictionary[date])
+            rounded_result = round_up(statistics.median(is_dictionary[date]), decimals=3)
+            gte_dictionary[date] = rounded_result
         else:
             gte_dictionary[date] = 0
 
@@ -142,7 +147,8 @@ def main_info_simba_BySentence(dates_list, words_list, dataframe, TH, N, inverte
                     if result != 0:
                         info_simba_array.append(result)
             try:
-                gte_dict[date][index] = [float("%.3f" % statistics.median(info_simba_array))]
+                rounded_result = round_up(statistics.median(info_simba_array), decimals=3)
+                gte_dict[date][index] = [rounded_result]
             except:
                 gte_dict[date][index] = [0]
     return gte_dict

@@ -121,11 +121,13 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
         elif list_dates[ct][0].lower() in date_dictionary:
             date_dictionary[list_dates[ct][0].lower()].append(list_dates[ct][1])
         try:
+            import re
 
             new_text = new_text.replace(list_dates[ct][1], list_dates[ct][0])
 
         except:
             pass
+        #print(new_text)
     return dates, new_text, date_dictionary
 
 
@@ -137,7 +139,7 @@ def rule_based(text, date_granularity):
         striped_text = text.replace('(', '').replace(')', '').replace('–', '-')
     except:
         striped_text = text
-    match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}s|\d{4}',
+    match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}',
                        striped_text, re.MULTILINE)
     try:
         for dt in match:
