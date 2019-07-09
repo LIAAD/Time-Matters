@@ -7,13 +7,13 @@ help_text = '''
   All the Parameters: Time_Matters_SingleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st single -dm "False"
 
 Options:
- [required]: either specify a text or an input_file path.
+  [required]: either specify a text or an input_file path.
   ----------------------------------------------------------------------------------------------------------------------------------
   -i, --input               A list that specifies the type of input: a text or a file path
+  
                             Example:
-                                    "['text', 'August 31st']"
-                                    "['path', 'c:\\text.txt']"
-
+                                    -i "['text', 'August 31st']"
+                                    -i "['path', 'c:\\text.txt']"
 
 
  [not required]
@@ -63,7 +63,8 @@ Options:
 		            are specified.
 		            Example: "2019-05-30".
 
-			  - Example: "['py_heideltime','English', 'full', 'news', '2019-05-05']"	 
+			  - Example: 
+			  	    -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']"	 
 
 		          
 			  Rule_Based (parameters):
@@ -81,9 +82,10 @@ Options:
 				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
 				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
 
-			  - Example: "['rule_based','full']"
+			  - Example: 
+			  	    -tt "['rule_based','full']"
 
- [not required]
+[not required]
  ----------------------------------------------------------------------------------------------------------------------------------
   -tm, --time_matters     Specifies information about Time-Matters, namely:
 			  - num_of_keywords: number of YAKE! keywords to extract from the text
@@ -108,19 +110,23 @@ Options:
 			  - TH: all the terms with a DICE similarity > TH threshold are eligible to the context vector of InfoSimba
 			    Default: 0.05
 			    Options: 
-				    any integer > 0
+				    any float > 0
 
 
-			  - Example: "[10, 'full_sentence', 'max', 0.05]"
+			  - Example: 
+			  	    -tm "[10, 'full_sentence', 'max', 0.05]"
 
  [not required]
  ----------------------------------------------------------------------------------------------------------------------------------
   -st, --score_type       Specifies the type of score for the temporal expression found in the text
-  			  Default: "single"
+  			  Default: "ByDoc"
                           Options:
                                   "ByDoc": returns a single score regardless the temporal expression occurs in different sentences;
                                   "BySentence": returns multiple scores (one for each sentence where it occurs)
-			  - Example: "[10, 'full_sentence', 'max', 0.05]"
+				  
+			  - Example: 
+			  	    -st ByDoc
+			  	    
  [not required]
  ----------------------------------------------------------------------------------------------------------------------------------
   -dm, --debug_mode      Returns detailed information about the results
@@ -129,16 +135,19 @@ Options:
 			          False: when set to False debug mode is not activated
 				  True: activates debug mode. In that case it returns 
                                         "Text";
-					"NormalizedText"
+					"TextNormalized"
 					"Score"
 					"CandidateDates"
 					"NormalizedCandidateDates"
 					"RelevantKWs"
 					"InvertedIndex"
-					"Dice_Matrix
-
-  --help                 Show this message and exit.
-
+					"Dice_Matrix"
+					"ExecutionTime"
+					
+			  - Example: 
+			  	    -dm True
+				    
+  --help                 Show this message and exit.    
 '''
 
 

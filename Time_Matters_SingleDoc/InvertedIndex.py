@@ -14,6 +14,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
     ii_start_time = time.time()
     inverted_index, words_array, dates_array, sentence_array = create_inverted_index(relevant_words_array,
                                                                                      candidate_dates_array, new_text)
+
     ii_exec_time = (time.time() - ii_start_time)
     return inverted_index, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time, ii_exec_time
 
@@ -51,36 +52,43 @@ def create_inverted_index(relevant_words_list, candidate_dates_list, text):
     words_dates_list = relevant_words_list + candidate_dates_list
     dictionary = {}
 
-    for dt in words_dates_list:
-        last_pos = 0
-        totalfreq = 0
-        search_str = dt
-        dictionary[dt] = [0, 0, {}]
+    last_pos = 0
+    totalfreq = 0
 
-        for n in range(len(sentence_array)):
-            strip_text = test_trans(sentence_array[n]).split()
-            for i, w in enumerate(strip_text):
-                if w.lower() == search_str:
-                    if n not in dictionary[dt][2]:
-                        pos = i + last_pos
-                        dictionary[dt][2][n] = [0, [pos]]
+    for n in range(len(sentence_array)):
+        strip_text = test_trans(sentence_array[n]).split()
+        for i, w in enumerate(strip_text):
+            if w.lower() in words_dates_list:
+                if w.lower() not in dictionary:
+                    dictionary[w.lower()] = [0, 0, {}]
+                if n not in dictionary[w.lower()][2]:
+                    pos = i + last_pos
+                    dictionary[w.lower()][2][n] = [0, [pos]]
+                else:
+                    pos = i + last_pos
+                    dictionary[w.lower()][2][n][1].append(pos)
 
-                    else:
-                        pos = i + last_pos
-
-                        dictionary[dt][2][n][1].append(pos)
             try:
-                ct = len(dictionary[dt][2][n][1])
-                totalfreq += ct
-                dictionary[dt][2][n][0] = ct
+                ct = len(dictionary[w.lower()][2][n][1])
+                dictionary[w.lower()][2][n][0] = ct
+
             except:
                 pass
-            last_pos += len(strip_text)
-        dictionary[dt][0] = len(dictionary[dt][2])
-        dictionary[dt][1] = totalfreq
-    return dictionary, relevant_words_list, candidate_dates_list, sentence_array
+        last_pos += len(strip_text)
 
-
+    for term in words_dates_list:
+        if term not in dictionary:
+            dictionary[term] = [0, 0, {}]
+        totalfreq = 0
+        try:
+            x = dictionary[term][2].values()
+            dictionary[term][0] = len(dictionary[term][2])
+            for i in list(x):
+                totalfreq += len(i[1])
+            dictionary[term][1] = totalfreq
+        except:
+            pass
+    return dictionary, relevant_words_list, list(candidate_dates_list), sentence_array
 # ************************************************************
 # **************** text tokenizer by sentence **************
 def sentence_tokenizer(text):
@@ -141,7 +149,7 @@ def rule_based(text, date_granularity):
         striped_text = text
     match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}',
                        striped_text, re.MULTILINE)
-    print(match)
+
     try:
         for dt in match:
             provisional_list = []

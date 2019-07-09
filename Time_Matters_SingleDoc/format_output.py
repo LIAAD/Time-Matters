@@ -22,19 +22,21 @@ def main_format_score_debug(tt_name, inverted_index, gte_dictionary, debug_mode,
         return final_score_output, dates_array
 
 
-def main_format_score_no_debug(tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type):
+def main_format_score_no_debug(tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, dates_array):
     if tt_name == 'py_heideltime' and score_type == 'ByDoc':
         final_score_output = py_heideltime_score_format(inverted_index, gte_dictionary, date_dictionary)
-        return final_score_output
+        candidate_dates_dictionary, normalized_candidate_date_dictionary = format_cantidate_dictionary(date_dictionary)
+        return final_score_output, normalized_candidate_date_dictionary
 
     elif tt_name == 'py_heideltime' and score_type == 'BySentence':
         final_score_output = py_heideltime_MultiScore_format(inverted_index, gte_dictionary, debug_mode, date_dictionary)
-        return final_score_output
+        candidate_dates_dictionary, normalized_candidate_date_dictionary = format_cantidate_dictionary(date_dictionary)
+        return final_score_output, normalized_candidate_date_dictionary
 
     elif tt_name == 'rule_based'  and score_type == 'ByDoc':
-        return gte_dictionary
+        return gte_dictionary, dates_array
     elif tt_name == 'rule_based' and score_type == 'BySentence':
-        return gte_dictionary
+        return gte_dictionary, dates_array
 
 
 def py_heideltime_score_format(inverted_index, gte_dictionary, date_dictionary):
