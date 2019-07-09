@@ -196,9 +196,16 @@ def Dates():
         if input_list[0] == 'path':
             import codecs
             text = codecs.open(input_list[1], "r+", "utf-8").read()
-        else:
+            run_time_matters(text)
+        elif input_list[0] == 'text':
             text = input_list[1]
-        run_time_matters(text)
+            run_time_matters(text)
+        else:
+            print('Please specifies a valid type of input.\n'
+                  'options:\n'
+                  '     text;\n'
+                  '     path;')
+            return {}
     else:
         print('Bad arguments [--help]')
         exit(1)
