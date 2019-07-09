@@ -162,8 +162,8 @@ def Dates():
                 print(output)
             else:
                 print('{}')
-                
-        else:
+
+        elif str2bool(debug_mode) == True:
             try:
                 if time_tagger_arg_list[0] == 'rule_based':
                     rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
@@ -171,6 +171,11 @@ def Dates():
                     py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
             except:
                 py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+        else:
+            from Time_Matters_SingleDoc.validate_input import verify_score_type
+            output = verify_score_type(score_type, debug_mode)
+            print(output)
+
     if '--help' in arg:
         print(help_text)
         exit(1)
