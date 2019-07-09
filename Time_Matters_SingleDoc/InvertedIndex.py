@@ -141,13 +141,14 @@ def rule_based(text, date_granularity):
         striped_text = text
     match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}',
                        striped_text, re.MULTILINE)
+    print(match)
     try:
         for dt in match:
             provisional_list = []
             if dt not in dates_list and date_granularity == 'full':
                 dates_list.append(dt)
             elif dt not in dates_list and date_granularity != 'full':
-                if re.match('\w{2,4}[-/.]\w{2}[-/.]\w{2,4}', str(dt)):
+                try:
                     if date_granularity.lower() == 'year':
                         years = re.findall('\w{4}', str(dt))
                         dates_list.append((years[0]))
@@ -162,6 +163,8 @@ def rule_based(text, date_granularity):
                         provisional_list.append((dt, days[0]))
 
                     striped_text = striped_text.replace(provisional_list[0][0], provisional_list[0][1])
+                except:
+                    pass
             else:
                 pass
     except ValueError:
