@@ -26,7 +26,7 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
 
 
 def verify_temporal_tagger(tt_name):
-    if tt_name != 'py_heideltime' and tt_name != 'rule_based' and not isinstance(tt_name, str):
+    if tt_name != 'py_heideltime' and tt_name != 'rule_based' or not isinstance(tt_name, str):
         print('Please specify a valid time_tagger_name.\n'
               'options:\n'
               '     py_heideltime;\n'
