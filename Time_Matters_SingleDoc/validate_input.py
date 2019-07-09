@@ -25,27 +25,60 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
         return {}
 
 
-def verify_temporal_tagger(tt_name):
+def verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time):
     tt_options = ['py_heideltime', 'rule_based']
     if tt_name not in tt_options:
         print('Please specify a valid time_tagger_name.\n'
               'options:\n'
               '     py_heideltime;\n'
-              '     rule_based')
+              '     rule_based;')
         return {}
-
-
-def verify_temporal_date_granularity(tt_name, date_granularity):
+    document_type_list = ['news', 'narrative', 'colloquial', 'scientific']
+    list_lang = ['english', 'portuguese', 'spanish', 'germany', 'dutch', 'italian', 'french']
     date_granularity_options = ['day', 'month', 'year', 'full']
-    if date_granularity.lower() not in date_granularity_options and tt_name == 'rule_based':
+    import re
+    try:
+        match = re.findall('^\d{4}[-]\d{2}[-]\d{2}$', document_creation_time)
+    except:
+        match = []
+    if not isinstance(language, str) and language not in list_lang or language.lower() not in list_lang:
+        print('Please specify a valid language.\n'
+              'Options:\n'
+              '      English;\n'
+              '      Portuguese;\n'
+              '      Spanish;\n'
+              '      Germany;\n'
+              '      Dutch;\n'
+              '      Italian;\n'
+              '      French.')
+        return {}
+    elif date_granularity not in date_granularity_options:
         print('Please specify a valid date_granularity.\n'
               'options:\n'
               '     full;\n'
               '     year;\n'
-              '     month:\n'
+              '     month;\n'
               '     day;')
         return {}
-
+    elif not isinstance(document_type, str) and document_type not in document_type_list or document_type.lower() not in document_type_list:
+        print('Please specify a valid document_type.\n'
+              'options:\n'
+              '     news;\n'
+              '     narrative;\n'
+              '     colloquial;\n'
+              '     scientific;')
+        return {}
+    elif not isinstance(document_type, str) and document_type not in document_type_list or document_type.lower() not in document_type_list:
+        print('Please specify a valid document_type.\n'
+              'options:\n'
+              '     news;\n'
+              '     narrative;\n'
+              '     colloquial;\n'
+              '     scientific;')
+        return {}
+    elif match == [] and document_creation_time !='yyyy-mm-dd':
+        print('Please specify date in the following format: YYYY-MM-DD.')
+        return {}
 
 def verify_score_type(score_type, debug_mode):
 
@@ -72,16 +105,18 @@ def verify_input_data(temporal_tagger, time_matters):
     date_granularity = 'full'
     # Verify the values for temporal Tagger parameters.
     try:
-        tt_name = temporal_tagger[0].lower()
-        if tt_name == 'py_heideltime':
+        if temporal_tagger[0] == 'py_heideltime':
             language = temporal_tagger[1]
-            date_granularity = temporal_tagger[2].lower()
+            date_granularity = temporal_tagger[2]
             document_type = temporal_tagger[3]
             document_creation_time = temporal_tagger[4]
-        elif tt_name == 'rule_based':
-            date_granularity = temporal_tagger[1].lower()
+        elif temporal_tagger[0] == 'rule_based':
+            tt_name = temporal_tagger[0]
+            date_granularity = temporal_tagger[1]
+        else:
+            tt_name = 1
     except:
-        tt_name = 'false'
+        pass
     num_of_keywords = 10
     n_contextual_window = 'full_sentence'
     N = 'max'

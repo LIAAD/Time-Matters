@@ -18,10 +18,10 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     # input validation
     result_validation_time_matters = verify_time_matters(num_of_keywords, N, n_contextual_window, TH)
     result_validation_score_type = verify_score_type(score_type, debug_mode)
-    result_validation_temporal_tagger = verify_temporal_tagger(tt_name)
-    result_validation_temporal_tagger_date_granularity = verify_temporal_date_granularity(tt_name, date_granularity)
+    result_validation_temporal_tagger = verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time)
 
-    if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {} or result_validation_temporal_tagger_date_granularity == {}:
+
+    if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {}:
         return {}
     # creation of inverted index
     inverted_index, words_array, dates_array, sentence_array, date_dictionary, NormalizedText, time_tagger_start_time, kw_exec_time, ii_exec_time = main_inverted_index(
