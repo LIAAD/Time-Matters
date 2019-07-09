@@ -156,9 +156,13 @@ def Dates():
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
         str2bool(debug_mode)
         if str2bool(debug_mode) == False:
-            output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
-            print('=========================== GTE Final score ===================================' + '\n')
-            print(output)
+            try:
+                output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+                print('=========================== GTE Final score ===================================' + '\n')
+                print(output)
+            except ValueError:
+                return {}
+
         elif str2bool(debug_mode) == True:
             try:
                 if time_tagger_arg_list[0] == 'rule_based':
