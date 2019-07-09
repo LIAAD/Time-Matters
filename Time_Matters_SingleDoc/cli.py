@@ -161,7 +161,8 @@ def Dates():
                 print('=========================== GTE Final score ===================================' + '\n')
                 print(output)
             except ValueError:
-                return {}
+                print('{}')
+
 
         elif str2bool(debug_mode) == True:
             try:
@@ -257,7 +258,7 @@ def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_
         print('============================= Execution time list  =============================\n')
         print(execution_time_list)
     except ValueError:
-        return {}
+        print('{}')
 
 def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
     try:
@@ -285,7 +286,7 @@ def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, sco
         print('============================= Execution time list  =============================\n')
         print(execution_time_list)
     except ValueError:
-        return {}
+        print('{}')
 
 if __name__ == "__main__":
     Dates()
