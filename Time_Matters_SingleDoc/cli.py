@@ -155,22 +155,34 @@ def Dates():
         score_type = get_arguments_values(arg, '-st', '--score_type', 'ByDoc')
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
         str2bool(debug_mode)
-        if str2bool(debug_mode) == False:
-            output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+        if not debug_mode == False:
+            output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type,
+                                            str2bool(debug_mode))
             if output != {}:
                 print('=========================== GTE Final score ===================================' + '\n')
                 print(output)
             else:
                 print('{}')
 
-        elif str2bool(debug_mode) == True:
+        elif debug_mode == True:
             try:
                 if time_tagger_arg_list[0] == 'rule_based':
-                    rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+                    rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type,
+                                      str2bool(debug_mode))
                 else:
-                    py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+                    py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type,
+                                         str2bool(debug_mode))
             except:
-                py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+                py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type,
+                                     str2bool(debug_mode))
+        else:
+            from Time_Matters_SingleDoc.validate_input import verify_score_type
+            verify_score_type(score_type, debug_mode)
+            print('Please specify a valid option for debug_mode.\n'
+                  'options:\n'
+                  '     True;\n'
+                  '     False;')
+            return {}
 
     if '--help' in arg:
         print(help_text)
