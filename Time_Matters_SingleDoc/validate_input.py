@@ -77,7 +77,7 @@ def verify_temporal_tagger(tt_name, language, document_type, date_granularity, d
               '     scientific;')
         return {}
     elif match == [] and document_creation_time !='yyyy-mm-dd':
-        print('Please specify date in the following format: YYYY-MM-DD.')
+        print('Please specify a date in the following format: YYYY-MM-DD.')
         return {}
 
 
