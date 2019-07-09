@@ -1,4 +1,5 @@
 from Time_Matters_SingleDoc import Time_Matters_SingleDoc
+from Time_Matters_SingleDoc.validate_input import *
 
 help_text = '''
  Usage_examples (make sure that the input parameters should be within quotes):
@@ -235,6 +236,7 @@ def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_
     try:
         NormalizedText, final_score_output, candidate_dates_list, words_array, inverted_index, DiceMatrix, execution_time_list = Time_Matters_SingleDoc(
             text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+
         print('=========================== Normalized Text ====================================\n')
         print(NormalizedText)
         print('\n')
@@ -250,10 +252,8 @@ def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_
         print(DiceMatrix, '\n')
         print('============================= Execution time list  =============================\n')
         print(execution_time_list)
-    except:
-        output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
-        print(output)
-
+    except ValueError:
+        return {}
 
 def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
     try:
@@ -280,9 +280,8 @@ def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, sco
         print(DiceMatrix, '\n')
         print('============================= Execution time list  =============================\n')
         print(execution_time_list)
-    except:
-        output = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
-        print(output)
-        
+    except ValueError:
+        return {}
+
 if __name__ == "__main__":
     Dates()

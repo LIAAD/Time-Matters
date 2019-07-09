@@ -17,8 +17,6 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
               'options:\n'
               '     max;\n'
               '     n, where n is any integer > 0;')
-
-
         return {}
     elif not isinstance(TH, float) or TH < 0:
         print('Please specify a valid TH threshold\n'
@@ -27,7 +25,7 @@ def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
         return {}
 
 
-def verify_temporal_tagger(tt_name, date_granularity):
+def verify_temporal_tagger(tt_name):
     if tt_name != 'py_heideltime' and tt_name != 'rule_based':
         print('Please specify a valid time_tagger_name.\n'
               'options:\n'
