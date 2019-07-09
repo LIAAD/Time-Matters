@@ -80,8 +80,8 @@ def verify_temporal_tagger(tt_name, language, document_type, date_granularity, d
         print('Please specify date in the following format: YYYY-MM-DD.')
         return {}
 
-def verify_score_type(score_type, debug_mode):
 
+def verify_score_type(score_type, debug_mode):
     if score_type != 'ByDoc' and score_type != 'BySentence':
         print('Please specify a valid score_type.\n'
               'options:\n'

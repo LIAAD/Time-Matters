@@ -20,7 +20,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     result_validation_score_type = verify_score_type(score_type, debug_mode)
     result_validation_temporal_tagger = verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time)
 
-
     if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {}:
         return {}
     # creation of inverted index
