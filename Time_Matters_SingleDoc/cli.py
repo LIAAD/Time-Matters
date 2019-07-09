@@ -201,7 +201,7 @@ def Dates():
             text = input_list[1]
             run_time_matters(text)
         else:
-            print('Please specifies a valid type of input.\n'
+            print('Please specify a valid type of input.\n'
                   'options:\n'
                   '     text;\n'
                   '     path;')
