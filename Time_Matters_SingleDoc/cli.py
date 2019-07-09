@@ -162,9 +162,8 @@ def Dates():
                 print(output)
             else:
                 print('{}')
-
-
-        elif str2bool(debug_mode) == True:
+                
+        else:
             try:
                 if time_tagger_arg_list[0] == 'rule_based':
                     rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
