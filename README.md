@@ -192,17 +192,17 @@ Here the output is:
 #### Optional Parameters
 <hr>
 
-If you want to know how to execute Time-Matters through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-SingleDoc#Cli).
+We highly recommend you to have a look at the [Optional Parameters](../../wiki/How-to-use-Time-Matters-SingleDoc#Optional-Parameters) section where more advanced options (related to the temporal tagger and to time-matters) are offered to the user;
+
 
 #### Debug
 <hr>
-We highly recommend you to have a look at the [Debug Mode](#Debug-Mode) where more advanced options and further other structures are offered to the user;
+We highly recommend you to have a look at the [Debug mode](../../wiki/How-to-use-Time-Matters-SingleDoc#Debug-Mode) where further other structures are offered to the user;
 
 
 #### CLI
 <hr>
-If you want to know how to execute Time-Matters through the prompt please refer to this [link](../../wiki).
-[Documentation](../../wiki)
+If you want to know how to execute Time-Matters through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-SingleDoc#Cli)
 
 ## How to use Time-Matters-MultipleDocs
 ```` bash
