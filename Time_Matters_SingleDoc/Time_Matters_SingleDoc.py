@@ -22,7 +22,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {} and debug_mode:
         print({})
-        raise SystemExit
+        exit(1)
     # creation of inverted index
     inverted_index, words_array, dates_array, ListOfSentences, date_dictionary, NormalizedText, time_tagger_start_time, kw_exec_time, ii_exec_time = main_inverted_index(
         yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name)
