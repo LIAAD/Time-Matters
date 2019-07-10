@@ -12,14 +12,6 @@
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Default Parameters](#SD-Default-Parameters)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[All the Parameters](#SD-All-the-Parameters)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Debug](#SD-Debug)
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Python Cli](#SD-Python-CLI)
-<br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
 <br>
 [API](#API)
@@ -34,8 +26,6 @@
 
 Time matters is the result of research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by [Jorge Mendes](https://github.com/JMendes1995) under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
-[[Table of Contents]](#Table-of-Contents)
-
 ## What is Time-Matters
 Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). 
 
@@ -43,12 +33,8 @@ The first (Time-Matters-SingleDoc) aims to determine the relevance of temporal e
 
 The latter (Time-Matters-MultipleDocs), aims to determine the relevance of temporal expressions within multiple documents. 
 
-[[Table of Contents]](#Table-of-Contents)
-
 ## Rationale
 Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant terms (W<sub>j</sub><sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of _n_ terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sub>j</sub><sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
-
-[[Table of Contents]](#Table-of-Contents)
 
 ## Documentation
 Check out our wiki [Documentation](../../wiki) for full details about Time-Matters.
@@ -79,7 +65,7 @@ pip install git+https://github.com/JMendes1995/py_heideltime
 
 You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies (note that none of this is needed should your plan is to only use a rule-based approach).
 
-[[Table of Contents]](#Table-of-Contents)
+[[Back to the Table of Contents]](#Table-of-Contents)
 
 #### External modules used (only for informative purposes):
     - YAKE
@@ -125,7 +111,7 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
     "of February 11, 1975 when, on my car radio, I first heard the news. Yesterday..."
 ````
 
-[[Table of Contents]](#Table-of-Contents)
+[[Back to the Table of Contents]](#Table-of-Contents)
 
 #### ByDoc
 <hr>
@@ -163,7 +149,7 @@ The output is:
  '1975-02-10': ['Yesterday']}
 ````
 
-[[Table of Contents]](#Table-of-Contents)
+[[Back to the Table of Contents]](#Table-of-Contents)
 
 #### BySentence
 <hr>
@@ -201,185 +187,19 @@ Here the output is:
  '1975-02-10': ['Yesterday']}
 ```` 
 
-[[Table of Contents]](#Table-of-Contents)
+[[Back to the Table of Contents]](#Table-of-Contents)
+
+#### Optional Parameters
+<hr>
+
+#### Debug
+<hr>
+We highly recommend you to have a look at the [Debug Mode](#Debug-Mode) where more advanced options and further other structures are offered to the user;
 
 
-
-
-#### SD Python CLI
-##### Help
-``` bash
-$ Time_Matters_SingleDoc --help
-```
-
-##### Usage Examples
-Usage_examples (make sure that the input parameters are within quotes):
-
-Default Parameters:
-This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc" as the default score_type and the default parameters of time_matters.
-
-``` bash
-Time_Matters_SingleDoc -i "['text', 'August 31st']"
-```
-
-All the Parameters:
-``` bash
-All the Parameters: Time_Matters_SingleDoc -i "['text', '2019-12-31']" -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']" -tm "[10,'full_sentence', 'max', 0.05]" -st ByDoc -dm False
-```
-
-##### Options
-``` bash
-  [required]: either specify a text or an input_file path.
-  ----------------------------------------------------------------------------------------------------------------------------------
-  -i, --input               A list that specifies the type of input: a text or a file path
-  
-                            Example:
-                                    -i "['text', 'August 31st']"
-                                    -i "['path', 'c:\text.txt']"
-
-```
-
-``` bash
- [not required]
- ----------------------------------------------------------------------------------------------------------------------------------
-  -tt, --temporal_tagger   Specifies the temporal tagger and the corresponding parameters.
-                           Default: "py_heideltime"
-			   Options:
-			   	    "py_heideltime"
-				    "rule_based"
-				 
-			   py_heideltime (parameters):
-			   ____________________________
-			   - temporal_tagger_name
-			     Options:
-				     "py_heideltime"
-
-			   - language
-			     Default: "English"
-			     Options:
-			   	      "English";
-				      "Portuguese";
-				      "Spanish";
-				      "Germany";
-				      "Dutch";
-				      "Italian";
-				      "French".
-
-		          - date_granularity
-			    Default: "full"
-			    Options:
-			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
-					   finest-granularity.
-			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
-				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
-				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
-
-			  - document_type
-			    Default: "News"
-			    Options:
-			  	    "News": for news-style documents - default param;
-				    "Narrative": for narrative-style documents (e.g., Wikipedia articles);
-				    "Colloquial": for English colloquial (e.g., Tweets and SMS);
-				    "Scientific": for scientific articles (e.g., clinical trails).
-
-			  - document_creation_time
-			    Document creation date in the format YYYY-MM-DD. Taken into account when "News" or "Colloquial" texts
-		            are specified.
-		            Example: "2019-05-30".
-
-			  - Example: 
-			  	    -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']"	 
-
-		          
-			  Rule_Based (parameters):
-		          ____________________________
-			  - temporal_tagger_name
-			    Options:
-			  	    "rule_based"
-
-			  - date_granularity
-			    Default: "full"
-			    Options:
-			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
-					   finest-granularity.
-			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
-				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
-				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
-
-			  - Example: 
-			  	    -tt "['rule_based','full']"
-```
-
-``` bash
- [not required]
- ----------------------------------------------------------------------------------------------------------------------------------
-  -tm, --time_matters     Specifies information about Time-Matters, namely:
-			  - num_of_keywords: number of YAKE! keywords to extract from the text
-			    Default: 10
-			    Options:
-				    any integer > 0
-
-		          - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
-			    Default: "full_sentence"
-			    Options:
-                                    "full_sentence": the system will look for co-occurrences between terms that occur within the search 
-				                    space of a sentence;
-			            n: where n is any value > 0, that is, the system will look for co-occurrences between terms that 
-				       occur within a window of n terms;
-				       
-		          - N: N-size context vector for InfoSimba vectors
-			    Default: "max"
-			    Options: 
-			            "max": where "max" is given by the maximum number of terms eligible to be part of the vector
-				    any integer > 0
-				    
-			  - TH: all the terms with a DICE similarity > TH threshold are eligible to the context vector of InfoSimba
-			    Default: 0.05
-			    Options: 
-				    any float > 0
-
-
-			  - Example: 
-			  	    -tm "[10, 'full_sentence', 'max', 0.05]"
-```
-
-``` bash
- [not required]
- ----------------------------------------------------------------------------------------------------------------------------------
-  -st, --score_type       Specifies the type of score for the temporal expression found in the text
-  			  Default: "ByDoc"
-                          Options:
-                                  "ByDoc": returns a single score regardless the temporal expression occurs in different sentences;
-                                  "BySentence": returns multiple scores (one for each sentence where it occurs)
-				  
-			  - Example: 
-			  	    -st ByDoc
-```
-
-``` bash
- [not required]
- ----------------------------------------------------------------------------------------------------------------------------------
-  -dm, --debug_mode      Returns detailed information about the results
-  	                 Default: False
-			 Options:
-			          False: when set to False debug mode is not activated
-				  True: activates debug mode. In that case it returns 
-                                        "Text";
-					"TextNormalized"
-					"Score"
-					"CandidateDates"
-					"NormalizedCandidateDates"
-					"RelevantKWs"
-					"InvertedIndex"
-					"Dice_Matrix"
-					"ExecutionTime"
-					
-			  - Example: 
-			  	    -dm True
-				    
-  --help                 Show this message and exit.
-```
-[[Table of Contents]](#Table-of-Contents)
+#### CLI
+<hr>
+If you want to know how to execute Time-Matters through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-SingleDoc#Cli).
 
 ## How to use Time-Matters-MultipleDocs
 ```` bash
