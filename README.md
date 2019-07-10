@@ -6,6 +6,8 @@
 <br>
 [Rationale](#Rationale)
 <br>
+[Documentation](#Documentation)
+<br>
 [How to Install Time-Matters](#How-to-Install-Time-Matters)
 <br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
@@ -47,6 +49,9 @@ The latter (Time-Matters-MultipleDocs), aims to determine the relevance of tempo
 Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant terms (W<sub>j</sub><sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of _n_ terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sub>j</sub><sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
 
 [[Table of Contents]](#Table-of-Contents)
+
+## Documentation
+Check out our wiki [Documentation](Time-Matters/wiki) for full details about Time-Matters.
 
 ## How to Install Time-Matters
 
