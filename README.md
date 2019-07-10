@@ -51,7 +51,7 @@ Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be 
 [[Table of Contents]](#Table-of-Contents)
 
 ## Documentation
-Check out our wiki [Documentation](/wiki) for full details about Time-Matters.
+Check out our wiki [Documentation](../../wiki) for full details about Time-Matters.
 
 ## How to Install Time-Matters
 
