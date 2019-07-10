@@ -127,24 +127,22 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 
 [[Table of Contents]](#Table-of-Contents)
 
-#### _SD Default Parameters_
+#### ByDoc
 <hr>
 
-This configuration assumes "py_heideltime" as default temporal tagger (more about this [here](#Text-Representation) and [here](#Temporal-Expressions)), "ByDoc" as the default score_type(more about this [here](#How-to-use-Time-Matters-SingleDoc)) and the default parameters of time_matters.
+Getting temporal scores by doc is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this [[here|Text-Representation#Temporal-Expressions]]), "ByDoc" as the default score_type and the default parameters of time_matters.
 ```` bash
-Time_Matters_SingleDoc(text)
-````
-The output is a dictionary where the key is the temporal expression (as it was found on the document) and value is the score given by GTE.
-
-While 'py_heideltime' is the default temporal tagger, a 'rule_based' approach can be used instead.
-```` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['rule_based'])
+Score, NormalizedCandidateDates = Time_Matters_SingleDoc(text)
+#Score, NormalizedCandidateDates = Time_Matters_SingleDoc(text, score_type="ByDoc")
 ````
 
-###### Output
-The output is a dictionary where the key is the temporal expression (as it was found on the document) and value is the score given by GTE.
+#### Output
+The output is:
+- <b>Score</b>:  a dictionary where the key is the temporal expression (as it was found in the document) and the value is the score given by GTE;
+- <b>NormalizedCandidateDates</b>:  a dictionary where the key is the normalized temporal expression (as it was annotated by the temporal tagger) and the value is a list of the related temporal expressions as they were found in the text. or instance, the hyphotetical entry : `'2010-01-12' : ['January_12,_2010', '2010-01-12']`, means that the normalized temporal expression `2010-01-12` has at least one entry in the text as `January_12,_2010` and another one as `2010-01-12`.
+
 ``` bash
-#py_heideltime results
+#Score
 {'12 January 2011': 1.0,
  '2010': 0.982,
  '1564': 0.798,
@@ -152,21 +150,37 @@ The output is a dictionary where the key is the temporal expression (as it was f
  '2011': 0.567,
  'the afternoon of February 11, 1975': 0,
  'Yesterday': 0}
+````
 
-#rule_based results
-{'1975': 1.0, '2011': 0.9695, '2010': 0.9035, '1564': 0.856, '1500': 0.853}
-```
+``` bash
+#NormalizedCandidateDates
+{'2011': ['2011'],
+ '2010': ['2010'],
+ '1564': ['1564'],
+ '2010-01-12': ['January 12, 2010'],
+ '2011-01-12': ['12 January 2011'],
+ '1975-02-11taf': ['the afternoon of February 11, 1975'],
+ '1975-02-10': ['Yesterday']}
+````
+
+[[Table of Contents]](#Table-of-Contents)
+
+#### BySentence
+<hr>
 
 In addition, one can also ask for multiple scores instead of single scores, that is, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence in the other sentence). 
 
 ```` bash
-Time_Matters_SingleDoc(text, score_type='BySentence')
+Score, NormalizedCandidateDates = Time_Matters_SingleDoc(text, score_type='BySentence')
 ````
 
-###### Output
-The output here, is a dictionary where the key is the temporal expression (as it was found on the document) and the value is a dictionary (where the key is the sentence ID, and the value is the score of the temporal expression in that particular sentence).
-``` bash
-#py_heideltime results
+#### Output
+Here the output is:
+- <b>Score</b>:  a dictionary where the key is the temporal expression (as it was found in the document) and the value is the score given by GTE;
+- <b>NormalizedCandidateDates</b>:  a dictionary where the key is the normalized temporal expression (as it was annotated by the temporal tagger) and the value is a list of the related temporal expressions as they were found in the text. or instance, the hyphotetical entry : `'2010-01-12' : ['January_12,_2010', '2010-01-12']`, means that the normalized temporal expression `2010-01-12` has at least one entry in the text as `January_12,_2010` and another one as `2010-01-12`.
+
+```` bash
+#Score results
 {'2011': [(0, 0.831)],
  '2010': [(1, 0.2), (5, 0.982)],
  '1564': [(2, 0.827)],
@@ -174,51 +188,22 @@ The output here, is a dictionary where the key is the temporal expression (as it
  '12 January 2011': [(5, 1.0)],
  'the afternoon of February 11, 1975': [(6, 0)],
  'Yesterday': [(7, 0)]}
- ```
+```` 
+
+```` bash
+#NormalizedCandidateDates
+{'2011': ['2011'],
+ '2010': ['2010'],
+ '1564': ['1564'],
+ '2010-01-12': ['January 12, 2010'],
+ '2011-01-12': ['12 January 2011'],
+ '1975-02-11taf': ['the afternoon of February 11, 1975'],
+ '1975-02-10': ['Yesterday']}
+```` 
 
 [[Table of Contents]](#Table-of-Contents)
 
-#### _SD All the Parameters_
-<hr>
 
-Besides the *temporal_tagger* and the *score_type* we can also specify the time matters parameters, which consists of a list of four elements:
-- *num_of_keywords*: number of YAKE! keywords to extract from the text. Default value is *10* (but any value > 0 is considered) meaning that the system will extract 10 relevant keywords from the text. More about this [here](#Text-Representation) and [here](#Relevant-Keywords). 
-- *n_contextual_window*: defines the n-contextual window distance. Default value is "*full_sentence*" (but a n-window where n > 0 can be considered as alternative), that is, the system will look for co-occurrences between terms that occur within the search space of a sentence; More about this [here](#Computing-Dice).
-- *N*: size of the context vector for X and Y at InfoSimba. Default value is '*max*' (but any value > 0 is considered) meaning that the context vector should have the maximum number of n-terms co-occurring with X (likewise with Y). More about this [here](#Context-Vectors).
-- *TH*: minimum threshold value from which terms are eligible to the context vector X and Y at InfoSimba. Default value is *0.05* (but any value > 0 is considered) meaning that any terms co-occuring between them with a DICE similarity value > 0.05 are eligible for the n-size vector. More about this [here](#Context-Vectors).
-
-In addition, one can also specify additional parameters for the temporal_tagger. This is particularly evident when the temporal_tagger is py_heideltime, for which we can specify the 'language', the 'date_granularity', the 'document_type' and the 'document_creation_time'. More about py_heideltime parameters [here](https://github.com/JMendes1995/py_heideltime/#How-to-use-py_heideltime).
-
-``` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='ByDoc')
-```
-Obviously, we can also specify a `BySentence` for the score_type as seen before:
-``` bash
-Time_Matters_SingleDoc(text, temporal_tagger=['py_heideltime', 'English', 'full', 'news', '2019-06-01'], time_matters=[10, 'full_sentence', 'max', 0.05], score_type='BySentence')
-```
-
-###### Output
-The output is the same as above (as the parameters specified here are exactly the same as the default above ones).
-
-[[Table of Contents]](#Table-of-Contents)
-
-#### _SD Debug_
-We also offer the user a debug mode where users can access a more detailed version of the results, namely access to the `Text`, `TextNormalized`, `Score`, `CandidateDates`, `NormalizedCandidateDates`, `RelevantKWs`, `IIndex`, `Dice_Matrix`.
-
-- <b>Text</b>: a slightly normalized version of the input text, where temporal expressions with more than one token are joined with an underscore. By doing this, we guarantee that temporal expressions are easily identified in the text by means of its offset. This may be used for example to highlight or underline a given temporal expression in the context of some GUI.
-- <b>TextNormalized</b>: a normalized version of the input text, where temporal expressions appear normalized (according to the temporal tagger used). For instance, the temporal expression `the afternoon of February 11, 1975` will appear as `1975-02-11taf` in the text. This may be used in the DICE_Matrix (more on this bellow) to understand where normalized temporal expressions do appear in the text.
-- <b>Score</b>: the output of the score in debug mode depends whether we are using 'ByDoc' or 'BySentence' score. For <b>ByDoc</b> score, the output will be a dictionary, where the key is the temporal expression (as it was found in the text), and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in the text. Recall that indexes in Python start in 0). For instance, `{'2010': [0.982, [6, 87, 96]]}` means that the temporal expression `2010` has a score of `0.982` and appears at position `6`, `87` and `96`. Similarly, `'the_afternoon_of_February_11,_1975': [0, [103]]` means that the temporal expression `the_afternoon_of_February_11,_1975` has a zero score and appears at position `103`. For <b>BySentence</b> score, the output will be a dictionary, where the key is the temporal expression (as it was found in the text), and the value is another dictionary where the key is the sentence id, and the value is a list with two positions (the first is the score determined by Time-Matters; the second is a list of offsets where the temporal expression can be found in that particular sentence). For instance, `{'2010': {'1': [0.2, [6]]}, {'5': [0.982, [87, 96]]}}` means that the temporal expression `2010` has a score of `0.2` in sentence id `1` where appears at position `6`, and a score of `0.982` in sentence id `5` where appears at position `87` e `96`.
-- <b>CandidateDates</b>: a dictionary of the candidates dates (as they appear on the text) and their corresponding normalized version. For instance, the two following hyphotetical entries: `'January_12,_2010': '2010-01-12',`; `'2010-01-12': '2010-01-12'`, means that the two temporal expressions `January_12,_2010` and `2010-01-12` are both normalized to `2010-01-12`. In our algorithm, candidate dates are detected by a `rule_based` solution or by using [py_heideltime](https://github.com/JMendes1995/py_heideltime). If you want to know more about the role of each one in Time-Matters, please refer to the following [link](#Text-Representation).
-- <b>NormalizedCandidateDates</b>: a dictionary of the normalized version of the candidates dates and their corresponding instances (as they appear on the text). For instance, the hyphotetical entry : `'2010-01-12' : ['January_12,_2010', '2010-01-12']`, means that the normalized temporal expression `2010-01-12` has at least one entry in the text as `January_12,_2010` and another one as `2010-01-12`. In our algorithm, candidate dates are detected by a `rule_based` solution or by using [py_heideltime](https://github.com/JMendes1995/py_heideltime). If you want to know more about the role of each one in Time-Matters, please refer to the following [link](#Text-Representation).
-- <b>RelevantKWs</b>: a list of the relevant keywords used by our algorithm in the process of assigning a score to temporal expressions. In our algorithm, keywords are detected by [YAKE!](https://github.com/LIAAD/yake). If you want to know more about the role of YAKE! in Time-Matters, please refer to the following [link]((#Text-Representation).
-- <b>IIndex</b>: An inverted index of the document, most notably of its relevant keywords and candidate dates. As other inverted indexes it follows the following dictionary structure: `{'term' : [SF, TotFreq, {SentenceID : [Offsets]}]`, where `SF` is the `Sentence Frequency`, `TotFreq` is the `total frequency` of the term, `SentenceID` is the `ID of the sentence` (knowing that IDs start on 0), and `[Offsets]` is a list of offsets, that is, a list of the position(s) where the term appears in the text. For instance, a term with the following structure `'2010': [2, 3, {1: [1, [6]], 5: [2, [87, 96]]}]` means that it has 3 occurrences in 2 different sentences. In the sentence with ID 1, it occurs 1 time in position 6. In sentence with ID 5, it occurs 2 times in position 87 and 96.
-- <b>Dice_Matrix</b>: It retrieves the DICE matrix (in pandas format) between each term according to the n-contextual window distance defined. For instance, a DICE similarity of 1 between `prime` and `minister` means that, whenever each of these terms occur, they always occur together. If you want to know more about the role of DICE in our algorithm please refer to this [link](#Computing-Dice).
-- <b>ExecutionTime</b>: It retrieves information about runtimes, in particular, of the `TotalTime` consumed to execute the algorithm, but also of each of its most important components, namely: `py_heideltime`, `YAKE`, `InvertedIndex`, `DICE_Matrix` and `GTE`.
-
-``` bash
-Text, TextNormalized, Score, CandidateDates, NormalizedCandidateDates, RelevantKWs, IIndex, Dice_Matrix = Time_Matters_SingleDoc(text, debug_mode=True)
-```
-[[Table of Contents]](#Table-of-Contents)
 
 
 #### SD Python CLI
