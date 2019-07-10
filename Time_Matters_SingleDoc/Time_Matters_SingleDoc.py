@@ -60,6 +60,8 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                                                                            debug_mode, date_dictionary, score_type,
                                                                            NormalizedText, dates_array)
 
+        from Time_Matters_SingleDoc.InvertedIndex import sentence_tokenizer
+        ListOfSentences = sentence_tokenizer(NormalizedText)
 
         return NormalizedText, ListOfSentences, final_score_output, candidate_dates_list, words_array, inverted_index, DiceMatrix, execution_time_list
 

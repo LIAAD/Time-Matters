@@ -158,15 +158,15 @@ def rule_based(text, date_granularity):
             elif dt not in dates_list and date_granularity != 'full':
                 try:
                     if date_granularity.lower() == 'year':
-                        years = re.findall('\w{4}', str(dt))
+                        years = re.findall('\d{4}', str(dt))
                         dates_list.append((years[0]))
                         provisional_list.append((dt, years[0]))
                     elif date_granularity.lower() == 'month':
-                        months = re.findall('\w{2}[-/.]\w{4}|\w{4}[-/.]\w{2}', str(dt))
+                        months = re.findall('\d{2}[-/.]\d{4}|\d{4}[-/.]\d{2}', str(dt))
                         dates_list.append((months[0]))
                         provisional_list.append((dt, months[0]))
                     elif date_granularity.lower() == 'day':
-                        days = re.findall('\w{2,4}[-/.]\w{2}[-/.]\w{2,4}', str(dt))
+                        days = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}', str(dt))
                         dates_list.append((days[0]))
                         provisional_list.append((dt, days[0]))
 
