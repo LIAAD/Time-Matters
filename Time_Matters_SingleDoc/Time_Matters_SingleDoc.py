@@ -30,8 +30,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array,
                                                                               n_contextual_window,
                                                                               TH, N, score_type)
-    from Time_Matters_SingleDoc.InvertedIndex import sentence_tokenizer
-    ListOfSentences = sentence_tokenizer(NormalizedText)
 
     total_exec_time = (time.time() - total_start_time)
     if debug_mode and tt_name == 'py_heideltime':
@@ -46,6 +44,8 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
             tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, NormalizedText,
             dates_array)
 
+        from Time_Matters_SingleDoc.InvertedIndex import sentence_tokenizer
+        ListOfSentences = sentence_tokenizer(n_txt)
 
         return n_txt, NormalizedText, ListOfSentences, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix, execution_time_list
     elif debug_mode and tt_name == 'rule_based':

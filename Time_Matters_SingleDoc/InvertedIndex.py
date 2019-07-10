@@ -53,7 +53,6 @@ def create_inverted_index(relevant_words_list, candidate_dates_list, text):
     dictionary = {}
 
     last_pos = 0
-    totalfreq = 0
 
     for n in range(len(sentence_array)):
         strip_text = test_trans(sentence_array[n]).split()
@@ -108,8 +107,7 @@ def candidate_years_selection(text, language, document_type, document_creation_t
                                                                          date_granularity)
         return candidate_dates_array, new_text, date_dictionary
     elif date_extractor == 'rule_based':
-        date_dictionary = {}
-        candidate_dates_array, new_text = rule_based(text, date_granularity)
+        candidate_dates_array, new_text, date_dictionary = rule_based(text, date_granularity)
         return candidate_dates_array, new_text, date_dictionary
 
 
@@ -141,6 +139,7 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
 
 def rule_based(text, date_granularity):
     dates_list = []
+    date_dictionary = {}
     import re
 
     try:
@@ -153,24 +152,35 @@ def rule_based(text, date_granularity):
     try:
         for dt in match:
             provisional_list = []
+            date_dictionary[dt] = {}
             if dt not in dates_list and date_granularity == 'full':
                 dates_list.append(dt)
+                date_dictionary[dt] = dt
             elif dt not in dates_list and date_granularity != 'full':
                 try:
                     if date_granularity.lower() == 'year':
                         years = re.findall('\d{4}', str(dt))
                         dates_list.append((years[0]))
                         provisional_list.append((dt, years[0]))
+
+                        date_dictionary[dt] = years
+
                     elif date_granularity.lower() == 'month':
                         months = re.findall('\d{2}[-/.]\d{4}|\d{4}[-/.]\d{2}', str(dt))
                         dates_list.append((months[0]))
                         provisional_list.append((dt, months[0]))
+
+                        date_dictionary[dt] = months
+
                     elif date_granularity.lower() == 'day':
                         days = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}', str(dt))
                         dates_list.append((days[0]))
                         provisional_list.append((dt, days[0]))
 
+                        date_dictionary[dt] = days
+
                     striped_text = striped_text.replace(provisional_list[0][0], provisional_list[0][1])
+
                 except:
                     pass
             else:
@@ -178,4 +188,4 @@ def rule_based(text, date_granularity):
     except ValueError:
         pass
     # print('date_list = ' +str(dates_list))
-    return dates_list, striped_text
+    return dates_list, striped_text, date_dictionary
