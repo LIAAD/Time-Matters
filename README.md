@@ -197,11 +197,13 @@ We highly recommend you to have a look at the [Optional Parameters](../../wiki/H
 
 #### Debug
 <hr>
+
 We highly recommend you to have a look at the [Debug mode](../../wiki/How-to-use-Time-Matters-SingleDoc#Debug-Mode) where further other structures are offered to the user;
 
 
 #### CLI
 <hr>
+
 If you want to know how to execute Time-Matters through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-SingleDoc#Cli)
 
 ## How to use Time-Matters-MultipleDocs
