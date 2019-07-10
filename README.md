@@ -187,7 +187,7 @@ Here the output is:
  '1975-02-10': ['Yesterday']}
 ```` 
 
-[[Back to the Table of Contents]](#Table-of-Contents)
+[Back to the Table of Contents](#Table-of-Contents)
 
 #### Optional Parameters
 <hr>
