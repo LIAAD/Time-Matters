@@ -192,6 +192,8 @@ Here the output is:
 #### Optional Parameters
 <hr>
 
+If you want to know how to execute Time-Matters through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-SingleDoc#Cli).
+
 #### Debug
 <hr>
 We highly recommend you to have a look at the [Debug Mode](#Debug-Mode) where more advanced options and further other structures are offered to the user;
