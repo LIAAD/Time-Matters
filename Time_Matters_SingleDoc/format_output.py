@@ -1,5 +1,5 @@
 
-def main_format_score_debug(tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, NormalizedText, dates_array):
+def main_format_score_debug(tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, NormalizedText):
     final_score_output = {}
 
     if tt_name == 'py_heideltime' and score_type == 'ByDoc':
@@ -16,13 +16,14 @@ def main_format_score_debug(tt_name, inverted_index, gte_dictionary, debug_mode,
 
     elif tt_name == 'rule_based' and score_type == 'ByDoc':
         final_score_output = rule_based_score_format(inverted_index, gte_dictionary)
-        return final_score_output, dates_array
+        return final_score_output, date_dictionary
     elif tt_name == 'rule_based' and score_type == 'BySentence':
         final_score_output = rule_based_MultiScore_format(inverted_index, gte_dictionary)
-        return final_score_output, dates_array
+
+        return final_score_output, date_dictionary
 
 
-def main_format_score_no_debug(tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, dates_array):
+def main_format_score_no_debug(tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type):
     if tt_name == 'py_heideltime' and score_type == 'ByDoc':
         final_score_output = py_heideltime_score_format(inverted_index, gte_dictionary, date_dictionary)
         candidate_dates_dictionary, normalized_candidate_date_dictionary = format_cantidate_dictionary(date_dictionary)
@@ -34,9 +35,9 @@ def main_format_score_no_debug(tt_name, inverted_index, gte_dictionary, debug_mo
         return final_score_output, normalized_candidate_date_dictionary
 
     elif tt_name == 'rule_based'  and score_type == 'ByDoc':
-        return gte_dictionary, dates_array
+        return gte_dictionary, date_dictionary
     elif tt_name == 'rule_based' and score_type == 'BySentence':
-        return gte_dictionary, dates_array
+        return gte_dictionary, date_dictionary
 
 
 def py_heideltime_score_format(inverted_index, gte_dictionary, date_dictionary):
