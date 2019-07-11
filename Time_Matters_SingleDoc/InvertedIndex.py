@@ -152,32 +152,45 @@ def rule_based(text, date_granularity):
     try:
         for dt in match:
             provisional_list = []
-            date_dictionary[dt] = {}
+
             if dt not in dates_list and date_granularity == 'full':
                 dates_list.append(dt)
                 date_dictionary[dt] = dt
             elif dt not in dates_list and date_granularity != 'full':
+
                 try:
                     if date_granularity.lower() == 'year':
                         years = re.findall('\d{4}', str(dt))
                         dates_list.append((years[0]))
                         provisional_list.append((dt, years[0]))
 
-                        date_dictionary[dt] = years
+                        if years[0] not in date_dictionary:
+                            date_dictionary[years[0]] = [dt]
+                        else:
+                            date_dictionary[years[0]].append(dt)
 
                     elif date_granularity.lower() == 'month':
                         months = re.findall('\d{2}[-/.]\d{4}|\d{4}[-/.]\d{2}', str(dt))
                         dates_list.append((months[0]))
                         provisional_list.append((dt, months[0]))
 
-                        date_dictionary[dt] = months
+                        if months[0] not in date_dictionary:
+                            date_dictionary[months[0]] = [dt]
+                        else:
+                            date_dictionary[months[0]].append(dt)
+
 
                     elif date_granularity.lower() == 'day':
+
                         days = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}', str(dt))
                         dates_list.append((days[0]))
                         provisional_list.append((dt, days[0]))
 
-                        date_dictionary[dt] = days
+                        if days[0] not in date_dictionary:
+
+                            date_dictionary[days[0]] = [dt]
+                        else:
+                            date_dictionary[days[0]].append(dt)
 
                     striped_text = striped_text.replace(provisional_list[0][0], provisional_list[0][1])
 
@@ -187,5 +200,6 @@ def rule_based(text, date_granularity):
                 pass
     except ValueError:
         pass
+
     # print('date_list = ' +str(dates_list))
     return dates_list, striped_text, date_dictionary
