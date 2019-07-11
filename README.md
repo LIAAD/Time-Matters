@@ -20,6 +20,8 @@
 <br>
 [Awards](#Awards)
 <br>
+[License](#License)
+<br>
 [Contact](#Contact)
 
 # Time-Matters
