@@ -41,8 +41,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                                'GTE': gte_exec_time}
 
         final_score_output, n_txt, candidate_dates_dictionary, normalized_candidate_date_dictionary, = main_format_score_debug(
-            tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, NormalizedText,
-            dates_array)
+            tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, NormalizedText)
 
         from Time_Matters_SingleDoc.InvertedIndex import sentence_tokenizer
         ListOfSentences = sentence_tokenizer(n_txt)
@@ -58,7 +57,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
         final_score_output, candidate_dates_list = main_format_score_debug(tt_name, inverted_index, gte_dictionary,
                                                                            debug_mode, date_dictionary, score_type,
-                                                                           NormalizedText, dates_array)
+                                                                           NormalizedText)
 
         from Time_Matters_SingleDoc.InvertedIndex import sentence_tokenizer
         ListOfSentences = sentence_tokenizer(NormalizedText)
@@ -67,5 +66,5 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     elif not debug_mode:
         final_score_output, NormalizedCandidateDates = main_format_score_no_debug(tt_name, inverted_index, gte_dictionary, debug_mode,
-                                                        date_dictionary, score_type, dates_array)
+                                                        date_dictionary, score_type)
         return final_score_output, NormalizedCandidateDates
