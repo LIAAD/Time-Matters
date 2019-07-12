@@ -115,26 +115,19 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
                   heideltime_date_granularity):
     from py_heideltime import py_heideltime
 
-    list_dates = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
+    list_dates, normalized_text, tagged_text = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
                                heideltime_document_creation_time)
     date_dictionary = {}
     dates = []
-    new_text = text
     for ct in range(len(list_dates)):
         if list_dates[ct][0].lower() not in date_dictionary:
             date_dictionary[list_dates[ct][0].lower()] = [list_dates[ct][1]]
             dates.append(list_dates[ct][0].lower())
         elif list_dates[ct][0].lower() in date_dictionary:
             date_dictionary[list_dates[ct][0].lower()].append(list_dates[ct][1])
-        try:
-            import re
 
-            new_text = new_text.replace(list_dates[ct][1], list_dates[ct][0])
-
-        except:
-            pass
         #print(new_text)
-    return dates, new_text, date_dictionary
+    return dates, normalized_text, date_dictionary
 
 
 def rule_based(text, date_granularity):
