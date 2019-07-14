@@ -68,14 +68,6 @@ def verify_temporal_tagger(tt_name, language, document_type, date_granularity, d
               '     colloquial;\n'
               '     scientific;')
         return {}
-    elif not isinstance(document_type, str) and document_type not in document_type_list or document_type.lower() not in document_type_list:
-        print('Please specify a valid document_type.\n'
-              'options:\n'
-              '     news;\n'
-              '     narrative;\n'
-              '     colloquial;\n'
-              '     scientific;')
-        return {}
     elif match == [] and document_creation_time !='yyyy-mm-dd':
         print('Please specify a date in the following format: YYYY-MM-DD.')
         return {}

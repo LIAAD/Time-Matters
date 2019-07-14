@@ -71,7 +71,6 @@ def py_heideltime_MultiScore_format(inverted_index, gte_dictionary, debug_mode, 
                 final_output[date][id_sentence].append(inverted_index[date][2][id_sentence][1])
             except:
                 pass
-
         if debug_mode:
             ultimate_score = create_offset_py_heideltime_MultiScore_format_debug(gte_dictionary, date_dictionary, total_offset,
                                                                 date, ultimate_score, inverted_index, debug_mode)
@@ -92,20 +91,27 @@ def rule_based_MultiScore_format(inverted_index, list_dates_score):
 
 def create_offset_py_heideltime_MultiScore_format_debug(gte_dictionary, date_dictionary, total_offset, date, ultimate_score, inverted_index, debug_mode):
     try:
+
+        offset = get_total_offset(inverted_index, date)
         for n_expression in range(len(total_offset)):
+
             new_date_format = get_new_date_format(date_dictionary, debug_mode, date, n_expression)
-           # print(new_date_format)
+            if new_date_format not in ultimate_score:
+                ultimate_score[new_date_format] = {}
+            # print(new_date_format)
+
             for sent_id in gte_dictionary[date]:
-                # if debug mode insert score and offset
-                if total_offset[n_expression] in inverted_index[date][2][sent_id][1]:
-                    if date_dictionary[date][n_expression] not in ultimate_score:
-                        ultimate_score[new_date_format] = {sent_id: gte_dictionary[date][sent_id]}
+                if offset[n_expression] in gte_dictionary[date][sent_id][1]:
+                    if sent_id not in ultimate_score[new_date_format]:
+                        ultimate_score[new_date_format][sent_id] = [gte_dictionary[date][sent_id][0], [offset[n_expression]]]
                     else:
-                        ultimate_score[new_date_format][sent_id] = gte_dictionary[date][sent_id]
+                        ultimate_score[new_date_format][sent_id][1].append(offset[n_expression])
+                else:
+                    pass
     except:
         return ultimate_score
-
     return ultimate_score
+
 
 
 def create_offset_py_heideltime_MultiScore_format_no_debug(gte_dictionary, date_dictionary, total_offset, date, ultimate_score, inverted_index, debug_mode):
@@ -122,6 +128,7 @@ def create_offset_py_heideltime_MultiScore_format_no_debug(gte_dictionary, date_
     except:
         return ultimate_score
     return ultimate_score
+
 
 
 def get_new_date_format(date_dictionary, debug_mode, date, n_expression):
@@ -158,8 +165,8 @@ def text_refactor(new_text, final_score_output):
     tokenize_text = new_text.split()
     for date in final_score_output:
         new_date_format = date.replace(' ', '_')
+        offset = final_score_output[date][1]
 
-        offset = [final_score_output[date][1][0] for i in final_score_output[date]]
         for n_ofset in offset:
             tokenize_text[n_ofset] = new_date_format
 
@@ -169,10 +176,11 @@ def text_refactor(new_text, final_score_output):
 
 def text_multi_refactor(new_text, final_score_output):
     tokenize_text = new_text.split()
-
-    for i in final_score_output:
-        offset = [final_score_output[i][date_sentence][1][0] for date_sentence in final_score_output[i]]
-        new_date_format = i.replace(' ', '_')
+    for date in final_score_output:
+        offset = []
+        for date_sentence in final_score_output[date]:
+            offset += final_score_output[date][date_sentence][1]
+        new_date_format = date.replace(' ', '_')
 
         for n_ofset in offset:
             tokenize_text[n_ofset] = new_date_format

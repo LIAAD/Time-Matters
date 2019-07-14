@@ -170,7 +170,7 @@ def Dates():
             if output != {}:
                 print('=========================== GTE Final score ===================================' + '\n')
                 print(output)
-                print('=========================== Candidate dates Dictionary ============== =========' + '\n')
+                print('=========================== Candidate dates Dictionary ========================' + '\n')
                 print(NormalizedCandidateDates)
             else:
                 print('{}')
