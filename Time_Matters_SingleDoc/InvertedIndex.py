@@ -11,7 +11,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
     date_dictionary, time_tagger_start_time, kw_exec_time = kw_ext(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor)
 
     ii_start_time = time.time()
-    inverted_index, words_array, dates_array, sentence_array, sentence_tokens = create_inverted_index(relevant_words_array, candidate_dates_array, new_text, date_extractor)
+    inverted_index, words_array, dates_array, sentence_array, sentence_tokens = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
 
     words_array, KeyWords_dictionary = verify_keywords(inverted_index, words_array, KeyWords_dictionary)
     text_tokens = tokenizer(new_text)
@@ -24,6 +24,7 @@ def verify_keywords(inverted_index, words_array, KeyWords_dictionary):
     KeyWords_dictionary = {w: KeyWords_dictionary[w] for w in words_array if w in inverted_index}
     words_array = [kw for kw in words_array if kw in inverted_index]
     return words_array, KeyWords_dictionary
+
 
 # *****************************************************************
 # keywords extraction using wake
@@ -50,22 +51,20 @@ def kw_ext(yake_ln, lang, text, num_of_keywords, document_type, document_creatio
 
 # ***********************************************************************************
 # Create inverted Index
-def create_inverted_index(relevant_words_list, candidate_dates_list, text, date_extractor):
+def create_inverted_index(relevant_words_list, candidate_dates_list, text):
     sentence_array = sentence_tokenizer(text)
-    words_dates_list = relevant_words_list + candidate_dates_list
     inverted_index = {}
-
     last_pos = 0
     sf = 0
     sentence_tokens_list = []
-    import re
+
     for sentence_id in range(len(sentence_array)):
 
         tokenize_sentence = tokenizer(sentence_array[sentence_id])
 
         sentence_tokens_list.append(tokenize_sentence)
         sf += 1
-        inverted_index = get_occurrence(tokenize_sentence, relevant_words_list, words_dates_list, inverted_index, sentence_id, last_pos)
+        inverted_index = get_occurrence(tokenize_sentence, relevant_words_list, inverted_index, sentence_id, last_pos)
         last_pos += len(tokenize_sentence)
 
     return inverted_index, relevant_words_list, list(candidate_dates_list), sentence_array, sentence_tokens_list
@@ -75,7 +74,8 @@ def tokenizer(text):
     tokens_list = re.findall('(<d>.*?</d>|\w+)', text)
     return tokens_list
 
-def get_occurrence(tokenize_sentence, words_list, words_dates_list, inverted_index, sentence_id, last_pos):
+
+def get_occurrence(tokenize_sentence, words_list, inverted_index, sentence_id, last_pos):
 
     for i, w in enumerate(tokenize_sentence):
         term = w.lower().replace('<d>', '').replace('</d>', '')
