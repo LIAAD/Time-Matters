@@ -30,10 +30,14 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
         dataframe.at[Term1, Term1] = 1
         for j in range(i+1, len(clean_unic_array)):
             Term2 = clean_unic_array[j]
-            px_y, px, py = find_axis_data(inverted_index[Term1], inverted_index[Term2], n_contextual_window)
-            result = DICE(px_y, px, py, Term1, Term2)
-            dataframe.at[Term1, Term2] = result
-            dataframe.at[Term2, Term1] = result
+            try:
+                px_y, px, py = find_axis_data(inverted_index[Term1], inverted_index[Term2], n_contextual_window)
+                result = DICE(px_y, px, py, Term1, Term2)
+                dataframe.at[Term1, Term2] = result
+                dataframe.at[Term2, Term1] = result
+            except:
+                pass
+
 
     dice_exec_time = (time.time() - dice_start_time)
     #print("\n")
@@ -74,7 +78,7 @@ def find_axis_data(x_axis, y_axis, n_contextual_window):
 # **********************************************************
 # verify if a distance between words are according n_contextual_window
 def distance_of_terms(x_offset, y_offset, n_contextual_window):
-    if any(1 for x in x_offset for y in y_offset if abs(x - y) < n_contextual_window) == True:
+    if any(1 for x   in x_offset for y in y_offset if abs(x - y) < n_contextual_window) == True:
         value = 1
     else:
         value = 0

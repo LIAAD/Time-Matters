@@ -2,7 +2,6 @@ from Time_Matters_SingleDoc.InvertedIndex import main_inverted_index
 from Time_Matters_SingleDoc.GetDateScores import GetDataScores
 from langdetect import detect
 from Time_Matters_SingleDoc.validate_input import *
-from Time_Matters_SingleDoc.format_output import *
 
 
 def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type='ByDoc', debug_mode=False):
@@ -12,8 +11,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         yake_lang = 'en'
     import time
     total_start_time = time.time()
-    tt_name, language, document_type, document_creation_time, date_granularity, num_of_keywords, N, TH, n_contextual_window = verify_input_data(
-        temporal_tagger, time_matters)
+    tt_name, language, document_type, document_creation_time, date_granularity, num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters)
 
     # input validation
     result_validation_time_matters = verify_time_matters(num_of_keywords, N, n_contextual_window, TH)
@@ -24,15 +22,34 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         print({})
         raise SystemExit
     # creation of inverted index
-    inverted_index, words_array, dates_array, ListOfSentences, date_dictionary, NormalizedText, time_tagger_start_time, kw_exec_time, ii_exec_time = main_inverted_index(
-        yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name)
+    inverted_index, RelevantKWs, words_array, dates_array, \
+    ListOfSentences, NormalizedCandidateDates, Text, time_tagger_start_time, kw_exec_time, sentence_tokens_list, \
+    ii_exec_time = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name)
 
-    gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array,
-                                                                              n_contextual_window,
-                                                                              TH, N, score_type)
+
+    gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type)
+
+    Score = {}
+    if score_type == 'ByDoc':
+
+        for dt in gte_dictionary:
+            Score[dt] = [gte_dictionary[dt], NormalizedCandidateDates[dt]]
+    else:
+
+        for dt in gte_dictionary:
+            last_occurrence = 0
+            for sentence_id in gte_dictionary[dt]:
+                #print(sentence_id)
+                max_occurrences = len(inverted_index[dt][2][sentence_id][1])
+
+                listtt = [NormalizedCandidateDates[dt][last_occurrence] for i in range(0, max_occurrences)]
+                last_occurrence += max_occurrences
+                gte_dictionary[dt][sentence_id].append(listtt)
+        Score = gte_dictionary
+
 
     total_exec_time = (time.time() - total_start_time)
-    if debug_mode and tt_name == 'py_heideltime':
+    if debug_mode:
         execution_time_list = {'TotalTime': total_exec_time,
                                tt_name: time_tagger_start_time,
                                'YAKE': kw_exec_time,
@@ -40,31 +57,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                                'DICE_Matrix': dice_exec_time,
                                'GTE': gte_exec_time}
 
-        final_score_output, n_txt, candidate_dates_dictionary, normalized_candidate_date_dictionary, = main_format_score_debug(
-            tt_name, inverted_index, gte_dictionary, debug_mode, date_dictionary, score_type, NormalizedText)
-
-        from Time_Matters_SingleDoc.InvertedIndex import sentence_tokenizer
-        ListOfSentences = sentence_tokenizer(n_txt)
-
-        return n_txt, NormalizedText, ListOfSentences, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix, execution_time_list
-    elif debug_mode and tt_name == 'rule_based':
-        execution_time_list = {'TotalTime': total_exec_time,
-                               tt_name: time_tagger_start_time,
-                               'YAKE': kw_exec_time,
-                               'InvertedIndex': ii_exec_time,
-                               'DICE_Matrix': dice_exec_time,
-                               'GTE': gte_exec_time}
-
-        final_score_output, candidate_dates_list = main_format_score_debug(tt_name, inverted_index, gte_dictionary,
-                                                                           debug_mode, date_dictionary, score_type,
-                                                                           NormalizedText)
-
-        from Time_Matters_SingleDoc.InvertedIndex import sentence_tokenizer
-        ListOfSentences = sentence_tokenizer(NormalizedText)
-
-        return NormalizedText, ListOfSentences, final_score_output, candidate_dates_list, words_array, inverted_index, DiceMatrix, execution_time_list
-
+        return Text, Score, NormalizedCandidateDates, RelevantKWs, inverted_index, DiceMatrix, execution_time_list
     elif not debug_mode:
-        final_score_output, NormalizedCandidateDates = main_format_score_no_debug(tt_name, inverted_index, gte_dictionary, debug_mode,
-                                                        date_dictionary, score_type)
-        return final_score_output, NormalizedCandidateDates
+        return Score, NormalizedCandidateDates, Text
