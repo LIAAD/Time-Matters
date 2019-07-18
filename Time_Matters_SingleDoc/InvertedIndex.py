@@ -3,23 +3,27 @@ import nltk
 import time
 import re
 
+
 # *****************************************************************
 # function that manage the workflow for creation of inverted_index
-def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity,
-                        date_extractor):
+def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor):
     KeyWords_dictionary, relevant_words_array, candidate_dates_array, new_text, \
     date_dictionary, time_tagger_start_time, kw_exec_time = kw_ext(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor)
 
-
-    #add_kws_tags(relevant_words_array, text)
-
-
     ii_start_time = time.time()
-    inverted_index, words_array, dates_array, sentence_array, sentence_tokens_list = create_inverted_index(relevant_words_array, candidate_dates_array, new_text, date_extractor)
+    inverted_index, words_array, dates_array, sentence_array, sentence_tokens = create_inverted_index(relevant_words_array, candidate_dates_array, new_text, date_extractor)
+
+    words_array, KeyWords_dictionary = verify_keywords(inverted_index, words_array, KeyWords_dictionary)
+    text_tokens = tokenizer(new_text)
 
     ii_exec_time = (time.time() - ii_start_time)
-    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time, sentence_tokens_list, ii_exec_time
+    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time
 
+
+def verify_keywords(inverted_index, words_array, KeyWords_dictionary):
+    KeyWords_dictionary = {w: KeyWords_dictionary[w] for w in words_array if w in inverted_index}
+    words_array = [kw for kw in words_array if kw in inverted_index]
+    return words_array, KeyWords_dictionary
 
 # *****************************************************************
 # keywords extraction using wake
@@ -57,7 +61,8 @@ def create_inverted_index(relevant_words_list, candidate_dates_list, text, date_
     import re
     for sentence_id in range(len(sentence_array)):
 
-        tokenize_sentence = re.findall('(<d>.*?</d>|\w+)', sentence_array[sentence_id])
+        tokenize_sentence = tokenizer(sentence_array[sentence_id])
+
         sentence_tokens_list.append(tokenize_sentence)
         sf += 1
         inverted_index = get_occurrence(tokenize_sentence, relevant_words_list, words_dates_list, inverted_index, sentence_id, last_pos)
@@ -65,6 +70,10 @@ def create_inverted_index(relevant_words_list, candidate_dates_list, text, date_
 
     return inverted_index, relevant_words_list, list(candidate_dates_list), sentence_array, sentence_tokens_list
 
+
+def tokenizer(text):
+    tokens_list = re.findall('(<d>.*?</d>|\w+)', text)
+    return tokens_list
 
 def get_occurrence(tokenize_sentence, words_list, words_dates_list, inverted_index, sentence_id, last_pos):
 

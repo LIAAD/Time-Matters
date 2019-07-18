@@ -23,7 +23,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         raise SystemExit
     # creation of inverted index
     inverted_index, RelevantKWs, words_array, dates_array, \
-    ListOfSentences, NormalizedCandidateDates, Text, time_tagger_start_time, kw_exec_time, sentence_tokens_list, \
+    ListOfSentences, TempExpressions, TextNormalized, time_tagger_start_time, kw_exec_time, sentence_tokens_list, text_tokens,    \
     ii_exec_time = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name)
 
 
@@ -33,7 +33,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     if score_type == 'ByDoc':
 
         for dt in gte_dictionary:
-            Score[dt] = [gte_dictionary[dt], NormalizedCandidateDates[dt]]
+            Score[dt] = [gte_dictionary[dt], TempExpressions[dt]]
     else:
 
         for dt in gte_dictionary:
@@ -42,7 +42,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                 #print(sentence_id)
                 max_occurrences = len(inverted_index[dt][2][sentence_id][1])
 
-                listtt = [NormalizedCandidateDates[dt][last_occurrence] for i in range(0, max_occurrences)]
+                listtt = [TempExpressions[dt][last_occurrence] for i in range(0, max_occurrences)]
                 last_occurrence += max_occurrences
                 gte_dictionary[dt][sentence_id].append(listtt)
         Score = gte_dictionary
@@ -57,6 +57,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                                'DICE_Matrix': dice_exec_time,
                                'GTE': gte_exec_time}
 
-        return Text, sentence_tokens_list, Score, NormalizedCandidateDates, RelevantKWs, inverted_index, DiceMatrix, execution_time_list
+        return Score, TempExpressions, TextNormalized, text_tokens, sentence_tokens_list, ListOfSentences, RelevantKWs, inverted_index, DiceMatrix, execution_time_list
     elif not debug_mode:
-        return Score, NormalizedCandidateDates, Text, sentence_tokens_list
+        return Score, TempExpressions, TextNormalized, text_tokens, sentence_tokens_list, ListOfSentences
