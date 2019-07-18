@@ -18,7 +18,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
     inverted_index, words_array, dates_array, sentence_array, sentence_tokens_list = create_inverted_index(relevant_words_array, candidate_dates_array, new_text, date_extractor)
 
     ii_exec_time = (time.time() - ii_start_time)
-    return inverted_index,KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time,sentence_tokens_list, ii_exec_time
+    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time, sentence_tokens_list, ii_exec_time
 
 
 # *****************************************************************

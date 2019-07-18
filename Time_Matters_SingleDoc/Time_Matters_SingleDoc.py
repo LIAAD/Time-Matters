@@ -57,6 +57,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                                'DICE_Matrix': dice_exec_time,
                                'GTE': gte_exec_time}
 
-        return Text, Score, NormalizedCandidateDates, RelevantKWs, inverted_index, DiceMatrix, execution_time_list
+        return Text, sentence_tokens_list, Score, NormalizedCandidateDates, RelevantKWs, inverted_index, DiceMatrix, execution_time_list
     elif not debug_mode:
-        return Score, NormalizedCandidateDates, Text
+        return Score, NormalizedCandidateDates, Text, sentence_tokens_list

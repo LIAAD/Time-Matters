@@ -165,27 +165,31 @@ def Dates():
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
 
         if debug_mode == 'False':
-            output, NormalizedCandidateDates = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type,
-                                            str2bool(debug_mode))
-            if output != {}:
-                print('=========================== GTE Final score ===================================' + '\n')
-                print(output)
-                print('=========================== Candidate dates Dictionary ========================' + '\n')
+            Score, NormalizedCandidateDates, \
+            Text, sentence_tokens_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list,
+                                                                score_type, str2bool(debug_mode))
+
+            if Score != {}:
+                print('=========================== GTE Final score ====================================\n')
+                print(Score)
+                print('\n')
+                print('=========================== Candidate dates Dictionary =========================\n')
                 print(NormalizedCandidateDates)
+                print('\n')
+                print('=============================== Normalized Text ================================\n')
+                print(Text)
+                print('\n')
+                print('=========================== Tokens List from Text ==============================\n')
+                print(sentence_tokens_list)
+                print('\n')
             else:
                 print('{}')
 
         elif debug_mode == 'True':
             try:
-                if time_tagger_arg_list[0] == 'rule_based':
-                    rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type,
-                                      str2bool(debug_mode))
-                else:
-                    py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type,
-                                         str2bool(debug_mode))
+                debug_mode_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
             except:
-                py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type,
-                                     str2bool(debug_mode))
+                pass
         else:
             print('Please specify a valid option for debug_mode.\n'
                   'options:\n'
@@ -238,8 +242,10 @@ def get_arguments_list_values(arg_list, argument, extense_argument, defaut_value
         input_list = defaut_value
     return input_list
 
+
 def str2bool(v):
   return v in ("True")
+
 
 def get_arguments_values(arg_list, argument, extense_argument, defaut_value):
     value = ''
@@ -265,16 +271,18 @@ def verify_argument_pos(arg_list, argument, extense_argument):
     return position
 
 
-def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
+def debug_mode_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
     try:
-        NormalizedText, ListOfSentences, final_score_output, candidate_dates_list, words_array, inverted_index, DiceMatrix, execution_time_list = Time_Matters_SingleDoc(
-            text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
+        NormalizedText, sentence_tokens_list, \
+        final_score_output, candidate_dates_list, \
+        words_array, inverted_index, \
+        DiceMatrix, execution_time_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
 
         print('=========================== Normalized Text ====================================\n')
         print(NormalizedText)
         print('\n')
-        print('=========================== List of Sentences ==================================\n')
-        print(ListOfSentences)
+        print('=========================== Tokens List from Text ==============================\n')
+        print(sentence_tokens_list)
         print('\n')
         print('=========================== GTE Final score ====================================\n')
         print(str(final_score_output) + '\n')
@@ -291,36 +299,6 @@ def rule_based_output(text, time_tagger_arg_list, time_matterss_arg_list, score_
     except ValueError:
         print('{}')
 
-def py_heideltime_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
-    try:
-        n_txt, NormalizedText, ListOfSentences, final_score_output, candidate_dates_dictionary, normalized_candidate_date_dictionary, words_array, inverted_index, DiceMatrix, execution_time_list = Time_Matters_SingleDoc(
-            text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
-
-        print('=========================== Original Text ======================================\n')
-        print(n_txt)
-        print('\n')
-        print('=========================== Normalized Text ====================================\n')
-        print(NormalizedText)
-        print('\n')
-        print('=========================== List of Sentences ==================================\n')
-        print(ListOfSentences)
-        print('\n')
-        print('=========================== GTE Final score ====================================\n')
-        print(str(final_score_output) + '\n')
-        print('=========================== Candidate dates Dictionary =========================\n')
-        print(str(candidate_dates_dictionary) + '\n')
-        print('=========================== Normalized Candidate dates Dictionary ==============\n')
-        print(str(normalized_candidate_date_dictionary) + '\n')
-        print('=========================== Relevant Keywords ==================================\n')
-        print(str(words_array) + '\n')
-        print('=========================== Inverted Index =====================================\n')
-        print(str(inverted_index) + '\n')
-        print('========================== DICE Matrix =========================================\n')
-        print(DiceMatrix, '\n')
-        print('============================= Execution time list  =============================\n')
-        print(execution_time_list)
-    except ValueError:
-        print('{}')
 
 if __name__ == "__main__":
     Dates()
