@@ -165,22 +165,28 @@ def Dates():
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
 
         if debug_mode == 'False':
-            Score, NormalizedCandidateDates, \
-            Text, sentence_tokens_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list,
-                                                                score_type, str2bool(debug_mode))
+            Score, TempExpressions, \
+            TextNormalized, text_tokens, sentence_tokens_list,\
+            ListOfSentences = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
 
             if Score != {}:
                 print('=========================== GTE Final score ====================================\n')
                 print(Score)
                 print('\n')
                 print('=========================== Candidate dates Dictionary =========================\n')
-                print(NormalizedCandidateDates)
+                print(TempExpressions)
                 print('\n')
                 print('=============================== Normalized Text ================================\n')
-                print(Text)
+                print(TextNormalized)
                 print('\n')
-                print('=========================== Tokens List from Text ==============================\n')
+                print('=========================== Tokens list from Text ==============================\n')
+                print(text_tokens)
+                print('\n')
+                print('=========================== Tokens list per sentence ==============================\n')
                 print(sentence_tokens_list)
+                print('\n')
+                print('=========================== List of sentences ==============================\n')
+                print(ListOfSentences)
                 print('\n')
             else:
                 print('{}')
@@ -273,23 +279,32 @@ def verify_argument_pos(arg_list, argument, extense_argument):
 
 def debug_mode_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
     try:
-        NormalizedText, sentence_tokens_list, \
-        final_score_output, candidate_dates_list, \
-        words_array, inverted_index, \
+        Score, TempExpressions,\
+        TextNormalized, text_tokens,\
+        sentence_tokens_list, ListOfSentences,\
+        RelevantKWs, inverted_index,\
         DiceMatrix, execution_time_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
 
-        print('=========================== Normalized Text ====================================\n')
-        print(NormalizedText)
+        print('=========================== GTE Final score ====================================\n')
+        print(Score)
         print('\n')
-        print('=========================== Tokens List from Text ==============================\n')
+        print('=========================== Candidate dates Dictionary =========================\n')
+        print(TempExpressions)
+        print('\n')
+        print('=============================== Normalized Text ================================\n')
+        print(TextNormalized)
+        print('\n')
+        print('=========================== Tokens list from Text ==============================\n')
+        print(text_tokens)
+        print('\n')
+        print('=========================== Tokens list per sentence ==============================\n')
         print(sentence_tokens_list)
         print('\n')
-        print('=========================== GTE Final score ====================================\n')
-        print(str(final_score_output) + '\n')
-        print('=========================== Candidate dates Dictionary =========================\n')
-        print(str(candidate_dates_list) + '\n')
+        print('=========================== List of sentences ==============================\n')
+        print(ListOfSentences)
+        print('\n')
         print('=========================== Relevant Keywords ==================================\n')
-        print(str(words_array) + '\n')
+        print(str(RelevantKWs) + '\n')
         print('=========================== Inverted Index =====================================\n')
         print(str(inverted_index) + '\n')
         print('========================== DICE Matrix =========================================\n')
