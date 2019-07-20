@@ -7,17 +7,36 @@ import re
 # *****************************************************************
 # function that manage the workflow for creation of inverted_index
 def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor):
-    KeyWords_dictionary, relevant_words_array, candidate_dates_array, new_text, \
-    date_dictionary, time_tagger_start_time, kw_exec_time = kw_ext(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor)
 
+    if date_extractor == 'rule_based':
+        # =============================== Keyword Extractor ===============================================
+        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, text, num_of_keywords)
+
+        # =============================== Date Extractor ===============================================
+        time_tagger_start_time = time.time()
+        candidate_dates_array, new_text, date_dictionary = rule_based(text, date_granularity, relevant_words_array)
+        time_tagger_exec_time = (time.time() - time_tagger_start_time)
+    else:
+        # =============================== Date Extractor ===============================================
+        time_tagger_start_time = time.time()
+        candidate_dates_array, new_text, date_dictionary = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
+        time_tagger_exec_time = (time.time() - time_tagger_start_time)
+
+        # =============================== Keyword Extractor ===============================================
+        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords)
+        new_text = format_text(new_text, relevant_words_array)
+    # =====================================================================================================
+
+    # =============================== Inverted Index ===============================================
     ii_start_time = time.time()
     inverted_index, words_array, dates_array, sentence_array, sentence_tokens = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
+    ii_exec_time = (time.time() - ii_start_time)
+    # ===========================================================================================================
 
-    words_array, KeyWords_dictionary = verify_keywords(inverted_index, words_array, KeyWords_dictionary)
+    words_array, KeyWords_dictionary = verify_keywords(inverted_index, relevant_words_array, KeyWords_dictionary)
     text_tokens = tokenizer(new_text)
 
-    ii_exec_time = (time.time() - ii_start_time)
-    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_start_time, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time
+    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_exec_time, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time
 
 
 def verify_keywords(inverted_index, words_array, KeyWords_dictionary):
@@ -26,18 +45,30 @@ def verify_keywords(inverted_index, words_array, KeyWords_dictionary):
     return words_array, KeyWords_dictionary
 
 
+def test_trans(text):
+    return text.translate(str.maketrans('', '', '!,:.;?()'))
+
+
+def format_text(text, relevant_words_array):
+    text_tokens = text.split(' ')
+    try:
+        for tk in range(len(text_tokens)):
+            kw = test_trans(text_tokens[tk])
+            if kw.lower() in relevant_words_array:
+                text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
+    except:
+        pass
+    new_text = ' '.join(text_tokens)
+    return new_text
+
+
 # *****************************************************************
 # keywords extraction using wake
-def kw_ext(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor):
-    time_tagger_start_time = time.time()
-    candidate_dates_array, new_text, date_dictionary = candidate_years_selection(text, lang, document_type,
-                                                                       document_creation_time, date_granularity,
-                                                                       date_extractor)
-    time_tagger_exec_time = (time.time() - time_tagger_start_time)
+def kw_ext(yake_ln, text, num_of_keywords):
 
     kw_start_time = time.time()
     sample = YakeKW(lan=yake_ln, n=1, top=num_of_keywords)
-    keywords = sample.extract_keywords(new_text)
+    keywords = sample.extract_keywords(text)
     KeyWords_dictionary = {}
 
     for ki in range(len(keywords)):
@@ -46,7 +77,8 @@ def kw_ext(yake_ln, lang, text, num_of_keywords, document_type, document_creatio
     kw_exec_time = (time.time() - kw_start_time)
 
     relevant_words_array = list(KeyWords_dictionary.keys())
-    return KeyWords_dictionary, relevant_words_array, candidate_dates_array, new_text, date_dictionary, time_tagger_exec_time, kw_exec_time
+
+    return KeyWords_dictionary, relevant_words_array, kw_exec_time
 
 
 # ***********************************************************************************
@@ -64,23 +96,23 @@ def create_inverted_index(relevant_words_list, candidate_dates_list, text):
 
         sentence_tokens_list.append(tokenize_sentence)
         sf += 1
-        inverted_index = get_occurrence(tokenize_sentence, relevant_words_list, inverted_index, sentence_id, last_pos)
+        inverted_index = get_occurrence(tokenize_sentence, inverted_index, sentence_id, last_pos)
         last_pos += len(tokenize_sentence)
 
     return inverted_index, relevant_words_list, list(candidate_dates_list), sentence_array, sentence_tokens_list
 
 
 def tokenizer(text):
-    tokens_list = re.findall('(<d>.*?</d>|\w+)', text)
+    tokens_list = re.findall('(<d>.*?</d>|<kw>.*?</kw>|\w+)', text)
     return tokens_list
 
 
-def get_occurrence(tokenize_sentence, words_list, inverted_index, sentence_id, last_pos):
+def get_occurrence(tokenize_sentence, inverted_index, sentence_id, last_pos):
 
     for i, w in enumerate(tokenize_sentence):
-        term = w.lower().replace('<d>', '').replace('</d>', '')
+        term = w.lower().replace('<d>', '').replace('</d>', '').replace('<kw>', '').replace('</kw>', '')
 
-        if term in words_list or re.match('^<d>', w.lower()):
+        if re.match('^<kw>', w.lower()) or re.match('^<d>', w.lower()):
             if term not in inverted_index:
                 inverted_index[term] = [0, 1, {}]
             if sentence_id not in inverted_index[term][2]:
@@ -120,17 +152,6 @@ def sentence_tokenizer(text):
 # *************************************************************************************
 # **************************** Date extraction from text ******************************
 # *************************************************************************************
-def candidate_years_selection(text, language, document_type, document_creation_time, date_granularity, date_extractor):
-    if date_extractor == 'py_heideltime':
-        candidate_dates_array, new_text, date_dictionary = py_heideltime(text, language, document_type,
-                                                                         document_creation_time,
-                                                                         date_granularity)
-        return candidate_dates_array, new_text, date_dictionary
-    elif date_extractor == 'rule_based':
-        candidate_dates_array, new_text, date_dictionary = rule_based(text, date_granularity)
-        return candidate_dates_array, new_text, date_dictionary
-
-
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
 
@@ -151,54 +172,52 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
     return dates, normalized_text, date_dictionary
 
 
-def rule_based(text, date_granularity):
+def rule_based(text, date_granularity, relevant_words_array):
     dates_list = []
     date_dictionary = {}
-    import re
 
+    text_tokens = text.split(' ')
+    c = re.compile('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}')
     try:
-        striped_text = text.replace('(', '').replace(')', '').replace('–', '-')
-    except:
-        striped_text = text
-    match = re.findall('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}', striped_text, re.MULTILINE)
-    try:
-        for dt in match:
-            provisional_list = []
+        for tk in range(len(text_tokens)):
+            kw = test_trans(text_tokens[tk])
+            if kw.lower() in relevant_words_array:
+                text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
+            if c.match(text_tokens[tk]):
+                dt = c.findall(text_tokens[tk])
+                provisional_list = []
+                text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>' + dt[0] + '</d>')
+                if dt[0] not in dates_list and date_granularity == 'full':
+                    dates_list.append(dt[0])
+                    date_dictionary[dt[0]] = dt[0]
 
-            if dt not in dates_list and date_granularity == 'full':
-                dates_list.append(dt)
-                date_dictionary[dt] = dt
-                striped_text = striped_text.replace(dt, '<d>'+dt+'</d>')
+                elif dt[0] not in dates_list and date_granularity != 'full':
+                    try:
+                        if date_granularity.lower() == 'year':
 
-            elif dt not in dates_list and date_granularity != 'full':
+                            dt, dates_list, provisional_list, \
+                            date_dictionary,striped_text  = date_granularity_format(dt, dates_list, provisional_list, date_dictionary, '\d{4}', tk)
 
-                try:
-                    if date_granularity.lower() == 'year':
+                        elif date_granularity.lower() == 'month':
 
-                        dt, dates_list, provisional_list, \
-                        date_dictionary,striped_text  = date_granularity_format(dt, dates_list, provisional_list, date_dictionary, '\d{4}', striped_text)
+                            dt, dates_list, provisional_list, \
+                            date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2}[-/.]\d{4}|\d{4}[-/.]\d{2}', tk)
 
-                    elif date_granularity.lower() == 'month':
+                        elif date_granularity.lower() == 'day':
 
-                        dt, dates_list, provisional_list, \
-                        date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2}[-/.]\d{4}|\d{4}[-/.]\d{2}', striped_text)
+                            dt, dates_list, provisional_list, \
+                            date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2,4}[-/.]\d{2}[-/.]\d{2,4}', tk)
 
-                    elif date_granularity.lower() == 'day':
-
-                        dt, dates_list, provisional_list, \
-                        date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2,4}[-/.]\d{2}[-/.]\d{2,4}', striped_text)
-
-
-                    striped_text = striped_text.replace(provisional_list[0][0], '<d>'+provisional_list[0][1]+'</d>')
-
-                except:
+                        text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>'+provisional_list[0][1]+'</d>')
+                    except:
+                        pass
+                else:
                     pass
-            else:
-                pass
     except ValueError:
         pass
+    new_text = ' '.join(text_tokens)
 
-    return dates_list, striped_text, date_dictionary
+    return dates_list, new_text, date_dictionary
 
 
 def date_granularity_format(dt, dates_list, provisional_list, date_dictionary, granularity_rule, text):
@@ -211,6 +230,5 @@ def date_granularity_format(dt, dates_list, provisional_list, date_dictionary, g
         date_dictionary[years[0]] = [dt]
     else:
         date_dictionary[years[0]].append(dt)
-
 
     return dt, dates_list, provisional_list, date_dictionary, text

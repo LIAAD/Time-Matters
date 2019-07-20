@@ -42,9 +42,10 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                 #print(sentence_id)
                 max_occurrences = len(inverted_index[dt][2][sentence_id][1])
 
-                listtt = [TempExpressions[dt][last_occurrence] for i in range(0, max_occurrences)]
+                listtt = [TempExpressions[dt] for i in range(0, max_occurrences)]
+
                 last_occurrence += max_occurrences
-                gte_dictionary[dt][sentence_id].append(listtt)
+                gte_dictionary[dt][sentence_id].extend  (listtt)
         Score = gte_dictionary
 
 
