@@ -18,7 +18,8 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         time_tagger_exec_time = (time.time() - time_tagger_start_time)
         if n_gram > 1:
             new_text = format_text_more_gram(new_text, relevant_words_array, n_gram)
-            #new_text = format_text(new_text, relevant_words_array)
+        else:
+            new_text = format_text(new_text, relevant_words_array)
     else:
         # =============================== Date Extractor ===============================================
         time_tagger_start_time = time.time()
@@ -27,7 +28,10 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
 
         # =============================== Keyword Extractor ===============================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
-        new_text = format_text(new_text, relevant_words_array)
+        if n_gram > 1:
+            new_text = format_text_more_gram(new_text, relevant_words_array, n_gram)
+        else:
+            new_text = format_text(new_text, relevant_words_array)
     # =====================================================================================================
 
     # =============================== Inverted Index ===============================================
