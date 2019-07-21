@@ -88,6 +88,11 @@ Options:
 [not required]
  ----------------------------------------------------------------------------------------------------------------------------------
   -tm, --time_matters     Specifies information about Time-Matters, namely:
+			  - ngram: number of max ngram size
+			    Default: 1
+			    Options:
+				    any integer > 0
+				    
 			  - num_of_keywords: number of YAKE! keywords to extract from the text
 			    Default: 10
 			    Options:

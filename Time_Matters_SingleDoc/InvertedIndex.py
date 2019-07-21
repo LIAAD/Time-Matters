@@ -6,16 +6,19 @@ import re
 
 # *****************************************************************
 # function that manage the workflow for creation of inverted_index
-def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor):
+def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram):
 
     if date_extractor == 'rule_based':
         # =============================== Keyword Extractor ===============================================
-        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, text, num_of_keywords)
+        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, text, num_of_keywords, n_gram)
 
         # =============================== Date Extractor ===============================================
         time_tagger_start_time = time.time()
-        candidate_dates_array, new_text, date_dictionary = rule_based(text, date_granularity, relevant_words_array)
+        candidate_dates_array, new_text, date_dictionary = rule_based(text, date_granularity, relevant_words_array, n_gram)
         time_tagger_exec_time = (time.time() - time_tagger_start_time)
+        if n_gram > 1:
+            new_text = format_text_more_gram(new_text, relevant_words_array, n_gram)
+            #new_text = format_text(new_text, relevant_words_array)
     else:
         # =============================== Date Extractor ===============================================
         time_tagger_start_time = time.time()
@@ -23,7 +26,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         time_tagger_exec_time = (time.time() - time_tagger_start_time)
 
         # =============================== Keyword Extractor ===============================================
-        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords)
+        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
         new_text = format_text(new_text, relevant_words_array)
     # =====================================================================================================
 
@@ -62,22 +65,55 @@ def format_text(text, relevant_words_array):
     return new_text
 
 
+def format_text_more_gram(text, relevant_words_array, n_gram):
+    text_tokens = text.split(' ')
+    text = text.lower()
+    y = 0
+    fx = []
+    try:
+        while y < len(text_tokens):
+            x = []
+            xs = []
+            for i in range(n_gram):
+
+                x.append(text_tokens[y:y+i+1])
+                k = test_trans(' '.join(x[i])).lower()
+
+                if k in relevant_words_array:
+                    xs.append(k)
+            x_list = sorted(xs, key=lambda x: relevant_words_array.index(x))
+
+            if x_list != []:
+                txt = ' '.join(text_tokens[y:y+len(x_list[0].split(' '))])
+                old_expression = txt
+
+                new_expression = txt.replace(test_trans(old_expression), '<kw>'+x_list[0]+'</kw>')
+                y += len(x_list[0].split(' '))
+                fx.append(new_expression)
+            else:
+                fx.append(text_tokens[y])
+                y += 1
+    except:
+        pass
+    new_text = ' '.join(fx)
+    return new_text
+
+
 # *****************************************************************
 # keywords extraction using wake
-def kw_ext(yake_ln, text, num_of_keywords):
+def kw_ext(yake_ln, text, num_of_keywords, n_gram):
 
     kw_start_time = time.time()
-    sample = YakeKW(lan=yake_ln, n=1, top=num_of_keywords)
+    sample = YakeKW(lan=yake_ln, n=n_gram, top=num_of_keywords)
     keywords = sample.extract_keywords(text)
     KeyWords_dictionary = {}
 
     for ki in range(len(keywords)):
-        KeyWords_dictionary[keywords[ki][0]]= keywords[ki][1]
+        KeyWords_dictionary[keywords[ki][0]] = keywords[ki][1]
 
     kw_exec_time = (time.time() - kw_start_time)
 
     relevant_words_array = list(KeyWords_dictionary.keys())
-
     return KeyWords_dictionary, relevant_words_array, kw_exec_time
 
 
@@ -172,16 +208,17 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
     return dates, normalized_text, date_dictionary
 
 
-def rule_based(text, date_granularity, relevant_words_array):
+def rule_based(text, date_granularity, relevant_words_array, n_gram):
     dates_list = []
     date_dictionary = {}
 
     text_tokens = text.split(' ')
     c = re.compile('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}')
+
     try:
         for tk in range(len(text_tokens)):
             kw = test_trans(text_tokens[tk])
-            if kw.lower() in relevant_words_array:
+            if kw.lower() in relevant_words_array and n_gram == 1:
                 text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
             if c.match(text_tokens[tk]):
                 dt = c.findall(text_tokens[tk])

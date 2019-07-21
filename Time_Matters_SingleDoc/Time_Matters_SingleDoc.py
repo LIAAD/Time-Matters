@@ -11,10 +11,10 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         yake_lang = 'en'
     import time
     total_start_time = time.time()
-    tt_name, language, document_type, document_creation_time, date_granularity, num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters)
+    tt_name, language, document_type, document_creation_time, date_granularity, n_gram, num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters)
 
     # input validation
-    result_validation_time_matters = verify_time_matters(num_of_keywords, N, n_contextual_window, TH)
+    result_validation_time_matters = verify_time_matters(n_gram, num_of_keywords, N, n_contextual_window, TH)
     result_validation_score_type = verify_score_type(score_type, debug_mode)
     result_validation_temporal_tagger = verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time)
 
@@ -24,7 +24,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     # creation of inverted index
     inverted_index, RelevantKWs, words_array, dates_array, \
     ListOfSentences, TempExpressions, TextNormalized, time_tagger_start_time, kw_exec_time, sentence_tokens_list, text_tokens,    \
-    ii_exec_time = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name)
+    ii_exec_time = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
 
 
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type)
