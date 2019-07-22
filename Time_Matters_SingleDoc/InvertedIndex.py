@@ -71,35 +71,35 @@ def format_text(text, relevant_words_array):
 
 def format_text_more_gram(text, relevant_words_array, n_gram):
     text_tokens = text.split(' ')
-    text = text.lower()
+
     y = 0
-    fx = []
+    final_splited_text = []
+
     try:
         while y < len(text_tokens):
-            x = []
-            xs = []
+            temporal_list_one = []
+            temporal_list_two = []
             for i in range(n_gram):
 
-                x.append(text_tokens[y:y+i+1])
-                k = test_trans(' '.join(x[i])).lower()
+                temporal_list_one.append(text_tokens[y:y+i+1])
+                k = test_trans(' '.join(temporal_list_one[i])).lower()
 
                 if k in relevant_words_array:
-                    xs.append(k)
-            x_list = sorted(xs, key=lambda x: relevant_words_array.index(x))
+                    temporal_list_two.append(k)
+            x_list = sorted(temporal_list_two, key=lambda x: relevant_words_array.index(x))
 
-            if x_list != []:
+            if x_list:
                 txt = ' '.join(text_tokens[y:y+len(x_list[0].split(' '))])
                 old_expression = txt
-
                 new_expression = txt.replace(test_trans(old_expression), '<kw>'+x_list[0]+'</kw>')
                 y += len(x_list[0].split(' '))
-                fx.append(new_expression)
+                final_splited_text.append(new_expression)
             else:
-                fx.append(text_tokens[y])
+                final_splited_text.append(text_tokens[y])
                 y += 1
     except:
         pass
-    new_text = ' '.join(fx)
+    new_text = ' '.join(final_splited_text)
     return new_text
 
 
