@@ -1,5 +1,11 @@
-def verify_time_matters(num_of_keywords, N, n_contextual_window, TH):
-    if not isinstance(num_of_keywords, int) or num_of_keywords <= 0:
+def verify_time_matters(n_gram,num_of_keywords, N, n_contextual_window, TH):
+    if not isinstance(n_gram, int) or n_gram <= 0:
+        print('Please specify a valid max ngram size\n'
+              'options:\n'
+              '     n, where n is any integer > 0;')
+        return {}
+
+    elif not isinstance(num_of_keywords, int) or num_of_keywords <= 0:
         print('Please specify a valid num_of_keywords\n'
               'options:\n'
               '     n, where n is any integer > 0;')
@@ -110,16 +116,18 @@ def verify_input_data(temporal_tagger, time_matters):
             tt_name = 1
     except:
         pass
+    n_gram = 1
     num_of_keywords = 10
-    n_contextual_window = 'full_sentence'
+    n_contextual_window = 'full_document'
     N = 'max'
     TH = 0.05
     try:
-        num_of_keywords = time_matters[0]
-        n_contextual_window = time_matters[1]
-        N = time_matters[2]
-        TH = time_matters[3]
+        n_gram = time_matters[0]
+        num_of_keywords = time_matters[1]
+        n_contextual_window = time_matters[2]
+        N = time_matters[3]
+        TH = time_matters[4]
     except:
         pass
     return tt_name, language, document_type, document_creation_time, date_granularity, \
-           num_of_keywords, N, TH, n_contextual_window
+           n_gram, num_of_keywords, N, TH, n_contextual_window

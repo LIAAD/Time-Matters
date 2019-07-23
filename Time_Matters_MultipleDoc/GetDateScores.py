@@ -39,7 +39,7 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
     #print("\n")
     #print('*********************************************************************')
     #print('************************** Dice Matrix ******************************')
-    #print(dataframe.to_string())
+    print(dataframe.to_string())
     #print('\n')
     if score_type == 'BySentence':
         gte_start_time = time.time()
@@ -55,18 +55,17 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
 
 # **********************************************************************
 # find the position and the frequency of words
-def find_axis_data(x_axis, y_axis, n_contextual_window):
+def find_axis_data(x_axis, y_axis, doc_n_contextual_window):
     count = 0
     for key in x_axis[2]:
         if key in y_axis[2]:
-            if n_contextual_window == 'full_sentence':
+            if doc_n_contextual_window == 'full_document':
                 count += 1
             else:
                 x_offset = x_axis[2][key][1]
                 y_offset = y_axis[2][key][1]
-
                 # distance value (0 = words does not appears together between n_contextual_window) (1 = words appears together between n_contextual_window)
-                distance_value = distance_of_terms(x_offset, y_offset, n_contextual_window)
+                distance_value = distance_of_terms(x_offset, y_offset, doc_n_contextual_window)
                 count += distance_value
     return count, x_axis[0], y_axis[0]
 
@@ -122,6 +121,7 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N):
     sorted_gte_dict = {}
     for i in sorted_gt:
         sorted_gte_dict[i[0]] = i[1]
+    print(sorted_gte_dict)
     return sorted_gte_dict
 
 
@@ -134,13 +134,13 @@ def main_info_simba_BySentence(dates_list, words_list, dataframe, TH, N, inverte
         index_array = sentence_index(date, inverted_index)
         for index in index_array:
             info_simba_array = []
-            ContextVector_date = Create_ContextVector_BySentence(date, dataframe, TH, inverted_index, index,
+            ContextVector_date = Create_ContextVector_ByDoc(date, dataframe, TH, inverted_index, index,
                                                                  n_contextual_window)
 
             for word in ContextVector_date:
                 if word not in dates_list:
 
-                    ContextVector_word = Create_ContextVector_BySentence(word, dataframe, TH, inverted_index, index, n_contextual_window)
+                    ContextVector_word = Create_ContextVector_ByDoc(word, dataframe, TH, inverted_index, index, n_contextual_window)
 
                     maxLen = max_length(len(ContextVector_date), len(ContextVector_word), N)
                     result = InfoSimba(ContextVector_date[:maxLen], ContextVector_word[:maxLen], dataframe)
@@ -151,6 +151,7 @@ def main_info_simba_BySentence(dates_list, words_list, dataframe, TH, N, inverte
                 gte_dict[date][index] = [rounded_result]
             except:
                 gte_dict[date][index] = [0]
+
     return gte_dict
 
 
@@ -177,7 +178,7 @@ def Create_ContextualVector(term, DF, TH):
     return contextVector
 
 
-def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_contextual_window):
+def Create_ContextVector_ByDoc(term, DF, TH, Inverted_Index, Index, n_contextual_window):
     DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False)
     contextVector = []
     for x in DF_Filtered.index.tolist():
@@ -185,7 +186,7 @@ def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_conte
         try:
             offset_x = Inverted_Index[x][2][Index]
             offset_y = Inverted_Index[term][2][Index]
-            if n_contextual_window != 'full_sentence':
+            if n_contextual_window != 'full_document':
                 if x != term and distance_of_terms(offset_x[1], offset_y[1], n_contextual_window):
                     contextVector.append(x)
             elif x != term:

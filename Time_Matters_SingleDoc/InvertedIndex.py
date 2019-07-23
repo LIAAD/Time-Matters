@@ -14,7 +14,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
 
         # =============================== Date Extractor ===============================================
         time_tagger_start_time = time.time()
-        candidate_dates_array, new_text, date_dictionary = rule_based(text, date_granularity, relevant_words_array, n_gram)
+        candidate_dates_array, new_text, date_dictionary, TempExpressions = rule_based(text, date_granularity, relevant_words_array, n_gram)
         time_tagger_exec_time = (time.time() - time_tagger_start_time)
         if n_gram > 1:
             new_text = format_text_more_gram(new_text, relevant_words_array, n_gram)
@@ -23,7 +23,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
     else:
         # =============================== Date Extractor ===============================================
         time_tagger_start_time = time.time()
-        candidate_dates_array, new_text, date_dictionary = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
+        candidate_dates_array, new_text, date_dictionary, TempExpressions = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
         time_tagger_exec_time = (time.time() - time_tagger_start_time)
 
         # =============================== Keyword Extractor ===============================================
@@ -43,7 +43,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
     words_array, KeyWords_dictionary = verify_keywords(inverted_index, relevant_words_array, KeyWords_dictionary)
     text_tokens = tokenizer(new_text)
 
-    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, new_text, time_tagger_exec_time, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time
+    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, TempExpressions, new_text, time_tagger_exec_time, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time
 
 
 def verify_keywords(inverted_index, words_array, KeyWords_dictionary):
@@ -195,26 +195,27 @@ def sentence_tokenizer(text):
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
 
-    list_dates, normalized_text, tagged_text = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
+    TempExpressions, normalized_text, tagged_text = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
                                heideltime_document_creation_time)
     date_dictionary = {}
     dates = []
-    for ct in range(len(list_dates)):
+    for ct in range(len(TempExpressions)):
 
-        if list_dates[ct][0].lower() not in date_dictionary:
-            date_dictionary[list_dates[ct][0].lower()] = [list_dates[ct][1]]
-            dates.append(list_dates[ct][0].lower())
+        if TempExpressions[ct][0].lower() not in date_dictionary:
+            date_dictionary[TempExpressions[ct][0].lower()] = [TempExpressions[ct][1]]
+            dates.append(TempExpressions[ct][0].lower())
 
-        elif list_dates[ct][0].lower() in date_dictionary:
-            date_dictionary[list_dates[ct][0].lower()].append(list_dates[ct][1])
-            dates.append(list_dates[ct][0].lower())
+        elif TempExpressions[ct][0].lower() in date_dictionary:
+            date_dictionary[TempExpressions[ct][0].lower()].append(TempExpressions[ct][1])
+            dates.append(TempExpressions[ct][0].lower())
 
-    return dates, normalized_text, date_dictionary
+    return dates, normalized_text, date_dictionary, TempExpressions
 
 
 def rule_based(text, date_granularity, relevant_words_array, n_gram):
     dates_list = []
     date_dictionary = {}
+    TempExpressions = []
 
     text_tokens = text.split(' ')
     c = re.compile('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}')
@@ -228,26 +229,31 @@ def rule_based(text, date_granularity, relevant_words_array, n_gram):
                 dt = c.findall(text_tokens[tk])
                 provisional_list = []
                 text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>' + dt[0] + '</d>')
+                if dt[0] not in date_dictionary:
+                    date_dictionary[dt[0]] = [dt[0]]
+                else:
+                    date_dictionary[dt[0]].append(dt[0])
+
                 if dt[0] not in dates_list and date_granularity == 'full':
                     dates_list.append(dt[0])
-                    date_dictionary[dt[0]] = dt[0]
 
+                    TempExpressions.append((dt[0], dt[0]))
                 elif dt[0] not in dates_list and date_granularity != 'full':
                     try:
                         if date_granularity.lower() == 'year':
 
                             dt, dates_list, provisional_list, \
-                            date_dictionary,striped_text  = date_granularity_format(dt, dates_list, provisional_list, date_dictionary, '\d{4}', tk)
+                            date_dictionary,striped_text  = date_granularity_format(dt, dates_list, provisional_list, date_dictionary, '\d{4}', tk, TempExpressions)
 
                         elif date_granularity.lower() == 'month':
 
                             dt, dates_list, provisional_list, \
-                            date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2}[-/.]\d{4}|\d{4}[-/.]\d{2}', tk)
+                            date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2}[-/.]\d{4}|\d{4}[-/.]\d{2}', tk, TempExpressions)
 
                         elif date_granularity.lower() == 'day':
 
                             dt, dates_list, provisional_list, \
-                            date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2,4}[-/.]\d{2}[-/.]\d{2,4}', tk)
+                            date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2,4}[-/.]\d{2}[-/.]\d{2,4}', tk, TempExpressions)
 
                         text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>'+provisional_list[0][1]+'</d>')
                     except:
@@ -257,19 +263,19 @@ def rule_based(text, date_granularity, relevant_words_array, n_gram):
     except ValueError:
         pass
     new_text = ' '.join(text_tokens)
+    return dates_list, new_text, date_dictionary, TempExpressions
 
-    return dates_list, new_text, date_dictionary
 
-
-def date_granularity_format(dt, dates_list, provisional_list, date_dictionary, granularity_rule, text):
+def date_granularity_format(dt, dates_list, provisional_list, date_dictionary, granularity_rule, text, TempExpressions):
 
     years = re.findall(granularity_rule, str(dt))
     dates_list.append((years[0]))
     provisional_list.append((dt, years[0]))
 
     if years[0] not in date_dictionary:
-        date_dictionary[years[0]] = [dt]
+        date_dictionary[years[0]] = dt
     else:
-        date_dictionary[years[0]].append(dt)
+        date_dictionary[years[0]].append(dt[0])
 
+    TempExpressions.append((years[0], dt[0]))
     return dt, dates_list, provisional_list, date_dictionary, text

@@ -4,6 +4,9 @@ from langdetect import detect
 from Time_Matters_SingleDoc.validate_input import *
 
 
+def remove_duplicates(string_list):
+    return list(dict.fromkeys(string_list))
+
 def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type='ByDoc', debug_mode=False):
     try:
         yake_lang = detect(txt)
@@ -23,7 +26,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         raise SystemExit
     # creation of inverted index
     inverted_index, RelevantKWs, words_array, dates_array, \
-    ListOfSentences, TempExpressions, TextNormalized, time_tagger_start_time, kw_exec_time, sentence_tokens_list, text_tokens,    \
+    SentencesNormalized, DateDictionary, TempExpressions, TextNormalized, time_tagger_start_time, kw_exec_time, SentencesTokens, TextTokens,\
     ii_exec_time = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
 
 
@@ -31,23 +34,25 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     Score = {}
     if score_type == 'ByDoc':
-
         for dt in gte_dictionary:
-            Score[dt] = [gte_dictionary[dt], TempExpressions[dt]]
+
+            Score[dt] = [gte_dictionary[dt], DateDictionary[dt]]
     else:
 
         for dt in gte_dictionary:
             last_occurrence = 0
+
             for sentence_id in gte_dictionary[dt]:
-                #print(sentence_id)
+
                 max_occurrences = len(inverted_index[dt][2][sentence_id][1])
+                gte_dictionary[dt][sentence_id].append([])
 
-                listtt = [TempExpressions[dt] for i in range(0, max_occurrences)]
+                for i in range(max_occurrences):
 
+                    gte_dictionary[dt][sentence_id][1].append(0)
                 last_occurrence += max_occurrences
-                gte_dictionary[dt][sentence_id].extend  (listtt)
-        Score = gte_dictionary
 
+        Score = gte_dictionary
 
     total_exec_time = (time.time() - total_start_time)
     if debug_mode:
@@ -58,6 +63,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                                'DICE_Matrix': dice_exec_time,
                                'GTE': gte_exec_time}
 
-        return Score, TempExpressions, TextNormalized, text_tokens, sentence_tokens_list, ListOfSentences, RelevantKWs, inverted_index, DiceMatrix, execution_time_list
+        return Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, execution_time_list
     elif not debug_mode:
-        return Score, TempExpressions, TextNormalized, text_tokens, sentence_tokens_list, ListOfSentences
+
+        return Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens
