@@ -55,7 +55,6 @@ For the first (that is, the extraction of relevant keywords), we resort to [YAKE
 pip install git+https://github.com/LIAAD/yake
 ```
 
-
 For the latter (that is, the extraction of temporal expressions), we resort to two possibilities:
 - rule-based approach
 - [heideltime python wrapper](https://github.com/JMendes1995/py_heideltime)
@@ -118,89 +117,65 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 #### ByDoc
 <hr>
 
-Getting temporal scores by doc is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this [[here|Text-Representation#Temporal-Expressions]]), "ByDoc" as the default score_type and the default parameters of time_matters.
+Getting temporal scores by doc is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this  [[here|Text-Representation#Temporal-Expressions]]), "ByDoc" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different sentences.
+
 ```` bash
-Score, NormalizedCandidateDates = Time_Matters_SingleDoc(text)
-#Score, NormalizedCandidateDates = Time_Matters_SingleDoc(text, score_type="ByDoc")
+Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_SingleDoc(text)
+#Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_SingleDoc(text, score_type="ByDoc")
 ````
-
-#### Output
-The output is:
-- <b>Score</b>:  a dictionary where the key is the temporal expression (as it was found in the document) and the value is the score given by GTE;
-- <b>NormalizedCandidateDates</b>:  a dictionary where the key is the normalized temporal expression (as it was annotated by the temporal tagger) and the value is a list of the related temporal expressions as they were found in the text. or instance, the hyphotetical entry : `'2010-01-12' : ['January_12,_2010', '2010-01-12']`, means that the normalized temporal expression `2010-01-12` has at least one entry in the text as `January_12,_2010` and another one as `2010-01-12`.
-
-``` bash
-#Score
-{'12 January 2011': 1.0,
- '2010': 0.982,
- '1564': 0.798,
- 'January 12, 2010': 0.7425,
- '2011': 0.567,
- 'the afternoon of February 11, 1975': 0,
- 'Yesterday': 0}
-````
-
-``` bash
-#NormalizedCandidateDates
-{'2011': ['2011'],
- '2010': ['2010'],
- '1564': ['1564'],
- '2010-01-12': ['January 12, 2010'],
- '2011-01-12': ['12 January 2011'],
- '1975-02-11taf': ['the afternoon of February 11, 1975'],
- '1975-02-10': ['Yesterday']}
-````
-
-[[Back to the Table of Contents]](#Table-of-Contents)
 
 #### BySentence
 <hr>
 
-In addition, one can also ask for multiple scores instead of single scores, that is, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence in the other sentence). 
+Getting temporal scores by sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this [[here|Text-Representation#Temporal-Expressions]]), "BySentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence on the other sentence).
 
 ```` bash
 Score, NormalizedCandidateDates = Time_Matters_SingleDoc(text, score_type='BySentence')
 ````
 
 #### Output
-Here the output is:
-- <b>Score</b>:  a dictionary where the key is the temporal expression (as it was found in the document) and the value is the score given by GTE;
-- <b>NormalizedCandidateDates</b>:  a dictionary where the key is the normalized temporal expression (as it was annotated by the temporal tagger) and the value is a list of the related temporal expressions as they were found in the text. or instance, the hyphotetical entry : `'2010-01-12' : ['January_12,_2010', '2010-01-12']`, means that the normalized temporal expression `2010-01-12` has at least one entry in the text as `January_12,_2010` and another one as `2010-01-12`.
+In the following, we explain the output obtained by the execution of the previous code (be it ByDoc or BySentence).
+The structure of the score depends on the type of extraction considered: `ByDoc` or `BySentence`.
+
+- <b>Score (for ByDoc)</b>:  A dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a list of the instances of the temporal expression (as they were found in the text). Example: `'2011-01-12': [0.5, ['2011-01-12', '12 January 2011']],`, means that the normalized temporal expression `2011-01-12` has a score of 0.5 and occurs twice in the text. The first time as `2011-01-12`, and the second time as `12 January 2011`.
 
 ```` bash
-#Score results
-{'2011': [(0, 0.831)],
- '2010': [(1, 0.2), (5, 0.982)],
- '1564': [(2, 0.827)],
- 'January 12, 2010': [(4, 0.68)],
- '12 January 2011': [(5, 1.0)],
- 'the afternoon of February 11, 1975': [(6, 0)],
- 'Yesterday': [(7, 0)]}
-```` 
+{'2011-01-12': [1.0, ['12 January 2011']],
+ '2010': [0.983, ['2010', '2010', '2010']],
+ '1564': [0.799, ['1564']],
+ '2010-01-12': [0.743, ['January 12, 2010']],
+ '2011': [0.568, ['2011']],
+ '1975-02-11taf': [0, ['the afternoon of February 11, 1975']],
+ '1975-02-10': [0, ['Yesterday']]}
+````
+
+- <b>Score (for BySentence)</b>:  A dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the sentenceID and the value is a list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular sentence). Example: `{'2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]}}`, means that the normalized temporal expression `2010` has a score of 0.2 in the sentence with ID 1, and a score of 0.983 in the sentence with ID 5 (where it occurs two times).
 
 ```` bash
-#NormalizedCandidateDates
-{'2011': ['2011'],
- '2010': ['2010'],
- '1564': ['1564'],
- '2010-01-12': ['January 12, 2010'],
- '2011-01-12': ['12 January 2011'],
- '1975-02-11taf': ['the afternoon of February 11, 1975'],
- '1975-02-10': ['Yesterday']}
-```` 
+{'2011': {0: [0.831, ['2011']]},
+ '2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]},
+ '1564': {2: [0.828, ['1564']]},
+ '2010-01-12': {4: [0.68, ['January 12, 2010']]},
+ '2011-01-12': {5: [1.0, ['12 January 2011']]},
+ '1975-02-11taf': {6: [0, ['the afternoon of February 11, 1975']]},
+ '1975-02-10': {7: [0, ['Yesterday']]}}
+````
 
-[Back to the Table of Contents](#Table-of-Contents)
+We highly recommend you to have a look at the [wiki Output](../../wiki/How-to-use-Time-Matters-SingleDoc#Output) section where more information about the remaining output (Temporal Expressions; Relevant Keywords; Text Normalized; Text Tokens; Sentences Normalized; Sentences Tokens) is given to the user.
+
+[[Back to the Table of Contents]](#Table-of-Contents)
+
 
 #### Optional Parameters
 <hr>
 
-We highly recommend you to have a look at the [Optional Parameters](../../wiki/How-to-use-Time-Matters-SingleDoc#Optional-Parameters) section where more advanced options (related to the temporal tagger and to time-matters) are offered to the user.
+We highly recommend you to have a look at the [wiki Optional Parameters](../../wiki/How-to-use-Time-Matters-SingleDoc#Optional-Parameters) section where a description of the advanced options (related to the temporal tagger and to time-matters) is offered to the user.
 
 
 #### Debug
 <hr>
 
-We highly recommend you to have a look at the [Debug mode](../../wiki/How-to-use-Time-Matters-SingleDoc#Debug-Mode) where further other structures are offered to the user.
+We highly recommend you to have a look at the [wiki Debug Mode](../../wiki/How-to-use-Time-Matters-SingleDoc#Debug-Mode) section where an explanation of the debug structures (Inverted Index, Dice Matrix, Execution Time) is offered to the user.
 
 
 #### CLI
@@ -208,7 +183,31 @@ We highly recommend you to have a look at the [Debug mode](../../wiki/How-to-use
 
 If you want to know how to execute Time-Matters through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-SingleDoc#Cli).
 
+
 ## How to use Time-Matters-MultipleDocs
+Time-Matters-MultipleDosc aims to score temporal expressions found within multiple texts. Given an identified temporal expression it offers the user three scoring options:
+
+TODO TODOTODOTODO TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO
+
+- <b>ByDoc</b>: it retrieves a unique <b>single</b> score for each temporal expression found in the document, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
+
+- <b>BySentence</b>: to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression found in the document, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1; and 0.77 for the occurrence of 2019 in sentence 2);
+
+While the first one evaluates the score of a given candidate date in the context of a text, with regards to all the relevant keywords that it co-occurs with (regardless if it's on sentence 1 or 2), that is, both w<sub>1</sub>, as well as w<sub>2</sub> and w<sub>3</sub> will be considered in the computation of the temporal score of d<sub>1</sub> given by the GTE equation, i.e., (Median([IS(d<sub>1</sub>, w<sub>1</sub>); IS(d<sub>1</sub>, w<sub>2</sub>); IS(d<sub>1</sub>, w<sub>3</sub>)])): 
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences1.jpg" width="300">
+</p>
+
+The second, evaluates the score of a given candidate date with regards to the sentences where it occurs (thus taking into account only the relevant keywords of each sentence (within the search space defined)). This means that, if 2010 co-occurs with w<sub>1</sub> in sentence 1, only this relevant keyword will be considered to compute the temporal score of 2010 for this particular sentence. Likewise, if 2010 co-occurs with w<sub>2</sub> and with w<sub>3</sub> in sentence 2, only these relevant keywords will be considered to compute the temporal score of 2010 for this particular sentence. This means that we would have a temporal score of 2010 for sentence 1 computed by GTE equation as follows: (Median([IS(d<sub>1</sub>, w<sub>1</sub>)])), and a temporal score of 2010 for sentence 2 computed by GTE equation as follows: (Median([IS(d<sub>1</sub>, w<sub>2</sub>); IS(d<sub>1</sub>, w<sub>3</sub>)]))
+<p align="center">
+  <img src="http://www.ccc.ipt.pt/~ricardo/images/coOccurrences2.jpg" width="300">
+</p>
+
+How to work with each one will be explained next. But before, both the libraries, as well as the text, need to be imported.
+
+
+
+
 ```` bash
 from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
 
