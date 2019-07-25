@@ -1,3 +1,4 @@
+
 from Time_Matters_SingleDoc.InvertedIndex import main_inverted_index
 from Time_Matters_SingleDoc.GetDateScores import GetDataScores
 from langdetect import detect
@@ -26,7 +27,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         raise SystemExit
     # creation of inverted index
     inverted_index, RelevantKWs, words_array, dates_array, \
-    SentencesNormalized, DateDictionary, TempExpressions, TextNormalized, time_tagger_start_time, kw_exec_time, SentencesTokens, TextTokens,\
+    SentencesNormalized, DateDictionary, TempExpressions, TextNormalized, ExecTimeDictionary, kw_exec_time, SentencesTokens, TextTokens,\
     ii_exec_time = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
 
 
@@ -56,12 +57,11 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     total_exec_time = (time.time() - total_start_time)
     if debug_mode:
         execution_time_list = {'TotalTime': total_exec_time,
-                               tt_name: time_tagger_start_time,
                                'YAKE': kw_exec_time,
                                'InvertedIndex': ii_exec_time,
                                'DICE_Matrix': dice_exec_time,
                                'GTE': gte_exec_time}
-
+        execution_time_list.update(ExecTimeDictionary)
         return Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, execution_time_list
     elif not debug_mode:
 
