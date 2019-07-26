@@ -186,7 +186,7 @@ Time-Matters-MultipleDosc aims to score temporal expressions found within multip
 
 While the first one evaluates the score of a given candidate date in the context of a corpus of texts, with regards to all the relevant keywords that it co-occurs with (regardless if it's on document 1 or document 2), the second, evaluates the score of a given candidate date with regards to the documents where it occurs (thus taking into account only the relevant keywords of each document (within the search space defined)). Finally, the third evaluates the score of a given candidate date with regards to the documents and sentences where it occurs (thus taking into account only the relevant keywords of each sentence of a given document (within the search space defined)).
 
-How to work with each one will be explained next. Before that, we explain how to import the libraries and a set of text documents. We suggest you to play with your own texts, or in alternative, to download a set of 28 documents ([MultiDocTexts.zip](MultiDocTexts.zip)) that we make available in this git as a running example. In any case, if you want to use the following code, don't forget to put the texts under a folder named `data/MultiDocTexts`. 
+How to work with each one will be explained next. Before that, we explain how to import the libraries and a set of text documents. We suggest you to play with your own texts, or in alternative, to download a set of 28 documents  that we make available in this git as a running example. In any case, if you want to use the following code, don't forget to put the texts under a folder named `data/MultiDocTexts`. 
 
 ```` bash
 from Time_Matters_MultipleDocs import Time_Matters_MultipleDocs
@@ -202,6 +202,7 @@ for file in os.listdir (path) :
 
 #### ByCorpus
 <hr>
+
 Getting temporal scores by a corpus of documents is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this  [[here|Text-Representation#Temporal-Expressions]]), "ByCorpus" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different documents.
 
 ```` bash
