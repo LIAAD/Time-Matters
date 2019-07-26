@@ -126,7 +126,6 @@ Getting temporal scores by sentence is possible through the following code. This
 ````
 
 #### Output
-In the following, we explain the output obtained by the execution of the previous code (be it ByDoc or BySentence).
 The structure of the score depends on the type of extraction considered: `ByDoc` or `BySentence`.
 
 - <b>Score (for ByDoc)</b>:  A dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a list of the instances of the temporal expression (as they were found in the text). Example: `'2011-01-12': [0.5, ['2011-01-12', '12 January 2011']],`, means that the normalized temporal expression `2011-01-12` has a score of 0.5 and occurs twice in the text. The first time as `2011-01-12`, and the second time as `12 January 2011`.
@@ -224,14 +223,13 @@ Getting temporal scores by document is possible through the following code. This
 #### ByDoc&Sentence
 <hr>
 
-Getting temporal scores by document & sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this [[here|Text-Representation#Temporal-Expressions]]), "ByDoc&Sentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences of a given document, will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in document 1; and 0.982 for its occurrence in document 2).
+Getting temporal scores by document & sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this [here|Text-Representation#Temporal-Expressions]), "ByDoc&Sentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences of a given document, will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in document 1; and 0.982 for its occurrence in document 2).
 
 ```` bash
 #Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type='ByDoc&Sentence')
 ````
 
 #### Output
-In the following, we explain the output obtained by the execution of the previous code (be it ByCorpus, ByDoc or ByDoc&Sentence).
 The structure of the score depends on the type of extraction considered: `ByCorpus`, `ByDoc` or `ByDoc&Sentence`.
 
 - <b>Score (for ByCorpus)</b>:  A dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a dictionary of the instances of the temporal expression (as they were found in each document). Example: `{'2011-01-12': [1.0, {0: ['2011-01-12', '12 January 2011'], 6: ['2011-01-12']}]}`, means that the normalized temporal expression `2011-01-12` has a score of 1 and occurs twice (the first time as `2011-01-12`, and the second time as `12 January 2011`) in document 0 and one time (as '2011-01-12') in document 6. 
