@@ -219,7 +219,7 @@ Getting temporal scores by document is possible through the following code. This
 Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type='ByDoc')
 ````
 
-#### ByDoc&Sentence
+#### ByDocSentence
 <hr>
 
 Getting temporal scores by document & sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc&Sentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences of a given document, will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in document 1; and 0.982 for its occurrence in document 2).
