@@ -313,11 +313,12 @@ def rule_based(text, date_granularity, relevant_words_array, n_gram):
                 else:
                     pass
 
+        tt_exec_time = (time.time() - extractor_start_time)
+        ExecTimeDictionary['rule_based_processing'] = tt_exec_time - exec_time_text_labeling
+        ExecTimeDictionary['text_normalization'] = exec_time_text_labeling
     except ValueError:
         pass
-    tt_exec_time = (time.time() - extractor_start_time)
-    ExecTimeDictionary['DateExtraction'] = tt_exec_time-exec_time_text_labeling
-    ExecTimeDictionary['TextFormat'] = exec_time_text_labeling
+
     new_text = ' '.join(text_tokens)
     return dates_list, new_text, date_dictionary, TempExpressions, ExecTimeDictionary
 
