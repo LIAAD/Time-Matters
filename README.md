@@ -176,13 +176,13 @@ If you want to know how to execute Time-Matters SingelDoc through the prompt ple
 
 
 ## How to use Time-Matters-MultipleDocs
-Time-Matters-MultipleDosc aims to score temporal expressions found within multiple texts. Given an identified temporal expression it offers the user three scoring options:
+Time-Matters-MultipleDocs aims to score temporal expressions found within multiple texts. Given an identified temporal expression it offers the user three scoring options:
 
 - <b>ByCorpus</b>: it retrieves a unique <b>single</b> score for each temporal expression found in the corpus of documents, regardless it occurs multiple times in different documents, that is, multiple occurrences of a temporal expression in different documents, will always return the same score (e.g., 0.92);
 
 - <b>ByDoc</b>: to retrieve a <b>multiple</b> (eventually different) score for each occurrence of a temporal expression found in the set of documents, that is, multiple occurrences of a temporal expression in different documents, will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in document 1; and 0.77 for the occurrence of 2019 in document 2);
 
-- <b>ByDoc&Sentence</b>: to retrieve a multiple (eventually different) score for each occurrence of a temporal expression found in a given document, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019) of a document, will return <b>multiple</b> (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1 of document 1; and 0.77 for the occurrence of 2019 in sentence 2 of document 1);
+- <b>ByDocSentence</b>: to retrieve a multiple (eventually different) score for each occurrence of a temporal expression found in a given document, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019) of a document, will return <b>multiple</b> (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1 of document 1; and 0.77 for the occurrence of 2019 in sentence 2 of document 1);
 
 While the first one evaluates the score of a given candidate date in the context of a corpus of texts, with regards to all the relevant keywords that it co-occurs with (regardless if it's on document 1 or document 2), the second, evaluates the score of a given candidate date with regards to the documents where it occurs (thus taking into account only the relevant keywords of each document (within the search space defined)). Finally, the third evaluates the score of a given candidate date with regards to the documents and sentences where it occurs (thus taking into account only the relevant keywords of each sentence of a given document (within the search space defined)).
 
@@ -216,7 +216,7 @@ Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormal
 Getting temporal scores by document is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different documents, will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1 of document 1; and 0.77 for the occurrence of 2019 in sentence 2 of document 1);
 
 ```` bash
-#Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type='ByDoc')
+Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type='ByDoc')
 ````
 
 #### ByDoc&Sentence
@@ -225,7 +225,7 @@ Getting temporal scores by document is possible through the following code. This
 Getting temporal scores by document & sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc&Sentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences of a given document, will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in document 1; and 0.982 for its occurrence in document 2).
 
 ```` bash
-#Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type='ByDoc&Sentence')
+Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type='ByDocSentence')
 ````
 
 #### Output
@@ -243,7 +243,7 @@ TODOTODOTODOTODO
 TODOTODOTODOTODO
 ````
 
-- <b>Score (for ByDoc&Sentence)</b>: A dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the DocID and the value is a new dictionary (where the key is the sentenceID and the value is list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular setencent of that document)). Example: `{'2011': {0: {5: [0.983, ['2010', '2010']], {6: [0.183, ['2010']]}}`, means that the normalized temporal expression `2011` has a score of 0.983 in the sentence with ID 5 (where it occurs twice) of docID 0, and a score of 0.183 in the sentence with ID 6 of docID 0.
+- <b>Score (for ByDocSentence)</b>: A dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the DocID and the value is a new dictionary (where the key is the sentenceID and the value is list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular setencent of that document)). Example: `{'2011': {0: {5: [0.983, ['2010', '2010']], {6: [0.183, ['2010']]}}`, means that the normalized temporal expression `2011` has a score of 0.983 in the sentence with ID 5 (where it occurs twice) of docID 0, and a score of 0.183 in the sentence with ID 6 of docID 0.
 
 ```` bash
 TODOTODOTODOTODO
