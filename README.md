@@ -197,13 +197,11 @@ ListOfDocs = []
 for file in os.listdir (path) :
     with open(os.path.join(path, file),'r') as f:
         txt = f.read()
-        ListOfDocs.append(txt)
-        
+        ListOfDocs.append(txt)  
 ````
 
 #### ByCorpus
 <hr>
-
 Getting temporal scores by a corpus of documents is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this  [[here|Text-Representation#Temporal-Expressions]]), "ByCorpus" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different documents.
 
 ```` bash
