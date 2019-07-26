@@ -24,10 +24,11 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {} and debug_mode:
         print({})
         raise SystemExit
+
     # creation of inverted index
     inverted_index, RelevantKWs, words_array, dates_array, \
-    SentencesNormalized, DateDictionary, TempExpressions, TextNormalized, time_tagger_start_time, kw_exec_time, SentencesTokens, TextTokens,\
-    ii_exec_time = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
+    SentencesNormalized, DateDictionary, TempExpressions, TextNormalized, kw_exec_time, SentencesTokens, TextTokens,\
+    ii_exec_time, TimeTaggerExecTimeDictionary = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
 
 
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type)
@@ -55,14 +56,14 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     total_exec_time = (time.time() - total_start_time)
     if debug_mode:
-        execution_time_list = {'TotalTime': total_exec_time,
-                               tt_name: time_tagger_start_time,
+        ExecTimeDictionary = {'TotalTime': total_exec_time,
                                'YAKE': kw_exec_time,
                                'InvertedIndex': ii_exec_time,
                                'DICE_Matrix': dice_exec_time,
                                'GTE': gte_exec_time}
 
-        return Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, execution_time_list
+        ExecTimeDictionary.update(TimeTaggerExecTimeDictionary)
+        return Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, ExecTimeDictionary
     elif not debug_mode:
 
         return Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens

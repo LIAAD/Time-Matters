@@ -13,55 +13,52 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, text, num_of_keywords, n_gram)
 
         # =============================== Date Extractor ===============================================
-        time_tagger_start_time = time.time()
-        candidate_dates_array, new_text, date_dictionary, TempExpressions = rule_based(text, date_granularity, relevant_words_array, n_gram)
-        time_tagger_exec_time = (time.time() - time_tagger_start_time)
+        candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity, relevant_words_array, n_gram)
+
         if n_gram > 1:
-            new_text = format_text_more_gram(new_text, relevant_words_array, n_gram)
+            new_text = format_text_n_gram(new_text, relevant_words_array, n_gram)
         else:
             new_text = format_text(new_text, relevant_words_array)
     else:
         # =============================== Date Extractor ===============================================
-        time_tagger_start_time = time.time()
-        candidate_dates_array, new_text, date_dictionary, TempExpressions = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
-        time_tagger_exec_time = (time.time() - time_tagger_start_time)
+        candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
 
         # =============================== Keyword Extractor ===============================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
-        if n_gram > 1:
-            new_text = format_text_more_gram(new_text, relevant_words_array, n_gram)
-        else:
-            new_text = format_text(new_text, relevant_words_array)
-    # =====================================================================================================
 
+        if n_gram > 1:
+            new_text = format_text_n_gram(new_text, relevant_words_array, n_gram)
+        else:
+            new_text = format_text(new_text, relevant_words_array, candidate_dates_array)
+    # =====================================================================================================
     # =============================== Inverted Index ===============================================
     ii_start_time = time.time()
     inverted_index, words_array, dates_array, sentence_array, sentence_tokens = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
     ii_exec_time = (time.time() - ii_start_time)
     # ===========================================================================================================
 
-    words_array, KeyWords_dictionary = verify_keywords(inverted_index, relevant_words_array, KeyWords_dictionary)
+    words_array, KeyWords_dictionary = verify_keywords(inverted_index, relevant_words_array, KeyWords_dictionary, candidate_dates_array)
     text_tokens = tokenizer(new_text)
 
-    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, TempExpressions, new_text, time_tagger_exec_time, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time
+    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, TempExpressions, new_text, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time, ExecTimeDictionary
 
 
-def verify_keywords(inverted_index, words_array, KeyWords_dictionary):
-    KeyWords_dictionary = {w: KeyWords_dictionary[w] for w in words_array if w in inverted_index}
-    words_array = [kw for kw in words_array if kw in inverted_index]
+def verify_keywords(inverted_index, words_array, KeyWords_dictionary, candidate_dates_array):
+    KeyWords_dictionary = {w: KeyWords_dictionary[w] for w in words_array if w in inverted_index and w not in candidate_dates_array}
+    words_array = [kw for kw in words_array if kw in inverted_index and kw not in candidate_dates_array]
     return words_array, KeyWords_dictionary
 
 
 def test_trans(text):
-    return text.translate(str.maketrans('', '', '!,:.;?()'))
+    return text.translate(str.maketrans('', '', '!,:.;?()\n'))
 
 
-def format_text(text, relevant_words_array):
+def format_text(text, relevant_words_array, candidate_dates_array):
     text_tokens = text.split(' ')
     try:
         for tk in range(len(text_tokens)):
             kw = test_trans(text_tokens[tk])
-            if kw.lower() in relevant_words_array:
+            if kw.lower() in relevant_words_array and kw.lower() not in candidate_dates_array :
                 text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
     except:
         pass
@@ -69,38 +66,84 @@ def format_text(text, relevant_words_array):
     return new_text
 
 
-def format_text_more_gram(text, relevant_words_array, n_gram):
+def format_text_n_gram(text, relevant_words_array, n_gram):
+    text = text.replace('\n', ' ')
     text_tokens = text.split(' ')
-
     y = 0
     final_splited_text = []
+    while y < len(text_tokens):
 
-    try:
-        while y < len(text_tokens):
-            temporal_list_one = []
-            temporal_list_two = []
-            for i in range(n_gram):
+        mirror_final_list = []
+        x_list = []
+        for i in range(n_gram):
+            x_list, mirror_final_list = find_more_relevant(y, text_tokens, n_gram, relevant_words_array, x_list, mirror_final_list)
 
-                temporal_list_one.append(text_tokens[y:y+i+1])
-                k = test_trans(' '.join(temporal_list_one[i])).lower()
+        if x_list:
+            final_list = []
+            mirror_final_list = []
+            splited_one = x_list[0].split()
 
-                if k in relevant_words_array:
-                    temporal_list_two.append(k)
-            x_list = sorted(temporal_list_two, key=lambda x: relevant_words_array.index(x))
+            for xx in range(0, len(splited_one)):
+                final_list, mirror_final_list = find_more_relevant(y+xx, text_tokens, n_gram, relevant_words_array, final_list, mirror_final_list)
 
-            if x_list:
-                txt = ' '.join(text_tokens[y:y+len(x_list[0].split(' '))])
-                old_expression = txt
-                new_expression = txt.replace(test_trans(old_expression), '<kw>'+x_list[0]+'</kw>')
-                y += len(x_list[0].split(' '))
+            minm_score_word = min(final_list, key=lambda x: relevant_words_array.index(x))
+
+            if final_list.index(minm_score_word) == 0 or len(splited_one) == 1:
+                term_list = [minm_score_word]
+                y, new_expression = replace_token(text_tokens, y, term_list)
                 final_splited_text.append(new_expression)
-            else:
-                final_splited_text.append(text_tokens[y])
-                y += 1
+
+            elif final_list.index(minm_score_word) >= 1:
+                index_of_more_relevant = mirror_final_list[0].index(minm_score_word.split()[0])
+                temporal_kw = ' '.join(mirror_final_list[0][:index_of_more_relevant])
+
+                if temporal_kw in relevant_words_array:
+                    term_list = [temporal_kw]
+                    y, new_expression = replace_token(text_tokens, y, term_list)
+                    final_splited_text.append(new_expression)
+
+                else:
+                    final_splited_text.append(text_tokens[y])
+                    y += final_list.index(minm_score_word)
+
+        else:
+            final_splited_text.append(text_tokens[y])
+            y += 1
+    new_text = ' '.join(final_splited_text)
+
+    return new_text
+
+
+def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, final_list, mirror_final_list):
+
+    temporal_list = []
+    temporal_list_two = []
+
+    tmp = []
+    for i in range(n_gram):
+
+        temporal_list.append(text_tokens[y:y + i + 1])
+        k = test_trans(' '.join(temporal_list[i])).lower()
+        if k in relevant_words_array:
+            temporal_list_two.append(k)
+
+    x_list = sorted(temporal_list_two, key=lambda x: relevant_words_array.index(x))
+    try:
+        final_list.append(x_list[0])
+        tmp.append(x_list[0])
+        mirror_final_list.append(tmp[0].split())
     except:
         pass
-    new_text = ' '.join(final_splited_text)
-    return new_text
+
+    return final_list, mirror_final_list
+
+
+def replace_token(text_tokens, y, x_list):
+    txt = ' '.join(text_tokens[y:y + len(x_list[0].split(' '))])
+    old_expression = txt
+    new_expression = txt.replace(test_trans(old_expression), '<kw>' + x_list[0] + '</kw>')
+    y += len(x_list[0].split(' '))
+    return y, new_expression
 
 
 # *****************************************************************
@@ -195,7 +238,7 @@ def sentence_tokenizer(text):
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
 
-    TempExpressions, normalized_text, tagged_text = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
+    TempExpressions, normalized_text, tagged_text, ExecTimeDictionary  = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
                                heideltime_document_creation_time)
     date_dictionary = {}
     dates = []
@@ -209,26 +252,33 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
             date_dictionary[TempExpressions[ct][0].lower()].append(TempExpressions[ct][1])
             dates.append(TempExpressions[ct][0].lower())
 
-    return dates, normalized_text, date_dictionary, TempExpressions
+    return dates, normalized_text, date_dictionary, TempExpressions, ExecTimeDictionary
 
 
 def rule_based(text, date_granularity, relevant_words_array, n_gram):
     dates_list = []
     date_dictionary = {}
     TempExpressions = []
+    ExecTimeDictionary = {}
+    exec_time_text_labeling = 0
 
     text_tokens = text.split(' ')
     c = re.compile('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}')
-
+    extractor_start_time = time.time()
     try:
         for tk in range(len(text_tokens)):
             kw = test_trans(text_tokens[tk])
-            if kw.lower() in relevant_words_array and n_gram == 1:
-                text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
+
             if c.match(text_tokens[tk]):
+                labeling_start_time = time.time()
+
                 dt = c.findall(text_tokens[tk])
                 provisional_list = []
                 text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>' + dt[0] + '</d>')
+
+                label_text_exec_time = (time.time() - labeling_start_time)
+                exec_time_text_labeling += label_text_exec_time
+
                 if dt[0] not in date_dictionary:
                     date_dictionary[dt[0]] = [dt[0]]
                 else:
@@ -258,12 +308,18 @@ def rule_based(text, date_granularity, relevant_words_array, n_gram):
                         text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>'+provisional_list[0][1]+'</d>')
                     except:
                         pass
+                if kw.lower() in relevant_words_array and n_gram == 1 and kw.lower() not in dates_list:
+                    text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
                 else:
                     pass
+
     except ValueError:
         pass
+    tt_exec_time = (time.time() - extractor_start_time)
+    ExecTimeDictionary['DateExtraction'] = tt_exec_time-exec_time_text_labeling
+    ExecTimeDictionary['TextFormat'] = exec_time_text_labeling
     new_text = ' '.join(text_tokens)
-    return dates_list, new_text, date_dictionary, TempExpressions
+    return dates_list, new_text, date_dictionary, TempExpressions, ExecTimeDictionary
 
 
 def date_granularity_format(dt, dates_list, provisional_list, date_dictionary, granularity_rule, text, TempExpressions):
