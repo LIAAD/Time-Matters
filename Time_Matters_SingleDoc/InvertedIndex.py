@@ -15,10 +15,6 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         # =============================== Date Extractor ===============================================
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity, relevant_words_array, n_gram)
 
-        if n_gram > 1:
-            new_text = format_text_n_gram(new_text, relevant_words_array, n_gram)
-        else:
-            new_text = format_text(new_text, relevant_words_array)
     else:
         # =============================== Date Extractor ===============================================
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
@@ -26,10 +22,14 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         # =============================== Keyword Extractor ===============================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
 
-        if n_gram > 1:
-            new_text = format_text_n_gram(new_text, relevant_words_array, n_gram)
-        else:
-            new_text = format_text(new_text, relevant_words_array, candidate_dates_array)
+    text_norm_start_time = time.time()
+    if n_gram > 1:
+        new_text = format_text_n_gram(new_text, relevant_words_array, n_gram)
+    else:
+        new_text = format_text(new_text, relevant_words_array, candidate_dates_array)
+    text_norm_exec_time = (time.time() - text_norm_start_time)
+    ExecTimeDictionary['text_normalization'] += text_norm_exec_time
+
     # =====================================================================================================
     # =============================== Inverted Index ===============================================
     ii_start_time = time.time()
@@ -268,9 +268,8 @@ def rule_based(text, date_granularity, relevant_words_array, n_gram):
     try:
         for tk in range(len(text_tokens)):
             kw = test_trans(text_tokens[tk])
-
+            labeling_start_time = time.time()
             if c.match(text_tokens[tk]):
-                labeling_start_time = time.time()
 
                 dt = c.findall(text_tokens[tk])
                 provisional_list = []
@@ -320,6 +319,7 @@ def rule_based(text, date_granularity, relevant_words_array, n_gram):
         pass
 
     new_text = ' '.join(text_tokens)
+
     return dates_list, new_text, date_dictionary, TempExpressions, ExecTimeDictionary
 
 

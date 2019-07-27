@@ -9,10 +9,12 @@ import time
 def remove_duplicates(string_list):
     return list(dict.fromkeys(string_list))
 
+
 def round_up(n, decimals=0):
     import math
     multiplier = 10 ** decimals
     return math.ceil(n * multiplier) / multiplier
+
 
 def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type):
     words_list = remove_duplicates(words_array)
@@ -32,7 +34,7 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
             Term2 = clean_unic_array[j]
             try:
                 px_y, px, py = find_axis_data(inverted_index[Term1], inverted_index[Term2], n_contextual_window)
-                result = DICE(px_y, px, py, Term1, Term2)
+                result = DICE(px_y, px, py)
                 dataframe.at[Term1, Term2] = result
                 dataframe.at[Term2, Term1] = result
             except:
@@ -40,14 +42,10 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
 
 
     dice_exec_time = (time.time() - dice_start_time)
-    #print("\n")
-    #print('*********************************************************************')
-    #print('************************** Dice Matrix ******************************')
-    #print(dataframe.to_string())
-    #print('\n')
+
     if score_type == 'BySentence':
         gte_start_time = time.time()
-        gte_dict = main_info_simba_BySentence(dates_list, words_list, dataframe, TH, N, inverted_index, n_contextual_window)
+        gte_dict = main_info_simba_BySentence(dates_list, dataframe, TH, N, inverted_index, n_contextual_window)
         gte_exec_time = (time.time() - gte_start_time)
         return gte_dict, dataframe, dice_exec_time, gte_exec_time
     else:
@@ -69,7 +67,6 @@ def find_axis_data(x_axis, y_axis, n_contextual_window):
                 x_offset = x_axis[2][key][1]
                 y_offset = y_axis[2][key][1]
 
-                # distance value (0 = words does not appears together between n_contextual_window) (1 = words appears together between n_contextual_window)
                 distance_value = distance_of_terms(x_offset, y_offset, n_contextual_window)
                 count += distance_value
     return count, x_axis[0], y_axis[0]
@@ -87,12 +84,12 @@ def distance_of_terms(x_offset, y_offset, n_contextual_window):
 
 # ******************************************************************************************
 # calculation of dice.
-def DICE(px_y, px, py, x_axis, y_axis):
+def DICE(px_y, px, py):
     try:
         result = (2 * px_y) / (px + py)
     except:
         result = 0
-    #print(x_axis, y_axis, 'p('+x_axis+')=', px, 'p('+y_axis+')=', py, 'px_y=', px_y, 'result =', result)
+
     return result
 
 
@@ -103,14 +100,13 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N):
     gte_dictionary = {}
     for date in dates_list:
         is_dictionary[date] = []
-        #ContextVector_date = Create_ContextualVector(date, dataframe, TH)
 
         for word in words_list:
             if dataframe.loc[date, word] > TH and word not in dates_list:
                 word_ContextVector = Create_ContextualVector(word, dataframe, TH)
                 date_context_vector = Create_ContextualVector(date, dataframe, TH)
                 maxLen = max_length(len(date_context_vector), len(word_ContextVector), N)
-                #date_context_vector, word_ContextVector = Create_ContextVector(date, word, dataframe, TH, N, score_type, Inverted_Index, False, n_contextual_window)
+
                 result = InfoSimba(date_context_vector[:maxLen], word_ContextVector[:maxLen], dataframe)
                 is_dictionary[date].append(result)
 
@@ -122,7 +118,6 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N):
 
     sorted_gt = sorted(gte_dictionary.items(), key=operator.itemgetter(1), reverse=True)
 
-
     sorted_gte_dict = {}
     for i in sorted_gt:
         sorted_gte_dict[i[0]] = i[1]
@@ -130,7 +125,7 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N):
 
 
 # calculation of info simba per sentence .
-def main_info_simba_BySentence(dates_list, words_list, dataframe, TH, N, inverted_index, n_contextual_window):
+def main_info_simba_BySentence(dates_list, dataframe, TH, N, inverted_index, n_contextual_window):
     gte_dict = {}
 
     for date in dates_list:
@@ -155,6 +150,7 @@ def main_info_simba_BySentence(dates_list, words_list, dataframe, TH, N, inverte
                 gte_dict[date][index] = [rounded_result]
             except:
                 gte_dict[date][index] = [0]
+
     return gte_dict
 
 
@@ -203,17 +199,13 @@ def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_conte
 # calc Info simba
 def InfoSimba(ContextVector_X, ContextVector_Y, DF):
     Sum_XY = sum([DF.loc[x, y] for x in ContextVector_X for y in ContextVector_Y])
-    #print(f"sum_XY = {Sum_XY}")
 
     Sum_XX = sum([DF.loc[x, y] for x in ContextVector_X for y in ContextVector_X])
-    #print(f"sum_XX = {Sum_XX}")
 
     Sum_YY = sum([DF.loc[x, y] for x in ContextVector_Y for y in ContextVector_Y])
-    #print(f"sum_YY = {Sum_YY}")
 
     try:
         result = Sum_XY / (Sum_XX + Sum_YY - Sum_XY)
-        #print(f"result = {result}")
         return result
     except:
         return 0

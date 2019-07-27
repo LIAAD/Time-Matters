@@ -34,11 +34,11 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type)
 
-    Score = {}
+    Sorted_Score = {}
     if score_type == 'ByDoc':
         for dt in gte_dictionary:
 
-            Score[dt] = [gte_dictionary[dt], DateDictionary[dt]]
+            Sorted_Score[dt] = [gte_dictionary[dt], DateDictionary[dt]]
     else:
 
         for dt in gte_dictionary:
@@ -53,8 +53,7 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                     gte_dictionary[dt][sentence_id][1].append(DateDictionary[dt][i])
                 last_occurrence += max_occurrences
 
-        Score = gte_dictionary
-
+        Sorted_Score = sort_BySentence_output(gte_dictionary)
     total_exec_time = (time.time() - total_start_time)
     if debug_mode:
         ExecTimeDictionary = {'TotalTime': total_exec_time,
@@ -64,7 +63,29 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
                                'GTE': gte_exec_time}
 
         ExecTimeDictionary.update(TimeTaggerExecTimeDictionary)
-        return Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, ExecTimeDictionary
+        return Sorted_Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, ExecTimeDictionary
     elif not debug_mode:
 
-        return Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens
+        return Sorted_Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens
+
+
+def sort_BySentence_output(Score):
+    list_scores_total = []
+    dates = []
+    for kv in Score:
+
+        dates.append(kv)
+        list_date_score = []
+        for sentence in Score[kv]:
+
+            list_date_score.append(Score[kv][sentence][0])
+        list_scores_total.append(max(list_date_score))
+
+    final_op = {}
+    sorted_dates = sorted(dates, key=lambda x: dates.index(x))
+    for dt in sorted_dates:
+        final_op[dt] = Score[dt]
+    return final_op
+
+
+
