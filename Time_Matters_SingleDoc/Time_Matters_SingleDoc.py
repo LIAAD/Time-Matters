@@ -70,19 +70,19 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
 
 
 def sort_BySentence_output(Score):
-    list_scores_total = []
-    dates = []
-    for kv in Score:
+    import operator
 
-        dates.append(kv)
+    temporal_dictionary = {}
+    for kv in Score:
         list_date_score = []
         for sentence in Score[kv]:
-
             list_date_score.append(Score[kv][sentence][0])
-        list_scores_total.append(max(list_date_score))
+        temporal_dictionary[kv] = max(list_date_score)
+
+    sorted_dt = sorted(temporal_dictionary.items(), key=operator.itemgetter(1), reverse=True)
 
     final_op = {}
-    sorted_dates = sorted(dates, key=lambda x: dates.index(x))
+    sorted_dates = [i[0] for i in sorted_dt]
     for dt in sorted_dates:
         final_op[dt] = Score[dt]
     return final_op
