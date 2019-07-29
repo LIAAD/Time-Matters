@@ -47,6 +47,9 @@ Check out our wiki [Documentation](../../wiki) for full details about Time-Matte
 pip install git+https://github.com/LIAAD/Time-Matters.git
 ```
 #### Install External Dependencies
+import nltk
+nltk.download('punkt')
+
 Time-Matters rests on the extraction of relevant keywords and temporal expressions found in the text.
 
 For the first (that is, the extraction of relevant keywords), we resort to [YAKE!](https://github.com/LIAAD/yake) keyword extractor.
