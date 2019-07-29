@@ -55,11 +55,12 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     if debug_mode:
         ExecTimeDictionary = {'TotalTime': total_exec_time,
                                'YAKE': kw_exec_time,
-                               'InvertedIndex': ii_exec_time,
-                               'DICE_Matrix': dice_exec_time,
-                               'GTE': gte_exec_time}
+                               'InvertedIndex': ii_exec_time}
 
         ExecTimeDictionary.update(TimeTaggerExecTimeDictionary)
+        ExecTimeDictionary['DICE_Matrix'] = dice_exec_time
+        ExecTimeDictionary['GTE'] = gte_exec_time
+
         return Sorted_Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, ExecTimeDictionary
     elif not debug_mode:
 

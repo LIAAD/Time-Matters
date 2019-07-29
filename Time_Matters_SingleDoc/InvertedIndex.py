@@ -22,11 +22,13 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         # =============================== Keyword Extractor ===============================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
 
-
+    text_norm_start_time = time.time()
     if n_gram > 1:
         new_text = format_text_n_gram(new_text, relevant_words_array, n_gram)
     else:
         new_text = format_text(new_text, relevant_words_array, candidate_dates_array)
+    text_norm_exec_time = (time.time() - text_norm_start_time)
+    ExecTimeDictionary['keyword_text_normalization'] = text_norm_exec_time
 
     # =====================================================================================================
     # =============================== Inverted Index ===============================================
@@ -307,6 +309,7 @@ def rule_based(text, date_granularity):
                     except:
                         pass
 
+
         tt_exec_time = (time.time() - extractor_start_time)
         ExecTimeDictionary['rule_based_processing'] = tt_exec_time - exec_time_text_labeling
         ExecTimeDictionary['rule_based_text_normalization'] = exec_time_text_labeling
@@ -314,7 +317,7 @@ def rule_based(text, date_granularity):
         pass
 
     new_text = ' '.join(text_tokens)
-
+    #print(new_text)
     return dates_list, new_text, date_dictionary, TempExpressions, ExecTimeDictionary
 
 
