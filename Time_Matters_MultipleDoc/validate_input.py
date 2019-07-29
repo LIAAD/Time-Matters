@@ -81,11 +81,12 @@ def verify_temporal_tagger(tt_name, language, document_type, date_granularity, d
 
 
 def verify_score_type(score_type, debug_mode):
-    if score_type != 'ByDoc' and score_type != 'BySentence':
+    if score_type != 'ByDoc' and score_type != 'ByDocSentence' and score_type != 'ByCorpus':
         print('Please specify a valid score_type.\n'
               'options:\n'
+              '     ByCorpus;\n'
               '     ByDoc;\n'
-              '     BySentence;')
+              '     ByDocSentence;')
         return {}
 
     if not isinstance(debug_mode, bool):

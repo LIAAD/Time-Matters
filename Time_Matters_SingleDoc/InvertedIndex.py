@@ -13,7 +13,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, text, num_of_keywords, n_gram)
 
         # =============================== Date Extractor ===============================================
-        candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity, relevant_words_array, n_gram)
+        candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity)
 
     else:
         # =============================== Date Extractor ===============================================
@@ -22,13 +22,11 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         # =============================== Keyword Extractor ===============================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
 
-    text_norm_start_time = time.time()
+
     if n_gram > 1:
         new_text = format_text_n_gram(new_text, relevant_words_array, n_gram)
     else:
         new_text = format_text(new_text, relevant_words_array, candidate_dates_array)
-    text_norm_exec_time = (time.time() - text_norm_start_time)
-    ExecTimeDictionary['text_normalization'] += text_norm_exec_time
 
     # =====================================================================================================
     # =============================== Inverted Index ===============================================
@@ -58,7 +56,8 @@ def format_text(text, relevant_words_array, candidate_dates_array):
     try:
         for tk in range(len(text_tokens)):
             kw = test_trans(text_tokens[tk])
-            if kw.lower() in relevant_words_array and kw.lower() not in candidate_dates_array :
+
+            if kw.lower() in relevant_words_array and kw.lower() not in candidate_dates_array:
                 text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
     except:
         pass
@@ -97,7 +96,7 @@ def format_text_n_gram(text, relevant_words_array, n_gram):
                 index_of_more_relevant = mirror_final_list[0].index(minm_score_word.split()[0])
                 temporal_kw = ' '.join(mirror_final_list[0][:index_of_more_relevant])
 
-                if temporal_kw in relevant_words_array:
+                if temporal_kw.lower() in relevant_words_array:
                     term_list = [temporal_kw]
                     y, new_expression = replace_token(text_tokens, y, term_list)
                     final_splited_text.append(new_expression)
@@ -124,7 +123,7 @@ def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, final_list,
 
         temporal_list.append(text_tokens[y:y + i + 1])
         k = test_trans(' '.join(temporal_list[i])).lower()
-        if k in relevant_words_array:
+        if k.lower() in relevant_words_array:
             temporal_list_two.append(k)
 
     x_list = sorted(temporal_list_two, key=lambda x: relevant_words_array.index(x))
@@ -255,7 +254,7 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
     return dates, normalized_text, date_dictionary, TempExpressions, ExecTimeDictionary
 
 
-def rule_based(text, date_granularity, relevant_words_array, n_gram):
+def rule_based(text, date_granularity):
     dates_list = []
     date_dictionary = {}
     TempExpressions = []
@@ -267,7 +266,7 @@ def rule_based(text, date_granularity, relevant_words_array, n_gram):
     extractor_start_time = time.time()
     try:
         for tk in range(len(text_tokens)):
-            kw = test_trans(text_tokens[tk])
+            kw = test_trans(text_tokens[tk]).lower()
             labeling_start_time = time.time()
             if c.match(text_tokens[tk]):
 
@@ -307,14 +306,10 @@ def rule_based(text, date_granularity, relevant_words_array, n_gram):
                         text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>'+provisional_list[0][1]+'</d>')
                     except:
                         pass
-                if kw.lower() in relevant_words_array and n_gram == 1 and kw.lower() not in dates_list:
-                    text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
-                else:
-                    pass
 
         tt_exec_time = (time.time() - extractor_start_time)
         ExecTimeDictionary['rule_based_processing'] = tt_exec_time - exec_time_text_labeling
-        ExecTimeDictionary['text_normalization'] = exec_time_text_labeling
+        ExecTimeDictionary['rule_based_text_normalization'] = exec_time_text_labeling
     except ValueError:
         pass
 

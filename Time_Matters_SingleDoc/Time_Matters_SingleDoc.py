@@ -5,9 +5,6 @@ from langdetect import detect
 from Time_Matters_SingleDoc.validate_input import *
 
 
-def remove_duplicates(string_list):
-    return list(dict.fromkeys(string_list))
-
 def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type='ByDoc', debug_mode=False):
     try:
         yake_lang = detect(txt)

@@ -5,20 +5,19 @@ from langdetect import detect
 from Time_Matters_MultipleDoc.validate_input import verify_input_data
 
 
-
-def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], score_type = 'ByDoc', debug_mode=False):
+def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], score_type='ByCorpus', debug_mode=False):
 
     tt_name, language, document_type, document_creation_time, date_granularity, \
-    n_gram, num_of_keywords, N, TH, sentence_n_contextual_window, doc_n_contextual_window = verify_input_data(temporal_tagger, time_matters)
+    n_gram, num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters)
 
     inverted_index, all_docs_relevant_words, \
-    all_docs_candidate_date = main_inverted_index_md(language, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
+    all_docs_candidate_date, ExecTimeDictionary = main_inverted_index_md(language, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
 
-    print(inverted_index)
-    #print(all_docs_relevant_words)
+    #print(inverted_index)
+    print(all_docs_relevant_words)
 
 
-    gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, all_docs_relevant_words, all_docs_candidate_date, doc_n_contextual_window, sentence_n_contextual_window, TH, N, score_type)
+    gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, all_docs_relevant_words, all_docs_candidate_date, n_contextual_window, TH, N, score_type)
     #print(DiceMatrix)
     #print(gte_dictionary)
 
@@ -35,3 +34,4 @@ def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], 
       #  return final_score_output, dates_array, words_array, inverted_index, DiceMatrix, n_txt
     #else:
      #   return final_score_output
+    return inverted_index, DiceMatrix, gte_dictionary
