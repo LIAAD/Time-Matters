@@ -28,7 +28,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     SentencesNormalized, DateDictionary, TempExpressions, TextNormalized, kw_exec_time, SentencesTokens, TextTokens,\
     ii_exec_time, TimeTaggerExecTimeDictionary = main_inverted_index(yake_lang, language, txt, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
 
-
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type)
 
     Sorted_Score = {}
@@ -53,11 +52,12 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         Sorted_Score = sort_BySentence_output(gte_dictionary)
     total_exec_time = (time.time() - total_start_time)
     if debug_mode:
-        ExecTimeDictionary = {'TotalTime': total_exec_time,
-                               'YAKE': kw_exec_time,
-                               'InvertedIndex': ii_exec_time}
+        ExecTimeDictionary = {'TotalTime': total_exec_time}
 
         ExecTimeDictionary.update(TimeTaggerExecTimeDictionary)
+
+        ExecTimeDictionary['YAKE'] = kw_exec_time
+        ExecTimeDictionary['InvertedIndex'] = ii_exec_time
         ExecTimeDictionary['DICE_Matrix'] = dice_exec_time
         ExecTimeDictionary['GTE'] = gte_exec_time
 

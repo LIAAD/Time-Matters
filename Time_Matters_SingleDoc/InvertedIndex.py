@@ -18,7 +18,6 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
     else:
         # =============================== Date Extractor ===============================================
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
-
         # =============================== Keyword Extractor ===============================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
 
@@ -239,7 +238,7 @@ def sentence_tokenizer(text):
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
 
-    TempExpressions, normalized_text, tagged_text, ExecTimeDictionary  = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
+    TempExpressions, normalized_text, tagged_text, ExecTimeDictionary = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
                                heideltime_document_creation_time)
     date_dictionary = {}
     dates = []
