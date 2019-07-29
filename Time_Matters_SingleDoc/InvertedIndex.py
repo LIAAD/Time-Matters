@@ -23,9 +23,9 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
 
     text_norm_start_time = time.time()
     if n_gram > 1:
-        new_text = format_text_n_gram(new_text, relevant_words_array, n_gram)
+        new_text = format_text_n_gram_text(new_text, relevant_words_array, n_gram)
     else:
-        new_text = format_text(new_text, relevant_words_array, candidate_dates_array)
+        new_text = format_one_gram_text(new_text, relevant_words_array, candidate_dates_array)
     text_norm_exec_time = (time.time() - text_norm_start_time)
     ExecTimeDictionary['keyword_text_normalization'] = text_norm_exec_time
 
@@ -52,7 +52,7 @@ def test_trans(text):
     return text.translate(str.maketrans('', '', '!,:.;?()\n'))
 
 
-def format_text(text, relevant_words_array, candidate_dates_array):
+def format_one_gram_text(text, relevant_words_array, candidate_dates_array):
     text_tokens = text.split(' ')
     try:
         for tk in range(len(text_tokens)):
@@ -66,36 +66,34 @@ def format_text(text, relevant_words_array, candidate_dates_array):
     return new_text
 
 
-def format_text_n_gram(text, relevant_words_array, n_gram):
-    text = text.replace('\n', ' ')
+def format_text_n_gram_text(text, relevant_words_array, n_gram):
     text_tokens = text.split(' ')
     y = 0
     final_splited_text = []
     while y < len(text_tokens):
 
-        mirror_final_list = []
-        x_list = []
-        for i in range(n_gram):
-            x_list, mirror_final_list = find_more_relevant(y, text_tokens, n_gram, relevant_words_array, x_list, mirror_final_list)
+        splited_n_gram_kw_list = []
+        n_gram_kw_list = []
+        n_gram_word_list, splited_n_gram_kw_list = find_more_relevant(y, text_tokens, n_gram, relevant_words_array, n_gram_kw_list, splited_n_gram_kw_list)
 
-        if x_list:
-            final_list = []
-            mirror_final_list = []
-            splited_one = x_list[0].split()
+        if n_gram_word_list:
+            kw_list = []
+            splited_n_gram_kw_list = []
+            splited_one = n_gram_kw_list[0].split()
 
-            for xx in range(0, len(splited_one)):
-                final_list, mirror_final_list = find_more_relevant(y+xx, text_tokens, n_gram, relevant_words_array, final_list, mirror_final_list)
+            for len_kw in range(0, len(splited_one)):
+                kw_list, splited_n_gram_kw_list = find_more_relevant(y+len_kw, text_tokens, n_gram, relevant_words_array, kw_list, splited_n_gram_kw_list)
 
-            minm_score_word = min(final_list, key=lambda x: relevant_words_array.index(x))
+            min_score_word = min(kw_list, key=lambda x: relevant_words_array.index(x))
 
-            if final_list.index(minm_score_word) == 0 or len(splited_one) == 1:
-                term_list = [minm_score_word]
+            if kw_list.index(min_score_word) == 0 or len(splited_one) == 1:
+                term_list = [min_score_word]
                 y, new_expression = replace_token(text_tokens, y, term_list)
                 final_splited_text.append(new_expression)
 
-            elif final_list.index(minm_score_word) >= 1:
-                index_of_more_relevant = mirror_final_list[0].index(minm_score_word.split()[0])
-                temporal_kw = ' '.join(mirror_final_list[0][:index_of_more_relevant])
+            elif kw_list.index(min_score_word) >= 1:
+                index_of_more_relevant = splited_n_gram_kw_list[0].index(min_score_word.split()[0])
+                temporal_kw = ' '.join(splited_n_gram_kw_list[0][:index_of_more_relevant])
 
                 if temporal_kw.lower() in relevant_words_array:
                     term_list = [temporal_kw]
@@ -104,7 +102,7 @@ def format_text_n_gram(text, relevant_words_array, n_gram):
 
                 else:
                     final_splited_text.append(text_tokens[y])
-                    y += final_list.index(minm_score_word)
+                    y += kw_list.index(min_score_word)
 
         else:
             final_splited_text.append(text_tokens[y])
@@ -114,7 +112,7 @@ def format_text_n_gram(text, relevant_words_array, n_gram):
     return new_text
 
 
-def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, final_list, mirror_final_list):
+def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, kw_list, splited_n_gram_word_list):
 
     temporal_list = []
     temporal_list_two = []
@@ -127,22 +125,22 @@ def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, final_list,
         if k.lower() in relevant_words_array:
             temporal_list_two.append(k)
 
-    x_list = sorted(temporal_list_two, key=lambda x: relevant_words_array.index(x))
+    n_gram_word_list = sorted(temporal_list_two, key=lambda x: relevant_words_array.index(x))
     try:
-        final_list.append(x_list[0])
-        tmp.append(x_list[0])
-        mirror_final_list.append(tmp[0].split())
+        kw_list.append(n_gram_word_list[0])
+        tmp.append(n_gram_word_list[0])
+        splited_n_gram_word_list.append(tmp[0].split())
     except:
         pass
 
-    return final_list, mirror_final_list
+    return kw_list, splited_n_gram_word_list
 
 
-def replace_token(text_tokens, y, x_list):
-    txt = ' '.join(text_tokens[y:y + len(x_list[0].split(' '))])
+def replace_token(text_tokens, y, n_gram_word_list):
+    txt = ' '.join(text_tokens[y:y + len(n_gram_word_list[0].split(' '))])
     old_expression = txt
-    new_expression = txt.replace(test_trans(old_expression), '<kw>' + x_list[0] + '</kw>')
-    y += len(x_list[0].split(' '))
+    new_expression = txt.replace(test_trans(old_expression), '<kw>' + n_gram_word_list[0] + '</kw>')
+    y += len(n_gram_word_list[0].split(' '))
     return y, new_expression
 
 
