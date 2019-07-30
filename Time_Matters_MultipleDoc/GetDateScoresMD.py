@@ -46,7 +46,7 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
     #print('\n')
     if score_type == 'ByDocSentence':
         gte_start_time = time.time()
-        gte_dict = main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N, inverted_index, n_contextual_window)
+        gte_dict = main_info_simba_ByDocSentence(dates_list, words_list, dataframe, TH, N, inverted_index, n_contextual_window)
         gte_exec_time = (time.time() - gte_start_time)
         return gte_dict, dataframe, dice_exec_time, gte_exec_time
     elif score_type == 'ByCorpus':
@@ -83,7 +83,7 @@ def find_axis_data(x_axis, y_axis, doc_n_contextual_window):
 # **********************************************************
 # verify if a distance between words are according n_contextual_window
 def distance_of_terms(x_offset, y_offset, n_contextual_window):
-    if any(1 for x   in x_offset for y in y_offset if abs(x - y) < n_contextual_window) == True:
+    if any(1 for x   in x_offset for y in y_offset if abs(x - y) <= n_contextual_window) == True:
         value = 1
     else:
         value = 0
@@ -142,7 +142,7 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N, inverted_ind
 
     for date in dates_list:
         gte_dict[date] = {}
-        index_array = Doc_index(date, inverted_index)
+        index_array = Doc_index(date, inverted_index[date][2].keys())
         for index in index_array:
             info_simba_array = []
             ContextVector_date = Create_ContextVector_ByDoc(date, dataframe, TH, inverted_index, index,
@@ -165,11 +165,41 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N, inverted_ind
 
     return gte_dict
 
+# calculation of info simba per Doc .
+def main_info_simba_ByDocSentence(dates_list, words_list, dataframe, TH, N, inverted_index, n_contextual_window):
+    gte_dict = {}
+
+    for date in dates_list:
+        gte_dict[date] = {}
+        index_array = Doc_index(date, inverted_index[date][2].keys())
+        for doc_index in index_array:
+            sentence_index_array = Doc_index(date, inverted_index[date][2][doc_index][2].keys())
+            for sentence_index in sentence_index_array:
+                info_simba_array = []
+                ContextVector_date = Create_ContextVector_ByDocSentence(date, dataframe, TH, inverted_index, doc_index, sentence_index, n_contextual_window)
+                print(date)
+                print(ContextVector_date)
+                for word in ContextVector_date:
+                    if word not in dates_list:
+                        print(word)
+                        ContextVector_word = Create_ContextVector_ByDocSentence(word, dataframe, TH, inverted_index, doc_index, sentence_index, n_contextual_window)
+                        print(ContextVector_word)
+                        maxLen = max_length(len(ContextVector_date), len(ContextVector_word), N)
+                        result = InfoSimba(ContextVector_date[:maxLen], ContextVector_word[:maxLen], dataframe)
+                        if result != 0:
+                            info_simba_array.append(result)
+                try:
+                    rounded_result = round_up(statistics.median(info_simba_array), decimals=3)
+                    gte_dict[date][doc_index] = [rounded_result]
+                except:
+                    gte_dict[date][doc_index] = [0]
+
+    return gte_dict
 
 # ****************************************************************************************************
 # define a array with sentence index for words and dates. according inverted index
-def Doc_index(date, inverted_index):
-    sentence_key = inverted_index[date][2].keys()
+def Doc_index(date, sentence_key):
+
     #print(date)
     #print(inverted_index[date][2])
     #print(list(sentence_key))
@@ -177,6 +207,7 @@ def Doc_index(date, inverted_index):
     for n_sentence in sentence_key:
         sentence_index_array.append(n_sentence)
     return list(sentence_index_array)
+
 
 
 def max_length(lenX, lenY, N):
@@ -210,6 +241,23 @@ def Create_ContextVector_ByDoc(term, DF, TH, Inverted_Index, Index, n_contextual
             pass
     return contextVector
 
+
+def Create_ContextVector_ByDocSentence(term, DF, TH, Inverted_Index, Index, sentence_index, n_contextual_window):
+    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False)
+    contextVector = []
+    for x in DF_Filtered.index.tolist():
+
+        try:
+            offset_x = Inverted_Index[x][2][Index][2][sentence_index][1]
+            offset_y = Inverted_Index[term][2][Index][2][sentence_index][1]
+            if n_contextual_window != 'full_document':
+                if x != term and distance_of_terms(offset_x[1], offset_y[1], n_contextual_window):
+                    contextVector.append(x)
+            elif x != term:
+                contextVector.append(x)
+        except:
+            pass
+    return contextVector
 
 # *******************************************************************************************
 # calc Info simba

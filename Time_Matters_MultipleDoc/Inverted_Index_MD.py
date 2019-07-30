@@ -1,6 +1,6 @@
 import time
 from langdetect import detect
-from Time_Matters_SingleDoc.InvertedIndex import kw_ext, get_occurrence, tokenizer, verify_keywords, rule_based, py_heideltime, format_text_n_gram, format_text
+from Time_Matters_SingleDoc.InvertedIndex import kw_ext, get_occurrence, tokenizer, verify_keywords, rule_based, py_heideltime, format_n_gram_text, format_one_gram_text
 from Time_Matters_SingleDoc.GetDateScores import remove_duplicates
 
 def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram):
@@ -45,21 +45,21 @@ def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, d
         # Text normalization
         text_norm_start_time = time.time()
         if n_gram > 1:
-            new_text = format_text_n_gram(temporal_text_list[doc_id], all_docs_relevant_words, n_gram)
+            new_text = format_n_gram_text(temporal_text_list[doc_id], all_docs_relevant_words, n_gram)
         else:
-            new_text = format_text(temporal_text_list[doc_id], all_docs_relevant_words, all_docs_candidate_date)
+            new_text = format_one_gram_text(temporal_text_list[doc_id], all_docs_relevant_words, all_docs_candidate_date)
 
         normalized_docs_list.append(new_text)
         text_norm_exec_time = (time.time() - text_norm_start_time)
-        ExecTimeDictionary['text_normalization'] += text_norm_exec_time
+        ExecTimeDictionary['keyword_text_normalization'] = text_norm_exec_time
         # create inverted index
         sentence_II = BySentence_Inverted_index(all_docs_relevant_words, all_docs_candidate_date, new_text)
 
         # Create II per Doc
         inverted_index = ByDoc_inverted_index(normalized_docs_list[doc_id], all_docs_relevant_words, all_docs_candidate_date, inverted_index, doc_id, sentence_II)
     filtered_all_docs_relevant_words, filtered_KeyWords_dictionary = verify_keywords(inverted_index, all_docs_relevant_words, all_docs_KeyWords_dictionary,all_docs_candidate_date)
-    print(filtered_all_docs_relevant_words)
-    print(normalized_docs_list)
+    #print(filtered_all_docs_relevant_words)
+    #print(normalized_docs_list)
     return inverted_index, filtered_all_docs_relevant_words, all_docs_candidate_date, ExecTimeDictionary
 
 

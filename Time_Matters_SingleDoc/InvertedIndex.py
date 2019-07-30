@@ -23,7 +23,7 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
 
     text_norm_start_time = time.time()
     if n_gram > 1:
-        new_text = format_text_n_gram_text(new_text, relevant_words_array, n_gram)
+        new_text = format_n_gram_text(new_text, relevant_words_array, n_gram)
     else:
         new_text = format_one_gram_text(new_text, relevant_words_array, candidate_dates_array)
     text_norm_exec_time = (time.time() - text_norm_start_time)
@@ -66,7 +66,7 @@ def format_one_gram_text(text, relevant_words_array, candidate_dates_array):
     return new_text
 
 
-def format_text_n_gram_text(text, relevant_words_array, n_gram):
+def format_n_gram_text(text, relevant_words_array, n_gram):
     text_tokens = text.split(' ')
     y = 0
     final_splited_text = []

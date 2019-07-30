@@ -1,8 +1,8 @@
 from Time_Matters_SingleDoc.InvertedIndex import kw_ext
-from Time_Matters_MultipleDoc.GetDateScores import GetDataScores
+from Time_Matters_MultipleDoc.GetDateScoresMD import GetDataScores
 from Time_Matters_MultipleDoc.Inverted_Index_MD import main_inverted_index_md
 from langdetect import detect
-from Time_Matters_MultipleDoc.validate_input import verify_input_data
+from Time_Matters_MultipleDoc.validate_inputMD import verify_input_data
 
 
 def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], score_type='ByCorpus', debug_mode=False):
@@ -13,13 +13,13 @@ def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], 
     inverted_index, all_docs_relevant_words, \
     all_docs_candidate_date, ExecTimeDictionary = main_inverted_index_md(language, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram)
 
-    #print(inverted_index)
-    print(all_docs_relevant_words)
+    print(inverted_index,'\n')
+    #print(all_docs_relevant_words)
 
 
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, all_docs_relevant_words, all_docs_candidate_date, n_contextual_window, TH, N, score_type)
     #print(DiceMatrix)
-    #print(gte_dictionary)
+    print(gte_dictionary)
 
     #dates_array_score = []
     #for k in range(len(relevant_dates)):

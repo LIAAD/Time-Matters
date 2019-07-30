@@ -75,7 +75,8 @@ def find_axis_data(x_axis, y_axis, n_contextual_window):
 # **********************************************************
 # verify if a distance between words are according n_contextual_window
 def distance_of_terms(x_offset, y_offset, n_contextual_window):
-    if any(1 for x   in x_offset for y in y_offset if abs(x - y) < n_contextual_window) == True:
+
+    if any(1 for x  in x_offset for y in y_offset if abs(x - y) <= n_contextual_window) == True:
         value = 1
     else:
         value = 0
@@ -107,7 +108,14 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N):
                 date_context_vector = Create_ContextualVector(date, dataframe, TH)
                 maxLen = max_length(len(date_context_vector), len(word_ContextVector), N)
 
+                #print(maxLen)
+                #print(date)
+                #print(date_context_vector[:maxLen])
+                #print(word)
+                #print(word_ContextVector[:maxLen])
                 result = InfoSimba(date_context_vector[:maxLen], word_ContextVector[:maxLen], dataframe)
+                #print(result)
+                #print('\n')
                 is_dictionary[date].append(result)
 
         if is_dictionary[date] != []:
@@ -142,6 +150,7 @@ def main_info_simba_BySentence(dates_list, dataframe, TH, N, inverted_index, n_c
                     ContextVector_word = Create_ContextVector_BySentence(word, dataframe, TH, inverted_index, index, n_contextual_window)
 
                     maxLen = max_length(len(ContextVector_date), len(ContextVector_word), N)
+
                     result = InfoSimba(ContextVector_date[:maxLen], ContextVector_word[:maxLen], dataframe)
                     if result != 0:
                         info_simba_array.append(result)
@@ -172,8 +181,10 @@ def max_length(lenX, lenY, N):
 
 
 def Create_ContextualVector(term, DF, TH):
-    DF_Filtered = DF[term][DF[term]>TH].sort_values(ascending=False)
-    contextVector = [x for x in DF_Filtered.index.tolist() if x != term]
+
+    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
+    contextVector = [x for x in DF_Filtered if x != term]
+
     return contextVector
 
 
@@ -201,9 +212,10 @@ def InfoSimba(ContextVector_X, ContextVector_Y, DF):
     Sum_XY = sum([DF.loc[x, y] for x in ContextVector_X for y in ContextVector_Y])
 
     Sum_XX = sum([DF.loc[x, y] for x in ContextVector_X for y in ContextVector_X])
-
+    #print('date', Sum_XX)
     Sum_YY = sum([DF.loc[x, y] for x in ContextVector_Y for y in ContextVector_Y])
-
+    #print('word', Sum_YY)
+    #print('WORD_DATE', Sum_XY)
     try:
         result = Sum_XY / (Sum_XX + Sum_YY - Sum_XY)
         return result
