@@ -56,10 +56,10 @@ def format_one_gram_text(text, relevant_words_array, candidate_dates_array):
     text_tokens = text.split(' ')
     try:
         for tk in range(len(text_tokens)):
-            kw = test_trans(text_tokens[tk])
+            kw = re.sub('[!",:.;?()]$|["!,:.;?()]\W|^[!",:.;?()]|\W["!,:.;?()]', '',  text_tokens[tk]).lower()
 
             if kw.lower() in relevant_words_array and kw.lower() not in candidate_dates_array:
-                text_tokens[tk] = text_tokens[tk].replace(kw, '<kw>' + kw.lower() + '</kw>')
+                text_tokens[tk] = text_tokens[tk].lower().replace(kw, '<kw>' + kw.lower() + '</kw>')
     except:
         pass
     new_text = ' '.join(text_tokens)
@@ -121,7 +121,8 @@ def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, kw_list, sp
     for i in range(n_gram):
 
         temporal_list.append(text_tokens[y:y + i + 1])
-        k = test_trans(' '.join(temporal_list[i])).lower()
+        k = re.sub('[!",:.;?()]$|["!,:.;?()]\W|^[!",:.;?()]|\W["!,:.;?()]', '',  ' '.join(temporal_list[i])).lower()
+
         if k.lower() in relevant_words_array:
             temporal_list_two.append(k)
 
@@ -139,7 +140,7 @@ def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, kw_list, sp
 def replace_token(text_tokens, y, n_gram_word_list):
     txt = ' '.join(text_tokens[y:y + len(n_gram_word_list[0].split(' '))])
     old_expression = txt
-    new_expression = txt.replace(test_trans(old_expression), '<kw>' + n_gram_word_list[0] + '</kw>')
+    new_expression = txt.replace(re.sub('[!",:.;?()]$|["!,:.;?()]\W|^[!",:.;?()]|\W["!,:.;?()]', '',  old_expression), '<kw>' + n_gram_word_list[0] + '</kw>')
     y += len(n_gram_word_list[0].split(' '))
     return y, new_expression
 
