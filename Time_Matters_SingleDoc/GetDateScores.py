@@ -187,7 +187,7 @@ def Create_ContextualVector(term, DF, TH, n_contextual_window, inverted_index):
             contextVector.remove(contextVector[0])
         for i in DF_Filtered:
             term_offset_a = get_offset(inverted_index, i)
-            for k in DF_Filtered:
+            for k in DF_Filtered[contextVector.index(i)::]:
                 term_offset_b = get_offset(inverted_index, k)
                 if k == term or not distance_of_terms(term_offset_a, term_offset_b, n_contextual_window):
                     contextVector.remove(k)
@@ -199,10 +199,10 @@ def Create_ContextualVector(term, DF, TH, n_contextual_window, inverted_index):
 
 
 def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_contextual_window):
-    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False)
+    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
     contextVector = []
     final_context_vector = []
-    for x in DF_Filtered.index.tolist():
+    for x in DF_Filtered:
 
         try:
             offset_x = Inverted_Index[x][2][Index]
@@ -219,13 +219,15 @@ def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_conte
     except:
         pass
 
-    for i in range(len(contextVector)):
-        for k in range(1, len(contextVector)):
-            try:
-                if not distance_of_terms(Inverted_Index[contextVector[i]][2][Index][1], Inverted_Index[contextVector[i + 1]][2][Index][1], n_contextual_window):
-                    contextVector.remove(contextVector[k])
-            except:
-                pass
+    if contextVector[0] == term:
+        contextVector.remove(contextVector[0])
+    for i in contextVector:
+        term_offset_a = Inverted_Index[i][2][Index][1]
+
+        for k in contextVector[contextVector.index(i)::]:
+            term_offset_b = Inverted_Index[k][2][Index][1]
+            if not distance_of_terms(term_offset_a, term_offset_b, n_contextual_window):
+                contextVector.remove(k)
 
     return contextVector
 
