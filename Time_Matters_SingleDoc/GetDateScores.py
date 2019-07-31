@@ -106,15 +106,7 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N, n_contextual
                 word_ContextVector = Create_ContextualVector(word, dataframe, TH, n_contextual_window, inverted_index)
                 date_context_vector = Create_ContextualVector(date, dataframe, TH, n_contextual_window, inverted_index)
                 maxLen = max_length(len(date_context_vector), len(word_ContextVector), N)
-
-                #print(maxLen)
-                print(date)
-                print(date_context_vector[:maxLen])
-                print(word)
-                print(word_ContextVector[:maxLen])
                 result = InfoSimba(date_context_vector[:maxLen], word_ContextVector[:maxLen], dataframe)
-                print(result)
-                print('\n')
                 is_dictionary[date].append(result)
 
         if is_dictionary[date] != []:
@@ -183,14 +175,17 @@ def Create_ContextualVector(term, DF, TH, n_contextual_window, inverted_index):
 
     if n_contextual_window != 'full_sentence':
         contextVector = DF_Filtered
-        if contextVector[0] == term:
-            contextVector.remove(contextVector[0])
-        for i in DF_Filtered:
-            term_offset_a = get_offset(inverted_index, i)
-            for k in DF_Filtered[contextVector.index(i)::]:
-                term_offset_b = get_offset(inverted_index, k)
-                if k == term or not distance_of_terms(term_offset_a, term_offset_b, n_contextual_window):
-                    contextVector.remove(k)
+        try:
+            if contextVector[0] == term:
+                contextVector.remove(contextVector[0])
+            for i in DF_Filtered:
+                term_offset_a = get_offset(inverted_index, i)
+                for k in DF_Filtered[contextVector.index(i)::]:
+                    term_offset_b = get_offset(inverted_index, k)
+                    if k == term or not distance_of_terms(term_offset_a, term_offset_b, n_contextual_window):
+                        contextVector.remove(k)
+        except:
+            pass
 
     else:
         contextVector = [x for x in DF_Filtered if x != term]
@@ -215,19 +210,18 @@ def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_conte
         except:
             pass
     try:
-        final_context_vector.append(contextVector[0])
+        if contextVector[0] == term:
+            contextVector.remove(contextVector[0])
+        for i in contextVector:
+            term_offset_a = Inverted_Index[i][2][Index][1]
+
+            for k in contextVector[contextVector.index(i)::]:
+                term_offset_b = Inverted_Index[k][2][Index][1]
+                if not distance_of_terms(term_offset_a, term_offset_b, n_contextual_window):
+                    contextVector.remove(k)
     except:
         pass
 
-    if contextVector[0] == term:
-        contextVector.remove(contextVector[0])
-    for i in contextVector:
-        term_offset_a = Inverted_Index[i][2][Index][1]
-
-        for k in contextVector[contextVector.index(i)::]:
-            term_offset_b = Inverted_Index[k][2][Index][1]
-            if not distance_of_terms(term_offset_a, term_offset_b, n_contextual_window):
-                contextVector.remove(k)
 
     return contextVector
 

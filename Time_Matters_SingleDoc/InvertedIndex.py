@@ -121,8 +121,7 @@ def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, kw_list, sp
     for i in range(n_gram):
 
         temporal_list.append(text_tokens[y:y + i + 1])
-        k = re.sub('[!",:.;?()]$|["!,:.;?()]\W|^[!",:.;?()]|\W["!,:.;?()]', '',  ' '.join(temporal_list[i])).lower()
-
+        k = re.sub('''[!",:.;?()]$|["!,:.;?()]\W|^[!",':.;?()]|\W["!,:.;?()]''', '',  ' '.join(temporal_list[i])).lower()
         if k.lower() in relevant_words_array:
             temporal_list_two.append(k)
 
