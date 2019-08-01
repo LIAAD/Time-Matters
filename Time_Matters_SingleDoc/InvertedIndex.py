@@ -9,16 +9,14 @@ import re
 def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram):
 
     if date_extractor == 'rule_based':
-        # =============================== Keyword Extractor ===============================================
+        # =============================== Keyword Extractor ===========================================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, text, num_of_keywords, n_gram)
-
         # =============================== Date Extractor ===============================================
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity)
-
     else:
-        # =============================== Date Extractor ===============================================
+        # =============================== Date Extractor ==============================================================
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
-        # =============================== Keyword Extractor ===============================================
+        # =============================== Keyword Extractor ==========================================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
 
     text_norm_start_time = time.time()
