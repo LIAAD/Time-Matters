@@ -49,14 +49,14 @@ def verify_keywords(inverted_index, words_array, KeyWords_dictionary, candidate_
 
 
 def test_trans(text):
-    return text.translate(str.maketrans('', '', '!,:.;?()\n'))
+    return text.translate(str.maketrans('', '', '!,:.;?()"\n'))
 
 
 def format_one_gram_text(text, relevant_words_array, candidate_dates_array):
     text_tokens = text.split(' ')
     try:
         for tk in range(len(text_tokens)):
-            kw = re.sub('[!",:.;?()]$|["!,:.;?()]\W|^[!",:.;?()]|\W["!,:.;?()]', '',  text_tokens[tk]).lower()
+            kw = re.sub('[!",:.;?()]$|^[!",:.;?()]', '',  text_tokens[tk]).lower()
 
             if kw.lower() in relevant_words_array and kw.lower() not in candidate_dates_array:
                 text_tokens[tk] = text_tokens[tk].lower().replace(kw, '<kw>' + kw.lower() + '</kw>')
@@ -77,32 +77,41 @@ def format_n_gram_text(text, relevant_words_array, n_gram):
         n_gram_word_list, splited_n_gram_kw_list = find_more_relevant(y, text_tokens, n_gram, relevant_words_array, n_gram_kw_list, splited_n_gram_kw_list)
 
         if n_gram_word_list:
-            kw_list = []
-            splited_n_gram_kw_list = []
-            splited_one = n_gram_kw_list[0].split()
-
-            for len_kw in range(0, len(splited_one)):
-                kw_list, splited_n_gram_kw_list = find_more_relevant(y+len_kw, text_tokens, n_gram, relevant_words_array, kw_list, splited_n_gram_kw_list)
-
-            min_score_word = min(kw_list, key=lambda x: relevant_words_array.index(x))
-
-            if kw_list.index(min_score_word) == 0 or len(splited_one) == 1:
-                term_list = [min_score_word]
-                y, new_expression = replace_token(text_tokens, y, term_list)
+            if len(n_gram_word_list[0].split(' ')) == 1:
+                y, new_expression = replace_token(text_tokens, y, n_gram_word_list)
                 final_splited_text.append(new_expression)
+            else:
+                kw_list = []
+                splited_n_gram_kw_list = []
+                splited_one = n_gram_word_list[0].split()
 
-            elif kw_list.index(min_score_word) >= 1:
-                index_of_more_relevant = splited_n_gram_kw_list[0].index(min_score_word.split()[0])
-                temporal_kw = ' '.join(splited_n_gram_kw_list[0][:index_of_more_relevant])
+                for len_kw in range(0, len(splited_one)):
+                    kw_list, splited_n_gram_kw_list = find_more_relevant(y+len_kw, text_tokens, n_gram, relevant_words_array, kw_list, splited_n_gram_kw_list)
+                min_score_word = min(kw_list, key=lambda x: relevant_words_array.index(x))
 
-                if temporal_kw.lower() in relevant_words_array:
-                    term_list = [temporal_kw]
+                if kw_list.index(min_score_word) == 0:
+                    term_list = [min_score_word]
                     y, new_expression = replace_token(text_tokens, y, term_list)
                     final_splited_text.append(new_expression)
 
-                else:
-                    final_splited_text.append(text_tokens[y])
-                    y += kw_list.index(min_score_word)
+                elif kw_list.index(min_score_word) >= 1:
+                    index_of_more_relevant = splited_n_gram_kw_list[0].index(min_score_word.split()[0])
+                    temporal_kw = ' '.join(splited_n_gram_kw_list[0][:index_of_more_relevant])
+
+                    if temporal_kw.lower() in relevant_words_array:
+                        term_list = [temporal_kw.lower()]
+                        y, new_expression = replace_token(text_tokens, y, term_list)
+                        final_splited_text.append(new_expression)
+                    else:
+                        for tmp_kw in splited_n_gram_kw_list[0][:index_of_more_relevant]:
+
+                            if tmp_kw.lower() in relevant_words_array:
+                                term_list = [tmp_kw.lower()]
+                                y, new_expression = replace_token(text_tokens, y, term_list)
+                                final_splited_text.append(new_expression)
+                            else:
+                                final_splited_text.append(text_tokens[y])
+                                y += kw_list.index(min_score_word)
 
         else:
             final_splited_text.append(text_tokens[y])
@@ -113,23 +122,22 @@ def format_n_gram_text(text, relevant_words_array, n_gram):
 
 
 def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, kw_list, splited_n_gram_word_list):
-
     temporal_list = []
     temporal_list_two = []
-
-    tmp = []
     for i in range(n_gram):
 
+        #filtered = [test_trans(x.lower()) for x in text_tokens[y:y + i+1]]
+        #temporal_list.append(text_tokens[y:y + i + 1])
         temporal_list.append(text_tokens[y:y + i + 1])
-        k = re.sub('''[!",:.;?()]$|["!,:.;?()]\W|^[!",':.;?()]|\W["!,:.;?()]''', '',  ' '.join(temporal_list[i])).lower()
+        k = re.sub('''[!",:.;?()]$|^[!",':.;?()]|\W["!,:.;?()]''', '',  ' '.join(temporal_list[i])).lower()
+
         if k.lower() in relevant_words_array:
             temporal_list_two.append(k)
 
     n_gram_word_list = sorted(temporal_list_two, key=lambda x: relevant_words_array.index(x))
     try:
         kw_list.append(n_gram_word_list[0])
-        tmp.append(n_gram_word_list[0])
-        splited_n_gram_word_list.append(tmp[0].split())
+        splited_n_gram_word_list.append(n_gram_word_list[0].split())
     except:
         pass
 
@@ -138,8 +146,8 @@ def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, kw_list, sp
 
 def replace_token(text_tokens, y, n_gram_word_list):
     txt = ' '.join(text_tokens[y:y + len(n_gram_word_list[0].split(' '))])
-    old_expression = txt
-    new_expression = txt.replace(re.sub('[!",:.;?()]$|["!,:.;?()]\W|^[!",:.;?()]|\W["!,:.;?()]', '',  old_expression), '<kw>' + n_gram_word_list[0] + '</kw>')
+
+    new_expression = txt.replace(re.sub('[!",:.;?()]$|^[!",:.;?()]|\W["!,:.;?()]', '',  txt), '<kw>' + n_gram_word_list[0] + '</kw>')
     y += len(n_gram_word_list[0].split(' '))
     return y, new_expression
 
@@ -265,7 +273,6 @@ def rule_based(text, date_granularity):
     extractor_start_time = time.time()
     try:
         for tk in range(len(text_tokens)):
-            kw = test_trans(text_tokens[tk]).lower()
             labeling_start_time = time.time()
             if c.match(text_tokens[tk]):
 
