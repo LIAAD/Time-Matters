@@ -115,8 +115,8 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 Getting temporal scores by doc is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this  [[here|Text-Representation#Temporal-Expressions]]), "ByDoc" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different sentences.
 
 ```` bash
-Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_SingleDoc(text)
-#Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_SingleDoc(text, score_type="ByDoc")
+results = Time_Matters_SingleDoc(text)
+#results = Time_Matters_SingleDoc(text, score_type="ByDoc")
 ````
 
 #### BySentence
@@ -125,7 +125,7 @@ Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormal
 Getting temporal scores by sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this [[here|Text-Representation#Temporal-Expressions]]), "BySentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence on the other sentence).
 
 ```` bash
-#Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_SingleDoc(text, score_type='BySentence')
+results = Time_Matters_SingleDoc(text, score_type='BySentence')
 ````
 
 #### Output
@@ -134,6 +134,8 @@ The structure of the score depends on the type of extraction considered: `ByDoc`
 - <b>Score (for ByDoc)</b>:  A dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a list of the instances of the temporal expression (as they were found in the text). Example: `'2011-01-12': [0.5, ['2011-01-12', '12 January 2011']],`, means that the normalized temporal expression `2011-01-12` has a score of 0.5 and occurs twice in the text. The first time as `2011-01-12`, and the second time as `12 January 2011`.
 
 ```` bash
+results[0]
+
 {'2011-01-12': [1.0, ['12 January 2011']],
  '2010': [0.983, ['2010', '2010', '2010']],
  '1564': [0.799, ['1564']],
@@ -146,6 +148,8 @@ The structure of the score depends on the type of extraction considered: `ByDoc`
 - <b>Score (for BySentence)</b>:  A dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the sentenceID and the value is a list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular sentence). Example: `{'2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]}}`, means that the normalized temporal expression `2010` has a score of 0.2 in the sentence with ID 1, and a score of 0.983 in the sentence with ID 5 (where it occurs two times).
 
 ```` bash
+results[0]
+
 {'2011': {0: [0.831, ['2011']]},
  '2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]},
  '1564': {2: [0.828, ['1564']]},
@@ -209,8 +213,8 @@ for file in os.listdir (path) :
 Getting temporal scores by a corpus of documents is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByCorpus" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different documents.
 
 ```` bash
-Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text)
-#Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type="ByCorpus")
+results = Time_Matters_MultipleDocs(text)
+#results = Time_Matters_MultipleDocs(text, score_type="ByCorpus")
 ````
 
 #### ByDoc
@@ -219,7 +223,7 @@ Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormal
 Getting temporal scores by document is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different documents, will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1 of document 1; and 0.77 for the occurrence of 2019 in sentence 2 of document 1);
 
 ```` bash
-Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type='ByDoc')
+results = Time_Matters_MultipleDocs(text, score_type='ByDoc')
 ````
 
 #### ByDocSentence
@@ -228,7 +232,7 @@ Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormal
 Getting temporal scores by document & sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc&Sentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences of a given document, will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in document 1; and 0.982 for its occurrence in document 2).
 
 ```` bash
-Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_MultipleDocs(text, score_type='ByDocSentence')
+results = Time_Matters_MultipleDocs(text, score_type='ByDocSentence')
 ````
 
 #### Output
