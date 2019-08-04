@@ -61,10 +61,10 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
         ExecTimeDictionary['DICE_Matrix'] = dice_exec_time
         ExecTimeDictionary['GTE'] = gte_exec_time
 
-        return Sorted_Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, ExecTimeDictionary
+        return [Sorted_Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, ExecTimeDictionary]
     elif not debug_mode:
 
-        return Sorted_Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens
+        return [Sorted_Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens]
 
 
 def sort_BySentence_output(Score):

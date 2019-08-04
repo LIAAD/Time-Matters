@@ -9,35 +9,36 @@ import re
 def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram):
 
     if date_extractor == 'rule_based':
-        # =============================== Keyword Extractor ===========================================================
-        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, text, num_of_keywords, n_gram)
         # =============================== Date Extractor ===============================================
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity)
+
+        # =============================== Keyword Extractor ===========================================================
+        KeyWords_dictionary, relevant_words_array, kw_exec_time, textNormalized = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
     else:
         # =============================== Date Extractor ==============================================================
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
         # =============================== Keyword Extractor ==========================================================
-        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
+        KeyWords_dictionary, relevant_words_array, kw_exec_time, textNormalized = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
 
-    text_norm_start_time = time.time()
-    if n_gram > 1:
-        new_text = format_n_gram_text(new_text, relevant_words_array, n_gram)
-    else:
-        new_text = format_one_gram_text(new_text, relevant_words_array, candidate_dates_array)
-    text_norm_exec_time = (time.time() - text_norm_start_time)
-    ExecTimeDictionary['keyword_text_normalization'] = text_norm_exec_time
+    #text_norm_start_time = time.time()
+    #if n_gram > 1:
+    #    new_text = format_n_gram_text(new_text, relevant_words_array, n_gram)
+   # else:
+    #    new_text = format_one_gram_text(new_text, relevant_words_array, candidate_dates_array)
+    #text_norm_exec_time = (time.time() - text_norm_start_time)
+    #ExecTimeDictionary['keyword_text_normalization'] = text_norm_exec_time
 
     # =====================================================================================================
     # =============================== Inverted Index ===============================================
     ii_start_time = time.time()
-    inverted_index, words_array, dates_array, sentence_array, sentence_tokens = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
+    inverted_index, words_array, dates_array, sentence_array, sentence_tokens = create_inverted_index(relevant_words_array, candidate_dates_array, textNormalized)
     ii_exec_time = (time.time() - ii_start_time)
     # ===========================================================================================================
 
     words_array, KeyWords_dictionary = verify_keywords(inverted_index, relevant_words_array, KeyWords_dictionary, candidate_dates_array)
-    text_tokens = tokenizer(new_text)
+    text_tokens = tokenizer(textNormalized)
 
-    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, TempExpressions, new_text, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time, ExecTimeDictionary
+    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, TempExpressions, textNormalized, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time, ExecTimeDictionary
 
 
 def verify_keywords(inverted_index, words_array, KeyWords_dictionary, candidate_dates_array):
@@ -48,106 +49,6 @@ def verify_keywords(inverted_index, words_array, KeyWords_dictionary, candidate_
 
 def test_trans(text):
     return text.translate(str.maketrans('', '', '!,:.;?()"\n'))
-
-
-def format_one_gram_text(text, relevant_words_array, candidate_dates_array):
-    text_tokens = text.split(' ')
-    try:
-        for tk in range(len(text_tokens)):
-            kw = re.sub('[!",:.;?()]$|^[!",:.;?()]', '',  text_tokens[tk]).lower()
-
-            if kw.lower() in relevant_words_array and kw.lower() not in candidate_dates_array:
-                text_tokens[tk] = text_tokens[tk].lower().replace(kw, '<kw>' + kw.lower() + '</kw>')
-    except:
-        pass
-    new_text = ' '.join(text_tokens)
-    return new_text
-
-
-def format_n_gram_text(text, relevant_words_array, n_gram):
-    text_tokens = text.split(' ')
-    y = 0
-    final_splited_text = []
-    while y < len(text_tokens):
-
-        splited_n_gram_kw_list = []
-        n_gram_kw_list = []
-        n_gram_word_list, splited_n_gram_kw_list = find_more_relevant(y, text_tokens, n_gram, relevant_words_array, n_gram_kw_list, splited_n_gram_kw_list)
-
-        if n_gram_word_list:
-            if len(n_gram_word_list[0].split(' ')) == 1:
-                y, new_expression = replace_token(text_tokens, y, n_gram_word_list)
-                final_splited_text.append(new_expression)
-            else:
-                kw_list = []
-                splited_n_gram_kw_list = []
-                splited_one = n_gram_word_list[0].split()
-
-                for len_kw in range(0, len(splited_one)):
-                    kw_list, splited_n_gram_kw_list = find_more_relevant(y+len_kw, text_tokens, n_gram, relevant_words_array, kw_list, splited_n_gram_kw_list)
-                min_score_word = min(kw_list, key=lambda x: relevant_words_array.index(x))
-
-                if kw_list.index(min_score_word) == 0:
-                    term_list = [min_score_word]
-                    y, new_expression = replace_token(text_tokens, y, term_list)
-                    final_splited_text.append(new_expression)
-
-                elif kw_list.index(min_score_word) >= 1:
-                    index_of_more_relevant = splited_n_gram_kw_list[0].index(min_score_word.split()[0])
-                    temporal_kw = ' '.join(splited_n_gram_kw_list[0][:index_of_more_relevant])
-
-                    if temporal_kw.lower() in relevant_words_array:
-                        term_list = [temporal_kw.lower()]
-                        y, new_expression = replace_token(text_tokens, y, term_list)
-                        final_splited_text.append(new_expression)
-                    else:
-                        for tmp_kw in splited_n_gram_kw_list[0][:index_of_more_relevant]:
-
-                            if tmp_kw.lower() in relevant_words_array:
-                                term_list = [tmp_kw.lower()]
-                                y, new_expression = replace_token(text_tokens, y, term_list)
-                                final_splited_text.append(new_expression)
-                            else:
-                                final_splited_text.append(text_tokens[y])
-                                y += kw_list.index(min_score_word)
-
-        else:
-            final_splited_text.append(text_tokens[y])
-            y += 1
-    new_text = ' '.join(final_splited_text)
-
-    return new_text
-
-
-def find_more_relevant(y, text_tokens, n_gram, relevant_words_array, kw_list, splited_n_gram_word_list):
-    temporal_list = []
-    temporal_list_two = []
-    for i in range(n_gram):
-
-        #filtered = [test_trans(x.lower()) for x in text_tokens[y:y + i+1]]
-        #temporal_list.append(text_tokens[y:y + i + 1])
-        temporal_list.append(text_tokens[y:y + i + 1])
-        k = re.sub('''[!",:.;?()]$|^[!",':.;?()]|\W["!,:.;?()]''', '',  ' '.join(temporal_list[i])).lower()
-
-        if k.lower() in relevant_words_array:
-            temporal_list_two.append(k)
-
-    n_gram_word_list = sorted(temporal_list_two, key=lambda x: relevant_words_array.index(x))
-    try:
-        kw_list.append(n_gram_word_list[0])
-        splited_n_gram_word_list.append(n_gram_word_list[0].split())
-    except:
-        pass
-
-    return kw_list, splited_n_gram_word_list
-
-
-def replace_token(text_tokens, y, n_gram_word_list):
-    txt = ' '.join(text_tokens[y:y + len(n_gram_word_list[0].split(' '))])
-
-    new_expression = txt.replace(re.sub('[!",:.;?()]$|^[!",:.;?()]|\W["!,:.;?()]', '',  txt), '<kw>' + n_gram_word_list[0] + '</kw>')
-    y += len(n_gram_word_list[0].split(' '))
-    return y, new_expression
 
 
 # *****************************************************************
@@ -163,9 +64,9 @@ def kw_ext(yake_ln, text, num_of_keywords, n_gram):
         KeyWords_dictionary[keywords[ki][0]] = keywords[ki][1]
 
     kw_exec_time = (time.time() - kw_start_time)
-
+    textNormalized = sample.text_normalized(text, keywords)
     relevant_words_array = list(KeyWords_dictionary.keys())
-    return KeyWords_dictionary, relevant_words_array, kw_exec_time
+    return KeyWords_dictionary, relevant_words_array, kw_exec_time, textNormalized
 
 
 # ***********************************************************************************

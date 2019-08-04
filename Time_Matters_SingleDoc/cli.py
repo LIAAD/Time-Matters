@@ -169,26 +169,12 @@ def Dates():
         score_type = get_arguments_values(arg, '-st', '--score_type', 'ByDoc')
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
 
-        if debug_mode == 'False':
-
-            Score, TempExpressions, RelevantKWs, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
-            if Score != {}:
-                print(Score)
-                print(TempExpressions)
-                print(RelevantKWs)
-                print(TextNormalized)
-                print(TextTokens)
-                print(SentencesNormalized)
-                print(SentencesTokens)
-            else:
-                print('{}')
-
-        elif debug_mode == 'True':
-            try:
-                debug_mode_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
-            except:
-                pass
+        Score_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+        if Score_list != {}:
+            print(Score_list)
         else:
+            print('{}')
+        if score_type != True or score_type != False:
             print('Please specify a valid option for debug_mode.\n'
                   'options:\n'
                   '     True;\n'
@@ -268,27 +254,6 @@ def verify_argument_pos(arg_list, argument, extense_argument):
         position = arg_list.index(extense_argument)
     return position
 
-
-def debug_mode_output(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode):
-    try:
-
-        Score, TempExpressions, RelevantKWs, \
-        TextNormalized, TextTokens, SentencesNormalized, \
-        SentencesTokens, inverted_index, DiceMatrix, execution_time_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, debug_mode)
-
-        print(Score)
-        print(TempExpressions)
-        print(RelevantKWs)
-        print(TextNormalized)
-        print(TextTokens)
-        print(SentencesNormalized)
-        print(SentencesTokens)
-        print(str(inverted_index))
-        print(DiceMatrix)
-        print(execution_time_list)
-
-    except ValueError:
-        print('{}')
 
 
 if __name__ == "__main__":
