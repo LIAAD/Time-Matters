@@ -143,21 +143,20 @@ def sentence_tokenizer(text):
 def py_heideltime(text, language, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity):
     from py_heideltime import py_heideltime
 
-    TempExpressions, normalized_text, tagged_text, ExecTimeDictionary = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type,
-                               heideltime_document_creation_time)
+    result = py_heideltime(text, language, heideltime_date_granularity, heideltime_document_type, heideltime_document_creation_time)
     date_dictionary = {}
     dates = []
-    for ct in range(len(TempExpressions)):
+    for ct in range(len(result[0])):
 
-        if TempExpressions[ct][0].lower() not in date_dictionary:
-            date_dictionary[TempExpressions[ct][0].lower()] = [TempExpressions[ct][1]]
-            dates.append(TempExpressions[ct][0].lower())
+        if result[0][ct][0].lower() not in date_dictionary:
+            date_dictionary[result[0][ct][0].lower()] = [result[0][ct][1]]
+            dates.append(result[0][ct][0].lower())
 
-        elif TempExpressions[ct][0].lower() in date_dictionary:
-            date_dictionary[TempExpressions[ct][0].lower()].append(TempExpressions[ct][1])
-            dates.append(TempExpressions[ct][0].lower())
+        elif result[0][ct][0].lower() in date_dictionary:
+            date_dictionary[result[0][ct][0].lower()].append(result[0][ct][1])
+            dates.append(result[0][ct][0].lower())
 
-    return dates, normalized_text, date_dictionary, TempExpressions, ExecTimeDictionary
+    return dates, result[1], date_dictionary, result[0], result[3]
 
 
 def rule_based(text, date_granularity):

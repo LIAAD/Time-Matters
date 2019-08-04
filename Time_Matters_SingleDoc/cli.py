@@ -168,18 +168,18 @@ def Dates():
         time_matterss_arg_list = get_arguments_list_values(arg, '-tm', 'time_matters', [])
         score_type = get_arguments_values(arg, '-st', '--score_type', 'ByDoc')
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
-
-        Score_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
-        if Score_list != {}:
-            print(Score_list)
-        else:
-            print('{}')
-        if score_type != True or score_type != False:
+        if debug_mode.lower() != 'true' and debug_mode.lower() != 'false':
             print('Please specify a valid option for debug_mode.\n'
                   'options:\n'
                   '     True;\n'
                   '     False;')
             return {}
+        Score_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+        if Score_list != {}:
+            print(Score_list)
+        else:
+            print('{}')
+
 
     if '--help' in arg:
         print(help_text)
