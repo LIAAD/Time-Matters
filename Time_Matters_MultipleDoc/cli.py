@@ -203,7 +203,7 @@ def Dates():
                 text_file = open(file, "r")
                 contents = text_file.read()
                 docs.append(contents)
-            print(docs)
+
             run_time_matters(docs)
 
         else:
