@@ -54,7 +54,7 @@ def test_trans(text):
 # *****************************************************************
 # keywords extraction using wake
 def kw_ext(yake_ln, text, num_of_keywords, n_gram):
-
+    from yake.highlight import TextHighlighter
     kw_start_time = time.time()
     sample = YakeKW(lan=yake_ln, n=n_gram, top=num_of_keywords)
     keywords = sample.extract_keywords(text)
@@ -63,9 +63,12 @@ def kw_ext(yake_ln, text, num_of_keywords, n_gram):
     for ki in range(len(keywords)):
         KeyWords_dictionary[keywords[ki][0]] = keywords[ki][1]
 
-    kw_exec_time = (time.time() - kw_start_time)
-    textNormalized = sample.text_normalized(text, keywords)
+    th = TextHighlighter(max_ngram_size=n_gram)
+    textNormalized = th.highlight(text, keywords)
     relevant_words_array = list(KeyWords_dictionary.keys())
+
+    kw_exec_time = (time.time() - kw_start_time)
+
     return KeyWords_dictionary, relevant_words_array, kw_exec_time, textNormalized
 
 
