@@ -18,11 +18,16 @@ def verify_time_matters(n_gram,num_of_keywords, N, n_contextual_window, TH, scor
               '     full_sentence;\n'   
               '     n, where n is any integer > 0;')
         return {}
-    elif n_contextual_window == 'full_document' and score_type == 'ByDocSentence':
-        print('Pelase specify a valid n_contextual_window for score type ByDocSentence\n'
+    elif n_contextual_window == 'full_document' and (score_type == 'ByDocSentence' or score_type == 'ByDoc'):
+        print('Pelase specify a valid n_contextual_window for score type ByDoc and ByDocSentence\n'
               'options:\n'
               '     full_sentence;\n'
               '     n, where n is any integer > 0;')
+        return {}
+    elif n_contextual_window != 'full_document' and score_type == 'ByCorpus':
+        print('Pelase specify a valid n_contextual_window for score type ByCorpus\n'
+              'options:\n'
+              '     full_document;')
         return {}
     elif N != 'max' and not isinstance(N, int) or isinstance(N, int) and N <= 0:
         print('Please specify a valid n context vector size\n'

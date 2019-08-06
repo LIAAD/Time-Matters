@@ -1,36 +1,259 @@
-import click
 from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
-@click.command()
-@click.option("-d", '--dir', help='Directory path that cointain the docs should be surrounded by quotes (e.g., “/test”)', required=False)
-@click.option("-l", '--language', help='[required] Language text is required and should be surrounded by quotes “”. Options: English, Portuguese, Spanish, Germany, Dutch, Italian, French (e.g., “English”).', required=True)
-@click.option("-cwd", '--context_window_distance', help='max distance between words',default=10, required=False)
-@click.option("-th", '--threshold', help='minimum DICE threshold similarity values',default=0.05, required=False)
-@click.option("-n", '--max_array_len', help='size of the context vector',default=0 ,required=False)
-@click.option("-ky", '--max_keywords', help='max keywords',default=10 ,required=False)
-@click.option("-icwd", '--ignore_contextual_window_distance', help='ignore contextual window distance',default=False ,required=False)
-@click.option("-dt", '--heideltime_document_type', help='Type of the document text should be surrounded by quotes “”. Options: News, Narrative, Colloquial, Scientific (e.g., “News”).', default='News', required=False)
-@click.option("-dct", '--heideltime_document_creation_time', help=' Document creation date in the format YYYY-MM-DD should be surrounded by quotes (e.g., “2019-05-30”). Note that this date will only be taken into account when News or Colloquial texts are specified.', default="", required=False)
-@click.option("-dg", '--heideltime_date_granularity', help='Value of granularity should be surrounded by quotes “”. Options: Year, Month, day (e.g., “Year”).', default='', required=False)
-@click.option("-de", '--date_extractor', help='Type of the date extractor should be surrounded by quotes “”. Options: py_heideltime, rule_based (e.g., “py_heideltime”).', default='rule_based', required=False)
-def Dates(language, context_window_distance, threshold, max_array_len, max_keywords, ignore_contextual_window_distance, dir, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity, date_extractor):
-    def run_time_matters(text_content):
-        output = Time_Matters_MultipleDoc(text_content, language, context_window_distance, threshold, max_array_len,
-                                          max_keywords, ignore_contextual_window_distance, heideltime_document_type, heideltime_document_creation_time, heideltime_date_granularity, date_extractor)
-        print(output)
-    if not dir:
-        print('Pelase enter a directory with docs to be analysed')
+
+help_text = '''
+ Usage_examples (make sure that the input parameters should be within quotes):
+  Default Parameters: Time_Matters_MultipleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English']"
+  All the Parameters: Time_Matters_MultipleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st ByCorpus -dm "False"
+
+Options:
+  [required]: either specify a text or an input_file path.
+  ----------------------------------------------------------------------------------------------------------------------------------
+  -i, --input               A list that specifies the type of input: a text or a file path
+
+                            Example:
+                                    -i "['text', 'August 31st']"
+                                    -i "['path', 'c:\\text.txt']"
+
+
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -tt, --temporal_tagger   Specifies the temporal tagger and the corresponding parameters.
+                           Default: "py_heideltime"
+			   Options:
+			   	    "py_heideltime"
+				    "rule_based"
+
+			   py_heideltime (parameters):
+			   ____________________________
+			   - temporal_tagger_name
+			     Options:
+				     "py_heideltime"
+
+			   - language
+			     Default: "English"
+			     Options:
+			   	      "English";
+				      "Portuguese";
+				      "Spanish";
+				      "Germany";
+				      "Dutch";
+				      "Italian";
+				      "French".
+
+		          - date_granularity
+			    Default: "full"
+			    Options:
+			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
+					   finest-granularity.
+			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+
+			  - document_type
+			    Default: "News"
+			    Options:
+			  	    "News": for news-style documents - default param;
+				    "Narrative": for narrative-style documents (e.g., Wikipedia articles);
+				    "Colloquial": for English colloquial (e.g., Tweets and SMS);
+				    "Scientific": for scientific articles (e.g., clinical trails).
+
+			  - document_creation_time
+			    Document creation date in the format YYYY-MM-DD. Taken into account when "News" or "Colloquial" texts
+		            are specified.
+		            Example: "2019-05-30".
+
+			  - Example: 
+			  	    -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']"	 
+
+
+			  Rule_Based (parameters):
+		          ____________________________
+			  - temporal_tagger_name
+			    Options:
+			  	    "rule_based"
+
+			  - date_granularity
+			    Default: "full"
+			    Options:
+			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
+					   finest-granularity.
+			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+
+			  - Example: 
+			  	    -tt "['rule_based','full']"
+
+[not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -tm, --time_matters     Specifies information about Time-Matters, namely:
+			  - ngram: number of max ngram size
+			    Default: 1
+			    Options:
+				    any integer > 0
+
+			  - num_of_keywords: number of YAKE! keywords to extract from the text
+			    Default: 10
+			    Options:
+				    any integer > 0
+
+		          - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
+			    Default: "full_document"
+			    Options:            
+			                        "full_document": the system will look for co-occurrences between terms that occur within the document.
+                                    "full_sentence": the system will look for co-occurrences between terms that occur within the search 
+				                    space of a sentence;
+			            n: where n is any value > 0, that is, the system will look for co-occurrences between terms that 
+				       occur within a window of n terms;
+
+		          - N: N-size context vector for InfoSimba vectors
+			    Default: "max"
+			    Options: 
+			            "max": where "max" is given by the maximum number of terms eligible to be part of the vector
+				    any integer > 0
+
+			  - TH: all the terms with a DICE similarity > TH threshold are eligible to the context vector of InfoSimba
+			    Default: 0.05
+			    Options: 
+				    any float > 0
+
+
+			  - Example: 
+			  	    -tm "[10, 'full_sentence', 'max', 0.05]"
+
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -st, --score_type       Specifies the type of score for the temporal expression found in the text
+  			  Default: "ByDoc"
+                          Options:
+                                  "ByCorpus": returns a single score regardless the temporal expression occurs in different document;
+                                  "ByDoc": returns multiple scores (one for each document where it occurs)
+                                  "BySentence": returns multiple scores (one for each sentence where it occurs)
+                                  
+			  - Example: 
+			  	    -st ByDoc
+
+ [not required]
+ ----------------------------------------------------------------------------------------------------------------------------------
+  -dm, --debug_mode      Returns detailed information about the results
+  	                 Default: False
+			 Options:
+			          False: when set to False debug mode is not activated
+				  True: activates debug mode. In that case it returns 
+                                        "Text";
+					"TextNormalized"
+					"Score"
+					"CandidateDates"
+					"NormalizedCandidateDates"
+					"RelevantKWs"
+					"InvertedIndex"
+					"Dice_Matrix"
+					"ExecutionTime"
+
+			  - Example: 
+			  	    -dm True
+
+  --help                 Show this message and exit.    
+'''
+
+
+def Dates():
+    import sys
+    arg = []
+    for i in range(len(sys.argv)):
+        opt = sys.argv[i]
+        arg.append(opt)
+
+    def run_time_matters(text):
+        time_tagger_arg_list = get_arguments_list_values(arg, '-tt', 'temporal_tagger', [])
+        time_matterss_arg_list = get_arguments_list_values(arg, '-tm', 'time_matters', [])
+        score_type = get_arguments_values(arg, '-st', '--score_type', 'ByDoc')
+        debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
+        if debug_mode.lower() != 'true' and debug_mode.lower() != 'false':
+            print('Please specify a valid option for debug_mode.\n'
+                  'options:\n'
+                  '     True;\n'
+                  '     False;')
+            return {}
+
+        Score_list = Time_Matters_MultipleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+        if Score_list != {}:
+            print(Score_list)
+        else:
+            print('{}')
+
+    if '--help' in arg:
+        print(help_text)
         exit(1)
+
+    # make sure if was input text arugument
+
+    if '-i' in arg or '--input_file' in arg:
+        position = verify_argument_pos(arg, '-i', '--input_file')
+        str_input_list = arg[position + 1]
+        import ast
+        input_list = ast.literal_eval(str_input_list)
+        if input_list[0] == 'path':
+            import codecs
+            text = codecs.open(input_list[1], "r+", "utf-8").read()
+            run_time_matters(text)
+        elif input_list[0] == 'text':
+            text = input_list[1]
+            run_time_matters(text)
+        else:
+            print('Please specify a valid type of input.\n'
+                  'options:\n'
+                  '     text;\n'
+                  '     path;')
+            return {}
     else:
-        docs = []
-        import glob, codecs
-        files = [f for f in glob.glob(dir + "**/*.txt", recursive=True)]
-        # print(files)
-        for file in files:
-            text_file = codecs.open(file, "r", "utf-8")
-            contents = text_file.read()
-            docs.append(contents)
-        print(docs)
-        run_time_matters(docs)
+        print('Bad arguments [--help]')
+        exit(1)
+
+
+def get_arguments_list_values(arg_list, argument, extense_argument, defaut_value):
+    input_list = []
+    try:
+        try:
+            position = arg_list.index(argument)
+        except:
+            position = arg_list.index(extense_argument)
+
+        if argument in arg_list or extense_argument in arg_list:
+            str_input_list = arg_list[position + 1]
+            import ast
+            input_list = ast.literal_eval(str_input_list)
+    except:
+        input_list = defaut_value
+    return input_list
+
+
+def str2bool(v):
+    return v in ("True")
+
+
+def get_arguments_values(arg_list, argument, extense_argument, defaut_value):
+    value = ''
+    try:
+        try:
+            position = arg_list.index(argument)
+        except:
+            position = arg_list.index(extense_argument)
+
+        if argument in arg_list or extense_argument in arg_list:
+            value = arg_list[position + 1]
+
+    except:
+        value = defaut_value
+    return value
+
+
+def verify_argument_pos(arg_list, argument, extense_argument):
+    try:
+        position = arg_list.index(argument)
+    except:
+        position = arg_list.index(extense_argument)
+    return position
 
 
 if __name__ == "__main__":

@@ -196,7 +196,6 @@ def Create_ContextualVector(term, DF, TH, n_contextual_window, inverted_index):
 def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_contextual_window):
     DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
     contextVector = []
-    final_context_vector = []
     for x in DF_Filtered:
 
         try:

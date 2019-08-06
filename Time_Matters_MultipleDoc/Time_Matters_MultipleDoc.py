@@ -29,7 +29,7 @@ def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], 
     TextTokens, all_docs_TempExpressions, TextNormalized = main_inverted_index_md(language, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram, score_type)
 
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, all_docs_relevant_words, all_docs_candidate_date, n_contextual_window, TH, N, score_type)
-
+    total_exec_time = (time.time() - total_start_time)
     Sorted_Score = {}
     if score_type == 'ByCorpus':
         for dt in gte_dictionary:
@@ -38,6 +38,7 @@ def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], 
         for dt in gte_dictionary:
             last_occurrence = 0
             for doc_id in gte_dictionary[dt]:
+
                 max_occurrences = len(inverted_index[dt][2][doc_id][1])
                 gte_dictionary[dt][doc_id].append([])
 
@@ -51,14 +52,14 @@ def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], 
             last_occurrence = 0
             for doc_id in gte_dictionary[dt]:
                 for docSentence_id in gte_dictionary[dt][doc_id]:
-                    max_occurrences = len(inverted_index[dt][2][doc_id][2][docSentence_id][1])
+                    max_occurrences = len(inverted_index[dt][2][doc_id][2][2][docSentence_id][1])
                     gte_dictionary[dt][doc_id][docSentence_id].append([])
                     for i in range(max_occurrences):
                         gte_dictionary[dt][doc_id][docSentence_id][1].append(DateDictionary[dt][doc_id][i])
                     last_occurrence += max_occurrences
         Sorted_Score = sort_ByDocSentence_output(gte_dictionary)
 
-    total_exec_time = (time.time() - total_start_time)
+
     if debug_mode:
         ExecTimeDictionary = {'TotalTime': total_exec_time}
 
@@ -69,11 +70,9 @@ def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], 
         ExecTimeDictionary['DICE_Matrix'] = dice_exec_time
         ExecTimeDictionary['GTE'] = gte_exec_time
 
-        return Sorted_Score, all_docs_TempExpressions, KeyWords_dictionary, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, ExecTimeDictionary
+        return [Sorted_Score, all_docs_TempExpressions, KeyWords_dictionary, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens, inverted_index, DiceMatrix, ExecTimeDictionary]
     elif not debug_mode:
-        return Sorted_Score, all_docs_TempExpressions, KeyWords_dictionary, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens
-
-    return inverted_index, DiceMatrix, gte_dictionary
+        return [Sorted_Score, all_docs_TempExpressions, KeyWords_dictionary, TextNormalized, TextTokens, SentencesNormalized, SentencesTokens]
 
 
 def sort_ByDoc_output(Score):
