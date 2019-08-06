@@ -167,7 +167,7 @@ def Dates():
     def run_time_matters(text):
         time_tagger_arg_list = get_arguments_list_values(arg, '-tt', 'temporal_tagger', [])
         time_matterss_arg_list = get_arguments_list_values(arg, '-tm', 'time_matters', [])
-        score_type = get_arguments_values(arg, '-st', '--score_type', 'ByDoc')
+        score_type = get_arguments_values(arg, '-st', '--score_type', 'ByCorpus')
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
         if debug_mode.lower() != 'true' and debug_mode.lower() != 'false':
             print('Please specify a valid option for debug_mode.\n'
