@@ -2,8 +2,8 @@ from Time_Matters_MultipleDoc import Time_Matters_MultipleDoc
 
 help_text = '''
  Usage_examples (make sure that the input parameters should be within quotes):
-  Default Parameters: Time_Matters_MultipleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English']"
-  All the Parameters: Time_Matters_MultipleDoc -i "['text', 'August 31st']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st ByCorpus -dm "False"
+  Default Parameters: Time_Matters_MultipleDoc -i "['path', '/text_directory']" -tt "['py_heideltime','English']"
+  All the Parameters: Time_Matters_MultipleDoc -i "['path', '/text_directory']" -tt "['py_heideltime','English', 'days', 'news', '2019-05-05']" -tm "[10,'none', 'max', 0.05]" -st ByCorpus -dm "False"
 
 Options:
   [required]: either specify a text or an input_file path.
@@ -11,9 +11,7 @@ Options:
   -i, --input               A list that specifies the type of input: a text or a file path
 
                             Example:
-                                    -i "['text', 'August 31st']"
-                                    -i "['path', 'c:\\text.txt']"
-
+                                    -i "['path', '/text_directory']"
 
  [not required]
  ----------------------------------------------------------------------------------------------------------------------------------
