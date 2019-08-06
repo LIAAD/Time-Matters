@@ -200,7 +200,7 @@ def Dates():
             files = [f for f in glob.glob(input_list[1] + "**/*.txt", recursive=True)]
             # print(files)
             for file in files:
-                text_file = codecs.open(file, "r", "utf-8")
+                text_file = open(file, "r")
                 contents = text_file.read()
                 docs.append(contents)
             print(docs)
