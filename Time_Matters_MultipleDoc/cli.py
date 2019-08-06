@@ -194,16 +194,21 @@ def Dates():
         import ast
         input_list = ast.literal_eval(str_input_list)
         if input_list[0] == 'path':
-            import codecs
-            text = codecs.open(input_list[1], "r+", "utf-8").read()
-            run_time_matters(text)
-        elif input_list[0] == 'text':
-            text = input_list[1]
-            run_time_matters(text)
+
+            docs = []
+            import glob, codecs
+            files = [f for f in glob.glob(input_list[1] + "**/*.txt", recursive=True)]
+            # print(files)
+            for file in files:
+                text_file = codecs.open(file, "r", "utf-8")
+                contents = text_file.read()
+                docs.append(contents)
+            print(docs)
+            run_time_matters(docs)
+
         else:
             print('Please specify a valid type of input.\n'
                   'options:\n'
-                  '     text;\n'
                   '     path;')
             return {}
     else:
