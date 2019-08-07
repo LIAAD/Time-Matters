@@ -1,11 +1,11 @@
 from Time_Matters_SingleDoc.InvertedIndex import kw_ext
-from Time_Matters_MultipleDoc.GetDateScoresMD import GetDataScores
-from Time_Matters_MultipleDoc.Inverted_Index_MD import main_inverted_index_md
+from Time_Matters_MultipleDocs.GetDateScoresMD import GetDataScores
+from Time_Matters_MultipleDocs.Inverted_Index_MD import main_inverted_index_md
 from langdetect import detect
-from Time_Matters_MultipleDoc.validate_inputMD import verify_input_data, verify_temporal_tagger, verify_time_matters, verify_score_type
+from Time_Matters_MultipleDocs.validate_inputMD import verify_input_data, verify_temporal_tagger, verify_time_matters, verify_score_type
 
 
-def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], score_type='ByCorpus', debug_mode=False):
+def Time_Matters_MultipleDocs(list_of_docs, temporal_tagger=[], time_matters=[], score_type='ByCorpus', debug_mode=False):
 
     result_validation_score_type = verify_score_type(score_type, debug_mode)
     tt_name, language, document_type, document_creation_time, date_granularity, \
