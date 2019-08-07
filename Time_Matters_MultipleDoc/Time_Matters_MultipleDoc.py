@@ -7,16 +7,15 @@ from Time_Matters_MultipleDoc.validate_inputMD import verify_input_data, verify_
 
 def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], score_type='ByCorpus', debug_mode=False):
 
-    tt_name, language, document_type, document_creation_time, date_granularity, \
-    n_gram, num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters)
-
-    result_validation_time_matters = verify_time_matters(n_gram, num_of_keywords, N, n_contextual_window, TH, score_type)
     result_validation_score_type = verify_score_type(score_type, debug_mode)
-    result_validation_temporal_tagger = verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time)
+    tt_name, language, document_type, document_creation_time, date_granularity, \
+    n_gram, num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters, score_type)
 
-    if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {} and debug_mode:
-        print({})
-        raise SystemExit
+    result_validation_temporal_tagger = verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time)
+    result_validation_time_matters = verify_time_matters(n_gram, num_of_keywords, N, n_contextual_window, TH, score_type)
+
+    if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {}:
+        return []
 
     import time
     total_start_time = time.time()
@@ -27,7 +26,7 @@ def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], 
     kw_exec_time, ii_exec_time, \
     SentencesNormalized, SentencesTokens, \
     TextTokens, all_docs_TempExpressions, TextNormalized = main_inverted_index_md(language, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram, score_type)
-
+   # print(inverted_index)
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, all_docs_relevant_words, all_docs_candidate_date, n_contextual_window, TH, N, score_type)
     total_exec_time = (time.time() - total_start_time)
     Sorted_Score = {}

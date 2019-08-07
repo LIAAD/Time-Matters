@@ -88,8 +88,8 @@ def ByDoc_find_data(x_axis, y_axis, doc_n_contextual_window):
         if key in y_axis[2]:
             if doc_n_contextual_window == 'full_sentence':
                 count += 1
-                sf_x_count = x_axis[0]
-                sf_y_count = y_axis[0]
+                sf_x_count += x_axis[0]
+                sf_y_count += y_axis[0]
             else:
                 for sentence_key in x_axis[2][key][2][2]:
                     if sentence_key in y_axis[2][key][2][2]:
@@ -110,6 +110,7 @@ def ByDocSentence_find_data(x_axis, y_axis, doc_n_contextual_window):
     sf_y_count = 0
     for key in x_axis[2]:
         if key in y_axis[2]:
+
             for sentence_key in x_axis[2][key][2][2]:
                 if sentence_key in y_axis[2][key][2][2]:
                     sf_x_count += x_axis[2][key][2][0]
@@ -221,7 +222,7 @@ def main_info_simba_ByDocSentence(dates_list, word_list, dataframe, TH, N, inver
                 info_simba_array = []
 
                 for word in word_list:
-                    if word not in dates_list and dataframe.loc[date, word] > TH :
+                    if word not in dates_list and dataframe.loc[date, word] > TH:
                         ContextVector_date = Create_ContextVectorByDocSentence(date, dataframe, TH, inverted_index, doc_index, sentence_index, n_contextual_window)
 
                         ContextVector_word = Create_ContextVectorByDocSentence(word, dataframe, TH, inverted_index, doc_index, sentence_index, n_contextual_window)
@@ -266,9 +267,7 @@ def Create_ContextualVectorByCorpus(term, DF, TH):
 
 def Create_ContextVectorByDoc(term, DF, TH, inverted_index, index, n_contextual_window):
     DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
-
     contextVector = []
-
     if n_contextual_window != 'full_sentence':
         try:
             for x in DF_Filtered:
@@ -301,7 +300,6 @@ def Create_ContextVectorByDocSentence(term, DF, TH, Inverted_Index, Index, sente
     DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
     contextVector = []
     for x in DF_Filtered:
-
         try:
             if n_contextual_window != 'full_sentence':
                 offset_x = Inverted_Index[x][2][Index][2][2][sentence_index][1]
@@ -314,8 +312,6 @@ def Create_ContextVectorByDocSentence(term, DF, TH, Inverted_Index, Index, sente
             pass
     if n_contextual_window != 'full_sentence':
         try:
-            if contextVector[0] == term:
-                contextVector.remove(contextVector[0])
             for i in contextVector:
                 term_offset_a = Inverted_Index[i][2][Index][2][2][sentence_index][1]
                 for k in contextVector[contextVector.index(i)::]:

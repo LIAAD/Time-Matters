@@ -107,7 +107,7 @@ def verify_score_type(score_type, debug_mode):
         return {}
 
 
-def verify_input_data(temporal_tagger, time_matters):
+def verify_input_data(temporal_tagger, time_matters, score_type):
     tt_name = 'py_heideltime'
     language = 'English'
     document_type = 'news'
@@ -129,7 +129,10 @@ def verify_input_data(temporal_tagger, time_matters):
         pass
     n_gram = 1
     num_of_keywords = 10
-    n_contextual_window = 'full_document'
+    if score_type == 'ByCorpus':
+        n_contextual_window = 'full_document'
+    else:
+        n_contextual_window = 'full_sentence'
     N = 'max'
     TH = 0.05
     try:
