@@ -15,6 +15,7 @@ def Time_Matters_MultipleDoc(list_of_docs, temporal_tagger=[], time_matters=[], 
     result_validation_time_matters = verify_time_matters(n_gram, num_of_keywords, N, n_contextual_window, TH, score_type)
 
     if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {}:
+        print([])
         return []
 
     import time
