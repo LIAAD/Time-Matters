@@ -65,7 +65,7 @@ Options:
 			  - Example: 
 			  	    -tt "['py_heideltime','English', 'full', 'news', '2019-05-05']"	 
 
-		          
+
 			  Rule_Based (parameters):
 		          ____________________________
 			  - temporal_tagger_name
@@ -78,8 +78,8 @@ Options:
 			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
 					   finest-granularity.
 			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
-				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
-				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+				       "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				       "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
 
 			  - Example: 
 			  	    -tt "['rule_based','full']"
@@ -97,24 +97,23 @@ Options:
 			    Options:
 				    any integer > 0
 
-		          - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
+		        - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
 			    Default: "full_sentence"
 			    Options:
-                                    "full_sentence": the system will look for co-occurrences between terms that occur within the search 
-				                    space of a sentence;
+                        "full_sentence": the system will look for co-occurrences between terms that occur within the search space of a sentence;
 			            n: where n is any value > 0, that is, the system will look for co-occurrences between terms that 
 				       occur within a window of n terms;
 				       
-		          - N: N-size context vector for InfoSimba vectors
+		        - N: N-size context vector for InfoSimba vectors
 			    Default: "max"
 			    Options: 
 			            "max": where "max" is given by the maximum number of terms eligible to be part of the vector
-				    any integer > 0
+				         any integer > 0
 				    
 			  - TH: all the terms with a DICE similarity > TH threshold are eligible to the context vector of InfoSimba
 			    Default: 0.05
 			    Options: 
-				    any float > 0
+				        any float > 0
 
 
 			  - Example: 

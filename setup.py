@@ -21,7 +21,7 @@ setup(name='Time-Matters',
       entry_points={
           'console_scripts': [
               'Time_Matters_SingleDoc=Time_Matters_SingleDoc.cli:Dates',
-              'Time_Matters_MultipleDoc = Time_Matters_MultipleDoc.cli:Dates'
+              'Time_Matters_MultipleDocs = Time_Matters_MultipleDocs.cli:Dates'
           ]
       }
       )
