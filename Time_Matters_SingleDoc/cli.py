@@ -192,7 +192,7 @@ def Dates():
         input_list = ast.literal_eval(str_input_list)
         if input_list[0] == 'path':
             import codecs
-            text = codecs.open(input_list[1], "r+", "utf-8").read()
+            text = open(input_list[1]).read()
             run_time_matters(text)
         elif input_list[0] == 'text':
             text = input_list[1]
