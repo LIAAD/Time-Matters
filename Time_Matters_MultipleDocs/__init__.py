@@ -1,4 +1,4 @@
-from Time_Matters_MultipleDocs.Time_Matters_MultipleDoc import Time_Matters_MultipleDocs
+from Time_Matters_MultipleDocs.Time_Matters_MultipleDocs import Time_Matters_MultipleDocs
 from Time_Matters_SingleDoc.InvertedIndex import *
 from Time_Matters_SingleDoc.GetDateScores import *
 
