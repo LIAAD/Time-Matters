@@ -1,4 +1,4 @@
-from Time_Matters_MultipleDocs import Time_Matters_MultipleDoc
+from Time_Matters_MultipleDocs import Time_Matters_MultipleDocs
 
 help_text = '''
  Usage_examples (make sure that the input parameters should be within quotes):
@@ -174,7 +174,7 @@ def Dates():
                   '     False;')
             return {}
 
-        Score_list = Time_Matters_MultipleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+        Score_list = Time_Matters_MultipleDocs(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
         if Score_list != {}:
             print(Score_list)
         else:
@@ -188,14 +188,18 @@ def Dates():
 
     if '-i' in arg or '--input_file' in arg:
         position = verify_argument_pos(arg, '-i', '--input_file')
-        str_input_list = arg[position + 1]
-        import ast
-        input_list = ast.literal_eval(str_input_list)
-        if input_list[0] == 'path':
+
+        str_input_list = arg[position+1]
+        input_list = str(str_input_list).replace("'", '"')
+        print(input_list)
+        import re
+        input = re.findall(r'"\s*([^"]*?)\s*"', input_list)
+
+        if input[0] == 'path':
 
             docs = []
-            import glob, codecs
-            files = [f for f in glob.glob(input_list[1] + "**/*.txt", recursive=True)]
+            import glob
+            files = [f for f in glob.glob(input[1] + "**/*.txt", recursive=True)]
             # print(files)
             for file in files:
                 text_file = open(file, "r")
