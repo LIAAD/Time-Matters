@@ -1,7 +1,5 @@
-from Time_Matters_SingleDoc.InvertedIndex import kw_ext
 from Time_Matters_MultipleDocs.GetDateScoresMD import GetDataScores
 from Time_Matters_MultipleDocs.Inverted_Index_MD import main_inverted_index_md
-from langdetect import detect
 from Time_Matters_MultipleDocs.validate_inputMD import verify_input_data, verify_temporal_tagger, verify_time_matters, verify_score_type
 
 

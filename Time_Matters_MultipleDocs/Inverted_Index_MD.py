@@ -5,11 +5,9 @@ from Time_Matters_SingleDoc.GetDateScores import remove_duplicates
 
 def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram, score_type):
     inverted_index = {}
-
     all_docs_candidate_date = []
     all_docs_relevant_words = []
     all_docs_text_list = []
-    normalized_docs_list = []
     all_docs_KeyWords_dictionary = {}
     all_docs_candidateDates_dictionary = {}
     all_docs_exec_Time = {}
@@ -20,6 +18,7 @@ def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, d
     all_docs_kw_exec_time = 0
     all_docs_ii_exec_time = 0
     all_docs_text_norm_exec_time = 0
+
     for id_doc in range(len(list_of_docs)):
         try:
             yake_ln = detect(list_of_docs[id_doc])

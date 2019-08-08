@@ -191,10 +191,8 @@ def Dates():
 
         str_input_list = arg[position+1]
         input_list = str(str_input_list).replace("'", '"')
-        print(input_list)
         import re
         input = re.findall(r'"\s*([^"]*?)\s*"', input_list)
-
         if input[0] == 'path':
 
             docs = []
