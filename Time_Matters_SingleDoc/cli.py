@@ -188,14 +188,15 @@ def Dates():
     if '-i' in arg or '--input_file' in arg:
         position = verify_argument_pos(arg, '-i', '--input_file')
         str_input_list = arg[position+1]
-        import ast
-        input_list = ast.literal_eval(str_input_list)
-        if input_list[0] == 'path':
-            import codecs
-            text = open(input_list[1]).read()
+        input_list = str(str_input_list).replace("'", '"')
+        import re
+        input = re.findall(r'"\s*([^"]*?)\s*"', input_list)
+
+        if input[0] == 'path':
+            text = open(input[1]).read()
             run_time_matters(text)
-        elif input_list[0] == 'text':
-            text = input_list[1]
+        elif input[0] == 'text':
+            text = input[1]
             run_time_matters(text)
         else:
             print('Please specify a valid type of input.\n'
