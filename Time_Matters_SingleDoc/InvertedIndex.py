@@ -22,7 +22,8 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
 
     from yake.highlight import TextHighlighter
     th = TextHighlighter(max_ngram_size=n_gram)
-    textNormalized = th.highlight(text, relevant_words_array)
+    textNormalized = th.highlight(new_text, relevant_words_array)
+
     # =====================================================================================================
     # =============================== Inverted Index ===============================================
     ii_start_time = time.time()

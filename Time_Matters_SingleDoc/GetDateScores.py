@@ -40,7 +40,6 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
             except:
                 pass
 
-
     dice_exec_time = (time.time() - dice_start_time)
 
     if score_type == 'BySentence':
@@ -121,6 +120,7 @@ def main_info_simba_ByDoc(dates_list, words_list, dataframe, TH, N, n_contextual
     sorted_gte_dict = {}
     for i in sorted_gt:
         sorted_gte_dict[i[0]] = i[1]
+
     return sorted_gte_dict
 
 

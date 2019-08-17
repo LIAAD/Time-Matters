@@ -36,7 +36,6 @@ def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, d
         else:
             # =============================== Date Extractor ===============================================
             candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = py_heideltime(list_of_docs[id_doc], lang, document_type, document_creation_time, date_granularity)
-
             # =============================== Keyword Extractor ===============================================
             KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
             all_docs_text_list.append(new_text)
@@ -47,7 +46,6 @@ def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, d
         all_docs_kw_exec_time += kw_exec_time
         all_docs_candidateDates_dictionary = format_candidate_date_dictionary(date_dictionary, all_docs_candidateDates_dictionary, id_doc, score_type)
 
-        #TextNormalized_Dictionary[id_doc] = textNormalized
         all_docs_KeyWords_dictionary.update(KeyWords_dictionary)
         KeyWords_Dictionary_all_docs[id_doc] = KeyWords_dictionary
         all_docs_candidate_date += candidate_dates_array
