@@ -25,9 +25,10 @@ def Time_Matters_MultipleDocs(list_of_docs, temporal_tagger=[], time_matters=[],
     kw_exec_time, ii_exec_time, \
     SentencesNormalized, SentencesTokens, \
     TextTokens, all_docs_TempExpressions, TextNormalized = main_inverted_index_md(language, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram, score_type)
-   # print(inverted_index)
+
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, all_docs_relevant_words, all_docs_candidate_date, n_contextual_window, TH, N, score_type)
     total_exec_time = (time.time() - total_start_time)
+
     Sorted_Score = {}
     if score_type == 'ByCorpus':
         for dt in gte_dictionary:
@@ -41,19 +42,20 @@ def Time_Matters_MultipleDocs(list_of_docs, temporal_tagger=[], time_matters=[],
                 gte_dictionary[dt][doc_id].append([])
 
                 for i in range(max_occurrences):
-                    gte_dictionary[dt][doc_id][1].append(DateDictionary[dt][doc_id][i])
+                    gte_dictionary[dt][doc_id][1].append(DateDictionary[dt][doc_id][0])
                 last_occurrence += max_occurrences
 
         Sorted_Score = sort_ByDoc_output(gte_dictionary)
+
     elif score_type == 'ByDocSentence':
         for dt in gte_dictionary:
             last_occurrence = 0
             for doc_id in gte_dictionary[dt]:
                 for docSentence_id in gte_dictionary[dt][doc_id]:
-                    max_occurrences = len(inverted_index[dt][2][doc_id][2][2][docSentence_id][1])
+                    max_occurrences = len(inverted_index[dt][2][doc_id][2][docSentence_id][1])
                     gte_dictionary[dt][doc_id][docSentence_id].append([])
                     for i in range(max_occurrences):
-                        gte_dictionary[dt][doc_id][docSentence_id][1].append(DateDictionary[dt][doc_id][i])
+                        gte_dictionary[dt][doc_id][docSentence_id][1].append(DateDictionary[dt][doc_id][0])
                     last_occurrence += max_occurrences
         Sorted_Score = sort_ByDocSentence_output(gte_dictionary)
 

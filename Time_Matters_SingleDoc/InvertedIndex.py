@@ -13,21 +13,16 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity)
 
         # =============================== Keyword Extractor ===========================================================
-        KeyWords_dictionary, relevant_words_array, kw_exec_time, textNormalized = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
+        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
     else:
         # =============================== Date Extractor ==============================================================
         candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = py_heideltime(text, lang, document_type, document_creation_time, date_granularity)
         # =============================== Keyword Extractor ==========================================================
-        KeyWords_dictionary, relevant_words_array, kw_exec_time, textNormalized = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
+        KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
 
-    #text_norm_start_time = time.time()
-    #if n_gram > 1:
-    #    new_text = format_n_gram_text(new_text, relevant_words_array, n_gram)
-   # else:
-    #    new_text = format_one_gram_text(new_text, relevant_words_array, candidate_dates_array)
-    #text_norm_exec_time = (time.time() - text_norm_start_time)
-    #ExecTimeDictionary['keyword_text_normalization'] = text_norm_exec_time
-
+    from yake.highlight import TextHighlighter
+    th = TextHighlighter(max_ngram_size=n_gram)
+    textNormalized = th.highlight(text, relevant_words_array)
     # =====================================================================================================
     # =============================== Inverted Index ===============================================
     ii_start_time = time.time()
@@ -54,7 +49,6 @@ def test_trans(text):
 # *****************************************************************
 # keywords extraction using wake
 def kw_ext(yake_ln, text, num_of_keywords, n_gram):
-    from yake.highlight import TextHighlighter
     kw_start_time = time.time()
     sample = YakeKW(lan=yake_ln, n=n_gram, top=num_of_keywords)
     keywords = sample.extract_keywords(text)
@@ -63,13 +57,12 @@ def kw_ext(yake_ln, text, num_of_keywords, n_gram):
     for ki in range(len(keywords)):
         KeyWords_dictionary[keywords[ki][0]] = keywords[ki][1]
 
-    th = TextHighlighter(max_ngram_size=n_gram)
-    textNormalized = th.highlight(text, keywords)
+
     relevant_words_array = list(KeyWords_dictionary.keys())
 
     kw_exec_time = (time.time() - kw_start_time)
 
-    return KeyWords_dictionary, relevant_words_array, kw_exec_time, textNormalized
+    return KeyWords_dictionary, relevant_words_array, kw_exec_time
 
 
 # ***********************************************************************************
@@ -163,79 +156,17 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
 
 
 def rule_based(text, date_granularity):
-    dates_list = []
+    from py_rule_based import py_rule_based
+    result = py_rule_based(text, date_granularity)
     date_dictionary = {}
-    TempExpressions = []
-    ExecTimeDictionary = {}
-    exec_time_text_labeling = 0
+    dates = []
+    for ct in range(len(result[0])):
 
-    text_tokens = text.split(' ')
-    c = re.compile('\d{2,4}[-/.]\d{2}[-/.]\d{2,4}|\d{4}[-/.]\d{2}[-/.]\d{2}|\d{4}[-/.]\d{4}|\d{4}[-/.]\d{2}|\d{2}[-/.]\d{4} |\d{4}s|\d{4}')
-    extractor_start_time = time.time()
-    try:
-        for tk in range(len(text_tokens)):
-            labeling_start_time = time.time()
-            if c.match(text_tokens[tk]):
+        if result[0][ct][0].lower() not in date_dictionary:
+            date_dictionary[result[0][ct][0].lower()] = [result[0][ct][1]]
+            dates.append(result[0][ct][0].lower())
 
-                dt = c.findall(text_tokens[tk])
-                provisional_list = []
-                text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>' + dt[0] + '</d>')
-
-                label_text_exec_time = (time.time() - labeling_start_time)
-                exec_time_text_labeling += label_text_exec_time
-
-                if dt[0] not in date_dictionary:
-                    date_dictionary[dt[0]] = [dt[0]]
-                else:
-                    date_dictionary[dt[0]].append(dt[0])
-
-                if dt[0] not in dates_list and date_granularity == 'full':
-                    dates_list.append(dt[0])
-
-                    TempExpressions.append((dt[0], dt[0]))
-                elif dt[0] not in dates_list and date_granularity != 'full':
-                    try:
-                        if date_granularity.lower() == 'year':
-
-                            dt, dates_list, provisional_list, \
-                            date_dictionary,striped_text  = date_granularity_format(dt, dates_list, provisional_list, date_dictionary, '\d{4}', tk, TempExpressions)
-
-                        elif date_granularity.lower() == 'month':
-
-                            dt, dates_list, provisional_list, \
-                            date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2}[-/.]\d{4}|\d{4}[-/.]\d{2}', tk, TempExpressions)
-
-                        elif date_granularity.lower() == 'day':
-
-                            dt, dates_list, provisional_list, \
-                            date_dictionary, striped_text = date_granularity_format(dt, dates_list, provisional_list, date_dictionary,'\d{2,4}[-/.]\d{2}[-/.]\d{2,4}', tk, TempExpressions)
-
-                        text_tokens[tk] = text_tokens[tk].replace(dt[0], '<d>'+provisional_list[0][1]+'</d>')
-                    except:
-                        pass
-
-
-        tt_exec_time = (time.time() - extractor_start_time)
-        ExecTimeDictionary['rule_based_processing'] = tt_exec_time - exec_time_text_labeling
-        ExecTimeDictionary['rule_based_text_normalization'] = exec_time_text_labeling
-    except ValueError:
-        pass
-
-    new_text = ' '.join(text_tokens)
-    #print(new_text)
-    return dates_list, new_text, date_dictionary, TempExpressions, ExecTimeDictionary
-
-
-def date_granularity_format(dt, dates_list, provisional_list, date_dictionary, granularity_rule, text, TempExpressions):
-
-    years = re.findall(granularity_rule, str(dt))
-    dates_list.append((years[0]))
-    provisional_list.append((dt, years[0]))
-
-    if years[0] not in date_dictionary:
-        date_dictionary[years[0]] = dt
-    else:
-        date_dictionary[years[0]].append(dt[0])
-
-    TempExpressions.append((years[0], dt[0]))
-    return dt, dates_list, provisional_list, date_dictionary, text
+        elif result[0][ct][0].lower() in date_dictionary:
+            date_dictionary[result[0][ct][0].lower()].append(result[0][ct][1])
+            dates.append(result[0][ct][0].lower())
+    return dates, result[1], date_dictionary, result[0], result[2]
