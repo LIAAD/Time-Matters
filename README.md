@@ -59,11 +59,14 @@ pip install git+https://github.com/LIAAD/yake
 ```
 
 For the latter (that is, the extraction of temporal expressions), we resort to two possibilities:
-- rule-based approach
+- [rule-based approach](https://github.com/JMendes1995/py_rule_based)
 - [heideltime python wrapper](https://github.com/JMendes1995/py_heideltime)
 
-The first, is an internal self-defined rule-based approach which is directly embedded in the code, thus, it doesn't require any additional procedure. However, if your plan is to use Heideltime you need to install the following packages.
+The first, is an internal self-defined rule-based approach developed in regex. The latter is a Python wrapper for the well-known Heideltime temporal tagger.
+
+To work with both within the Time-Matters package the following packages should be installed:
 ``` bash
+pip install git+https://github.com/JMendes1995/py_rule_based
 pip install git+https://github.com/JMendes1995/py_heideltime
 ```
 
@@ -78,6 +81,7 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
     - Pandas
     - regex
     - py_heideltime
+    - py_rule_based
     
 ##### Linux users
     If your user does not have permission executions on python lib folder, you should execute the following command:
