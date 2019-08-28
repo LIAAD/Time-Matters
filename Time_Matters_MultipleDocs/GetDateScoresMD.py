@@ -299,19 +299,25 @@ def Create_ContextVectorByDocSentence(term, DF, TH, Inverted_Index, Index, sente
 
 # *******************************************************************************************
 # calc Info simba
-def InfoSimba(ContextVector_X, ContextVector_Y, DF):
-    Sum_XY = sum([DF[x][y] for x in ContextVector_X for y in ContextVector_Y])
+def InfoSimba(ContextVector_X, ContextVector_Y, dataframe_dictionary):
+    xx = 0
+    yy = 0
+    xy = 0
+    import numpy as np
+    from operator import itemgetter
+    for i in range(len(ContextVector_X)):
+        xx += sum(list(itemgetter(*ContextVector_X)(dataframe_dictionary[ContextVector_X[i]])))
 
-    Sum_XX = sum([DF[x][y] for x in ContextVector_X for y in ContextVector_X])
+    for i in range(len(ContextVector_X)):
+        xy += sum(list(itemgetter(*ContextVector_Y)(dataframe_dictionary[ContextVector_X[i]])))
 
-    Sum_YY = sum([DF[x][y] for x in ContextVector_Y for y in ContextVector_Y])
-
+    for i in range(len(ContextVector_Y)):
+        yy += sum(list(itemgetter(*ContextVector_Y)(dataframe_dictionary[ContextVector_Y[i]])))
     try:
-        result = Sum_XY / (Sum_XX + Sum_YY - Sum_XY)
+        result = xy / (xx + yy - xy)
         return result
     except:
         return 0
-
 
 def get_offset(inverted_index, term, index):
     offset_list = []
