@@ -122,7 +122,7 @@ def main_info_simba_ByCorpus(dates_list, words_list, dataframe, TH, N, inverted_
     is_dictionary = {}
     gte_dictionary = {}
     dataframe_dictionary = dataframe.to_dict()
-
+    import sys
     for date in dates_list:
         is_dictionary[date] = []
         ContextVector_date = Create_ContextualVectorByCorpus(date, dataframe_dictionary, TH)
@@ -226,7 +226,7 @@ def Doc_index(sentence_key):
 
 def max_length(lenX, lenY, N):
     if N == "max":
-        N = 999999
+        N = 9999999
     maxLength = min(lenX, lenY, N)
     return maxLength
 
@@ -299,22 +299,14 @@ def Create_ContextVectorByDocSentence(term, DF, TH, Inverted_Index, Index, sente
 
 # *******************************************************************************************
 # calc Info simba
-def InfoSimba(ContextVector_X, ContextVector_Y, dataframe_dictionary):
-    xx = 0
-    yy = 0
-    xy = 0
-    import numpy as np
-    from operator import itemgetter
-    for i in range(len(ContextVector_X)):
-        xx += sum(list(itemgetter(*ContextVector_X)(dataframe_dictionary[ContextVector_X[i]])))
+def InfoSimba(ContextVector_X, ContextVector_Y, DF):
+    Sum_XY = sum([DF[x][y] for x in ContextVector_X for y in ContextVector_Y])
 
-    for i in range(len(ContextVector_X)):
-        xy += sum(list(itemgetter(*ContextVector_Y)(dataframe_dictionary[ContextVector_X[i]])))
+    Sum_XX = sum([DF[x][y] for x in ContextVector_X for y in ContextVector_X])
 
-    for i in range(len(ContextVector_Y)):
-        yy += sum(list(itemgetter(*ContextVector_Y)(dataframe_dictionary[ContextVector_Y[i]])))
+    Sum_YY = sum([DF[x][y] for x in ContextVector_Y for y in ContextVector_Y])
     try:
-        result = xy / (xx + yy - xy)
+        result = Sum_XY / (Sum_XX + Sum_YY - Sum_XY)
         return result
     except:
         return 0

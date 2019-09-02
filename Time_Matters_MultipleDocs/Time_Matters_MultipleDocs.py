@@ -28,11 +28,18 @@ def Time_Matters_MultipleDocs(list_of_docs, temporal_tagger=[], time_matters=[],
 
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, all_docs_relevant_words, all_docs_candidate_date, n_contextual_window, TH, N, score_type)
     total_exec_time = (time.time() - total_start_time)
-
     Sorted_Score = {}
     if score_type == 'ByCorpus':
         for dt in gte_dictionary:
-            Sorted_Score[dt] = [gte_dictionary[dt], DateDictionary[dt]]
+            # get a dict of tempExpressions
+            dict_tempExpresions = {}
+            dict_tempExpresions[dt] = {}
+            for corpus_id in all_docs_TempExpressions:
+                x = [i[0] for i in all_docs_TempExpressions[corpus_id] if i[0].lower() == dt]
+                if x:
+                    dict_tempExpresions[dt][corpus_id] = x
+
+            Sorted_Score[dt] = [gte_dictionary[dt], dict_tempExpresions[dt]]
     elif score_type == 'ByDoc':
         for dt in gte_dictionary:
             last_occurrence = 0
