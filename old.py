@@ -49,7 +49,7 @@ def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window,
         return gte_dict, dataframe, dice_exec_time, gte_exec_time
     elif score_type == 'ByCorpus':
         gte_start_time = time.time()
-        gte_dict = main_info_simba_ByCorpus(dates_list, dataframe, TH, N, inverted_index)
+        gte_dict = main_info_simba_ByCorpus(dates_list, words_list, dataframe, TH, N, inverted_index)
         gte_exec_time = (time.time() - gte_start_time)
         return gte_dict, dataframe, dice_exec_time, gte_exec_time
     elif score_type == 'ByDoc':
@@ -65,6 +65,8 @@ def find_axis_data(x_axis, y_axis, n_contextual_window, score_type):
 
     if score_type == 'ByCorpus':
        pxy, px, py = ByCorpus_find_data(x_axis, y_axis)
+    elif score_type == 'ByDoc':
+        pxy, px, py = ByDoc_find_data(x_axis, y_axis, n_contextual_window)
     else:
         pxy, px, py = ByDoc_find_data(x_axis, y_axis, n_contextual_window)
     return pxy, px, py
@@ -118,19 +120,19 @@ def DICE(px_y, px, py):
 
 # ******************************************************************************************
 # calculation of info simba.
-def main_info_simba_ByCorpus(dates_list, dataframe, TH, N, inverted_index):
+def main_info_simba_ByCorpus(dates_list, words_list, dataframe, TH, N, inverted_index):
     is_dictionary = {}
     gte_dictionary = {}
     dataframe_dictionary = dataframe.to_dict()
 
     for date in dates_list:
         is_dictionary[date] = []
-        ContextVector_date = Create_ContextualVectorByCorpus(date, dataframe_dictionary, TH)
+        ContextVector_date = Create_ContextualVectorByCorpus(date, dataframe, TH)
 
-        for word in ContextVector_date:
+        for word in words_list:
             if dataframe.loc[date, word] > TH and word not in dates_list and len(inverted_index[word][2].keys()) > 1:
 
-                ContextVector_word = Create_ContextualVectorByCorpus(word, dataframe_dictionary, TH)
+                ContextVector_word = Create_ContextualVectorByCorpus(word, dataframe, TH)
                 maxLen = max_length(len(ContextVector_date), len(ContextVector_word), N)
                 result = InfoSimba(ContextVector_date[:maxLen], ContextVector_word[:maxLen], dataframe_dictionary)
                 is_dictionary[date].append(result)
@@ -159,23 +161,23 @@ def main_info_simba_ByDoc(dates_list, dataframe, TH, N, inverted_index, n_contex
 
         for index in index_array:
             info_simba_array = []
-            ContextVector_date = Create_ContextVectorByDoc(date, dataframe_dictionary, TH, inverted_index, index, n_contextual_window)
+            ContextVector_date = Create_ContextVectorByDoc(date, dataframe_dictionary, TH, inverted_index, index, n_contextual_window, dates_list)
 
             for word in ContextVector_date:
 
                 if dataframe_dictionary[date][word] > TH and word not in dates_list and len(inverted_index[word][2].keys()) > 1 and index in inverted_index[word][2].keys():
 
-                    ContextVector_word = Create_ContextVectorByDoc(word, dataframe_dictionary, TH, inverted_index, index, n_contextual_window)
+                    ContextVector_word = Create_ContextVectorByDoc(word, dataframe_dictionary, TH, inverted_index, index, n_contextual_window, dates_list)
                     maxLen = max_length(len(ContextVector_date), len(ContextVector_word), N)
                     result = InfoSimba(ContextVector_date[:maxLen], ContextVector_word[:maxLen], dataframe_dictionary)
 
                     if result != 0:
                         info_simba_array.append(result)
 
-            try:
+            if info_simba_array != []:
                 rounded_result = round_up(statistics.median(info_simba_array), decimals=3)
                 gte_dict[date][index] = [rounded_result]
-            except:
+            else:
                 gte_dict[date][index] = [0]
 
     return gte_dict
@@ -198,12 +200,15 @@ def main_info_simba_ByDocSentence(dates_list, word_list, dataframe, TH, N, inver
                 ContextVector_date = Create_ContextVectorByDocSentence(date, dataframe, TH, inverted_index, doc_index, sentence_index, n_contextual_window)
                 for word in word_list:
                     if word not in dates_list and dataframe.loc[date, word] > TH and len(inverted_index[word][2].keys()) > 1 and doc_index in inverted_index[word][2]:
-
                         if sentence_index in inverted_index[word][2][doc_index][2]:
                             ContextVector_word = Create_ContextVectorByDocSentence(word, dataframe, TH, inverted_index, doc_index, sentence_index, n_contextual_window)
-                            maxLen = max_length(len(ContextVector_date), len(ContextVector_word), N)
-                            result = InfoSimba(ContextVector_date[:maxLen], ContextVector_word[:maxLen], dataframe_dictionary)
 
+                            maxLen = max_length(len(ContextVector_date), len(ContextVector_word), N)
+
+                            result = InfoSimba(ContextVector_date[:maxLen], ContextVector_word[:maxLen], dataframe_dictionary)
+                            if result > 1:
+                                print('ALLLLLLLLLLLLLLLLLLLLLERT')
+                                exit(0)
                             if result != 0:
                                 info_simba_array.append(result)
                 try:
@@ -226,19 +231,19 @@ def Doc_index(sentence_key):
 
 def max_length(lenX, lenY, N):
     if N == "max":
-        N = 9999999
+        N = 999999
     maxLength = min(lenX, lenY, N)
     return maxLength
 
 
 def Create_ContextualVectorByCorpus(term, DF, TH):
-    sorted_d = sorted(DF[term].items(), reverse=True, key=lambda x: x[1])
-    contextVector = [x[0] for x in sorted_d if x[0] != term and x[1] > TH]
+    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
+    contextVector = [x for x in DF_Filtered if x != term]
 
     return contextVector
 
 
-def Create_ContextVectorByDoc(term, DF, TH, inverted_index, index, n_contextual_window):
+def Create_ContextVectorByDoc(term, DF, TH, inverted_index, index, n_contextual_window, dates_list):
     sorted_d = sorted(DF[term].items(), reverse=True, key=lambda x: x[1])
     contextVector = []
 
@@ -252,6 +257,8 @@ def Create_ContextVectorByDoc(term, DF, TH, inverted_index, index, n_contextual_
                         contextVector.append(x[0])
                 elif x[0] != term:
                     contextVector.append(x[0])
+            else:
+                pass
         except:
             pass
 
@@ -305,16 +312,16 @@ def InfoSimba(ContextVector_X, ContextVector_Y, DF):
     Sum_XX = sum([DF[x][y] for x in ContextVector_X for y in ContextVector_X])
 
     Sum_YY = sum([DF[x][y] for x in ContextVector_Y for y in ContextVector_Y])
+
     try:
         result = Sum_XY / (Sum_XX + Sum_YY - Sum_XY)
         return result
     except:
         return 0
 
+
 def get_offset(inverted_index, term, index):
     offset_list = []
     for x in inverted_index[term][2][index][1]:
         offset_list += inverted_index[term][2][x][1]
     return offset_list
-
-
