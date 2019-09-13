@@ -10,6 +10,8 @@
 <br>
 [How to Install Time-Matters](#How-to-Install-Time-Matters)
 <br>
+[How to use Time-Matters](#How-to-use-Time-Matters)
+<br>
 [How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
 <br>
 [How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
@@ -86,7 +88,10 @@ You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/d
 ##### Linux users
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
-    
+
+## How to use Time-Matters
+We highly recommend you to resort to this [Python Notebook](notebook.ipynb) should you want to play with Time-Matters. In any case you can read the following sections to familiarize with Time-Matters.
+
 ## How to use Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two scoring options:
 
@@ -113,7 +118,10 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 
 [[Back to the Table of Contents]](#Table-of-Contents)
 
-#### ByDoc
+#### Score
+The structure of the score depends on the type of extraction considered: `ByDoc` or `BySentence`.
+
+##### ByDoc
 <hr>
 Getting temporal scores by doc is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different sentences.
 
@@ -122,19 +130,7 @@ results = Time_Matters_SingleDoc(text)
 #results = Time_Matters_SingleDoc(text, score_type="ByDoc")
 ````
 
-#### BySentence
-<hr>
-
-Getting temporal scores by sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "BySentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence on the other sentence).
-
-```` bash
-results = Time_Matters_SingleDoc(text, score_type='BySentence')
-````
-
-#### Output
-The structure of the score depends on the type of extraction considered: `ByDoc` or `BySentence`.
-
-- <b>Score (for ByDoc)</b>:  A dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a list of the instances of the temporal expression (as they were found in the text). Example: `'2011-01-12': [0.5, ['2011-01-12', '12 January 2011']],`, means that the normalized temporal expression `2011-01-12` has a score of 0.5 and occurs twice in the text. The first time as `2011-01-12`, and the second time as `12 January 2011`.
+The output is a dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a list of the instances of the temporal expression (as they were found in the text). Example: `'2011-01-12': [0.5, ['2011-01-12', '12 January 2011']],`, means that the normalized temporal expression `2011-01-12` has a score of 0.5 and occurs twice in the text. The first time as `2011-01-12`, and the second time as `12 January 2011`.
 
 ```` bash
 results[0]
@@ -148,7 +144,16 @@ results[0]
  '1975-02-10': [0, ['Yesterday']]}
 ````
 
-- <b>Score (for BySentence)</b>:  A dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the sentenceID and the value is a list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular sentence). Example: `{'2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]}}`, means that the normalized temporal expression `2010` has a score of 0.2 in the sentence with ID 1, and a score of 0.983 in the sentence with ID 5 (where it occurs two times).
+##### BySentence
+<hr>
+
+Getting temporal scores by sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "BySentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence on the other sentence).
+
+```` bash
+results = Time_Matters_SingleDoc(text, score_type='BySentence')
+````
+
+The output is a dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the sentenceID and the value is a list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular sentence). Example: `{'2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]}}`, means that the normalized temporal expression `2010` has a score of 0.2 in the sentence with ID 1, and a score of 0.983 in the sentence with ID 5 (where it occurs two times).
 
 ```` bash
 results[0]
@@ -162,6 +167,7 @@ results[0]
  '1975-02-10': {7: [0, ['Yesterday']]}}
 ````
 
+##### Remaining Output
 We highly recommend you to have a look at the [wiki Output](../../wiki/How-to-use-Time-Matters-SingleDoc#Output) section where more information about the remaining output (Temporal Expressions; Relevant Keywords; Text Normalized; Text Tokens; Sentences Normalized; Sentences Tokens) is given to the user.
 
 [[Back to the Table of Contents]](#Table-of-Contents)
@@ -210,55 +216,61 @@ for file in os.listdir (path) :
         ListOfDocs.append(txt)  
 ````
 
-#### ByCorpus
-<hr>
-
-Getting temporal scores by a corpus of documents is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByCorpus" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different documents.
-
-```` bash
-results = Time_Matters_MultipleDocs(text)
-#results = Time_Matters_MultipleDocs(text, score_type="ByCorpus")
-````
-
-#### ByDoc
-<hr>
-
-Getting temporal scores by document is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different documents, will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1 of document 1; and 0.77 for the occurrence of 2019 in sentence 2 of document 1);
-
-```` bash
-results = Time_Matters_MultipleDocs(text, score_type='ByDoc')
-````
-
-#### ByDocSentence
-<hr>
-
-Getting temporal scores by document & sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc&Sentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences of a given document, will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in document 1; and 0.982 for its occurrence in document 2).
-
-```` bash
-results = Time_Matters_MultipleDocs(text, score_type='ByDocSentence')
-````
-
-#### Output
+#### Score
 The structure of the score depends on the type of extraction considered: `ByCorpus`, `ByDoc` or `ByDoc&Sentence`.
 
-- <b>Score (for ByCorpus)</b>:  A dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a dictionary of the instances of the temporal expression (as they were found in each document). Example: `{'2011-01-12': [1.0, {0: ['2011-01-12', '12 January 2011'], 6: ['2011-01-12']}]}`, means that the normalized temporal expression `2011-01-12` has a score of 1 and occurs twice (the first time as `2011-01-12`, and the second time as `12 January 2011`) in document 0 and one time (as '2011-01-12') in document 6. 
+##### ByCorpus
+<hr>
+
+Getting temporal scores by a corpus of documents is possible through the following code: `results = Time_Matters_MultipleDocs(ListOfDocs)` This configuration assumes "py_heideltime" as the default temporal tagger, "ByCorpus" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different documents.
+
+Running this code, however, will take a considerable amount of time (depending on the PC used) as Heideltime temporal tagger will be running on top of 28 texts. If you want a quicker solution (though not effective) you should use a rule-based approach instead (more about this on the Optional Parameters section). Also letting `py_heideltime` getting all the possible temporal expressions from the text might become too cumbersome. For that reason, we opt to set the date granularity to year and the document timestamp to ´2013-04-15´ (the date of the Boston marathon bombings).
 
 ```` bash
-TODOTODOTODOTODO
+results = Time_Matters_MultipleDocs(ListOfDocs, temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
+#results = Time_Matters_MultipleDocs(ListOfDocs, score_type="ByCorpus", temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
 ````
 
-- <b>Score (for ByDoc)</b>: A dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the DocID and the value is a list with two positions. The first is the score of the temporal expression in that particular document. The second is a list of the instances of the temporal expression (as they were found in the text in that particular document). Example: `{'2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]}}`, means that the normalized temporal expression `2010` has a score of 0.2 in the document with ID 1, and a score of 0.983 in the document with ID 5 (where it occurs two times).
+The output is a dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a dictionary of the instances of the temporal expression (as they were found in each document). Example: `{'2011-01-12': [1.0, {0: ['2011-01-12', '12 January 2011'], 6: ['2011-01-12']}]}`, means that the normalized temporal expression `2011-01-12` has a score of 1 and occurs twice (the first time as `2011-01-12`, and the second time as `12 January 2011`) in document 0 and one time (as '2011-01-12') in document 6. 
 
 ```` bash
-TODOTODOTODOTODO
+Score = results[0]
+Score
 ````
 
-- <b>Score (for ByDocSentence)</b>: A dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the DocID and the value is a new dictionary (where the key is the sentenceID and the value is list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular setencent of that document)). Example: `{'2011': {0: {5: [0.983, ['2010', '2010']], {6: [0.183, ['2010']]}}`, means that the normalized temporal expression `2011` has a score of 0.983 in the sentence with ID 5 (where it occurs twice) of docID 0, and a score of 0.183 in the sentence with ID 6 of docID 0.
+##### ByDoc
+<hr>
+
+Getting temporal scores by document is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different documents, will return multiple (eventually different) scores (e.g., 0.92 for the occurrence of 2019 in sentence 1 of document 1; and 0.77 for the occurrence of 2019 in sentence 2 of document 1). Once again, we apply the `year` granularity to avoid getting too many fine-grained temporal expressions. Yet, you are more than welcome to alternatively run the following code: `results = Time_Matters_MultipleDocs(ListOfDocs, score_type='ByDoc')`.
 
 ```` bash
-TODOTODOTODOTODO
+results = Time_Matters_MultipleDocs(ListOfDocs, score_type='ByDoc', temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
 ````
 
+The output is a dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the DocID and the value is a list with two positions. The first is the score of the temporal expression in that particular document. The second is a list of the instances of the temporal expression (as they were found in the text in that particular document). Example: `{'2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]}}`, means that the normalized temporal expression `2010` has a score of 0.2 in the document with ID 1, and a score of 0.983 in the document with ID 5 (where it occurs two times).
+
+```` bash
+Score = results[0]
+Score
+````
+
+##### ByDocSentence
+<hr>
+
+Getting temporal scores by document & sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc&Sentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences of a given document, will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in document 1; and 0.982 for its occurrence in document 2). Once again, we apply the `year` granularity to avoid getting too many fine-grained temporal expressions. Yet, you are more than welcome to alternatively run the following code: `results = Time_Matters_MultipleDocs(ListOfDocs, score_type='ByDocSentence')`.
+
+```` bash
+results = Time_Matters_MultipleDocs(ListOfDocs, score_type='ByDocSentence', temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
+````
+
+The output is a dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the DocID and the value is a new dictionary (where the key is the sentenceID and the value is list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular setencent of that document)). Example: `{'2011': {0: {5: [0.983, ['2010', '2010']], {6: [0.183, ['2010']]}}`, means that the normalized temporal expression `2011` has a score of 0.983 in the sentence with ID 5 (where it occurs twice) of docID 0, and a score of 0.183 in the sentence with ID 6 of docID 0.
+
+```` bash
+Score = results[0]
+Score
+````
+
+##### Remaining Output
 We highly recommend you to have a look at the [wiki Output](../../wiki/How-to-use-Time-Matters-MultipleDocs#Output) section where more information about the remaining output (Temporal Expressions; Relevant Keywords; Text Normalized; Text Tokens; Sentences Normalized; Sentences Tokens) is given to the user.
 
 [[Back to the Table of Contents]](#Table-of-Contents)
@@ -280,10 +292,6 @@ We highly recommend you to have a look at the [wiki Debug Mode](../../wiki/How-t
 <hr>
 
 If you want to know how to execute Time-Matters MultipleDocs through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-MultipleDocs#Cli).
-
-
-## Python Notebook
-We highly recommend you to resort to this [Python Notebook](requirements.txt) should you are interested in playing with Time-Matters.
 
 ## API
 https://time-matters.inesctec.pt/api
