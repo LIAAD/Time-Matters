@@ -272,7 +272,6 @@ Score
 ````
 
 #### Remaining Output
-<hr>
 We highly recommend you to have a look at the [wiki Output](../../wiki/How-to-use-Time-Matters-MultipleDocs#Output) section where more information about the remaining output (Temporal Expressions; Relevant Keywords; Text Normalized; Text Tokens; Sentences Normalized; Sentences Tokens) is given to the user.
 
 [[Back to the Table of Contents]](#Table-of-Contents)
