@@ -115,7 +115,7 @@ text= "2011 Haiti Earthquake Anniversary. As of 2010 (see 1500 photos here), the
 
 #### ByDoc
 <hr>
-Getting temporal scores by doc is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this  [[here|Text-Representation#Temporal-Expressions]]), "ByDoc" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different sentences.
+Getting temporal scores by doc is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "ByDoc" as the default score_type and the default parameters of time_matters. In this configuration, a single score will be retrieved for a temporal expression regardless it occurs in different sentences.
 
 ```` bash
 results = Time_Matters_SingleDoc(text)
@@ -125,7 +125,7 @@ results = Time_Matters_SingleDoc(text)
 #### BySentence
 <hr>
 
-Getting temporal scores by sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger (more about this [[here|Text-Representation#Temporal-Expressions]]), "BySentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence on the other sentence).
+Getting temporal scores by sentence is possible through the following code. This configuration assumes "py_heideltime" as default temporal tagger, "BySentence" as the score_type and the default parameters of time_matters. In this configuration, multiple occurrences of a temporal expression in different sentences (e.g., "As of 2010..."; "...the quake in 2010 was..."), will return multiple (eventually different) scores (e.g., 0.2 for its occurrence in sentence 1; and 0.982 for its occurrence on the other sentence).
 
 ```` bash
 results = Time_Matters_SingleDoc(text, score_type='BySentence')
@@ -182,7 +182,7 @@ We highly recommend you to have a look at the [wiki Debug Mode](../../wiki/How-t
 #### CLI
 <hr>
 
-If you want to know how to execute Time-Matters SingelDoc through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-SingleDoc#Cli).
+If you want to know how to execute Time-Matters SingleDoc through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-SingleDoc#Cli).
 
 
 ## How to use Time-Matters-MultipleDocs
@@ -282,6 +282,9 @@ We highly recommend you to have a look at the [wiki Debug Mode](../../wiki/How-t
 If you want to know how to execute Time-Matters MultipleDocs through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-MultipleDocs#Cli).
 
 
+## Python Notebook
+We highly recommend you to resort to this [Python Notebook](requirements.txt) should you are interested in playing with Time-Matters.
+
 ## API
 https://time-matters.inesctec.pt/api
 
@@ -293,7 +296,7 @@ If you use Time-Matters please cite the appropriate paper. In general, this will
 
 Other Time-Matters related papers may be found here:
 
-- Campos, R., Dias, G., Jorge, A. and Nunes, C. (2016). GTE-Rank: a Time-Aware Search Engine to Answer Time-Sensitive Queries. In Information Processing & Management an International Journal. Elsevier, Vol 52(2), pp 273-298 [[pdf]](https://www.sciencedirect.com/science/article/abs/pii/S0306457315001016)
+- Campos, R., Dias, G., Jorge, A. and Nunes, C. (2016). GTE-Rank: a Time-Aware Search Engine to Answer Time-Sensitive Queries. In Information Processing & Management an International Journal. Elsevier, Vol 52(2), pp. 273-298 [[pdf]](https://www.sciencedirect.com/science/article/abs/pii/S0306457315001016)
 
 - Campos, R., Dias, G., Jorge, A., and Nunes, C. (2014). GTE-Cluster: A Temporal Search Interface for Implicit Temporal Queries. In M. de Rijke et al. (Eds.), Lecture Notes in Computer Science - Advances in Information Retrieval - 36th European Conference on Information Retrieval (ECIR2014). Amesterdam, Netherlands, 13 - 16 April. (Vol. 8416-2014, pp. 775 - 779) [[pdf]](https://link.springer.com/chapter/10.1007/978-3-319-06028-6_94#page-1)
 
@@ -301,6 +304,8 @@ Other Time-Matters related papers may be found here:
 
 ### YAKE!
 YAKE! papers may be found here:
+
+- Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2019). YAKE! Keyword Extraction from Single Documents using Multiple Local Features. In Information Sciences. Elsevier, Vol XX(X), pp. XX-XX [[pdf]](https://linkinghub.elsevier.com/retrieve/pii/S0020025519308588).
 
 - Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). A Text Feature Based Automatic Keyword Extraction Method for Single Documents. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 684 - 691. [[pdf]](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_63). [<b>ECIR'18 Best Short Paper</b>]
 
