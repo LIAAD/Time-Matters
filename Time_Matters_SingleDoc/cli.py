@@ -46,8 +46,8 @@ Options:
 			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
 					   finest-granularity.
 			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
-                       "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
-                       "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
 
 			  - document_type
 			    Default: "News"
@@ -78,8 +78,8 @@ Options:
 			           "full": means that all types of granularity will be retrieved, from the coarsest to the 
 					   finest-granularity.
 			           "day": means that for the date YYYY-MM-DD-HH:MM:SS it will retrieve YYYY-MM-DD;
-                       "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
-                       "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
+				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
+				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
 
               - begin_date
 			    Default: 0
@@ -126,7 +126,7 @@ Options:
 
 			  - Example: 
 			  	    -tm "[10, 'full_sentence', 'max', 0.05]"
-			  	    
+
  [not required]
  ----------------------------------------------------------------------------------------------------------------------------------
   -st, --score_type       Specifies the type of score for the temporal expression found in the text
