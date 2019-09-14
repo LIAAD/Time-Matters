@@ -115,7 +115,11 @@ def DICE(px_y, px, py):
         result = 0
     return result
 
-
+def run(self):
+        print("{} started!".format(self.getName()))
+        # "Thread-x started!"
+        time.sleep(1)                                      # Pretend to work for a second
+        print("{} finished!".format(self.getName()))
 # ******************************************************************************************
 # calculation of info simba.
 def main_info_simba_ByCorpus(dates_list, dataframe, TH, N, inverted_index):
@@ -126,7 +130,8 @@ def main_info_simba_ByCorpus(dates_list, dataframe, TH, N, inverted_index):
     for date in dates_list:
         is_dictionary[date] = []
         ContextVector_date = Create_ContextualVectorByCorpus(date, dataframe_dictionary, TH)
-
+        import threading
+        import time
         for word in ContextVector_date:
             if dataframe.loc[date, word] > TH and word not in dates_list and len(inverted_index[word][2].keys()) > 1:
 
@@ -300,6 +305,7 @@ def Create_ContextVectorByDocSentence(term, DF, TH, Inverted_Index, Index, sente
 # *******************************************************************************************
 # calc Info simba
 def InfoSimba(ContextVector_X, ContextVector_Y, DF):
+    import numpy as np
     Sum_XY = sum([DF[x][y] for x in ContextVector_X for y in ContextVector_Y])
 
     Sum_XX = sum([DF[x][y] for x in ContextVector_X for y in ContextVector_X])

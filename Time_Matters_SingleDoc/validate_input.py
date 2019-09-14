@@ -29,7 +29,7 @@ def verify_time_matters(n_gram, num_of_keywords, N, n_contextual_window, TH):
         return {}
 
 
-def verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time):
+def verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time, begin_date, end_date):
     tt_options = ['py_heideltime', 'rule_based']
     if tt_name not in tt_options:
         print('Please specify a valid time_tagger_name.\n'
@@ -93,26 +93,59 @@ def verify_score_type(score_type, debug_mode):
         return {}
 
 
-def verify_input_data(temporal_tagger, time_matters):
+def verify_temporal_data(temporal_tagger):
     tt_name = 'py_heideltime'
     language = 'English'
     document_type = 'news'
     document_creation_time = 'yyyy-mm-dd'
     date_granularity = 'full'
-    # Verify the values for temporal Tagger parameters.
+    begin_date = 0
+    end_date = 2100
     try:
         if temporal_tagger[0] == 'py_heideltime':
-            language = temporal_tagger[1]
-            date_granularity = temporal_tagger[2]
-            document_type = temporal_tagger[3]
-            document_creation_time = temporal_tagger[4]
+            tt_name = temporal_tagger[0]
+            language, document_type, document_creation_time, date_granularity = verify_py_heideltime(temporal_tagger)
         elif temporal_tagger[0] == 'rule_based':
             tt_name = temporal_tagger[0]
-            date_granularity = temporal_tagger[1]
+            date_granularity, begin_date, end_date, date_granularity = verify_rule_based(temporal_tagger)
+
         else:
             tt_name = 1
+        return tt_name, language, document_type, document_creation_time, date_granularity, begin_date, end_date
     except:
-        pass
+        return tt_name, language, document_type, document_creation_time, date_granularity, begin_date, end_date
+
+
+# Verify the values for temporal Tagger parameters.
+def verify_py_heideltime(temporal_tagger):
+    language = 'English'
+    document_type = 'news'
+    document_creation_time = 'yyyy-mm-dd'
+    date_granularity = 'full'
+    try:
+        language = temporal_tagger[1]
+        date_granularity = temporal_tagger[2]
+        document_type = temporal_tagger[3]
+        document_creation_time = temporal_tagger[4]
+        return language, document_type, document_creation_time, date_granularity
+    except:
+        return language, document_type, document_creation_time, date_granularity
+
+
+def verify_rule_based(temporal_tagger):
+    date_granularity = temporal_tagger[1]
+    begin_date = temporal_tagger[2]
+    end_date = temporal_tagger[3]
+    try:
+        date_granularity = temporal_tagger[1]
+        begin_date = temporal_tagger[2]
+        end_date = temporal_tagger[3]
+        return  date_granularity, begin_date, end_date, date_granularity
+    except:
+        return  date_granularity, begin_date, end_date, date_granularity
+
+
+def verify_time_matters_input(time_matters):
     n_gram = 1
     num_of_keywords = 10
     n_contextual_window = 'full_sentence'
@@ -126,5 +159,4 @@ def verify_input_data(temporal_tagger, time_matters):
         TH = time_matters[4]
     except:
         pass
-    return tt_name, language, document_type, document_creation_time, date_granularity, \
-           n_gram, num_of_keywords, N, TH, n_contextual_window
+    return n_gram, num_of_keywords, N, TH, n_contextual_window

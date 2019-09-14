@@ -3,7 +3,7 @@ from langdetect import detect
 from Time_Matters_SingleDoc.InvertedIndex import kw_ext, get_occurrence, tokenizer, verify_keywords, rule_based, py_heideltime
 from Time_Matters_SingleDoc.GetDateScores import remove_duplicates
 
-def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram, score_type):
+def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram, score_type,begin_date, end_date):
     inverted_index = {}
     all_docs_candidate_date = []
     all_docs_relevant_words = []
@@ -27,9 +27,8 @@ def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, d
             yake_ln = 'en'
 
         if date_extractor == 'rule_based':
-
             # =============================== Date Extractor ===============================================
-            candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(list_of_docs[id_doc], date_granularity)
+            candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(list_of_docs[id_doc], date_granularity, begin_date, end_date)
             # =============================== Keyword Extractor ===============================================
             KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
             all_docs_text_list.append(new_text)

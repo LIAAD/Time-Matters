@@ -6,11 +6,11 @@ import re
 
 # *****************************************************************
 # function that manage the workflow for creation of inverted_index
-def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram):
+def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, document_creation_time, date_granularity, date_extractor, n_gram, begin_date, end_date):
 
     if date_extractor == 'rule_based':
         # =============================== Date Extractor ===============================================
-        candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity)
+        candidate_dates_array, new_text, date_dictionary, TempExpressions, ExecTimeDictionary = rule_based(text, date_granularity, begin_date, end_date)
 
         # =============================== Keyword Extractor ===========================================================
         KeyWords_dictionary, relevant_words_array, kw_exec_time = kw_ext(yake_ln, new_text, num_of_keywords, n_gram)
@@ -156,9 +156,9 @@ def py_heideltime(text, language, heideltime_document_type, heideltime_document_
     return dates, result[1], date_dictionary, result[0], result[3]
 
 
-def rule_based(text, date_granularity):
+def rule_based(text, date_granularity, begin_date, end_date):
     from py_rule_based import py_rule_based
-    result = py_rule_based(text, date_granularity)
+    result = py_rule_based(text, date_granularity, begin_date, end_date)
     date_dictionary = {}
     dates = []
     for ct in range(len(result[0])):

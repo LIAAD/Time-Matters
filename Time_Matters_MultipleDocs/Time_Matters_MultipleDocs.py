@@ -1,14 +1,15 @@
 from Time_Matters_MultipleDocs.GetDateScoresMD import GetDataScores
 from Time_Matters_MultipleDocs.Inverted_Index_MD import main_inverted_index_md
-from Time_Matters_MultipleDocs.validate_inputMD import verify_input_data, verify_temporal_tagger, verify_time_matters, verify_score_type
-
+from Time_Matters_MultipleDocs.validate_inputMD import verify_temporal_tagger,  verify_score_type, verify_time_matters, verify_temporal_data, verify_time_matters_input
 
 def Time_Matters_MultipleDocs(list_of_docs, temporal_tagger=[], time_matters=[], score_type='ByCorpus', debug_mode=False):
 
     result_validation_score_type = verify_score_type(score_type, debug_mode)
-    tt_name, language, document_type, document_creation_time, date_granularity, \
-    n_gram, num_of_keywords, N, TH, n_contextual_window = verify_input_data(temporal_tagger, time_matters, score_type)
 
+
+    tt_name, language, document_type, document_creation_time, date_granularity, begin_date, end_date = verify_temporal_data(temporal_tagger)
+    n_gram, num_of_keywords, N, TH, n_contextual_window = verify_time_matters_input(time_matters, score_type)
+    print(begin_date)
     result_validation_temporal_tagger = verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time)
     result_validation_time_matters = verify_time_matters(n_gram, num_of_keywords, N, n_contextual_window, TH, score_type)
 
@@ -24,7 +25,8 @@ def Time_Matters_MultipleDocs(list_of_docs, temporal_tagger=[], time_matters=[],
     KeyWords_dictionary, DateDictionary, \
     kw_exec_time, ii_exec_time, \
     SentencesNormalized, SentencesTokens, \
-    TextTokens, all_docs_TempExpressions, TextNormalized = main_inverted_index_md(language, list_of_docs, num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram, score_type)
+    TextTokens, all_docs_TempExpressions, TextNormalized = main_inverted_index_md(language, list_of_docs,
+                                                                                  num_of_keywords, document_type, document_creation_time, date_granularity, tt_name, n_gram, score_type, begin_date, end_date)
 
     gte_dictionary, DiceMatrix, dice_exec_time, gte_exec_time = GetDataScores(inverted_index, all_docs_relevant_words, all_docs_candidate_date, n_contextual_window, TH, N, score_type)
     total_exec_time = (time.time() - total_start_time)
