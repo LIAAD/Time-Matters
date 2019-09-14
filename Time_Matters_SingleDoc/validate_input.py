@@ -133,9 +133,9 @@ def verify_py_heideltime(temporal_tagger):
 
 
 def verify_rule_based(temporal_tagger):
-    date_granularity = temporal_tagger[1]
-    begin_date = temporal_tagger[2]
-    end_date = temporal_tagger[3]
+    date_granularity = 'full'
+    begin_date = 0
+    end_date = 2100
     try:
         date_granularity = temporal_tagger[1]
         begin_date = temporal_tagger[2]

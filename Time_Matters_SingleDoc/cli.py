@@ -86,7 +86,7 @@ Options:
                             Options: any number > 0
 
 			  - end_date
-			    Default: 2100
+			    Default: 2100 
                             Options: any number > 0
 
 			  - Example: 
@@ -108,7 +108,7 @@ Options:
 		        - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
 			    Default: "full_sentence"
 			    Options:
-                        "full_sentence": the system will look for co-occurrences between terms that occur within the search space of a sentence;
+                                    "full_sentence": the system will look for co-occurrences between terms that occur within the search space of a sentence;
 			            n: where n is any value > 0, that is, the system will look for co-occurrences between terms that 
 				       occur within a window of n terms;
 				       
@@ -171,7 +171,7 @@ def Dates():
 
     def run_time_matters(text):
         time_tagger_arg_list = get_arguments_list_values(arg, '-tt', 'temporal_tagger', [])
-        time_matterss_arg_list = get_arguments_list_values(arg, '-tm', 'time_matters', [])
+        time_matters_arg_list = get_arguments_list_values(arg, '-tm', 'time_matters', [])
         score_type = get_arguments_values(arg, '-st', '--score_type', 'ByDoc')
         debug_mode = get_arguments_values(arg, '-dm', '--debug_mode', 'False')
         if debug_mode.lower() != 'true' and debug_mode.lower() != 'false':
@@ -180,7 +180,7 @@ def Dates():
                   '     True;\n'
                   '     False;')
             return {}
-        Score_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matterss_arg_list, score_type, str2bool(debug_mode))
+        Score_list = Time_Matters_SingleDoc(text, time_tagger_arg_list, time_matters_arg_list, score_type, str2bool(debug_mode))
         if Score_list != {}:
             print(Score_list)
         else:

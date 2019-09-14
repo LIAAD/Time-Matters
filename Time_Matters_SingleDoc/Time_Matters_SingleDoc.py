@@ -19,7 +19,6 @@ def Time_Matters_SingleDoc(txt, temporal_tagger=[], time_matters=[], score_type=
     result_validation_time_matters = verify_time_matters(n_gram, num_of_keywords, N, n_contextual_window, TH)
     result_validation_score_type = verify_score_type(score_type, debug_mode)
     result_validation_temporal_tagger = verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time, begin_date, end_date)
-
     if result_validation_time_matters == {} or result_validation_temporal_tagger == {} or result_validation_score_type == {}:
         print([])
         return []

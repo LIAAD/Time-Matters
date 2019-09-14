@@ -98,7 +98,7 @@ Options:
 		          - n_contextual_window: defines the search space where co-occurrences between terms may be counted.
 			    Default: "full_document"
 			    Options:            
-			                "full_document": the system will look for co-occurrences between terms that occur within the document.
+			            "full_document": the system will look for co-occurrences between terms that occur within the document.
                                     "full_sentence": the system will look for co-occurrences between terms that occur within the search 
 				                    space of a sentence;
 			            n: where n is any value > 0, that is, the system will look for co-occurrences between terms that 
@@ -223,7 +223,6 @@ def get_arguments_list_values(arg_list, argument, extense_argument, defaut_value
             position = arg_list.index(argument)
         except:
             position = arg_list.index(extense_argument)
-
         if argument in arg_list or extense_argument in arg_list:
             str_input_list = arg_list[position + 1]
             import ast
