@@ -49,8 +49,20 @@ Check out our wiki [Documentation](../../wiki) for full details about Time-Matte
 pip install git+https://github.com/LIAAD/Time-Matters.git
 ```
 #### Install External Dependencies
+You will need to install nltk:
+
+Go to the command line and install nltk through the following command:
+``` bash
+pip install nltk
+```
+Then open your python interpreter and write the following code (you can set the download_dir folder to /home/nltk_data when using linux)
+
+``` bash
 import nltk
-nltk.download('punkt')
+nltk.download('punkt', download_dir='c:/nltk_data')
+```
+
+More about this [here](https://medium.com/@vardhmanandroid2015/nltk-how-to-install-nltk-nltk-data-on-window-machine-56cddb05b872)
 
 Time-Matters rests on the extraction of relevant keywords and temporal expressions found in the text.
 
