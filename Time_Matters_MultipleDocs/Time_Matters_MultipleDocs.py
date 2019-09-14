@@ -9,7 +9,6 @@ def Time_Matters_MultipleDocs(list_of_docs, temporal_tagger=[], time_matters=[],
 
     tt_name, language, document_type, document_creation_time, date_granularity, begin_date, end_date = verify_temporal_data(temporal_tagger)
     n_gram, num_of_keywords, N, TH, n_contextual_window = verify_time_matters_input(time_matters, score_type)
-    print(begin_date)
     result_validation_temporal_tagger = verify_temporal_tagger(tt_name, language, document_type, date_granularity, document_creation_time)
     result_validation_time_matters = verify_time_matters(n_gram, num_of_keywords, N, n_contextual_window, TH, score_type)
 

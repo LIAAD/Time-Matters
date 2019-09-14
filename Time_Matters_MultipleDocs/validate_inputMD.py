@@ -122,7 +122,6 @@ def verify_temporal_data(temporal_tagger):
         elif temporal_tagger[0] == 'rule_based':
             tt_name = temporal_tagger[0]
             date_granularity, begin_date, end_date, date_granularity = verify_rule_based(temporal_tagger)
-            print(begin_date)
         else:
             tt_name = 1
         return tt_name, language, document_type, document_creation_time, date_granularity, begin_date, end_date
