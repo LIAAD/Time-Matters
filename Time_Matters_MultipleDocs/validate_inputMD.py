@@ -153,7 +153,6 @@ def verify_rule_based(temporal_tagger):
         date_granularity = temporal_tagger[1]
         begin_date = temporal_tagger[2]
         end_date = temporal_tagger[3]
-        print(begin_date)
         return  date_granularity, begin_date, end_date, date_granularity
     except:
         return  date_granularity, begin_date, end_date, date_granularity
