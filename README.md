@@ -84,7 +84,17 @@ pip install git+https://github.com/JMendes1995/py_rule_based
 pip install git+https://github.com/JMendes1995/py_heideltime
 ```
 
-You should also have [java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [perl](https://www.perl.org/get.html) installed in your machine for heideltime dependencies (note that none of this is needed should your plan is to only use a rule-based approach).
+You should also have java JDK and perl installed in your machine for heideltime dependencies (note that none of this is needed should your plan is to only use a rule-based approach).
+
+##### Windows users
+To install java JDK begin by downloading it [here](https://www.oracle.com/technetwork/java/javase/downloads/index.html). Once it is installed don't forget to add the path to the environment variables. On `user variables for Administrator` add the `JAVA_HOME` as the `Variable name:`, and the path (e.g., `C:\Program Files\Java\jdk-12.0.2\bin`) as the Variable value. Then on `System variables` edit the `Path` variable and add (e.g., `;C:\Program Files\Java\jdk-12.0.2\bin`) at the end of the `variable value`.
+
+For Perl we recomment you to download and install the following [distribution](http://strawberryperl.com/). Once it is installed don't forget to restart your PC.
+
+Note that perl doesn't need to be installed if you are using Anaconda instead of pure Python distribution.
+
+##### Linux users
+Perl usually comes with Linux, thus you don't need to install it.
 
 [[Back to the Table of Contents]](#Table-of-Contents)
 
