@@ -112,7 +112,7 @@ Perl usually comes with Linux, thus you don't need to install it.
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
 
 ## How to use Time-Matters
-We highly recommend you to resort to this [Python Notebook](notebook.ipynb) should you want to play with Time-Matters. In any case you can read the following sections to familiarize with Time-Matters.
+We highly recommend you to resort to this [Python Notebook](notebook-package.ipynb) should you want to play with Time-Matters. In any case you can read the following sections to familiarize with Time-Matters.
 
 ## How to use Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two scoring options:
@@ -318,7 +318,7 @@ We highly recommend you to have a look at the [wiki Debug Mode](../../wiki/How-t
 If you want to know how to execute Time-Matters MultipleDocs through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-MultipleDocs#Cli).
 
 ## API
-https://time-matters.inesctec.pt/api
+We highly recommend you to resort to this [Python Notebook](notebook-api.ipynb) should you want to play with the API of Time-Matters. In alternative, you can resort to the APIDOCS webpage which is available at the following link: https://time-matters.inesctec.pt/api
 
 ## Publications
 ### Time-Matters
