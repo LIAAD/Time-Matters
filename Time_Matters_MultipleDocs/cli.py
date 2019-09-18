@@ -79,6 +79,13 @@ Options:
 				   "month": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY-MM will be retrieved;
 				   "year": means that for the date YYYY-MM-DD-HH:MM:SS only the YYYY will be retrieved;
 
+			  - begin_date
+			    Default: 0
+                            Options: any number > 0
+			  - end_date
+			    Default: 2100 
+                            Options: any number > 0
+
 			  - Example: 
 			  	    -tt "['rule_based','full']"
 
