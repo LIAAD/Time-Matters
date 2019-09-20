@@ -30,7 +30,7 @@
 
 Time matters is the result of research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by [Jorge Mendes](https://github.com/JMendes1995) under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
-## What is Time-Matters
+## What is Time-Matters?
 Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). 
 
 The first (Time-Matters-SingleDoc) aims to determine the relevance of temporal expressions within a single document. 
@@ -40,8 +40,12 @@ The latter (Time-Matters-MultipleDocs), aims to determine the relevance of tempo
 ## Rationale
 Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be determined with regards to the relevant terms (W<sub>j</sub><sup>\*</sup>) that it co-occurs with in a given context (where a context can be a window of _n_ terms in a sentence, the sentence itself, or even a corpus of documents in case we are talking about a collection of multiple documents). That is: the more a given candidate date (d<sub>j</sub>) is correlated with the most relevant keywords (W<sub>j</sub><sup>\*</sup>) of a document (or documents), the more relevant the candidate date is.
 
-## Documentation
+## How does it works?
 Check out our wiki [Documentation](../../wiki) for full details about Time-Matters.
+
+## Where can I find Time-Matters?
+Time-Matters is available as an open source Python package [https://github.com/LIAAD/Time-Matters] and as an API [http://time-matters.inesctec.pt/api].
+
 
 ## How to Install Time-Matters
 
@@ -78,7 +82,7 @@ For the latter (that is, the extraction of temporal expressions), we resort to t
 
 The first, is an internal self-defined rule-based approach developed in regex. The latter is a Python wrapper for the well-known Heideltime temporal tagger.
 
-To work with both within the Time-Matters package the following packages should be installed:
+To work with the Time-Matters package the following packages should be installed:
 ``` bash
 pip install git+https://github.com/JMendes1995/py_rule_based
 pip install git+https://github.com/JMendes1995/py_heideltime
@@ -110,9 +114,6 @@ Perl usually comes with Linux, thus you don't need to install it.
 ##### Linux users
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
-
-## How to use Time-Matters
-We highly recommend you to resort to this [Python Notebook](notebook.ipynb) should you want to play with Time-Matters. In any case you can read the following sections to familiarize with Time-Matters.
 
 ## How to use Time-Matters-SingleDoc
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two scoring options:
@@ -317,8 +318,8 @@ We highly recommend you to have a look at the [wiki Debug Mode](../../wiki/How-t
 
 If you want to know how to execute Time-Matters MultipleDocs through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-MultipleDocs#Cli).
 
-## API
-We highly recommend you to resort to this [Python Notebook](notebook.ipynb) should you want to play with the API of Time-Matters. In alternative, you can resort to the APIDOCS webpage which is available at the following link: https://time-matters.inesctec.pt/api
+## Python Notebook
+We highly recommend you to resort to this [Python Notebook](notebook-time-matters.ipynb) should you want to play with Time-Matters. In any case you can read the following sections to familiarize with Time-Matters.
 
 ## Publications
 ### Time-Matters
@@ -337,7 +338,7 @@ Other Time-Matters related papers may be found here:
 ### YAKE!
 YAKE! papers may be found here:
 
-- Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2019). YAKE! Keyword Extraction from Single Documents using Multiple Local Features. In Information Sciences. Elsevier, Vol XX(X), pp. XX-XX [[pdf]](https://linkinghub.elsevier.com/retrieve/pii/S0020025519308588).
+- Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2020). YAKE! Keyword Extraction from Single Documents using Multiple Local Features. In Information Sciences. Elsevier, Vol 509, pp. 257-289 [pdf](https://linkinghub.elsevier.com/retrieve/pii/S0020025519308588).
 
 - Campos R., Mangaravite V., Pasquali A., Jorge A.M., Nunes C., and Jatowt A. (2018). A Text Feature Based Automatic Keyword Extraction Method for Single Documents. In: Pasi G., Piwowarski B., Azzopardi L., Hanbury A. (eds). Advances in Information Retrieval. ECIR 2018 (Grenoble, France. March 26 – 29). Lecture Notes in Computer Science, vol 10772, pp. 684 - 691. [[pdf]](https://link.springer.com/chapter/10.1007/978-3-319-76941-7_63). [<b>ECIR'18 Best Short Paper</b>]
 
