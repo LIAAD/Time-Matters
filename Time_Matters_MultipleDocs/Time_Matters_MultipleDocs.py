@@ -36,7 +36,7 @@ def Time_Matters_MultipleDocs(list_of_docs, temporal_tagger=[], time_matters=[],
             dict_tempExpresions = {}
             dict_tempExpresions[dt] = {}
             for corpus_id in all_docs_TempExpressions:
-                x = [i[0] for i in all_docs_TempExpressions[corpus_id] if i[0].lower() == dt]
+                x = [i[1] for i in all_docs_TempExpressions[corpus_id] if i[0].lower() == dt]
                 if x:
                     dict_tempExpresions[dt][corpus_id] = x
 
