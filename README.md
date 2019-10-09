@@ -6,7 +6,7 @@
 <br>
 [Rationale](#Rationale)
 <br>
-[Documentation](#Documentation)
+[How does it works](#How-does-it-works?)
 <br>
 [How to Install Time-Matters](#How-to-Install-Time-Matters)
 <br>
