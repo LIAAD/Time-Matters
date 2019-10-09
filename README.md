@@ -2,11 +2,11 @@
 ## Table of Contents
 [Time-Matters](#Time-Matters)
 <br>
-[What is Time-Matters](#What-is-Time-Matters)
+[What is Time-Matters?](#What-is-Time-Matters)
 <br>
 [Rationale](#Rationale)
 <br>
-[How does it works](#How-does-it-works?)
+[How does it works?](#How-does-it-works)
 <br>
 [How to Install Time-Matters](#How-to-Install-Time-Matters)
 <br>
