@@ -8,15 +8,13 @@
 <br>
 [How does it works?](#How-does-it-works)
 <br>
-[How to Install Time-Matters](#How-to-Install-Time-Matters)
+[Where can I find Time-Matters?](#Where-can-I-find-Time-Matters)
 <br>
-[How to use Time-Matters](#How-to-use-Time-Matters)
+[How to Install Time-Matters?](#How-to-Install-Time-Matters)
 <br>
-[How to use Time-Matters-SingleDoc](#How-to-use-Time-Matters-SingleDoc)
+[How to use Time-Matters-SingleDoc?](#How-to-use-Time-Matters-SingleDoc)
 <br>
-[How to use Time-Matters-MultipleDocs](#How-to-use-Time-Matters-MultipleDocs)
-<br>
-[API](#API)
+[How to use Time-Matters-MultipleDocs?](#How-to-use-Time-Matters-MultipleDocs)
 <br>
 [Publications](#Publications)
 <br>
@@ -115,7 +113,7 @@ Perl usually comes with Linux, thus you don't need to install it.
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
 
-## How to use Time-Matters-SingleDoc
+## How to use Time-Matters-SingleDoc?
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two scoring options:
 
 - <b>ByDoc</b>: it retrieves a unique <b>single</b> score for each temporal expression found in the document, regardless it occurs multiple times in different parts of the text, that is, multiple occurrences of a temporal expression in different sentences (e.g., 2019....... 2019), will always return the same score (e.g., 0.92);
