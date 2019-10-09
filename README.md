@@ -358,7 +358,7 @@ or [here](https://github.com/HeidelTime/heideltime#Publications)
 Winner of the [Fraunhofer Portugal Challenge 2013 PhD Contest](https://www.aicos.fraunhofer.pt/en/news_and_events_aicos/news_archive/older_archive/fraunhofer-portugal-challenge-2013-winners.html)
 
 ## License
-Check out the License [here](../../blob/master/License)
+Check out the License [here](../../blob/master/LICENSE).
 
 ## Contact
 For any inquires about Time-Matters please contact [Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/): ricardo.campos@ipt.pt
