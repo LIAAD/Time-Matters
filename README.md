@@ -16,6 +16,8 @@
 <br>
 [How to use Time-Matters-MultipleDocs?](#How-to-use-Time-Matters-MultipleDocs)
 <br>
+[Python Notebook](#Python-Notebook)
+<br>
 [Publications](#Publications)
 <br>
 [Awards](#Awards)
