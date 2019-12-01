@@ -48,7 +48,7 @@ def test_trans(text):
 
 
 # *****************************************************************
-# keywords extraction using wake
+# keywords extraction using yake
 def kw_ext(yake_ln, text, num_of_keywords, n_gram):
     kw_start_time = time.time()
     sample = YakeKW(lan=yake_ln, n=n_gram, top=num_of_keywords)
