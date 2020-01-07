@@ -319,7 +319,7 @@ We highly recommend you to have a look at the [wiki Debug Mode](../../wiki/How-t
 If you want to know how to execute Time-Matters MultipleDocs through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-MultipleDocs#Cli).
 
 ## Python Notebook
-We highly recommend you to resort to this [Python Notebook](notebook-time-matters.ipynb) should you want to play with Time-Matters. In any case you can read the following sections to familiarize with Time-Matters.
+We highly recommend you to resort to this [Python Notebook](notebook-time-matters.ipynb) should you want to play with Time-Matters.
 
 ## Publications
 ### Time-Matters
