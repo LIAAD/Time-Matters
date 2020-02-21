@@ -31,7 +31,7 @@
 Time matters is the result of research conducted by Ricardo Campos during his [PhD](http://www.ccc.ipt.pt/~ricardo/ficheiros/PhDThesis_RCampos.pdf) at the [University of Porto](https://www.up.pt/). The algorithm, initially implemented in C#, has now been made available as a Python package by [Jorge Mendes](https://github.com/JMendes1995) under the supervision of [Professor Ricardo Campos](http://www.ccc.ipt.pt/~ricardo/) in the scope of the Final Project of the Computer Science degree of the [Polytechnic Institute of Tomar](http://portal2.ipt.pt/), Portugal.
 
 ## What is Time-Matters?
-Time matters is a python package that aims to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). 
+Time matters aim is to score the relevance of temporal expressions found within a text (single document) or a set of texts (multiple documents). 
 
 The first (Time-Matters-SingleDoc) aims to determine the relevance of temporal expressions within a single document. 
 
@@ -44,14 +44,89 @@ Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be 
 Check out our wiki [Documentation](../../wiki) for full details about Time-Matters.
 
 ## Where can I find Time-Matters?
-Time-Matters is available as an open source Python package [https://github.com/LIAAD/Time-Matters] and as an API [http://time-matters.inesctec.pt/api].
+`Time-Matters` can be found as a standalone installation on [github](https://github.com/LIAAD/Time-Matters), as a docker [image](https://hub.docker.com/r/liaad/time-matters) and as an API [http://time-matters.inesctec.pt/api].
 
+## Installing Time-Matters
+### Option 1: Docker
 
-## How to Install Time-Matters
+#### Install Docker
+
+##### Windows
+Docker for Windows requires 64bit Windows 10 Pro with Hyper-V available. 
+If you have this, then proceed to download here: (https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) and click on Get Docker for Windows (Stable)
+<br><br>
+If your system does not meet the requirements to run Docker for Windows (e.g., 64bit Windows 10 Home), you can install Docker Toolbox, which uses Oracle Virtual Box instead of Hyper-V. In that case proceed to download here: (https://docs.docker.com/toolbox/overview/#ready-to-get-started) and click on Get Docker Toolbox for Windows
+<br><br>
+
+##### MAC
+Docker for Mac will launch only if all of these requirements (https://docs.docker.com/docker-for-mac/install/#what-to-know-before-you-install) are met.
+If you have this, then proceed to download here: (https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac) and click on Get Docker for Mac (Stable)
+<br><br>
+If your system does not meet the requirements to run Docker for Mac, you can install Docker Toolbox, which uses Oracle Virtual Box instead of Hyper-V. In that case proceed to download here: (https://docs.docker.com/toolbox/overview/#ready-to-get-started) and click on Get Docker Toolbox for Mac
+<br><br>
+
+##### Linux
+Proceed to download here: (https://docs.docker.com/engine/installation/#server)
+<br><br>
+
+#### Pull Image
+Execute the following command on your docker machine: 
+``` bash
+docker pull liaad/time-matters
+```
+
+#### Run Image
+On your docker machine run the following to launch the image: 
+``` bash
+docker run -p 9999:8888 --user root liaad/time-matters
+```
+
+Then go to your browser and type in the following url: 
+``` bash
+http://<DOCKER-MACHINE-IP>:9999
+```
+
+where the IP may be the localhost or 192.168.99.100 if you are using a Docker Machine VM.
+  
+You will be required a token which you can find on your docker machine prompt. It will be something similar to this: http://eac214218126:8888/?token=ce459c2f581a5f56b90256aaa52a96e7e4b1705113a657e8. Copy paste the token (in this example, that would be: ce459c2f581a5f56b90256aaa52a96e7e4b1705113a657e8) to the browser, and voila, you will have Time-Matters package ready to run. Keep this token (for future references) or define a password.
+
+#### Run Jupyter notebooks
+Once you logged in, proceed by running the notebook that we have prepared for you.
+
+#### Shutdown
+Once you are done go to File - Shutdown.
+
+#### Subsequent Logins
+If later on you decide to play with the same container, you should proceed as follows. The first thing to do is to get the container id:
+``` bash
+docker ps -a
+```
+
+Next run the following commands:
+``` bash
+docker start ContainerId
+docker attach ContainerId (attach to a running container)
+```
+
+Nothing happens in your docker machine, but you are now ready to open your browser as you did before:
+``` bash
+http://<DOCKER-MACHINE-IP>:9999
+```
+
+Hopefully, you have saved the token or defined a password. If that is not the case, then you should run the following command (before doing start/attach) to have access to your token:
+``` bash
+docker exec -it <docker_container_name> jupyter notebook list
+```
+<hr>
+
+### Option 2: Standalone Installation
+#### Install Time-Matters library
 
 ``` bash
 pip install git+https://github.com/LIAAD/Time-Matters.git
 ```
+<br>
+
 #### Install External Dependencies
 You will need to install nltk:
 
@@ -114,6 +189,9 @@ Perl usually comes with Linux, thus you don't need to install it.
 ##### Linux users
     If your user does not have permission executions on python lib folder, you should execute the following command:
     sudo chmod 111 /usr/local/lib/<YOUR PYTHON VERSION>/dist-packages/py_heideltime/HeidelTime/TreeTaggerLinux/bin/*
+    
+#### Python Notebook
+We highly recommend you to resort to this [Python Notebook](notebook-time-matters.ipynb) should you want to play with Time-Matters when using the standalone version.
 
 ## How to use Time-Matters-SingleDoc?
 Time-Matters-SingleDoc aims to score temporal expressions found within a single text. Given an identified temporal expression it offers the user two scoring options:
@@ -317,9 +395,6 @@ We highly recommend you to have a look at the [wiki Debug Mode](../../wiki/How-t
 <hr>
 
 If you want to know how to execute Time-Matters MultipleDocs through the prompt please refer to this [link](../../wiki/How-to-use-Time-Matters-MultipleDocs#Cli).
-
-## Python Notebook
-We highly recommend you to resort to this [Python Notebook](notebook-time-matters.ipynb) should you want to play with Time-Matters.
 
 ## Publications
 ### Time-Matters
