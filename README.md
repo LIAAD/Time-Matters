@@ -117,6 +117,20 @@ Hopefully, you have saved the token or defined a password. If that is not the ca
 ``` bash
 docker exec -it <docker_container_name> jupyter notebook list
 ```
+
+### Run Image - background mode
+On your docker machine run the following to launch the image in background mode: 
+``` bash
+docker run -p 9999:8888 -d liaad/time-matters
+```
+
+You can then execute py_heideltime in the prompt. An example is given below:
+``` bash
+docker run -p 9999:8888 -d liaad/time-matters
+```
+
+You can then execute time-matters in the prompt (see the Cli section).
+
 <hr>
 
 ### Option 2: Standalone Installation
