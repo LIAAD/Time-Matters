@@ -245,6 +245,13 @@ results = Time_Matters_SingleDoc(text)
 #results = Time_Matters_SingleDoc(text, score_type="ByDoc")
 ````
 
+Please note that running this on windows may require using the following code instead:
+```` bash
+if __name__ == '__main__':
+    results = Time_Matters_SingleDoc(text)
+    #results = Time_Matters_SingleDoc(text, score_type="ByDoc")
+````
+
 The output is a dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a list of the instances of the temporal expression (as they were found in the text). Example: `'2011-01-12': [0.5, ['2011-01-12', '12 January 2011']],`, means that the normalized temporal expression `2011-01-12` has a score of 0.5 and occurs twice in the text. The first time as `2011-01-12`, and the second time as `12 January 2011`.
 
 ```` bash
@@ -266,6 +273,12 @@ Getting temporal scores by sentence is possible through the following code. This
 
 ```` bash
 results = Time_Matters_SingleDoc(text, score_type='BySentence')
+````
+
+Please note that running this on windows may require using the following code instead:
+```` bash
+if __name__ == '__main__':
+    results = Time_Matters_SingleDoc(text, score_type='BySentence')
 ````
 
 The output is a dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the sentenceID and the value is a list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular sentence). Example: `{'2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]}}`, means that the normalized temporal expression `2010` has a score of 0.2 in the sentence with ID 1, and a score of 0.983 in the sentence with ID 5 (where it occurs two times).
@@ -347,6 +360,14 @@ results = Time_Matters_MultipleDocs(ListOfDocs, temporal_tagger=['py_heideltime'
 #results = Time_Matters_MultipleDocs(ListOfDocs, score_type="ByCorpus", temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
 ````
 
+
+Please note that running this on windows may require using the following code instead:
+```` bash
+if __name__ == '__main__':
+    results = Time_Matters_MultipleDocs(ListOfDocs, temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
+    #results = Time_Matters_MultipleDocs(ListOfDocs, score_type="ByCorpus", temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
+````
+
 The output is a dictionary where the key is the normalized temporal expression and the value is a list with two positions. The first is the score of the temporal expression. The second is a dictionary of the instances of the temporal expression (as they were found in each document). Example: `{'2011-01-12': [1.0, {0: ['2011-01-12', '12 January 2011'], 6: ['2011-01-12']}]}`, means that the normalized temporal expression `2011-01-12` has a score of 1 and occurs twice (the first time as `2011-01-12`, and the second time as `12 January 2011`) in document 0 and one time (as '2011-01-12') in document 6. 
 
 ```` bash
@@ -363,6 +384,12 @@ Getting temporal scores by document is possible through the following code. This
 results = Time_Matters_MultipleDocs(ListOfDocs, score_type='ByDoc', temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
 ````
 
+Please note that running this on windows may require using the following code instead:
+```` bash
+if __name__ == '__main__':
+    results = Time_Matters_MultipleDocs(ListOfDocs, score_type='ByDoc', temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
+````
+
 The output is a dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the DocID and the value is a list with two positions. The first is the score of the temporal expression in that particular document. The second is a list of the instances of the temporal expression (as they were found in the text in that particular document). Example: `{'2010': {1: [0.2, ['2010']], 5: [0.983, ['2010', '2010']]}}`, means that the normalized temporal expression `2010` has a score of 0.2 in the document with ID 1, and a score of 0.983 in the document with ID 5 (where it occurs two times).
 
 ```` bash
@@ -377,6 +404,12 @@ Getting temporal scores by document & sentence is possible through the following
 
 ```` bash
 results = Time_Matters_MultipleDocs(ListOfDocs, score_type='ByDocSentence', temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
+````
+
+Please note that running this on windows may require using the following code instead:
+```` bash
+if __name__ == '__main__':
+    results = Time_Matters_MultipleDocs(ListOfDocs, score_type='ByDocSentence', temporal_tagger=['py_heideltime', 'English', 'year', 'news', '2013-04-15'])
 ````
 
 The output is a dictionary where the key is the normalized temporal expression and the value is a dictionary (where the key is the DocID and the value is a new dictionary (where the key is the sentenceID and the value is list with two positions. The first is the score of the temporal expression in that particular sentence. The second is a list of the instances of the temporal expression (as they were found in the text in that particular setencent of that document)). Example: `{'2011': {0: {5: [0.983, ['2010', '2010']], {6: [0.183, ['2010']]}}`, means that the normalized temporal expression `2011` has a score of 0.983 in the sentence with ID 5 (where it occurs twice) of docID 0, and a score of 0.183 in the sentence with ID 6 of docID 0.
