@@ -44,7 +44,7 @@ Our assumption is that the relevance of a candidate date (d<sub>j</sub>) may be 
 Check out our wiki [Documentation](../../wiki) for full details about Time-Matters.
 
 ## Where can I find Time-Matters?
-`Time-Matters` can be found as a standalone installation on [github](https://github.com/LIAAD/Time-Matters), as a docker [image](https://hub.docker.com/r/liaad/time-matters) and as an API [http://time-matters.inesctec.pt/api].
+`Time-Matters` can be found as a standalone installation on [github](https://github.com/LIAAD/Time-Matters), as a docker [image](https://hub.docker.com/r/liaad/time-matters), as [demo](http://time-matters.inesctec.pt) and as an [API](http://time-matters.inesctec.pt/api).
 
 ## Installing Time-Matters
 ### Option 1: Docker
