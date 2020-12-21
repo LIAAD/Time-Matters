@@ -446,10 +446,11 @@ If you want to know how to execute Time-Matters MultipleDocs through the prompt 
 ## Publications
 ### Time-Matters
 If you use Time-Matters please cite the appropriate paper. In general, this will be:
-
-- Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398 [[pdf]](https://link.springer.com/article/10.1007/s10791-017-9302-1)
+- Campos, R., Duque, J., Cândido, T., Mendes, J., Dias, G., Jorge, A. and Nunes, C., (2021). Time-Matters: Temporal Unfolding of Texts. ECIR 2021. To appear
 
 Other Time-Matters related papers may be found here:
+
+- Campos, R., Dias, G., Jorge, A. and Nunes, C. (2017). Identifying Top Relevant Dates for Implicit Time Sensitive Queries. In Information Retrieval Journal. Springer, Vol 20(4), pp 363-398 [[pdf]](https://link.springer.com/article/10.1007/s10791-017-9302-1)
 
 - Campos, R., Dias, G., Jorge, A. and Nunes, C. (2016). GTE-Rank: a Time-Aware Search Engine to Answer Time-Sensitive Queries. In Information Processing & Management an International Journal. Elsevier, Vol 52(2), pp. 273-298 [[pdf]](https://www.sciencedirect.com/science/article/abs/pii/S0306457315001016)
 
