@@ -446,7 +446,7 @@ If you want to know how to execute Time-Matters MultipleDocs through the prompt 
 ## Publications
 ### Time-Matters
 If you use Time-Matters please cite the appropriate paper. In general, this will be:
-- Campos, R., Duque, J., Cândido, T., Mendes, J., Dias, G., Jorge, A. and Nunes, C., (2021). Time-Matters: Temporal Unfolding of Texts. ECIR 2021. To appear
+- Campos, R., Duque, J., Cândido, T., Mendes, J., Dias, G., Jorge, A. and Nunes, C., (2021). Time-Matters: Temporal Unfolding of Texts. In: Hiemstra D., Moens M-F., Mothe J., Perego R., Potthast M., Sebastiani F. (eds), Advances in Information Retrieval. ECIR'21. Lucca, Italy. March 28 - April 1. Lecture Notes in Computer Science, vol 12657, pp. 492 - 497 [[pdf]](https://link.springer.com/chapter/10.1007/978-3-030-72240-1_53)
 
 Other Time-Matters related papers may be found here:
 
@@ -454,7 +454,7 @@ Other Time-Matters related papers may be found here:
 
 - Campos, R., Dias, G., Jorge, A. and Nunes, C. (2016). GTE-Rank: a Time-Aware Search Engine to Answer Time-Sensitive Queries. In Information Processing & Management an International Journal. Elsevier, Vol 52(2), pp. 273-298 [[pdf]](https://www.sciencedirect.com/science/article/abs/pii/S0306457315001016)
 
-- Campos, R., Dias, G., Jorge, A., and Nunes, C. (2014). GTE-Cluster: A Temporal Search Interface for Implicit Temporal Queries. In M. de Rijke et al. (Eds.), Lecture Notes in Computer Science - Advances in Information Retrieval - 36th European Conference on Information Retrieval (ECIR2014). Amesterdam, Netherlands, 13 - 16 April. (Vol. 8416-2014, pp. 775 - 779) [[pdf]](https://link.springer.com/chapter/10.1007/978-3-319-06028-6_94#page-1)
+- Campos, R., Dias, G., Jorge, A., and Nunes, C. (2014). GTE-Cluster: A Temporal Search Interface for Implicit Temporal Queries. In M. de Rijke et al. (Eds.), Advances in Information Retrieval. ECIR'14. Amesterdam, Netherlands. April 13 - 16. Lecture Notes in Computer Science, vol. 8416, pp. 775 - 779 [[pdf]](https://link.springer.com/chapter/10.1007/978-3-319-06028-6_94#page-1)
 
 - Campos, R., Jorge, A., Dias, G. and Nunes, C. (2012). Disambiguating Implicit Temporal Queries by Clustering Top Relevant Dates in Web Snippets. In Proceedings of The 2012 IEEE/WIC/ACM International Joint Conferences on Web Intelligence and Intelligent Agent Technologies Macau, China, 04 - 07 December, Vol. 1, pp 1 - 8. IEEE Computer Society Press. [[pdf]](https://ieeexplore.ieee.org/document/6511858?tp=&arnumber=6511858&url=http:%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6511858)
 
