@@ -127,7 +127,7 @@ def verify_keywordsMD(KeyWords_Dictionary_all_docs, filtered_all_docs_relevant_w
     for doc_id in KeyWords_Dictionary_all_docs:
         new_dict[doc_id] = {}
         for kw in KeyWords_Dictionary_all_docs[doc_id]:
-            if kw in filtered_all_docs_relevant_words:
+            if kw.lower() in filtered_all_docs_relevant_words:
                 new_dict[doc_id][kw] = KeyWords_Dictionary_all_docs[doc_id][kw]
 
 

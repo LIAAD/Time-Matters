@@ -38,8 +38,8 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
 
 
 def verify_keywords(inverted_index, words_array, KeyWords_dictionary, candidate_dates_array):
-    KeyWords_dictionary = {w: KeyWords_dictionary[w] for w in words_array if w in inverted_index and w not in candidate_dates_array}
-    words_array = [kw for kw in words_array if kw in inverted_index and kw not in candidate_dates_array]
+    KeyWords_dictionary = {w: KeyWords_dictionary[w] for w in words_array if w.lower() in inverted_index and w.lower() not in candidate_dates_array}
+    words_array = [kw for kw in words_array if kw.lower() in inverted_index and kw.lower() not in candidate_dates_array]
     return words_array, KeyWords_dictionary
 
 
