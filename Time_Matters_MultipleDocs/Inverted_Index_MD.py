@@ -50,8 +50,8 @@ def main_inverted_index_md(lang, list_of_docs, num_of_keywords, document_type, d
         all_docs_candidate_date += candidate_dates_array
         all_docs_relevant_words += relevant_words_array
         all_docs_TempExpressions[id_doc] = TempExpressions
-        all_docs_candidate_date = remove_duplicates(all_docs_candidate_date)
-        all_docs_relevant_words = remove_duplicates(all_docs_relevant_words)
+        all_docs_candidate_date = remove_duplicates(all_docs_candidate_date) #cannot use set to remove_duplicates as it will change the order
+        all_docs_relevant_words = remove_duplicates(all_docs_relevant_words) #cannot use set to remove_duplicates as it will change the order
 
     from yake.highlight import TextHighlighter
     th = TextHighlighter(max_ngram_size=n_gram)
@@ -90,7 +90,7 @@ def ByDoc_inverted_index(doc, relevant_words_array, candidate_dates_array, inver
     inverted_index = get_occurrence(tokenize_Doc, inverted_index, id_doc, last_pos)
     for term in total_array:
         try:
-            inverted_index[term][2][id_doc].append(sentence_II[term][2])
+            inverted_index[term.lower()][2][id_doc].append(sentence_II[term.lower()][2])
         except:
             pass
     return inverted_index
@@ -100,9 +100,7 @@ def BySentence_Inverted_index(relevant_words_array, candidate_dates_array, new_t
 
     from Time_Matters_SingleDoc.InvertedIndex import create_inverted_index
 
-    inverted_index, \
-    relevant_words_list, candidate_dates_list, \
-    sentence_array, sentence_tokens_list = create_inverted_index(relevant_words_array, candidate_dates_array, new_text)
+    inverted_index, sentence_array, sentence_tokens_list = create_inverted_index(new_text)
 
     return inverted_index, sentence_array, sentence_tokens_list
 

@@ -27,19 +27,19 @@ def main_inverted_index(yake_ln, lang, text, num_of_keywords, document_type, doc
     # =====================================================================================================
     # =============================== Inverted Index ===============================================
     ii_start_time = time.time()
-    inverted_index, words_array, dates_array, sentence_array, sentence_tokens = create_inverted_index(relevant_words_array, candidate_dates_array, textNormalized)
+    inverted_index, sentence_array, sentence_tokens = create_inverted_index(textNormalized)
     ii_exec_time = (time.time() - ii_start_time)
     # ===========================================================================================================
 
     words_array, KeyWords_dictionary = verify_keywords(inverted_index, relevant_words_array, KeyWords_dictionary, candidate_dates_array)
     text_tokens = tokenizer(textNormalized)
 
-    return inverted_index, KeyWords_dictionary, words_array, dates_array, sentence_array, date_dictionary, TempExpressions, textNormalized, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time, ExecTimeDictionary
+    return inverted_index, KeyWords_dictionary, words_array, candidate_dates_array, sentence_array, date_dictionary, TempExpressions, textNormalized, kw_exec_time, sentence_tokens, text_tokens, ii_exec_time, ExecTimeDictionary
 
 
 def verify_keywords(inverted_index, words_array, KeyWords_dictionary, candidate_dates_array):
     KeyWords_dictionary = {w: KeyWords_dictionary[w] for w in words_array if w.lower() in inverted_index and w.lower() not in candidate_dates_array}
-    words_array = [kw for kw in words_array if kw.lower() in inverted_index and kw.lower() not in candidate_dates_array]
+    words_array = [kw.lower() for kw in words_array if kw.lower() in inverted_index and kw.lower() not in candidate_dates_array]
     return words_array, KeyWords_dictionary
 
 
@@ -68,7 +68,7 @@ def kw_ext(yake_ln, text, num_of_keywords, n_gram):
 
 # ***********************************************************************************
 # Create inverted Index
-def create_inverted_index(relevant_words_list, candidate_dates_list, text):
+def create_inverted_index(text):
     sentence_array = sentence_tokenizer(text)
     inverted_index = {}
     last_pos = 0
@@ -84,7 +84,7 @@ def create_inverted_index(relevant_words_list, candidate_dates_list, text):
         inverted_index = get_occurrence(tokenize_sentence, inverted_index, sentence_id, last_pos)
         last_pos += len(tokenize_sentence)
 
-    return inverted_index, relevant_words_list, list(candidate_dates_list), sentence_array, sentence_tokens_list
+    return inverted_index, sentence_array, sentence_tokens_list
 
 
 def tokenizer(text):

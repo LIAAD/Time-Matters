@@ -17,11 +17,12 @@ def round_up(n, decimals=0):
 
 
 def GetDataScores(inverted_index, words_array, dates_array, n_contextual_window, TH, N, score_type):
-    words_list = remove_duplicates(words_array)
-    dates_list = remove_duplicates(dates_array)
+    words_list = remove_duplicates(words_array) #cannot use set to remove_duplicates as it will change the order
+    dates_list = remove_duplicates(dates_array) #cannot use set to remove_duplicates as it will change the order
+
 
     unic_array = words_list + dates_list
-    clean_unic_array = remove_duplicates(unic_array)
+    clean_unic_array = remove_duplicates(unic_array) #cannot use set to remove_duplicates as it will change the order
 
     dice_start_time = time.time()
     # dataframe

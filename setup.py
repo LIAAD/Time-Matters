@@ -10,7 +10,7 @@ if os.path.isfile(requirementPath):
 install_requires = [item.strip() for item in requires]
 
 setup(name='Time-Matters',
-      version='1.1',
+      version='1.2',
       description='get the relevance score of temporal expressions found within a text (single document) or a set of texts (multiple documents)',
       author='Jorge Alexandre Rocha Mendes',
       author_email='mendesjorge49@gmail.com',
