@@ -173,7 +173,7 @@ def max_length(lenX, lenY, N):
 
 
 def Create_ContextualVector(term, DF, TH, n_contextual_window, inverted_index):
-    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
+    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False, kind='quicksort').index.tolist()
 
     if n_contextual_window != 'full_sentence':
         contextVector = DF_Filtered
@@ -195,7 +195,7 @@ def Create_ContextualVector(term, DF, TH, n_contextual_window, inverted_index):
 
 
 def Create_ContextVector_BySentence(term, DF, TH, Inverted_Index, Index, n_contextual_window):
-    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
+    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False, kind='quicksort').index.tolist()
     contextVector = []
     for x in DF_Filtered:
 

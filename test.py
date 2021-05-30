@@ -148,4 +148,4 @@ if __name__ == '__main__':
     test_SingleDocs_ByDoc_PyHeidelteime_OtherParams1_EN()
     test_SingleDocs_ByDoc_RuleBased_DefaultParams_EN()
     test_SingleDocs_BySentence_PyHeidelteime_DefaultParams_EN()
-    #test_MultipleDocs_ByCorpus_PyHeidelteime_DefaultParams_EN()
+    test_MultipleDocs_ByCorpus_PyHeidelteime_DefaultParams_EN()

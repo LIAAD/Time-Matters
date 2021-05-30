@@ -265,7 +265,7 @@ def Create_ContextVectorByDoc(term, DF, TH, inverted_index, index, n_contextual_
     return contextVector
 
 def Create_ContextVectorByDocSentence(term, DF, TH, Inverted_Index, Index, sentence_index, n_contextual_window):
-    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False).index.tolist()
+    DF_Filtered = DF[term][DF[term] > TH].sort_values(ascending=False, kind='quicksort').index.tolist()
     contextVector = []
     for x in DF_Filtered:
         try:
